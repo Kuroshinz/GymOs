@@ -1,0 +1,42 @@
+{
+  "id": "quads_bulgarian_split_squat",
+  "name": "Bulgarian Split Squat",
+  "category": "quads",
+  "primary_muscles": ["quadriceps", "gluteus_maximus"],
+  "secondary_muscles": ["hamstrings", "core", "adductors"],
+  "equipment": "dumbbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "split_squat",
+  "mechanics": "compound",
+  "setup": [
+    "Stand lunge-length in front of bench/box",
+    "Place top of back foot on bench",
+    "Front foot flat, knee aligned with ankle",
+    "Hold dumbbells at sides or one in each hand"
+  ],
+  "execution": [
+    "Lower back knee toward floor",
+    "Front knee travels forward, back knee travels down",
+    "Descend until back knee nearly touches floor",
+    "Drive through front heel to stand"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Front knee too far forward (past toes excessively)",
+    "Leaning forward (torso collapse)",
+    "Back foot too low or too high",
+    "Using too heavy (can't balance)"
+  ],
+  "cues": [
+    "Back knee floats toward floor",
+    "Front shin vertical-ish",
+    "Torso upright, core braced",
+    "Think 'drop the back knee'"
+  ],
+  "advantages": [
+    "Unilateral — fixes imbalances",
+    "Great glute + quad development",
+    "Less spinal loading than barbell squat"
+  ],
+  "alternatives": ["reverse_lunge", "walking_lunge", "split_squat"]
+}

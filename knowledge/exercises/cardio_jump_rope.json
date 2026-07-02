@@ -1,0 +1,11 @@
+{
+  "id": "cardio_jump_rope",
+  "name": "Jump Rope",
+  "category": "cardio",
+  "primary_muscles": ["cardiovascular", "calves"],
+  "secondary_muscles": ["shoulders", "core", "forearms"],
+  "equipment": "jump_rope",
+  "difficulty": "beginner",
+  "movement_pattern": "cardio",
+  "mechanics": "compound"
+}

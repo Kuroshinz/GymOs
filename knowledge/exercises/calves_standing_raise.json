@@ -1,0 +1,24 @@
+{
+  "id": "calves_standing_raise",
+  "name": "Standing Calf Raise",
+  "category": "calves",
+  "primary_muscles": ["gastrocnemius"],
+  "secondary_muscles": ["soleus"],
+  "equipment": "machine",
+  "difficulty": "beginner",
+  "movement_pattern": "ankle_plantarflexion",
+  "mechanics": "isolation",
+  "setup": [
+    "Stand on calf raise machine, shoulders under pads",
+    "Heels hanging off edge, balls of feet on platform"
+  ],
+  "execution": [
+    "Lower heels for full stretch (below parallel)",
+    "Push up onto toes as high as possible",
+    "Hold squeeze for 1-2 seconds at top",
+    "Lower to full stretch"
+  ],
+  "tempo": "2-1-3",
+  "cues": ["Full range of motion — deep stretch, high contraction", "Straight legs target gastrocnemius"],
+  "variations": ["seated_calf_raise", "single_leg_calf_raise"]
+}

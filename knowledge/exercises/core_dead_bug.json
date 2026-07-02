@@ -1,0 +1,37 @@
+{
+  "id": "core_dead_bug",
+  "name": "Dead Bug",
+  "category": "core",
+  "primary_muscles": ["transversus_abdominis", "rectus_abdominis"],
+  "secondary_muscles": ["hip_flexors"],
+  "equipment": "bodyweight",
+  "difficulty": "beginner",
+  "movement_pattern": "anti_extension_anti_rotation",
+  "mechanics": "compound",
+  "setup": [
+    "Lie on back, arms extended toward ceiling",
+    "Legs in tabletop (knees 90°, hips 90°)",
+    "Lower back pressed to floor"
+  ],
+  "execution": [
+    "Simultaneously extend right arm overhead and left leg straight out",
+    "Keep lower back pinned to floor",
+    "Return to start, repeat opposite side"
+  ],
+  "tempo": "3-1-2",
+  "common_mistakes": [
+    "Lower back lifting off floor (losing core brace)",
+    "Moving too fast (no control)",
+    "Not breathing"
+  ],
+  "cues": [
+    "Pull your belly button to the floor",
+    "Pistol grip: hands and feet reach away",
+    "Slow and controlled"
+  ],
+  "advantages": [
+    "Great for learning core bracing",
+    "Low back rehab",
+    "No equipment needed"
+  ]
+}

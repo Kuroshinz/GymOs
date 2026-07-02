@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "description": "NEXUS Recovery Knowledge Base — protocols for optimal recovery between training sessions",
+  "files": {
+    "sleep": "Sleep optimization for recovery",
+    "hrv": "Heart Rate Variability tracking and interpretation",
+    "active_recovery": "Active recovery strategies",
+    "stretching": "Stretching protocols",
+    "stress_management": "Stress and cortisol management"
+  }
+}

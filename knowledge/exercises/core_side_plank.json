@@ -1,0 +1,31 @@
+{
+  "id": "core_side_plank",
+  "name": "Side Plank",
+  "category": "core",
+  "primary_muscles": ["obliques", "quadratus_lumborum"],
+  "secondary_muscles": ["rectus_abdominis", "gluteus_medius"],
+  "equipment": "bodyweight",
+  "difficulty": "beginner",
+  "movement_pattern": "anti_lateral_flexion",
+  "mechanics": "isometric",
+  "setup": [
+    "Lie on side, elbow under shoulder",
+    "Legs stacked, feet together",
+    "Other hand on hip or overhead"
+  ],
+  "execution": [
+    "Lift hips until body forms straight line from head to feet",
+    "Hold position without sagging",
+    "Repeat on other side"
+  ],
+  "common_mistakes": [
+    "Hips sagging (losing tension)",
+    "Hips too far forward/back",
+    "Neck craning"
+  ],
+  "cues": [
+    "Push the floor away with your elbow",
+    "Keep ribs and hips stacked"
+  ],
+  "progression": "Knee side plank → Straight leg → Leg raise → Weighted"
+}

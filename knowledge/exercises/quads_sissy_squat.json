@@ -1,0 +1,27 @@
+{
+  "id": "quads_sissy_squat",
+  "name": "Sissy Squat",
+  "category": "quads",
+  "primary_muscles": ["quadriceps"],
+  "secondary_muscles": ["core"],
+  "equipment": "bodyweight",
+  "difficulty": "intermediate",
+  "movement_pattern": "knee_dominant",
+  "mechanics": "isolation",
+  "setup": [
+    "Stand with back to anchor point or use sissy squat bench",
+    "Feet shoulder-width, heels secured"
+  ],
+  "execution": [
+    "Lean back while keeping body in straight line from knees to head",
+    "Lower torso toward floor, knees bend forward",
+    "Go until quads feel maximal stretch or can't hold form",
+    "Reverse by pulling torso back up using quads"
+  ],
+  "tempo": "3-1-2",
+  "cues": [
+    "Keep body in straight plank from knees to head",
+    "Stretch the quads at the bottom"
+  ],
+  "advantages": ["Insane quad isolation", "No spinal loading"]
+}

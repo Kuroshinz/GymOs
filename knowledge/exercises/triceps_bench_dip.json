@@ -1,0 +1,31 @@
+{
+  "id": "triceps_bench_dip",
+  "name": "Bench Dip",
+  "category": "triceps",
+  "primary_muscles": ["triceps_brachii"],
+  "secondary_muscles": ["pectoralis_major", "anterior_deltoid"],
+  "equipment": "bodyweight",
+  "difficulty": "beginner",
+  "movement_pattern": "vertical_push",
+  "mechanics": "compound",
+  "setup": [
+    "Sit on edge of bench, hands gripping edge next to hips",
+    "Walk feet forward, hips off bench"
+  ],
+  "execution": [
+    "Lower hips toward floor by bending elbows to ~90 degrees",
+    "Keep back close to bench",
+    "Push back up to starting position"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Going too deep (shoulder strain)",
+    "Elbows flaring out",
+    "Feet too far (turns into glute exercise)"
+  ],
+  "cues": [
+    "Elbows point back, not out",
+    "Look straight ahead, not down"
+  ],
+  "progression": "Bent knees → Straight legs → Weighted lap"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "hamstrings_single_leg_rdl",
+  "name": "Single-Leg Romanian Deadlift",
+  "category": "hamstrings_glutes",
+  "primary_muscles": ["hamstrings", "gluteus_maximus"],
+  "secondary_muscles": ["core", "erector_spinae", "calves"],
+  "equipment": "dumbbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "hip_hinge",
+  "mechanics": "compound",
+  "setup": [
+    "Hold dumbbell in opposite hand to standing leg",
+    "Stand on one leg, slight knee bend",
+    "Core braced, back neutral"
+  ],
+  "execution": [
+    "Hinge at hip, sending free leg straight back",
+    "Dumbbell lowers toward floor, back stays flat",
+    "Go until torso parallel to floor (or hamstring stretch)",
+    "Reverse by driving hip forward, squeezing glute"
+  ],
+  "tempo": "3-1-1",
+  "common_mistakes": [
+    "Rounding back at bottom",
+    "Supporting leg knee collapsing inward",
+    "Not going back far enough (need balance practice)",
+    "Twisting torso (should stay square)"
+  ],
+  "cues": [
+    "Push the floor away behind you with the free leg",
+    "Hips stay square (like headlights on a car)",
+    "Reach for something with the dumbbell hand"
+  ],
+  "advantages": [
+    "Unilateral hamstring + glute + balance",
+    "No spinal loading",
+    "Great for glute med activation"
+  ],
+  "alternatives": ["rdl", "leg_curl"]
+}

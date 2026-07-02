@@ -1,0 +1,11 @@
+{
+  "id": "cardio_assault_bike",
+  "name": "Assault Bike / Air Bike",
+  "category": "cardio",
+  "primary_muscles": ["cardiovascular", "quadriceps", "glutes"],
+  "secondary_muscles": ["hamstrings", "core", "arms"],
+  "equipment": "assault_bike",
+  "difficulty": "beginner",
+  "movement_pattern": "full_body_cardio",
+  "mechanics": "compound"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "chest_pec_deck",
+  "name": "Pec Deck Machine",
+  "category": "chest",
+  "primary_muscles": ["pectoralis_major"],
+  "secondary_muscles": ["anterior_deltoid"],
+  "equipment": "machine",
+  "difficulty": "beginner",
+  "movement_pattern": "horizontal_adduction",
+  "mechanics": "isolation",
+  "setup": [
+    "Adjust seat so arms pivot at shoulder height",
+    "Grip handles or place forearms on pads",
+    "Back flat against pad"
+  ],
+  "execution": [
+    "Bring arms together in front of chest in hugging motion",
+    "Squeeze and hold briefly at peak contraction",
+    "Return to start, feel the stretch"
+  ],
+  "tempo": "2-1-3",
+  "common_mistakes": [
+    "Using momentum",
+    "Too heavy (can't control eccentric)",
+    "Shoulders rolled forward (keep back flat)"
+  ],
+  "cues": [
+    "Hug a barrel at the top",
+    "Shoulders stay pinned back",
+    "Feel the stretch on every rep"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "hamstrings_nordic_curl",
+  "name": "Nordic Hamstring Curl",
+  "category": "hamstrings_glutes",
+  "primary_muscles": ["hamstrings"],
+  "secondary_muscles": ["gluteus_maximus", "calves"],
+  "equipment": "bodyweight",
+  "difficulty": "advanced",
+  "movement_pattern": "knee_flexion",
+  "mechanics": "isolation",
+  "setup": [
+    "Kneel on padded surface",
+    "Anchored at feet (partner, bench, or nordic strap)",
+    "Keep body in straight line from knees to head"
+  ],
+  "execution": [
+    "Slowly lower torso toward floor, resisting with hamstrings",
+    "Lower as far as you can control",
+    "Pull back up using hamstrings or catch with hands and reset"
+  ],
+  "tempo": "3-1-2",
+  "common_mistakes": [
+    "Dropping too fast (no eccentric control)",
+    "Breaking at hips (should be straight body)"
+  ],
+  "cues": [
+    "Slow descent — fight it the whole way",
+    "Straight line from knees to head",
+    "Hamstrings should be screaming"
+  ],
+  "advantages": [
+    "Excellent hamstring eccentric strength",
+    "Injury prevention for hamstring strains",
+    "No equipment needed"
+  ],
+  "progression": "Band assist → Full eccentric → Eccentric + concentric → Weighted"
+}

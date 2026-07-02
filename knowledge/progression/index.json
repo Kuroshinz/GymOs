@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "description": "NEXUS Progression System — authoritative rules for load and volume progression",
+  "methods": {
+    "double_progression": "Increase reps first, then weight",
+    "linear_progression": "Add weight each session",
+    "double_linear": "Add weight each session for compounds, double progression for accessories",
+    "periodization_linear": "Weekly increases with deload cycles",
+    "rm_based": "Percentage-based based on estimated 1RM",
+    "rpe_based": "Rate of Perceived Exertion guided"
+  },
+  "files": {
+    "double_progression": "Double progression method — the NEXUS default",
+    "deload": "Deload rules and scheduling",
+    "rpe_chart": "RPE to reps in reserve conversion",
+    "rm_estimator": "Rep max estimation formulas"
+  }
+}

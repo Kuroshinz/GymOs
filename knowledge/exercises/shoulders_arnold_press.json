@@ -1,0 +1,38 @@
+{
+  "id": "shoulders_arnold_press",
+  "name": "Arnold Press",
+  "category": "shoulders",
+  "primary_muscles": ["anterior_deltoid", "medial_deltoid", "posterior_deltoid"],
+  "secondary_muscles": ["triceps_brachii", "trapezius"],
+  "equipment": "dumbbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "vertical_push_with_rotation",
+  "mechanics": "compound",
+  "setup": [
+    "Sit on bench with back support",
+    "Dumbbells in front of shoulders, palms facing you",
+    "Elbows together in front"
+  ],
+  "execution": [
+    "Rotate palms outward as you press overhead",
+    "At top, palms face forward, arms extended overhead",
+    "Reverse: rotate palms toward you as you lower",
+    "Return to start with elbows together"
+  ],
+  "tempo": "2-1-3",
+  "common_mistakes": [
+    "Not completing the rotation",
+    "Using too heavy (sacrifices the rotation)",
+    "Arching back"
+  ],
+  "cues": [
+    "Elbows to front at bottom, elbows to sides at top",
+    "Rotate through the full 180 degrees",
+    "Light weight, high control"
+  ],
+  "advantages": [
+    "Hits all 3 delt heads",
+    "Great for shoulder health and mobility",
+    "Long time under tension"
+  ]
+}

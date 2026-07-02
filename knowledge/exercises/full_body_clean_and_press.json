@@ -1,0 +1,12 @@
+{
+  "id": "full_body_clean_and_press",
+  "name": "Dumbbell Clean and Press",
+  "category": "full_body",
+  "primary_muscles": ["full_body"],
+  "secondary_muscles": [],
+  "equipment": "dumbbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "full_body_compound",
+  "mechanics": "compound",
+  "setup": ["Dumbbells on floor, deadlift to standing"]
+}

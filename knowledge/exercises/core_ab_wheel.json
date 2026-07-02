@@ -1,0 +1,32 @@
+{
+  "id": "core_ab_wheel",
+  "name": "Ab Wheel Rollout",
+  "category": "core",
+  "primary_muscles": ["rectus_abdominis", "transversus_abdominis"],
+  "secondary_muscles": ["lats", "shoulders", "erector_spinae"],
+  "equipment": "ab_wheel",
+  "difficulty": "advanced",
+  "movement_pattern": "anti_extension",
+  "mechanics": "compound",
+  "setup": [
+    "Kneel on padded surface, ab wheel in hands",
+    "Wheel under shoulders, arms extended forward"
+  ],
+  "execution": [
+    "Roll wheel forward as far as you can maintain core tension",
+    "Keep body in straight plank — don't sag",
+    "Pull back using abs to starting position"
+  ],
+  "tempo": "3-1-2",
+  "common_mistakes": [
+    "Sagging lower back (can't maintain tension)",
+    "Rolling too far without control",
+    "Using shoulders/arms instead of core"
+  ],
+  "cues": [
+    "Squeeze glutes and brace core before every rep",
+    "Think 'hollow body hold' throughout",
+    "Stop when you feel your back about to arch"
+  ],
+  "progression": "Wall rollout → Kneeling limited ROM → Kneeling full → Standing"
+}

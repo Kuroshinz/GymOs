@@ -1,0 +1,46 @@
+{
+  "id": "hamstrings_romanian_deadlift",
+  "name": "Romanian Deadlift (RDL)",
+  "category": "hamstrings_glutes",
+  "primary_muscles": ["hamstrings", "gluteus_maximus"],
+  "secondary_muscles": ["erector_spinae", "forearms", "trapezius"],
+  "equipment": "barbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "hip_hinge",
+  "mechanics": "compound",
+  "setup": [
+    "Barbell at hip height (from rack or pick up from floor)",
+    "Grip shoulder-width, overhand or mixed",
+    "Stand with feet hip-width, bar at front of thighs"
+  ],
+  "execution": [
+    "Hinge at hips, pushing butt back",
+    "Keep back neutral, bar close to thighs",
+    "Feel hamstring stretch as bar passes knees",
+    "Lower until you feel max hamstring stretch (or ~mid-shin)",
+    "Reverse by driving hips forward, squeezing glutes at top"
+  ],
+  "tempo": "3-1-1",
+  "common_mistakes": [
+    "Rounding lower back at bottom",
+    "Knees bending too much (turns into squat)",
+    "Bar drifting away from legs",
+    "Not going deep enough for hamstring stretch"
+  ],
+  "cues": [
+    "Push hips back like closing a drawer with your butt",
+    "Bar drags up your thighs on the way up",
+    "Feel the hamstring stretch, then squeeze glutes forward"
+  ],
+  "variations": [
+    "single_leg_rdl",
+    "dumbbell_rdl",
+    "stiff_leg_deadlift"
+  ],
+  "alternatives": [
+    "leg_curl",
+    "hyperextension",
+    "nordic_curl"
+  ],
+  "rep_ranges": { "hypertrophy": "8-15", "strength": "5-8" }
+}

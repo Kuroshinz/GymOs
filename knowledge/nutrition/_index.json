@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "description": "NEXUS Nutrition Knowledge Base — authoritative guidelines for nutrition tracking and recommendations",
+  "files": {
+    "macronutrients": "Macronutrient guidelines: protein, carbs, fat",
+    "micronutrients": "Essential vitamins and minerals",
+    "meal_timing": "Pre-workout, intra-workout, post-workout nutrition",
+    "body_composition": "Caloric surplus, deficit, maintenance",
+    "hydration": "Daily water intake guidelines",
+    "supplements": "Evidence-based supplement guide"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "id": "shoulders_overhead_press",
+  "name": "Barbell Overhead Press (Strict)",
+  "category": "shoulders",
+  "primary_muscles": ["anterior_deltoid", "medial_deltoid"],
+  "secondary_muscles": ["triceps_brachii", "trapezius", "serratus_anterior", "core"],
+  "equipment": "barbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "vertical_push",
+  "mechanics": "compound",
+  "setup": [
+    "Bar at upper-chest height in squat rack",
+    "Grip slightly wider than shoulder-width",
+    "Step under bar, bar resting on front delts (full grip)",
+    "Unrack, step back, feet hip-width, core braced"
+  ],
+  "execution": [
+    "Press bar directly overhead — bar path should go back slightly",
+    "Head moves back to let bar pass face, then moves forward under bar",
+    "Lock out directly over shoulders, not forward",
+    "Lower under control to front delts"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Leaning back excessively (becomes incline press)",
+    "Bar path goes forward (losing balance)",
+    "Not bracing core (arching lower back)",
+    "Grip too wide (shoulder impingement risk)",
+    "Not tucking elbows in front at start"
+  ],
+  "cues": [
+    "Bar over your heels at lockout",
+    "Nose through the window on the way up",
+    "Crush the bar",
+    "Squeeze glutes throughout to protect lower back"
+  ],
+  "variations": [
+    "seated_overhead_press",
+    "dumbbell_shoulder_press",
+    "arnold_press",
+    "push_press"
+  ],
+  "alternatives": ["dumbbell_shoulder_press", "machine_shoulder_press"]
+}

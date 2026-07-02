@@ -1,0 +1,26 @@
+{
+  "id": "hamstrings_adductor_machine",
+  "name": "Adductor Machine",
+  "category": "hamstrings_glutes",
+  "primary_muscles": ["adductors", "pectineus", "gracilis"],
+  "secondary_muscles": ["gluteus_maximus"],
+  "equipment": "machine",
+  "difficulty": "beginner",
+  "movement_pattern": "hip_adduction",
+  "mechanics": "isolation",
+  "setup": [
+    "Sit in adductor machine, legs apart on pads",
+    "Back flat against pad, grip handles"
+  ],
+  "execution": [
+    "Squeeze legs together against resistance",
+    "Squeeze adductors at peak contraction",
+    "Control back to starting position"
+  ],
+  "tempo": "2-1-3",
+  "cues": [
+    "Squeeze a beach ball between your knees",
+    "Slow and controlled"
+  ],
+  "alternatives": ["cable_adduction", "banded_adduction"]
+}

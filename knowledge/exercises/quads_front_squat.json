@@ -1,0 +1,42 @@
+{
+  "id": "quads_front_squat",
+  "name": "Barbell Front Squat",
+  "category": "quads",
+  "primary_muscles": ["quadriceps", "gluteus_maximus"],
+  "secondary_muscles": ["core", "erector_spinae", "trapezius"],
+  "equipment": "barbell",
+  "difficulty": "advanced",
+  "movement_pattern": "squat",
+  "mechanics": "compound",
+  "setup": [
+    "Bar racked on front delts (fingertip grip or arms crossed)",
+    "Elbows high and forward throughout",
+    "Feet hip-width, toes slightly out",
+    "Upright torso position"
+  ],
+  "execution": [
+    "Descend like a back squat with more upright torso",
+    "Hips go down and slightly back",
+    "Hit depth (thighs parallel or below)",
+    "Drive through mid-foot, keep elbows up"
+  ],
+  "tempo": "2-1-1",
+  "common_mistakes": [
+    "Elbows dropping (bar rolls forward)",
+    "Torso collapsing forward (more than necessary)",
+    "Not hitting depth",
+    "Bar sitting on hands (should be on delts)"
+  ],
+  "cues": [
+    "Elbows to the ceiling",
+    "Keep torso vertical",
+    "Touch your hamstrings to your calves"
+  ],
+  "advantages": [
+    "Enforces upright posture",
+    "Less lower back stress than back squat",
+    "Better quad development"
+  ],
+  "alternatives": ["goblet_squat", "hack_squat_machine", "leg_press"],
+  "rep_ranges": { "hypertrophy": "5-12", "strength": "1-5" }
+}

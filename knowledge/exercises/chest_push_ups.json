@@ -1,0 +1,42 @@
+{
+  "id": "chest_push_ups",
+  "name": "Push-Up",
+  "category": "chest",
+  "primary_muscles": ["pectoralis_major"],
+  "secondary_muscles": ["triceps_brachii", "anterior_deltoid", "core"],
+  "equipment": "bodyweight",
+  "difficulty": "beginner",
+  "movement_pattern": "horizontal_push",
+  "mechanics": "compound",
+  "setup": [
+    "Plank position, hands slightly wider than shoulder-width",
+    "Body forms straight line from head to heels",
+    "Hands under shoulders, fingers forward"
+  ],
+  "execution": [
+    "Lower chest toward floor, elbows at ~45 degrees",
+    "Go until chest touches floor or upper arms parallel",
+    "Push through palms to return to starting position",
+    "Keep body rigid throughout — no sagging or piking"
+  ],
+  "tempo": "2-1-1",
+  "common_mistakes": [
+    "Sagging hips (core not engaged)",
+    "Piking hips (butt too high)",
+    "Elbows flaring to 90 degrees",
+    "Half reps (insufficient depth)"
+  ],
+  "cues": [
+    "Squeeze glutes and brace core throughout",
+    "Break the bar (try to rotate hands outward)",
+    "Touch chest to thumb-height"
+  ],
+  "variations": [
+    "incline_push_up",
+    "decline_push_up",
+    "diamond_push_up",
+    "wide_push_up",
+    "archer_push_up"
+  ],
+  "progression": "Wall → Incline → Knee → Full → Deficit → Weighted"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "forearms_wrist_curl",
+  "name": "Barbell Wrist Curl",
+  "category": "forearms",
+  "primary_muscles": ["forearm_flexors"],
+  "secondary_muscles": [],
+  "equipment": "barbell",
+  "difficulty": "beginner",
+  "movement_pattern": "wrist_flexion",
+  "mechanics": "isolation",
+  "setup": [
+    "Sit with forearms on bench/pads, wrists hanging off",
+    "Grip barbell underhand, wrists extended"
+  ],
+  "execution": [
+    "Curl bar up by flexing wrists",
+    "Squeeze at top, stretch at bottom"
+  ],
+  "tempo": "2-1-3"
+}

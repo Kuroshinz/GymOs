@@ -1,0 +1,11 @@
+{
+  "id": "forearms_deadhangs",
+  "name": "Dead Hang (Weighted)",
+  "category": "forearms",
+  "primary_muscles": ["forearms", "lats"],
+  "secondary_muscles": ["shoulders", "core"],
+  "equipment": "pull_up_bar",
+  "difficulty": "beginner",
+  "movement_pattern": "isometric_grip",
+  "mechanics": "isometric"
+}

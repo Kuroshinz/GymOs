@@ -1,0 +1,40 @@
+{
+  "id": "back_seated_cable_row",
+  "name": "Seated Cable Row",
+  "category": "back",
+  "primary_muscles": ["latissimus_dorsi", "rhomboids", "trapezius_middle"],
+  "secondary_muscles": ["biceps_brachii", "posterior_deltoid", "erector_spinae"],
+  "equipment": "cable",
+  "difficulty": "beginner",
+  "movement_pattern": "horizontal_pull",
+  "mechanics": "compound",
+  "setup": [
+    "Sit at row station, feet on platform, knees slightly bent",
+    "Lean forward, grab handle (V-grip, straight bar, or rope)",
+    "Start with arms extended, torso upright"
+  ],
+  "execution": [
+    "Pull handle to lower sternum",
+    "Drive elbows behind you, squeeze shoulder blades",
+    "Torso stays mostly upright (small lean allowed)",
+    "Control back to full arm extension"
+  ],
+  "tempo": "2-1-3",
+  "common_mistakes": [
+    "Using too much torso lean (turning into a rock)",
+    "Pulling with arms only (no back engagement)",
+    "Rounding lower back at full extension",
+    "Pulling too high (bar to neck instead of sternum)"
+  ],
+  "cues": [
+    "Pinch shoulder blades together",
+    "Pull with elbows, not hands",
+    "Chest out, shoulders back"
+  ],
+  "variations": [
+    "close_grip_ cable_row",
+    "wide_grip_cable_row",
+    "single_arm_cable_row"
+  ],
+  "alternatives": ["t_bar_row", "chest_supported_row"]
+}

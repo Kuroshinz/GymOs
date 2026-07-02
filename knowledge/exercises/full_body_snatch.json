@@ -1,0 +1,29 @@
+{
+  "id": "full_body_snatch",
+  "name": "Snatch",
+  "category": "full_body",
+  "primary_muscles": ["quadriceps", "gluteus_maximus", "trapezius", "shoulders"],
+  "secondary_muscles": ["hamstrings", "calves", "forearms", "core", "erector_spinae"],
+  "equipment": "barbell",
+  "difficulty": "advanced",
+  "movement_pattern": "olympic_lift",
+  "mechanics": "compound",
+  "setup": [
+    "Wide grip (snatch width, bar at hip crease when standing)",
+    "Bar over mid-foot, hips lower than deadlift",
+    "Back neutral, chest up"
+  ],
+  "execution": [
+    "First pull: bar to mid-thigh with constant back angle",
+    "Second pull: explosive extension, shrug, pull bar overhead",
+    "Pull body under bar into overhead squat position",
+    "Stand up with bar locked overhead"
+  ],
+  "tempo": "Explosive",
+  "cues": [
+    "BLITZ: Bar Low, Iniate, Thrust, Zip",
+    "Pull yourself under the bar, not the bar up",
+    "Active shoulders overhead at catch"
+  ],
+  "variations": ["hang_snatch", "snatch_pull", "power_snatch"]
+}

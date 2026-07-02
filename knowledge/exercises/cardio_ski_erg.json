@@ -1,0 +1,11 @@
+{
+  "id": "cardio_ski_erg",
+  "name": "SkiErg",
+  "category": "cardio",
+  "primary_muscles": ["cardiovascular", "lats", "shoulders"],
+  "secondary_muscles": ["core", "triceps", "glutes"],
+  "equipment": "ski_erg",
+  "difficulty": "beginner",
+  "movement_pattern": "full_body_cardio",
+  "mechanics": "compound"
+}

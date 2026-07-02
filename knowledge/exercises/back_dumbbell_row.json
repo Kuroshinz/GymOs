@@ -1,0 +1,41 @@
+{
+  "id": "back_dumbbell_row",
+  "name": "Dumbbell Row (Single Arm)",
+  "category": "back",
+  "primary_muscles": ["latissimus_dorsi", "rhomboids", "trapezius_middle"],
+  "secondary_muscles": ["biceps_brachii", "posterior_deltoid", "core"],
+  "equipment": "dumbbell",
+  "difficulty": "beginner",
+  "movement_pattern": "horizontal_pull",
+  "mechanics": "compound",
+  "setup": [
+    "Place one knee and hand on flat bench",
+    "Other foot planted on floor, hip-width stance",
+    "Dumbbell in free hand, arm fully extended",
+    "Back flat, torso ~parallel to floor"
+  ],
+  "execution": [
+    "Pull dumbbell to hip / lower ribcage",
+    "Elbow drives back, squeeze lat at top",
+    "Lower under control to full stretch"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Rotating torso (using shoulder, not lat)",
+    "Pulling too high (elbow flared out)",
+    "Rounding back",
+    "Using momentum instead of controlled pull"
+  ],
+  "cues": [
+    "Pull the dumbbell like you're starting a lawnmower",
+    "Elbow to the ceiling",
+    "Squeeze your armpit at the top"
+  ],
+  "advantages": [
+    "Addresses bilateral imbalances",
+    "Great stretch and contraction per side",
+    "Doesn't load spine as much as barbell row"
+  ],
+  "alternatives": ["two_arm_dumbbell_row", "cable_single_arm_row"],
+  "progression": "Increase dumbbell weight or use straps for grip"
+}

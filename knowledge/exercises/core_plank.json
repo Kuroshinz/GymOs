@@ -1,0 +1,32 @@
+{
+  "id": "core_plank",
+  "name": "Plank",
+  "category": "core",
+  "primary_muscles": ["rectus_abdominis", "transversus_abdominis"],
+  "secondary_muscles": ["obliques", "erector_spinae", "shoulders"],
+  "equipment": "bodyweight",
+  "difficulty": "beginner",
+  "movement_pattern": "anti_extension",
+  "mechanics": "isometric",
+  "setup": [
+    "Forearms on floor, elbows under shoulders",
+    "Legs extended, toes on floor",
+    "Body forms straight line from head to heels"
+  ],
+  "execution": [
+    "Brace core, squeeze glutes",
+    "Hold this position without sagging or piking"
+  ],
+  "common_mistakes": [
+    "Sagging hips (lower back strain)",
+    "Piking hips (butt too high)",
+    "Holding breath",
+    "Looking up (neck strain)"
+  ],
+  "cues": [
+    "Squeeze glutes and quads",
+    "Pull elbows toward toes (create full-body tension)",
+    "Breathe steadily"
+  ],
+  "progression": "30s → 60s → 90s → Weighted → Single-leg → Stability ball"
+}

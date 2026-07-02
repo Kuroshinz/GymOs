@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "description": "NEXUS Research References — curated scientific literature supporting domain knowledge",
+  "categories": [
+    { "topic": "hypertrophy_mechanisms", "description": "Muscle growth mechanisms and training variables" },
+    { "topic": "strength_periodization", "description": "Periodization models and strength development" },
+    { "topic": "nutrition_protein", "description": "Protein requirements for muscle gain" },
+    { "topic": "recovery_sleep", "description": "Sleep and athletic recovery" },
+    { "topic": "progression_overload", "description": "Progressive overload methods" },
+    { "topic": "exercise_selection", "description": "Exercise selection and program design" }
+  ]
+}

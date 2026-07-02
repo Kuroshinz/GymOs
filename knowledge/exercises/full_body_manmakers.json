@@ -1,0 +1,11 @@
+{
+  "id": "full_body_manmakers",
+  "name": "Man-Makers",
+  "category": "full_body",
+  "primary_muscles": ["full_body"],
+  "secondary_muscles": [],
+  "equipment": "dumbbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "full_body_compound",
+  "mechanics": "compound"
+}

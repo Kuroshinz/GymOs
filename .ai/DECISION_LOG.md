@@ -1,0 +1,198 @@
+# NEXUS — Architectural Decision Log
+
+## Format
+
+```
+## ADR-NNN: Title
+
+Status: [Proposed | Accepted | Deprecated | Superseded]
+
+Context:
+<why we need to decide>
+
+Decision:
+<what we chose>
+
+Rationale:
+<why we chose it over alternatives>
+
+Consequences:
+<positive and negative effects>
+```
+
+---
+
+## ADR-001: EventBus as Central Communication
+
+Status: Accepted
+
+Context:
+NEXUS needs decoupled module communication. Direct imports between modules
+create tight coupling and make testing difficult.
+
+Decision:
+All inter-module communication passes through an EventBus with middleware
+support. Events are typed, immutable value objects.
+
+Rationale:
+- Modules become independently testable
+- New modules can hook existing events without changing producers
+- Middleware enables cross-cutting concerns (logging, metrics, tracing)
+
+Consequences:
++ Loose coupling between modules
++ Easy to add new integrations
+- Slightly more boilerplate than direct calls
+- Need clear event naming conventions
+
+---
+
+## ADR-002: Clean Architecture per Module
+
+Status: Accepted
+
+Context:
+Each module contains business logic that must be testable independently
+of frameworks and infrastructure.
+
+Decision:
+Every module follows Domain → Application → Infrastructure → Presentation.
+Dependency flows inward. Infrastructure implements application ports.
+
+Rationale:
+- Business logic is framework-agnostic
+- Swap database/UI without touching domain
+- Proven at scale (DDD community)
+
+Consequences:
++ Highly testable business logic
++ Infrastructure can be replaced
+- More files per module
+- Team must understand the pattern
+
+---
+
+## ADR-003: Custom DI Container (No Framework)
+
+Status: Accepted
+
+Context:
+NEXUS needs dependency injection without pulling in a heavy framework
+(DependencyInjector, inject, etc.).
+
+Decision:
+A lightweight custom Container with register/resolve, factory support,
+and lifecycle management.
+
+Rationale:
+- Zero external dependency for core infrastructure
+- Easy to debug (no magic)
+- Full control over lifecycle
+
+Consequences:
++ Minimal dependency footprint
++ Easy to understand and debug
+- Won't have advanced features (auto-wiring, scopes)
+- Must maintain ourselves
+
+---
+
+## ADR-004: SDK Wrapper Over Core
+
+Status: Accepted
+
+Context:
+Plugins should not depend on internal core APIs that may change.
+
+Decision:
+An SDK layer (`sdk/`) re-exports stable core APIs. Plugins import only from
+`nexus.sdk.*`. Core can refactor without breaking plugins.
+
+Rationale:
+- Backward compatibility guarantee for plugin authors
+- Core can evolve independently
+- SDK version can differ from core version
+
+Consequences:
++ Stable plugin API
++ Core refactoring freedom
+- Extra abstraction layer to maintain
+- SDK must be kept in sync
+
+---
+
+## ADR-005: Async Throughout
+
+Status: Accepted
+
+Context:
+NEXUS handles I/O-bound operations (database, HTTP, file I/O) and needs
+concurrent event handling.
+
+Decision:
+All I/O-bound functions are `async def`. Uses `asyncio` primitives.
+Event handlers run concurrently.
+
+Rationale:
+- Efficient concurrency for I/O
+- Single-threaded simplifies state management
+- Ecosystem maturity (SQLAlchemy async, aiohttp)
+
+Consequences:
++ Efficient resource usage
++ Natural concurrent event handling
+- Slight learning curve for sync-only developers
+- Must be careful with blocking calls
+
+---
+
+## ADR-006: SQLite + SQLAlchemy Async
+
+Status: Accepted
+
+Context:
+MVP needs a zero-configuration database that works offline-first.
+
+Decision:
+SQLite with SQLAlchemy async ORM and Alembic for migrations.
+
+Rationale:
+- Zero setup — file-based database
+- SQLAlchemy provides rich ORM with async support
+- Alembic handles schema evolution
+- Easy to migrate to PostgreSQL later
+
+Consequences:
++ Simple deployment
++ Rich ORM features
+- Concurrency limits (WAL mode mitigates)
+- SQLite-specific SQL must be isolated
+
+---
+
+## ADR-007: Domain Knowledge as Structured Data
+
+Status: Accepted
+
+Context:
+AI Coach and workout features need authoritative exercise, nutrition,
+and progression data. Hardcoding in Python or relying on AI to guess
+leads to inconsistency.
+
+Decision:
+Domain knowledge stored as structured files (JSON/YAML) in `knowledge/`.
+Each domain has its own directory. AI reads this data before generating
+coaching advice or workout logic.
+
+Rationale:
+- Single source of truth for domain data
+- Easy to update by domain experts (non-developers)
+- AI can reliably reference known-correct data
+- Foundation for future knowledge graph
+
+Consequences:
++ Higher quality AI outputs
++ Domain experts can contribute without writing code
++ Audit trail for fitness knowledge
+- Must keep knowledge/ in sync with code
+- File management overhead at scale

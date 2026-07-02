@@ -1,0 +1,34 @@
+{
+  "id": "core_turkish_get_up",
+  "name": "Turkish Get-Up (TGU)",
+  "category": "core",
+  "primary_muscles": ["core", "shoulders", "glutes"],
+  "secondary_muscles": ["full_body_stabilizers"],
+  "equipment": "kettlebell",
+  "difficulty": "advanced",
+  "movement_pattern": "full_body_compound",
+  "mechanics": "compound",
+  "setup": [
+    "Lie on floor, kettlebell in right hand pressed overhead",
+    "Right arm locked out, kettlebell directly over shoulder",
+    "Left arm out to side for balance"
+  ],
+  "execution": [
+    "Roll to left elbow, keeping arm locked overhead",
+    "Push up to left hand, arm still locked",
+    "Sweep right leg under, come to one knee",
+    "Stand up to lunge position, then straighten",
+    "Reverse in same order"
+  ],
+  "tempo": "Controlled, no rush",
+  "cues": [
+    "Eyes follow the kettlebell at all times",
+    "Arm stays locked and vertical",
+    "Each position is a pause — never rush"
+  ],
+  "advantages": [
+    "Full body stability and mobility",
+    "Shoulder health",
+    "Core strength and body control"
+  ]
+}

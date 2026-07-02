@@ -1,0 +1,30 @@
+{
+  "id": "triceps_close_grip_bench",
+  "name": "Close-Grip Bench Press",
+  "category": "triceps",
+  "primary_muscles": ["triceps_brachii"],
+  "secondary_muscles": ["pectoralis_major", "anterior_deltoid"],
+  "equipment": "barbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "horizontal_push",
+  "mechanics": "compound",
+  "setup": [
+    "Lie on flat bench, grip bar shoulder-width (narrower than normal)",
+    "Do not grip too narrow (wrist strain risk)"
+  ],
+  "execution": [
+    "Lower bar to lower sternum, elbows tucked to sides",
+    "Touch and press back up, focusing on triceps drive"
+  ],
+  "tempo": "2-1-1",
+  "common_mistakes": [
+    "Grip too narrow (wrist and elbow pain)",
+    "Elbows flaring (chest takeover)",
+    "Bar to mid-chest (elbows will flare)"
+  ],
+  "cues": [
+    "Tuck elbows like you're holding a newspaper in your armpits",
+    "Touch sternum, not mid-chest"
+  ],
+  "alternatives": ["dips", "triceps_pulldown", "floor_press"]
+}

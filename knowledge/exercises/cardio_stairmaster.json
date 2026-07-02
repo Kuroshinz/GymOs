@@ -1,0 +1,11 @@
+{
+  "id": "cardio_stairmaster",
+  "name": "StairMaster",
+  "category": "cardio",
+  "primary_muscles": ["cardiovascular", "glutes", "quadriceps"],
+  "secondary_muscles": ["calves", "hamstrings"],
+  "equipment": "stairmaster",
+  "difficulty": "beginner",
+  "movement_pattern": "cardio",
+  "mechanics": "compound"
+}

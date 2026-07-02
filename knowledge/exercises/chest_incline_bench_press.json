@@ -1,0 +1,42 @@
+{
+  "id": "chest_incline_bench_press",
+  "name": "Incline Barbell Bench Press",
+  "category": "chest",
+  "primary_muscles": ["pectoralis_major_clavicular", "anterior_deltoid"],
+  "secondary_muscles": ["triceps_brachii"],
+  "equipment": "barbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "inclined_push",
+  "mechanics": "compound",
+  "setup": [
+    "Set bench to 30-45 degrees",
+    "Sit and lie back, gripping bar slightly wider than shoulder-width",
+    "Feet flat on floor, retract scapulae"
+  ],
+  "execution": [
+    "Unrack and hold above upper chest",
+    "Lower bar to upper chest (clavicle level)",
+    "Touch and drive bar up and slightly back",
+    "Lock out without hyperextending"
+  ],
+  "tempo": "2-1-1",
+  "common_mistakes": [
+    "Bench angle too vertical (>60 degrees becomes shoulder press)",
+    "Lowering bar to mid-chest instead of upper chest",
+    "Flaring elbows excessively"
+  ],
+  "cues": [
+    "Think 'pull the bar down to your chest' on eccentric",
+    "Drive bar toward your face on the way up",
+    "Keep scapulae pinned to bench"
+  ],
+  "variations": [
+    "incline_dumbbell_press",
+    "smith_machine_incline_press"
+  ],
+  "alternatives": [
+    "chest_dumbbell_press_30",
+    "landmine_press",
+    "cable_upper_chest_fly"
+  ]
+}

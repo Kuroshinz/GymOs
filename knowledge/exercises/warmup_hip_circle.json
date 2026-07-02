@@ -1,0 +1,11 @@
+{
+  "id": "warmup_hip_circle",
+  "name": "Hip Circles (Standing)",
+  "category": "warmup_mobility",
+  "primary_muscles": ["hip_rotators", "gluteus_maximus"],
+  "secondary_muscles": [],
+  "equipment": "bodyweight",
+  "difficulty": "beginner",
+  "movement_pattern": "hip_mobility",
+  "mechanics": "mobility"
+}

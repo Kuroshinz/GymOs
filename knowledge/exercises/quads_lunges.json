@@ -1,0 +1,40 @@
+{
+  "id": "quads_lunges",
+  "name": "Walking Dumbbell Lunge",
+  "category": "quads",
+  "primary_muscles": ["quadriceps", "gluteus_maximus"],
+  "secondary_muscles": ["hamstrings", "core", "calves"],
+  "equipment": "dumbbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "lunge",
+  "mechanics": "compound",
+  "setup": [
+    "Stand with dumbbells at sides",
+    "Core braced, shoulders back"
+  ],
+  "execution": [
+    "Step forward with one leg (long stride)",
+    "Lower back knee toward floor",
+    "Front knee ~90 degrees, front shin vertical-ish",
+    "Push off front foot to step forward with other leg",
+    "Alternate with each rep"
+  ],
+  "tempo": "2-0-1",
+  "common_mistakes": [
+    "Short stride (knee goes past toes excessively)",
+    "Leaning forward / torso collapse",
+    "Back knee not bending (stiff leg)"
+  ],
+  "cues": [
+    "Long stride for glute emphasis, short stride for quad emphasis",
+    "Stay tall in the torso",
+    "Back knee points toward but not touching floor"
+  ],
+  "variations": [
+    "reverse_lunge",
+    "stationary_lunge",
+    "lateral_lunge",
+    "curtsey_lunge"
+  ],
+  "alternatives": ["reverse_lunge", "step_up", "split_squat"]
+}

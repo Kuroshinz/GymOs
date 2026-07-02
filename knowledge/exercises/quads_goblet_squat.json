@@ -1,0 +1,34 @@
+{
+  "id": "quads_goblet_squat",
+  "name": "Goblet Squat",
+  "category": "quads",
+  "primary_muscles": ["quadriceps", "gluteus_maximus"],
+  "secondary_muscles": ["core", "erector_spinae", "hamstrings"],
+  "equipment": "dumbbell",
+  "difficulty": "beginner",
+  "movement_pattern": "squat",
+  "mechanics": "compound",
+  "setup": [
+    "Hold one end of dumbbell at chest height with both hands",
+    "Feet slightly wider than shoulder-width, toes out",
+    "Elbows pointing down, dumbbell against sternum"
+  ],
+  "execution": [
+    "Sit back and down, keeping torso upright",
+    "Descend until thighs parallel or below",
+    "Touch elbows to inside of knees at bottom",
+    "Drive through heels to stand"
+  ],
+  "tempo": "2-1-1",
+  "common_mistakes": [
+    "Heels lifting off floor",
+    "Rounding back at bottom",
+    "Knees caving in"
+  ],
+  "cues": [
+    "Elbows touch knees at bottom",
+    "Push knees out with elbows",
+    "Sit to a hidden chair"
+  ],
+  "advantages": ["Excellent for teaching squat pattern", "Torso forced upright", "Light spinal load"]
+}

@@ -1,0 +1,48 @@
+{
+  "id": "chest_bench_press",
+  "name": "Barbell Bench Press",
+  "category": "chest",
+  "primary_muscles": ["pectoralis_major"],
+  "secondary_muscles": ["anterior_deltoid", "triceps_brachii"],
+  "equipment": "barbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "horizontal_push",
+  "mechanics": "compound",
+  "setup": [
+    "Lie flat on bench with eyes under the barbell",
+    "Feet planted firmly on the floor",
+    "Grip bar slightly wider than shoulder-width",
+    "Retract scapulae and arch upper back slightly"
+  ],
+  "execution": [
+    "Unrack the bar with straight arms",
+    "Lower bar to mid-chest with elbows at ~75 degrees",
+    "Touch chest lightly, then drive bar back up",
+    "Lock out at the top without hyperextending elbows"
+  ],
+  "tempo": "2-1-1",
+  "range_of_motion": "Full (chest touch to lockout)",
+  "common_mistakes": [
+    "Bouncing bar off chest",
+    "Flaring elbows to 90 degrees",
+    "Lifting hips off bench",
+    "Uneven grip width"
+  ],
+  "cues": [
+    "Drive through mid-foot",
+    "Pull the bar apart (bend the bar)",
+    "Tuck elbows ~45 degrees from torso"
+  ],
+  "variations": [
+    "close_grip_bench_press",
+    "incline_bench_press",
+    "decline_bench_press",
+    "dumbbell_bench_press"
+  ],
+  "alternatives": [
+    "chest_dumbbell_press",
+    "chest_push_ups",
+    "chest_machine_press"
+  ],
+  "spotting": "Two hands alternating grip, assist on concentric"
+}

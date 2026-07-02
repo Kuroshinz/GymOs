@@ -1,0 +1,37 @@
+{
+  "id": "shoulders_rear_delt_raise",
+  "name": "Bent-Over Dumbbell Rear Delt Raise",
+  "category": "shoulders",
+  "primary_muscles": ["posterior_deltoid"],
+  "secondary_muscles": ["rhomboids", "trapezius_middle", "infraspinatus"],
+  "equipment": "dumbbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "horizontal_abduction",
+  "mechanics": "isolation",
+  "setup": [
+    "Hinge at hips until torso ~parallel to floor",
+    "Dumbbells hanging below shoulders, palms facing each other",
+    "Slight elbow bend (fixed)"
+  ],
+  "execution": [
+    "Raise dumbbells out to sides until upper arms parallel to floor",
+    "Squeeze rear delts at top",
+    "Lower under control"
+  ],
+  "tempo": "2-1-3",
+  "common_mistakes": [
+    "Using trapezius instead of rear delts (shrugging)",
+    "Rotating torso for momentum",
+    "Elbow bend changing throughout movement"
+  ],
+  "cues": [
+    "Elbows go up and out",
+    "Think 'spread the wings'",
+    "Light weight, high reps"
+  ],
+  "alternatives": [
+    "reverse_pec_deck",
+    "face_pull",
+    "cable_rear_delt_fly"
+  ]
+}

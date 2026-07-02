@@ -1,0 +1,44 @@
+{
+  "id": "chest_dumbbell_press",
+  "name": "Dumbbell Bench Press",
+  "category": "chest",
+  "primary_muscles": ["pectoralis_major"],
+  "secondary_muscles": ["anterior_deltoid", "triceps_brachii"],
+  "equipment": "dumbbell",
+  "difficulty": "beginner",
+  "movement_pattern": "horizontal_push",
+  "mechanics": "compound",
+  "setup": [
+    "Lie on flat bench with dumbbells on thighs",
+    "Kick dumbbells up to starting position using leg drive",
+    "Palms facing forward, dumbbells at shoulders"
+  ],
+  "execution": [
+    "Lower dumbbells to sides of chest with controlled tempo",
+    "Elbows at ~75 degrees, stop when upper arms parallel to floor",
+    "Drive dumbbells up and together (don't clang at top)",
+    "Lock out without hyperextending"
+  ],
+  "tempo": "3-1-1",
+  "range_of_motion": "Greater stretch than barbell",
+  "common_mistakes": [
+    "Dumbbells too far forward at bottom",
+    "Uneven pressing (one side higher)",
+    "Bouncing at bottom of movement"
+  ],
+  "cues": [
+    "Think 'barn door' on the way down (elbows open wide)",
+    "Squeeze chest at top of movement",
+    "Keep wrists neutral, not bent back"
+  ],
+  "advantages": [
+    "Greater range of motion than barbell",
+    "Addresses bilateral imbalances",
+    "Less shoulder strain than barbell"
+  ],
+  "alterations": [
+    "flat_dumbbell_press",
+    "incline_dumbbell_press",
+    "neutral_grip_dumbbell_press"
+  ]
+}

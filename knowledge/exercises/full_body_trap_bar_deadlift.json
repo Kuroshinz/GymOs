@@ -1,0 +1,23 @@
+{
+  "id": "full_body_trap_bar_deadlift",
+  "name": "Trap Bar Deadlift",
+  "category": "full_body",
+  "primary_muscles": ["quadriceps", "gluteus_maximus", "erector_spinae"],
+  "secondary_muscles": ["hamstrings", "trapezius", "core", "forearms"],
+  "equipment": "trap_bar",
+  "difficulty": "beginner",
+  "movement_pattern": "hip_hinge",
+  "mechanics": "compound",
+  "setup": [
+    "Stand inside trap bar, feet shoulder-width",
+    "Grip handles at sides, back neutral"
+  ],
+  "execution": [
+    "Drive through floor to stand up",
+    "Bar path is vertical due to centered load",
+    "Lock out: hips forward, glutes squeezed"
+  ],
+  "tempo": "1-1-2",
+  "cues": ["Push floor away", "Stand tall, chest up"],
+  "advantages": ["Less lower back stress than conventional", "More quad involvement", "Good for beginners"]
+}

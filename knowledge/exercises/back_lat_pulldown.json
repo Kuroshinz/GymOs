@@ -1,0 +1,39 @@
+{
+  "id": "back_lat_pulldown",
+  "name": "Lat Pulldown",
+  "category": "back",
+  "primary_muscles": ["latissimus_dorsi", "trapezius"],
+  "secondary_muscles": ["biceps_brachii", "rhomboids", "posterior_deltoid"],
+  "equipment": "cable",
+  "difficulty": "beginner",
+  "movement_pattern": "vertical_pull",
+  "mechanics": "compound",
+  "setup": [
+    "Sit at lat pulldown machine, thighs under pads",
+    "Grip bar wider than shoulder-width (wide or medium)",
+    "Lean back slightly (~15 degrees), chest up"
+  ],
+  "execution": [
+    "Pull bar to upper chest, elbows drive down and back",
+    "Squeeze lats at bottom",
+    "Control bar up to full arm extension (no heavy eccentrics)"
+  ],
+  "tempo": "2-1-3",
+  "common_mistakes": [
+    "Leaning too far back (turns into row)",
+    "Using body momentum to move weight",
+    "Not going to full stretch at top",
+    "Pulling bar behind the neck (shoulder strain)"
+  ],
+  "cues": [
+    "Elbows point down and back",
+    "Imagine crushing an orange in your armpits",
+    "Bar touches upper chest, not neck"
+  ],
+  "variations": [
+    "wide_grip_lat_pulldown",
+    "close_grip_pulldown",
+    "reverse_grip_pulldown"
+  ],
+  "alternatives": ["pull_up", "assisted_pull_up"]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "chest_dumbbell_fly",
+  "name": "Dumbbell Chest Fly",
+  "category": "chest",
+  "primary_muscles": ["pectoralis_major"],
+  "secondary_muscles": ["anterior_deltoid"],
+  "equipment": "dumbbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "horizontal_adduction",
+  "mechanics": "isolation",
+  "setup": [
+    "Lie on flat bench, dumbbells pressed above chest",
+    "Palms facing each other, arms slightly bent (~15 degrees)"
+  ],
+  "execution": [
+    "With elbows fixed in slight bend, lower dumbbells out to sides",
+    "Lower until chest stretch or shoulders say stop (not past parallel)",
+    "Reverse motion, squeeze dumbbells together at top"
+  ],
+  "tempo": "3-1-2",
+  "common_mistakes": [
+    "Too much elbow bend (becomes press)",
+    "Arms completely straight (shoulder strain)",
+    "Range of motion too deep (shoulder injury risk)"
+  ],
+  "cues": [
+    "Hug a tree on the concentric",
+    "Elbow bend stays fixed throughout",
+    "Feel the stretch in chest, not shoulders"
+  ],
+  "alternatives": [
+    "cable_crossover",
+    "pec_deck_machine"
+  ]
+}

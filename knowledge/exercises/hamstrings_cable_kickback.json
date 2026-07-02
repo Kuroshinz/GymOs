@@ -1,0 +1,30 @@
+{
+  "id": "hamstrings_cable_kickback",
+  "name": "Cable Glute Kickback",
+  "category": "hamstrings_glutes",
+  "primary_muscles": ["gluteus_maximus"],
+  "secondary_muscles": ["hamstrings"],
+  "equipment": "cable",
+  "difficulty": "beginner",
+  "movement_pattern": "hip_extension",
+  "mechanics": "isolation",
+  "setup": [
+    "Facing cable machine, ankle strap on one leg",
+    "Grip handles for stability, slight forward lean"
+  ],
+  "execution": [
+    "Kick working leg straight back, squeezing glute",
+    "Go until hip fully extended (don't arch back)",
+    "Lower under control without touching floor"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Arching lower back (should be glute only)",
+    "Swinging leg for momentum",
+    "Bending standing leg too much"
+  ],
+  "cues": [
+    "Think 'push the floor away behind you'",
+    "Glute squeeze at full extension"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "shoulders_lateral_raise",
+  "name": "Dumbbell Lateral Raise",
+  "category": "shoulders",
+  "primary_muscles": ["medial_deltoid"],
+  "secondary_muscles": ["anterior_deltoid", "trapezius", "serratus_anterior"],
+  "equipment": "dumbbell",
+  "difficulty": "beginner",
+  "movement_pattern": "lateral_abduction",
+  "mechanics": "isolation",
+  "setup": [
+    "Stand with dumbbells at sides, palms facing each other",
+    "Slight forward lean (~10 degrees), core braced",
+    "Slight bend in elbows (fixed throughout)"
+  ],
+  "execution": [
+    "Raise dumbbells out to sides until parallel to floor",
+    "Lead with elbows, not hands",
+    "Pause briefly at top, lower under control"
+  ],
+  "tempo": "2-1-3",
+  "common_mistakes": [
+    "Using momentum (swinging body)",
+    "Raising too high (engages traps, not delts)",
+    "Internal rotation at top (thumb-down position — impingement risk)",
+    "Too heavy (can't control eccentric)"
+  ],
+  "cues": [
+    "Pour water from a jug at the top (slight thumb-down)",
+    "Elbows lead, hands follow",
+    "Slow down — this is about control, not weight"
+  ],
+  "variations": [
+    "cable_lateral_raise",
+    "single_arm_lateral_raise",
+    "lean_away_lateral_raise"
+  ],
+  "recommendation": "Light weight, high reps (12-20), strict form"
+}

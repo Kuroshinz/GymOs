@@ -1,0 +1,36 @@
+{
+  "id": "triceps_skull_crusher",
+  "name": "Lying Triceps Extension (Skull Crusher)",
+  "category": "triceps",
+  "primary_muscles": ["triceps_brachii"],
+  "secondary_muscles": ["forearms", "anterior_deltoid"],
+  "equipment": "ez_bar",
+  "difficulty": "intermediate",
+  "movement_pattern": "elbow_extension",
+  "mechanics": "isolation",
+  "setup": [
+    "Lie flat on bench, grip EZ bar at shoulder width",
+    "Press bar to arms extended above shoulders"
+  ],
+  "execution": [
+    "Lower bar toward forehead by bending elbows (90 degrees)",
+    "Elbows point to ceiling, upper arms stay vertical",
+    "Extend back up by contracting triceps"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Elbows flaring outward (upper arm movement)",
+    "Lowering too fast (banging forehead)",
+    "Not going deep enough (partial reps)"
+  ],
+  "cues": [
+    "Elbows to the sky, don't let them move",
+    "Lower to your eyes/forehead, not your chin"
+  ],
+  "variations": [
+    "dumbbell_skull_crusher",
+    "cable_triceps_extension",
+    "incline_triceps_extension"
+  ],
+  "alternatives": ["triceps_pulldown", "dips", "close_grip_bench"]
+}

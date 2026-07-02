@@ -1,0 +1,31 @@
+{
+  "id": "triceps_diamond_push_up",
+  "name": "Diamond Push-Up",
+  "category": "triceps",
+  "primary_muscles": ["triceps_brachii"],
+  "secondary_muscles": ["pectoralis_major", "anterior_deltoid", "core"],
+  "equipment": "bodyweight",
+  "difficulty": "intermediate",
+  "movement_pattern": "horizontal_push",
+  "mechanics": "compound",
+  "setup": [
+    "Plank position, hands together under chest forming diamond with thumbs+indexes",
+    "Body straight line from head to heels"
+  ],
+  "execution": [
+    "Lower chest toward hands, elbows track back",
+    "Go until chest touches hands or upper arms parallel",
+    "Push back up focusing on triceps drive"
+  ],
+  "tempo": "2-1-1",
+  "common_mistakes": [
+    "Elbows flaring out",
+    "Sagging hips",
+    "Half reps"
+  ],
+  "cues": [
+    "Elbows tight to body",
+    "Chest to thumbs"
+  ],
+  "triceps_activation": "Very high (among best bodyweight triceps exercises)"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "cardio_rowing",
+  "name": "Rowing Machine",
+  "category": "cardio",
+  "primary_muscles": ["cardiovascular", "quadriceps", "lats"],
+  "secondary_muscles": ["hamstrings", "glutes", "core", "arms"],
+  "equipment": "rowing_machine",
+  "difficulty": "beginner",
+  "movement_pattern": "full_body_cardio",
+  "mechanics": "compound",
+  "setup": [
+    "Sit on rower, feet strapped in, grip handle",
+    "Shins vertical, arms extended, body leaned forward"
+  ],
+  "execution": [
+    "Drive through legs (legs first!)",
+    "Lean back slightly, pull handle to lower sternum",
+    "Extend arms first, then lean forward, then bend knees",
+    "Repeat in sequence: legs, body, arms — arms, body, legs"
+  ],
+  "cues": ["Legs drive first — not arms", "Handle to sternum, not neck", "Smooth transitions, no jerking"]
+}

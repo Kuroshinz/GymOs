@@ -1,0 +1,29 @@
+{
+  "id": "chest_machine_press",
+  "name": "Machine Chest Press",
+  "category": "chest",
+  "primary_muscles": ["pectoralis_major"],
+  "secondary_muscles": ["triceps_brachii", "anterior_deltoid"],
+  "equipment": "machine",
+  "difficulty": "beginner",
+  "movement_pattern": "horizontal_push",
+  "mechanics": "compound",
+  "setup": [
+    "Adjust seat height so handles align with mid-chest",
+    "Grip handles, back flat against pad"
+  ],
+  "execution": [
+    "Press handles forward until arms extended (not locked)",
+    "Control weight back without letting stack touch down"
+  ],
+  "tempo": "2-1-2",
+  "cues": [
+    "Squeeze chest at full extension",
+    "Control the eccentric — don't drop weight"
+  ],
+  "advantages": [
+    "Good for beginners learning press pattern",
+    "Safe to failure (no spotter needed)",
+    "Fixed path reduces injury risk"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "core_woodchop",
+  "name": "Cable Woodchop",
+  "category": "core",
+  "primary_muscles": ["obliques", "rectus_abdominis"],
+  "secondary_muscles": ["shoulders", "lats", "core_rotators"],
+  "equipment": "cable",
+  "difficulty": "beginner",
+  "movement_pattern": "spinal_rotation",
+  "mechanics": "compound",
+  "setup": [
+    "Set cable pulley to high position",
+    "Stand sideways to cable, feet shoulder-width",
+    "Grip handle with both hands"
+  ],
+  "execution": [
+    "Pull handle diagonally across body to opposite hip",
+    "Rotate torso, keep arms mostly straight",
+    "Control back to start"
+  ],
+  "tempo": "2-1-3",
+  "common_mistakes": [
+    "Using only arms (rotate from core)",
+    "Bending knees too much (squat pattern)",
+    "Letting cable pull you off balance"
+  ],
+  "cues": [
+    "Lead with the hips, arms follow",
+    "Think 'chop a tree'",
+    "Core braced throughout"
+  ],
+  "variations": ["low_to_high_woodchop", "band_woodchop"]
+}

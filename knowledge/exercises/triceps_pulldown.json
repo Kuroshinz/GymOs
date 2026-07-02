@@ -1,0 +1,38 @@
+{
+  "id": "triceps_pulldown",
+  "name": "Triceps Pushdown (Cable)",
+  "category": "triceps",
+  "primary_muscles": ["triceps_brachii"],
+  "secondary_muscles": [],
+  "equipment": "cable",
+  "difficulty": "beginner",
+  "movement_pattern": "elbow_extension",
+  "mechanics": "isolation",
+  "setup": [
+    "Set cable pulley to high position",
+    "Grip handle (rope, straight bar, or V-bar)",
+    "Elbows pinned to ribs, body upright"
+  ],
+  "execution": [
+    "Push handle down until arms extended",
+    "Squeeze triceps at bottom",
+    "Control back to start position"
+  ],
+  "tempo": "2-1-3",
+  "common_mistakes": [
+    "Lean over the cable (turn into standing cable row)",
+    "Elbows moving away from body",
+    "Using upper body momentum"
+  ],
+  "cues": [
+    "Elbows at ribs, don't let them float",
+    "Squeeze and hold at the bottom for 1 count",
+    "Your hands should finish at your thighs"
+  ],
+  "variations": [
+    "rope_pulldown",
+    "v_bar_pulldown",
+    "reverse_grip_pulldown",
+    "single_arm_pulldown"
+  ]
+}

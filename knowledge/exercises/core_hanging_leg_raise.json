@@ -1,0 +1,37 @@
+{
+  "id": "core_hanging_leg_raise",
+  "name": "Hanging Leg Raise",
+  "category": "core",
+  "primary_muscles": ["rectus_abdominis", "hip_flexors"],
+  "secondary_muscles": ["obliques", "forearms", "lats"],
+  "equipment": "pull_up_bar",
+  "difficulty": "advanced",
+  "movement_pattern": "spinal_flexion",
+  "mechanics": "compound",
+  "setup": [
+    "Hang from pull-up bar with full grip, arms extended",
+    "Dead hang position"
+  ],
+  "execution": [
+    "Raise legs until thighs are parallel to floor (or higher)",
+    "Keep legs straight or slightly bent",
+    "Lower under control, don't swing"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Swinging body for momentum",
+    "Using hip flexors more than abs",
+    "Not controlling descent"
+  ],
+  "cues": [
+    "Crush the bar with your hands (lat engagement)",
+    "Point your toes to the ceiling",
+    "No swinging — strict control"
+  ],
+  "variations": [
+    "knee_raise",
+    "toes_to_bar",
+    "windshield_wiper"
+  ],
+  "progression": "Knee raise → Bent leg raise → Straight leg → Weighted"
+}

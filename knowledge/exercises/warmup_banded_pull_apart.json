@@ -1,0 +1,12 @@
+{
+  "id": "warmup_banded_pull_apart",
+  "name": "Banded Pull-Apart",
+  "category": "warmup_mobility",
+  "primary_muscles": ["posterior_deltoid", "rhomboids", "trapezius"],
+  "secondary_muscles": [],
+  "equipment": "band",
+  "difficulty": "beginner",
+  "movement_pattern": "horizontal_abduction",
+  "mechanics": "mobility",
+  "purpose": "Shoulder health and posture"
+}

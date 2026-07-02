@@ -1,0 +1,32 @@
+{
+  "id": "core_russian_twist",
+  "name": "Russian Twist",
+  "category": "core",
+  "primary_muscles": ["obliques"],
+  "secondary_muscles": ["rectus_abdominis", "hip_flexors"],
+  "equipment": "bodyweight",
+  "difficulty": "intermediate",
+  "movement_pattern": "spinal_rotation",
+  "mechanics": "isolation",
+  "setup": [
+    "Sit with knees bent ~90 degrees, feet off floor",
+    "Lean back slightly, back flat",
+    "Hands together in front of chest"
+  ],
+  "execution": [
+    "Rotate torso to one side, touch floor beside hip",
+    "Rotate through center to other side",
+    "That's one rep"
+  ],
+  "tempo": "2-0-2",
+  "common_mistakes": [
+    "Moving only arms (rotate from the torso)",
+    "Rounding back",
+    "Feet touching floor for balance"
+  ],
+  "cues": [
+    "Rotate from the ribs, not the shoulders",
+    "Keep core braced throughout"
+  ],
+  "alternatives": ["cable_woodchop", "pallof_press"]
+}

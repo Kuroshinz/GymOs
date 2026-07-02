@@ -1,0 +1,32 @@
+{
+  "id": "hamstrings_donkey_kick",
+  "name": "Donkey Kick (Cable or Band)",
+  "category": "hamstrings_glutes",
+  "primary_muscles": ["gluteus_maximus"],
+  "secondary_muscles": ["hamstrings"],
+  "equipment": "cable",
+  "difficulty": "beginner",
+  "movement_pattern": "hip_extension",
+  "mechanics": "isolation",
+  "setup": [
+    "On all fours (hands under shoulders, knees under hips)",
+    "Attach cable/band to foot or hold dumbbell behind knee",
+    "Back neutral, neck neutral"
+  ],
+  "execution": [
+    "Kick working foot toward ceiling, keeping knee bent at 90 degrees",
+    "Squeeze glute at top, foot goes no higher than parallel to floor",
+    "Lower under control without touching floor"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Arching lower back (should be all glute, not spine)",
+    "Swinging leg (momentum)",
+    "Lifting too high (losing glute tension)"
+  ],
+  "cues": [
+    "Squeeze glute at the top",
+    "Keep core braced — don't let back arch",
+    "Knee stays bent at 90 throughout"
+  ]
+}

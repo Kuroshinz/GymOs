@@ -1,0 +1,23 @@
+{
+  "id": "core_crunch",
+  "name": "Cable Crunch",
+  "category": "core",
+  "primary_muscles": ["rectus_abdominis"],
+  "secondary_muscles": ["obliques"],
+  "equipment": "cable",
+  "difficulty": "beginner",
+  "movement_pattern": "spinal_flexion",
+  "mechanics": "isolation",
+  "setup": [
+    "Set cable pulley to high position",
+    "Kneel facing cable machine, rope behind head",
+    "Grip rope by ears"
+  ],
+  "execution": [
+    "Curl torso toward floor by contracting abs",
+    "Exhale at peak contraction, squeeze abs",
+    "Control up to start"
+  ],
+  "tempo": "2-1-2",
+  "cues": ["Crush the rope with your abs", "Don't just move your head — curl your whole torso"]
+}

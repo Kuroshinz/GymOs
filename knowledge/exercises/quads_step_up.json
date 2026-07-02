@@ -1,0 +1,34 @@
+{
+  "id": "quads_step_up",
+  "name": "Dumbbell Step-Up",
+  "category": "quads",
+  "primary_muscles": ["quadriceps", "gluteus_maximus"],
+  "secondary_muscles": ["hamstrings", "calves", "core"],
+  "equipment": "dumbbell",
+  "difficulty": "beginner",
+  "movement_pattern": "step_up",
+  "mechanics": "compound",
+  "setup": [
+    "Stand facing box/bench (knee-to-hip height)",
+    "Dumbbells at sides"
+  ],
+  "execution": [
+    "Place one foot fully on box (entire foot)",
+    "Drive through heel to stand on box",
+    "Bring other foot up to meet it (don't tap)",
+    "Step back down with same foot"
+  ],
+  "tempo": "2-0-2",
+  "common_mistakes": [
+    "Pushing off the back foot (cheating)",
+    "Box too high (knee strain)",
+    "Not placing full foot on box",
+    "Leaning forward excessively"
+  ],
+  "cues": [
+    "Push the world away through your heel",
+    "Torso stays upright",
+    "Lead with your chest, not your head"
+  ],
+  "alternative": ["reverse_lunge", "split_squat"]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "biceps_db_curl",
+  "name": "Dumbbell Bicep Curl",
+  "category": "biceps",
+  "primary_muscles": ["biceps_brachii"],
+  "secondary_muscles": ["brachialis", "forearms"],
+  "equipment": "dumbbell",
+  "difficulty": "beginner",
+  "movement_pattern": "elbow_flexion",
+  "mechanics": "isolation",
+  "setup": [
+    "Stand with dumbbells at sides, palms facing in",
+    "Elbows pinned to ribs"
+  ],
+  "execution": [
+    "Curl dumbbells to shoulders, supinating palms (turn to face you)",
+    "Squeeze at top",
+    "Lower under control"
+  ],
+  "tempo": "2-1-3",
+  "common_mistakes": [
+    "Swinging body",
+    "Not supinating at top (full bicep contraction)",
+    "Elbows drifting forward"
+  ],
+  "cues": [
+    "Rotate pinky up at the top",
+    "Pause and squeeze at the peak"
+  ],
+  "variations": [
+    "alternating_curl",
+    "hammer_curl",
+    "incline_curl"
+  ]
+}

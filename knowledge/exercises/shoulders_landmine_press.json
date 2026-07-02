@@ -1,0 +1,36 @@
+{
+  "id": "shoulders_landmine_press",
+  "name": "Landmine Press",
+  "category": "shoulders",
+  "primary_muscles": ["anterior_deltoid", "medial_deltoid"],
+  "secondary_muscles": ["triceps_brachii", "trapezius", "core"],
+  "equipment": "barbell",
+  "difficulty": "beginner",
+  "movement_pattern": "angled_press",
+  "mechanics": "compound",
+  "setup": [
+    "One end of barbell in landmine anchor or corner",
+    "Load other end with weight",
+    "Stand facing the bar, feet shoulder-width",
+    "Grip end of bar with one hand (or both) at chest height"
+  ],
+  "execution": [
+    "Press bar up and slightly away from body",
+    "Full extension overhead (not locked out hard)",
+    "Lower under control back to start"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Torso rotating (stand stable)",
+    "Pressing too outward (arc too wide)"
+  ],
+  "cues": [
+    "Press in a diagonal arc",
+    "Brace core as if pressing one-sided"
+  ],
+  "advantages": [
+    "Shoulder-friendly (no impingement)",
+    "Can go heavy safely",
+    "Unilateral or bilateral"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "quads_leg_extension",
+  "name": "Leg Extension (Machine)",
+  "category": "quads",
+  "primary_muscles": ["quadriceps"],
+  "secondary_muscles": [],
+  "equipment": "machine",
+  "difficulty": "beginner",
+  "movement_pattern": "knee_extension",
+  "mechanics": "isolation",
+  "setup": [
+    "Sit on leg extension machine, back flat at 90 degrees",
+    "Ankles behind roller pad (pad on top of feet near shin)",
+    "Adjust backrest so knee aligns with pivot point of machine"
+  ],
+  "execution": [
+    "Extend legs until knees are straight (not locked)",
+    "Squeeze quads at top for 1-2 seconds",
+    "Lower under control, don't let stack drop"
+  ],
+  "tempo": "2-1-3",
+  "common_mistakes": [
+    "Locking knees at full extension (joint stress)",
+    "Using momentum / kicking up",
+    "Dropping weight (no eccentric control)",
+    "Hips lifting off seat (using body English)"
+  ],
+  "cues": [
+    "Point your toes to increase quad engagement",
+    "Squeeze hard at the top",
+    "Control the negative — 3 seconds down"
+  ],
+  "variations": [
+    "single_leg_extension",
+    "toes_out_extension"
+  ]
+}

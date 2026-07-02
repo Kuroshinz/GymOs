@@ -1,0 +1,42 @@
+{
+  "id": "back_sumo_deadlift",
+  "name": "Sumo Deadlift",
+  "category": "back",
+  "primary_muscles": ["gluteus_maximus", "quadriceps", "erector_spinae"],
+  "secondary_muscles": ["hamstrings", "trapezius", "adductors", "core"],
+  "equipment": "barbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "hip_hinge",
+  "mechanics": "compound",
+  "setup": [
+    "Feet wide (just inside plates), toes out 30-45 degrees",
+    "Bar over mid-foot",
+    "Grip narrow (hands between knees, shoulder-width)",
+    "Shins vertical (more upright than conventional)",
+    "Back neutral, hips closer to bar than conventional"
+  ],
+  "execution": [
+    "Pull slack out of bar",
+    "Drive knees out (track over toes)",
+    "Push floor away, keeping chest up",
+    "Bar stays close to body",
+    "Lock out with glutes at top"
+  ],
+  "tempo": "1-1-2",
+  "common_mistakes": [
+    "Feet too wide (lose hip drive)",
+    "Hips too low (turning into squat)",
+    "Not pushing knees out",
+    "Bar too far from body at start"
+  ],
+  "cues": [
+    "Open your t-shirt with your knees",
+    "Show your crotch to the wall (hips through)",
+    "Bar over mid-foot, pull into hips"
+  ],
+  "advantages": [
+    "Shorter range of motion than conventional",
+    "Better for taller lifters",
+    "Less lower back stress for many"
+  ]
+}

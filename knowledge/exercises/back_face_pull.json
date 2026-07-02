@@ -1,0 +1,35 @@
+{
+  "id": "back_face_pull",
+  "name": "Face Pull",
+  "category": "back",
+  "primary_muscles": ["posterior_deltoid", "trapezius", "rhomboids"],
+  "secondary_muscles": ["infraspinatus", "teres_minor"],
+  "equipment": "cable",
+  "difficulty": "beginner",
+  "movement_pattern": "horizontal_pull",
+  "mechanics": "compound",
+  "setup": [
+    "Set cable pulley at upper-chest height",
+    "Attach rope handle",
+    "Grip with palms facing each other, step back for tension"
+  ],
+  "execution": [
+    "Pull rope toward your face, separating ends",
+    "External rotate shoulders (hands move back, knuckles go back)",
+    "Squeeze rear delts and upper back at peak",
+    "Control back to start"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Pulling to chin instead of eyes/forehead",
+    "Not separating the rope at the end",
+    "Using too heavy weight (loses form)",
+    "Leaning back (turns into upright row)"
+  ],
+  "cues": [
+    "Break the rope in half",
+    "Hands finish behind your head",
+    "Shoulder health — do these every session!"
+  ],
+  "recommendation": "Do 3-4 sets of 15-20 at least 3x/week for shoulder health"
+}

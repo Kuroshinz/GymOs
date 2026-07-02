@@ -1,0 +1,42 @@
+{
+  "id": "shoulders_dumbbell_press",
+  "name": "Dumbbell Shoulder Press",
+  "category": "shoulders",
+  "primary_muscles": ["anterior_deltoid", "medial_deltoid"],
+  "secondary_muscles": ["triceps_brachii", "trapezius", "serratus_anterior"],
+  "equipment": "dumbbell",
+  "difficulty": "beginner",
+  "movement_pattern": "vertical_push",
+  "mechanics": "compound",
+  "setup": [
+    "Sit on bench with back support (or standing)",
+    "Hold dumbbells at shoulder height, palms forward",
+    "Elbows below wrists, slightly in front of body"
+  ],
+  "execution": [
+    "Press dumbbells overhead in arc until arms extended",
+    "Dumbbells come close together at top (don't clang)",
+    "Lower under control to shoulders"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Dumbbells too wide at top (shoulder impingement)",
+    "Arching back (weight too heavy)",
+    "Partial reps (not going to full extension)"
+  ],
+  "cues": [
+    "Press in an arc, not straight up",
+    "Elbows slightly in front at bottom",
+    "Dumbbells kiss at the top"
+  ],
+  "advantages": [
+    "Bilateral development (addresses imbalances)",
+    "More natural shoulder tracking than barbell",
+    "Can go slightly heavier without spine loading"
+  ],
+  "variations": [
+    "seated_dumbbell_press",
+    "standing_dumbbell_press",
+    "alternating_dumbbell_press"
+  ]
+}

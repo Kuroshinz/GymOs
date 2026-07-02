@@ -1,0 +1,12 @@
+{
+  "id": "full_body_burpee",
+  "name": "Burpee",
+  "category": "full_body",
+  "primary_muscles": ["full_body", "cardiovascular"],
+  "secondary_muscles": [],
+  "equipment": "bodyweight",
+  "difficulty": "beginner",
+  "movement_pattern": "full_body_compound",
+  "mechanics": "compound",
+  "setup": ["Stand with feet shoulder-width"]
+}

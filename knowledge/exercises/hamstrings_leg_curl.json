@@ -1,0 +1,39 @@
+{
+  "id": "hamstrings_leg_curl",
+  "name": "Lying Leg Curl (Machine)",
+  "category": "hamstrings_glutes",
+  "primary_muscles": ["hamstrings"],
+  "secondary_muscles": ["gastrocnemius"],
+  "equipment": "machine",
+  "difficulty": "beginner",
+  "movement_pattern": "knee_flexion",
+  "mechanics": "isolation",
+  "setup": [
+    "Lie face down on machine, knees just off pad",
+    "Roller pad behind ankles (above heel)",
+    "Grip handles, hips pressed into bench"
+  ],
+  "execution": [
+    "Curl weight toward glutes by flexing knees",
+    "Squeeze hamstrings at peak contraction",
+    "Lower under control to full extension"
+  ],
+  "tempo": "2-1-3",
+  "common_mistakes": [
+    "Hips lifting off bench (using momentum)",
+    "Partial range of motion",
+    "Dropping weight (no eccentric control)",
+    "Using upper body to pull"
+  ],
+  "cues": [
+    "Hips stay glued to the bench",
+    "Kick your heels to your glutes",
+    "Control the negative — slow and deliberate"
+  ],
+  "variations": [
+    "seated_leg_curl",
+    "single_leg_curl",
+    "standing_leg_curl"
+  ],
+  "alternatives": ["rdl", "nordic_curl", "hyperextension"]
+}

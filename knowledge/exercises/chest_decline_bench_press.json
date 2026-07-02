@@ -1,0 +1,31 @@
+{
+  "id": "chest_decline_bench_press",
+  "name": "Decline Barbell Bench Press",
+  "category": "chest",
+  "primary_muscles": ["pectoralis_major_sternal"],
+  "secondary_muscles": ["triceps_brachii", "anterior_deltoid"],
+  "equipment": "barbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "declined_push",
+  "mechanics": "compound",
+  "setup": [
+    "Set bench to -15 to -30 degrees decline",
+    "Secure legs under pads, lie back",
+    "Grip bar slightly wider than shoulder-width"
+  ],
+  "execution": [
+    "Unrack and lower bar to lower chest",
+    "Keep elbows ~75 degrees from torso",
+    "Drive bar up to lockout"
+  ],
+  "tempo": "2-1-1",
+  "common_mistakes": [
+    "Bar path too high (hits mid-chest)",
+    "Elbows flaring, losing shoulder safety"
+  ],
+  "cues": [
+    "Touch below nipple line",
+    "Legs stay secure under pads"
+  ],
+  "alternatives": ["chest_dips", "chest_dumbbell_press_flat"]
+}

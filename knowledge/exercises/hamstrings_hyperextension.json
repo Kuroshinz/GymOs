@@ -1,0 +1,37 @@
+{
+  "id": "hamstrings_hyperextension",
+  "name": "Hyperextension (Back Extension)",
+  "category": "hamstrings_glutes",
+  "primary_muscles": ["erector_spinae", "hamstrings", "gluteus_maximus"],
+  "secondary_muscles": [],
+  "equipment": "hyperextension_bench",
+  "difficulty": "beginner",
+  "movement_pattern": "hip_extension",
+  "mechanics": "compound",
+  "setup": [
+    "Lie face down on hyperextension bench",
+    "Hips at top of pad, ankles under rollers",
+    "Hands across chest or behind head"
+  ],
+  "execution": [
+    "Lower upper body toward floor by bending at hips",
+    "Go until you feel hamstring stretch",
+    "Extend back up until body is straight (not hyperextended)"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Hyperextending lower back (going too far up)",
+    "Using momentum (fast jerks)",
+    "Rounding shoulders at bottom"
+  ],
+  "cues": [
+    "Hinge at the hips, not the spine",
+    "Squeeze glutes at top",
+    "Feel the hamstring stretch at bottom"
+  ],
+  "variations": [
+    "weighted_hyperextension",
+    "single_leg_hyperextension",
+    "45_degree_hyperextension"
+  ]
+}

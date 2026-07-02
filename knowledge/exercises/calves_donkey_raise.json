@@ -1,0 +1,11 @@
+{
+  "id": "calves_donkey_raise",
+  "name": "Donkey Calf Raise",
+  "category": "calves",
+  "primary_muscles": ["gastrocnemius"],
+  "secondary_muscles": ["soleus"],
+  "equipment": "machine",
+  "difficulty": "intermediate",
+  "movement_pattern": "ankle_plantarflexion",
+  "mechanics": "isolation"
+}

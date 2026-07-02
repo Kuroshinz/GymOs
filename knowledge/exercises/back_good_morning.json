@@ -1,0 +1,33 @@
+{
+  "id": "back_good_morning",
+  "name": "Barbell Good Morning",
+  "category": "back",
+  "primary_muscles": ["erector_spinae", "hamstrings"],
+  "secondary_muscles": ["gluteus_maximus", "core"],
+  "equipment": "barbell",
+  "difficulty": "advanced",
+  "movement_pattern": "hip_hinge",
+  "mechanics": "compound",
+  "setup": [
+    "Bar on upper back (same position as low-bar squat)",
+    "Stand feet hip-width, core braced",
+    "Slight knee bend"
+  ],
+  "execution": [
+    "Hinge at hips, pushing butt back",
+    "Keep back neutral, chest up",
+    "Lower torso until parallel to floor or hamstring stretch feels max",
+    "Reverse by driving hips forward, squeezing glutes at top"
+  ],
+  "tempo": "3-1-1",
+  "common_mistakes": [
+    "Rounding lower back",
+    "Too much knee bend (turning into squat)",
+    "Going too deep without hamstring flexibility"
+  ],
+  "cues": [
+    "Push hips back as if closing a car door with your butt",
+    "Keep chest proud, neck neutral",
+    "Feel the stretch in hamstrings, not lower back"
+  ]
+}

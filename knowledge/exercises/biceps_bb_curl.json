@@ -1,0 +1,37 @@
+{
+  "id": "biceps_bb_curl",
+  "name": "Barbell Bicep Curl",
+  "category": "biceps",
+  "primary_muscles": ["biceps_brachii"],
+  "secondary_muscles": ["brachialis", "forearms"],
+  "equipment": "barbell",
+  "difficulty": "beginner",
+  "movement_pattern": "elbow_flexion",
+  "mechanics": "isolation",
+  "setup": [
+    "Stand with bar at hip level, grip shoulder-width (underhand)",
+    "Elbows pinned to ribs, core braced"
+  ],
+  "execution": [
+    "Curl bar up to shoulders by flexing elbows",
+    "Squeeze biceps at top",
+    "Lower under control to full extension"
+  ],
+  "tempo": "2-1-3",
+  "common_mistakes": [
+    "Swinging body (momentum cheating)",
+    "Elbows moving forward (should stay pinned)",
+    "Partial reps (not going to full extension)"
+  ],
+  "cues": [
+    "Elbows stay glued to your sides",
+    "Squeeze pinkies at the top (supination)",
+    "Don't heave — control"
+  ],
+  "variations": [
+    "ez_bar_curl",
+    "dumbbell_curl",
+    "cable_curl"
+  ],
+  "alternatives": ["dumbbell_curl", "incline_curl"]
+}

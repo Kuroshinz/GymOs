@@ -1,0 +1,35 @@
+{
+  "id": "full_body_kettlebell_swing",
+  "name": "Kettlebell Swing",
+  "category": "full_body",
+  "primary_muscles": ["gluteus_maximus", "hamstrings", "core"],
+  "secondary_muscles": ["erector_spinae", "lats", "shoulders", "forearms"],
+  "equipment": "kettlebell",
+  "difficulty": "intermediate",
+  "movement_pattern": "hip_hinge",
+  "mechanics": "compound",
+  "setup": [
+    "Kettlebell on floor in front of you",
+    "Feet shoulder-width, slight bend in knees"
+  ],
+  "execution": [
+    "Hinge at hips, reach for kettlebell with two hands",
+    "Hike the bell back between your legs",
+    "Drive hips forward explosively, swinging bell to chest height",
+    "Let bell float, then hinge back and repeat"
+  ],
+  "tempo": "Explosive",
+  "common_mistakes": [
+    "Using arms to lift (should be hip drive)",
+    "Squatting the movement (should be hinge)",
+    "Bell going above chest height (loses glute tension)",
+    "Rounding lower back"
+  ],
+  "cues": [
+    "Power comes from the hips, not shoulders",
+    "Squeeze glutes at the top like you're stopping a car",
+    "Bell is just along for the ride",
+    "Crush a walnut with your glutes at the top"
+  ],
+  "variations": ["single_arm_swing", "double_kettlebell_swing", "american_swing"]
+}

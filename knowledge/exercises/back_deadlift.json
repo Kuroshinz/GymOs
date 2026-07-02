@@ -1,0 +1,53 @@
+{
+  "id": "back_deadlift",
+  "name": "Barbell Deadlift (Conventional)",
+  "category": "back",
+  "primary_muscles": ["erector_spinae", "gluteus_maximus", "hamstrings"],
+  "secondary_muscles": ["trapezius", "rhomboids", "forearms", "core", "quadriceps"],
+  "equipment": "barbell",
+  "difficulty": "advanced",
+  "movement_pattern": "hip_hinge",
+  "mechanics": "compound",
+  "setup": [
+    "Bar over mid-foot, ~1 inch from shins",
+    "Feet hip-width apart, toes slightly out",
+    "Bend at hips and knees, grip bar shoulder-width",
+    "Mixed grip or hook grip for heavy loads",
+    "Back neutral, chest up, lats engaged",
+    "Bar contacts shins at setup"
+  ],
+  "execution": [
+    "Take slack out of bar (pull bar slightly)",
+    "Drive through floor, pushing floor away",
+    "Bar stays in contact with legs throughout",
+    "Hips and shoulders rise together",
+    "Lock out at top: hips forward, glutes squeezed, shoulders back",
+    "Lower under control, hinging at hips first"
+  ],
+  "tempo": "1-1-2",
+  "common_mistakes": [
+    "Rounding lower back",
+    "Hips rising before shoulders (stiff-leg deadlift)",
+    "Bar drifting away from legs",
+    "Looking up (neck strain)",
+    "Bouncing bar off floor (no dead stop)"
+  ],
+  "cues": [
+    "Push the floor away",
+    "Bar over mid-foot, drag up shins",
+    "Neutral neck (pick a spot 12 ft ahead on floor)",
+    "Brace core like you're about to be punched"
+  ],
+  "variations": [
+    "sumo_deadlift",
+    "romanian_deadlift",
+    "trap_bar_deadlift",
+    "deficit_deadlift"
+  ],
+  "alternatives": ["trap_bar_deadlift", "rack_pull"],
+  "rep_ranges": {
+    "strength": "1-5",
+    "hypertrophy": "5-10",
+    "technique": "3-5"
+  }
+}

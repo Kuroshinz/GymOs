@@ -1,0 +1,24 @@
+{
+  "id": "full_body_clean_and_jerk",
+  "name": "Clean and Jerk",
+  "category": "full_body",
+  "primary_muscles": ["quadriceps", "gluteus_maximus", "shoulders", "triceps"],
+  "secondary_muscles": ["hamstrings", "calves", "core", "trapezius", "forearms"],
+  "equipment": "barbell",
+  "difficulty": "advanced",
+  "movement_pattern": "olympic_lift",
+  "mechanics": "compound",
+  "setup": [
+    "Clean grip (hook grip, shoulder-width)",
+    "Bar over mid-foot"
+  ],
+  "execution": [
+    "Clean: pull bar from floor, catch on front delts (squat clean)",
+    "Stand up from clean position",
+    "Dip: slight knee bend, then drive bar overhead",
+    "Split jerk: one foot forward, one back, bar locked overhead",
+    "Recover to standing with bar overhead"
+  ],
+  "tempo": "Explosive",
+  "cues": ["Clean + dip + drive + split", "Front knee stays back on jerk", "Lock bar out before moving feet"]
+}

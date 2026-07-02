@@ -1,0 +1,11 @@
+{
+  "id": "warmup_thread_the_needle",
+  "name": "Thread the Needle",
+  "category": "warmup_mobility",
+  "primary_muscles": ["thoracic_spine", "shoulders"],
+  "secondary_muscles": [],
+  "equipment": "bodyweight",
+  "difficulty": "beginner",
+  "movement_pattern": "spinal_rotation",
+  "mechanics": "mobility"
+}

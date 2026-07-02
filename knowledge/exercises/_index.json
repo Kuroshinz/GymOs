@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "description": "NEXUS Exercise Library — authoritative reference for all exercise data",
+  "total_exercises": 103,
+  "categories": {
+    "chest": { "file_prefix": "chest", "count": 10 },
+    "back": { "file_prefix": "back", "count": 12 },
+    "shoulders": { "file_prefix": "shoulders", "count": 10 },
+    "quads": { "file_prefix": "quads", "count": 10 },
+    "hamstrings_glutes": { "file_prefix": "hamstrings_glutes", "count": 10 },
+    "biceps": { "file_prefix": "biceps", "count": 6 },
+    "triceps": { "file_prefix": "triceps", "count": 6 },
+    "core": { "file_prefix": "core", "count": 10 },
+    "full_body": { "file_prefix": "full_body", "count": 8 },
+    "calves": { "file_prefix": "calves", "count": 4 },
+    "forearms": { "file_prefix": "forearms", "count": 4 },
+    "cardio": { "file_prefix": "cardio", "count": 6 },
+    "warmup_mobility": { "file_prefix": "warmup_mobility", "count": 8 }
+  }
+}

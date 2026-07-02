@@ -1,0 +1,36 @@
+{
+  "id": "chest_dips",
+  "name": "Chest Dips",
+  "category": "chest",
+  "primary_muscles": ["pectoralis_major_sternal", "triceps_brachii"],
+  "secondary_muscles": ["anterior_deltoid"],
+  "equipment": "parallel_bars",
+  "difficulty": "advanced",
+  "movement_pattern": "vertical_push",
+  "mechanics": "compound",
+  "setup": [
+    "Grip parallel bars, arms fully extended",
+    "Lean forward ~30 degrees (this targets chest over triceps)",
+    "Legs can be bent or straight, feet off the ground"
+  ],
+  "execution": [
+    "Lower body by bending elbows until upper arms parallel to floor",
+    "Elbows track back, not flared out",
+    "Push through palms to return to lockout",
+    "Don't bounce at the bottom"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Upright torso (targets triceps, not chest)",
+    "Going too deep (shoulder injury risk if not mobile)",
+    "Bouncing at bottom of rep",
+    "Partial reps at top"
+  ],
+  "cues": [
+    "Lean forward, look at your knees",
+    "Elbows back, not out",
+    "Feel the stretch in lower chest"
+  ],
+  "alternatives": ["chest_dip_machine", "band_assisted_dip"],
+  "weight_progression": "Add weight via dip belt"
+}

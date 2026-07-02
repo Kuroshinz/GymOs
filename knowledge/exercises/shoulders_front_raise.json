@@ -1,0 +1,36 @@
+{
+  "id": "shoulders_front_raise",
+  "name": "Dumbbell Front Raise",
+  "category": "shoulders",
+  "primary_muscles": ["anterior_deltoid"],
+  "secondary_muscles": ["medial_deltoid", "trapezius", "serratus_anterior"],
+  "equipment": "dumbbell",
+  "difficulty": "beginner",
+  "movement_pattern": "forward_flexion",
+  "mechanics": "isolation",
+  "setup": [
+    "Stand with dumbbells in front of thighs, palms facing thighs",
+    "Core braced, slight knee bend"
+  ],
+  "execution": [
+    "Raise dumbbells forward and up to shoulder height",
+    "Keep arms straight (slight elbow bend)",
+    "Pause at top, lower under control"
+  ],
+  "tempo": "2-1-3",
+  "common_mistakes": [
+    "Swinging body for momentum",
+    "Raising above shoulder height (unnecessary)",
+    "Bending elbows too much (turns into upright row)"
+  ],
+  "cues": [
+    "Hands at shoulder height, not above",
+    "Control the negative",
+    "Keep torso stable"
+  ],
+  "variations": [
+    "cable_front_raise",
+    "plate_front_raise",
+    "alternating_front_raise"
+  ]
+}

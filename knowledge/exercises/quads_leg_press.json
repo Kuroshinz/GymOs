@@ -1,0 +1,42 @@
+{
+  "id": "quads_leg_press",
+  "name": "Leg Press",
+  "category": "quads",
+  "primary_muscles": ["quadriceps", "gluteus_maximus"],
+  "secondary_muscles": ["hamstrings", "calves"],
+  "equipment": "machine",
+  "difficulty": "beginner",
+  "movement_pattern": "leg_press",
+  "mechanics": "compound",
+  "setup": [
+    "Sit on leg press machine, back flat against pad",
+    "Place feet shoulder-width on platform",
+    "Adjust seat so knees are at ~90 degrees at start"
+  ],
+  "execution": [
+    "Press platform away until legs extended (not locked)",
+    "Control weight back to start position",
+    "Don't let weight stack touch down between reps"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Locking knees at full extension",
+    "Lower back lifting off pad (butt tuck under)",
+    "Partial range of motion",
+    "Heels lifting off platform"
+  ],
+  "cues": [
+    "Push through entire foot, not just toes",
+    "Stop before lockout to keep tension on quads",
+    "Keep hips planted on the seat"
+  ],
+  "variations": [
+    "high_foot_leg_press",
+    "low_foot_leg_press",
+    "single_leg_leg_press"
+  ],
+  "advantages": [
+    "Can load heavily with minimal spinal stress",
+    "Great for quad hypertrophy"
+  ]
+}

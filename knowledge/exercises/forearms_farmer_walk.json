@@ -1,0 +1,21 @@
+{
+  "id": "forearms_farmer_walk",
+  "name": "Farmer's Walk",
+  "category": "forearms",
+  "primary_muscles": ["forearms", "trapezius"],
+  "secondary_muscles": ["core", "erector_spinae", "glutes"],
+  "equipment": "dumbbell",
+  "difficulty": "beginner",
+  "movement_pattern": "loaded_carry",
+  "mechanics": "compound",
+  "setup": [
+    "Pick up heavy dumbbells (or farmer's walk handles)",
+    "Stand tall, shoulders back, core braced"
+  ],
+  "execution": [
+    "Walk with controlled steps",
+    "Keep upright posture, don't lean",
+    "Walk for distance or time"
+  ],
+  "cues": ["Proud chest, active shoulders", "Grip the handle like you're crushing it"]
+}

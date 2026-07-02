@@ -1,0 +1,37 @@
+{
+  "id": "shoulders_shrug",
+  "name": "Dumbbell Shrug",
+  "category": "shoulders",
+  "primary_muscles": ["trapezius_upper"],
+  "secondary_muscles": ["levator_scapulae"],
+  "equipment": "dumbbell",
+  "difficulty": "beginner",
+  "movement_pattern": "scapular_elevation",
+  "mechanics": "isolation",
+  "setup": [
+    "Stand with dumbbells at sides, arms fully extended",
+    "Shoulders back, chest up"
+  ],
+  "execution": [
+    "Shrug shoulders straight up toward ears",
+    "Hold peak contraction for 1 second",
+    "Lower under control"
+  ],
+  "tempo": "1-1-2",
+  "common_mistakes": [
+    "Rolling shoulders (can cause impingement)",
+    "Using arms to pull weight (no — it's pure trap work)",
+    "Partial range of motion"
+  ],
+  "cues": [
+    "Think 'shoulders to ears'",
+    "Don't roll — just up and down",
+    "Heavy weight, controlled reps"
+  ],
+  "variations": [
+    "barbell_shrug",
+    "trap_bar_shrug",
+    "cable_shrug"
+  ],
+  "alternatives": ["barbell_shrug", "trap_bar_shrug"]
+}

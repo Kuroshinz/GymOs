@@ -1,0 +1,12 @@
+{
+  "id": "warmup_cat_cow",
+  "name": "Cat-Cow Stretch",
+  "category": "warmup_mobility",
+  "primary_muscles": ["erector_spinae", "core"],
+  "secondary_muscles": [],
+  "equipment": "bodyweight",
+  "difficulty": "beginner",
+  "movement_pattern": "spinal_mobility",
+  "mechanics": "mobility",
+  "purpose": "Spine warm-up and mobility"
+}

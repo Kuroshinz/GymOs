@@ -1,0 +1,50 @@
+{
+  "id": "quads_barbell_squat",
+  "name": "Barbell Back Squat (Low Bar)",
+  "category": "quads",
+  "primary_muscles": ["quadriceps", "gluteus_maximus"],
+  "secondary_muscles": ["hamstrings", "erector_spinae", "core", "calves"],
+  "equipment": "barbell",
+  "difficulty": "advanced",
+  "movement_pattern": "squat",
+  "mechanics": "compound",
+  "setup": [
+    "Bar across rear delts (not on neck)",
+    "Grip slightly wider than shoulder-width, wrists neutral",
+    "Unrack, step back, feet shoulder-width apart",
+    "Toes slightly out (15-30 degrees)",
+    "Core braced, chest up, elbows down"
+  ],
+  "execution": [
+    "Initiate by sitting back and down (hips + knees simultaneously)",
+    "Maintain upright chest, neutral spine",
+    "Descend until hip crease below knee (parallel or below)",
+    "Drive through mid-foot to stand up",
+    "Keep bar path over mid-foot throughout"
+  ],
+  "tempo": "2-1-1",
+  "common_mistakes": [
+    "Good morning the weight (hips rise faster than chest)",
+    "Knees caving inward (valgus collapse)",
+    "Heels coming off ground",
+    "Cutting depth (not hitting parallel)",
+    "Rounding lower back (butt wink)"
+  ],
+  "cues": [
+    "Spread the floor apart with your feet",
+    "Brace as if about to be punched",
+    "Break at hips and knees at the same time",
+    "Drive your back into the bar on the way up"
+  ],
+  "variations": [
+    "high_bar_squat",
+    "front_squat",
+    "safety_bar_squat"
+  ],
+  "alternatives": ["goblet_squat", "hack_squat", "leg_press"],
+  "rep_ranges": {
+    "strength": "1-5",
+    "hypertrophy": "6-15",
+    "endurance": "15-20"
+  }
+}

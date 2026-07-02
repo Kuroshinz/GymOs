@@ -1,0 +1,38 @@
+{
+  "id": "hamstrings_glute_bridge",
+  "name": "Barbell Glute Bridge",
+  "category": "hamstrings_glutes",
+  "primary_muscles": ["gluteus_maximus"],
+  "secondary_muscles": ["hamstrings", "core"],
+  "equipment": "barbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "hip_extension",
+  "mechanics": "compound",
+  "setup": [
+    "Sit on floor, barbell across hip crease (use pad if needed)",
+    "Roll bar into position, feet flat on floor",
+    "Knees bent ~90 degrees, feet hip-width"
+  ],
+  "execution": [
+    "Drive hips up toward ceiling, squeezing glutes at top",
+    "Body forms straight plank from shoulders to knees",
+    "Hold top contraction for 1-2 seconds",
+    "Lower under control"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Hyperextending lower back at top (should be glutes, not back)",
+    "Heels too close or too far from glutes",
+    "Dropping hips too fast"
+  ],
+  "cues": [
+    "Squeeze glutes as if holding a penny between them",
+    "Push through heels",
+    "Shoulders and feet stay planted"
+  ],
+  "variations": [
+    "hip_thrust",
+    "single_leg_glute_bridge",
+    "elevated_glute_bridge"
+  ]
+}

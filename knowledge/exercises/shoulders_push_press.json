@@ -1,0 +1,33 @@
+{
+  "id": "shoulders_push_press",
+  "name": "Push Press",
+  "category": "shoulders",
+  "primary_muscles": ["anterior_deltoid", "medial_deltoid"],
+  "secondary_muscles": ["triceps_brachii", "quadriceps", "trapezius", "core"],
+  "equipment": "barbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "vertical_push_with_dip",
+  "mechanics": "compound",
+  "setup": [
+    "Same setup as overhead press",
+    "Bar on front delts, core braced"
+  ],
+  "execution": [
+    "Slight dip (quarter squat) — ~15-20 degrees knee bend",
+    "Drive up explosively from the dip",
+    "Press bar overhead using leg drive momentum",
+    "Lock out directly over shoulders"
+  ],
+  "tempo": "Explosive",
+  "common_mistakes": [
+    "Too deep of a dip (turn into squat + press)",
+    "Bar drifting forward during press",
+    "Not transferring leg drive through the bar"
+  ],
+  "cues": [
+    "Dip low enough that it helps, not so low it hurts",
+    "Drive through the whole foot",
+    "Bar path goes slightly back, then up"
+  ],
+  "uses": ["Overload strict press", "Olympic lifting derivative", "Power development"]
+}

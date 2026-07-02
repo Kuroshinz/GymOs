@@ -1,0 +1,11 @@
+{
+  "id": "cardio_treadmill",
+  "name": "Treadmill (Walk/Run)",
+  "category": "cardio",
+  "primary_muscles": ["cardiovascular"],
+  "secondary_muscles": ["quadriceps", "calves", "hamstrings"],
+  "equipment": "treadmill",
+  "difficulty": "beginner",
+  "movement_pattern": "cardio",
+  "mechanics": "compound"
+}

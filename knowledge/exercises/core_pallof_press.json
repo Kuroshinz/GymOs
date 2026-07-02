@@ -1,0 +1,37 @@
+{
+  "id": "core_pallof_press",
+  "name": "Pallof Press",
+  "category": "core",
+  "primary_muscles": ["obliques", "transversus_abdominis"],
+  "secondary_muscles": ["rectus_abdominis"],
+  "equipment": "cable",
+  "difficulty": "beginner",
+  "movement_pattern": "anti_rotation",
+  "mechanics": "isometric",
+  "setup": [
+    "Set cable pulley to chest height",
+    "Stand sideways to the cable, feet shoulder-width",
+    "Grip handle with both hands at chest"
+  ],
+  "execution": [
+    "Press hands straight out in front of chest",
+    "Fight rotation — don't let cable pull you",
+    "Hold extended position for 1-2 seconds",
+    "Bring hands back to chest"
+  ],
+  "tempo": "2-1-3",
+  "common_mistakes": [
+    "Letting body rotate (failure of anti-rotation)",
+    "Leaning away from cable",
+    "Bending elbows more than necessary"
+  ],
+  "cues": [
+    "Don't let the cable pull you — YOU control it",
+    "Squeeze the glute on the cable side extra hard"
+  ],
+  "advantages": [
+    "Excellent anti-rotation core strength",
+    "Low spine load",
+    "Shoulder-safe"
+  ]
+}

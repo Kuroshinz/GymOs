@@ -1,0 +1,37 @@
+{
+  "id": "quads_hack_squat",
+  "name": "Hack Squat Machine",
+  "category": "quads",
+  "primary_muscles": ["quadriceps"],
+  "secondary_muscles": ["gluteus_maximus", "hamstrings"],
+  "equipment": "machine",
+  "difficulty": "intermediate",
+  "movement_pattern": "squat",
+  "mechanics": "compound",
+  "setup": [
+    "Stand on platform with shoulders under pads",
+    "Feet shoulder-width, shoulders on pads",
+    "Release safety handles"
+  ],
+  "execution": [
+    "Squat down until thighs parallel (or below)",
+    "Drive through heels to extend legs",
+    "Don't lock knees at top"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Going too deep (butt tucks under — lower back strain)",
+    "Heels lifting off platform",
+    "Knees caving inward"
+  ],
+  "cues": [
+    "Push through heels",
+    "Knees track toes",
+    "Keep hips on pad"
+  ],
+  "advantages": [
+    "Quad-dominant (less glute involvement)",
+    "Fixed path is safe",
+    "Great for quad hypertrophy"
+  ]
+}

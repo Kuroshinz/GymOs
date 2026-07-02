@@ -1,0 +1,34 @@
+{
+  "id": "back_t_bar_row",
+  "name": "T-Bar Row",
+  "category": "back",
+  "primary_muscles": ["latissimus_dorsi", "rhomboids", "trapezius_middle"],
+  "secondary_muscles": ["biceps_brachii", "posterior_deltoid", "erector_spinae"],
+  "equipment": "barbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "horizontal_pull",
+  "mechanics": "compound",
+  "setup": [
+    "Place one end of barbell in landmine anchor or corner",
+    "Load weight on other end",
+    "Straddle bar, hinge at hips to ~45 degrees",
+    "Grip the bar near the weight (V-grip attachment ideal)"
+  ],
+  "execution": [
+    "Pull weight to lower sternum",
+    "Drive elbows back, squeeze mid-back",
+    "Lower under control, feel the stretch"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Rounding back at bottom",
+    "Using momentum and body English",
+    "Pulling too high (to upper chest)"
+  ],
+  "cues": [
+    "Chest up, back flat",
+    "Pull to your belt buckle",
+    "Elbows tight to body"
+  ],
+  "advantages": ["Fixed bar path is back-friendly", "Easy to load heavy"]
+}

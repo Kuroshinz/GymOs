@@ -1,0 +1,44 @@
+{
+  "id": "back_barbell_row",
+  "name": "Barbell Bent-Over Row",
+  "category": "back",
+  "primary_muscles": ["latissimus_dorsi", "rhomboids", "trapezius_middle"],
+  "secondary_muscles": ["biceps_brachii", "posterior_deltoid", "erector_spinae"],
+  "equipment": "barbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "horizontal_pull",
+  "mechanics": "compound",
+  "setup": [
+    "Grip bar slightly wider than shoulder-width (overhand or underhand)",
+    "Hinge at hips until torso ~45 degrees to floor",
+    "Bar hangs at knee cap level, arms extended",
+    "Back neutral, knees slightly bent",
+    "Stance hip-width"
+  ],
+  "execution": [
+    "Pull bar to lower sternum / upper abdomen",
+    "Drive elbows back, squeeze shoulder blades",
+    "Lower under control to full arm extension",
+    "Keep torso angle fixed throughout (no jerking)"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Torso rising with the weight (turning into upright row)",
+    "Using biceps instead of back (elbows too forward)",
+    "Rounded back throughout movement",
+    "Pulling bar too high (to neck instead of sternum)"
+  ],
+  "cues": [
+    "Pull the bar to your sternum, not your chin",
+    "Drag the bar up your thighs",
+    "Elbows back and in",
+    "Squeeze a pencil between your shoulder blades"
+  ],
+  "variations": [
+    "pendlay_row",
+    "seal_row",
+    "t_bar_row",
+    "underhand_barbell_row"
+  ],
+  "alternatives": ["t_bar_row", "seal_row", "chest_supported_row"]
+}

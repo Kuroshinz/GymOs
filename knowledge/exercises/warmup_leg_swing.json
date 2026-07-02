@@ -1,0 +1,11 @@
+{
+  "id": "warmup_leg_swing",
+  "name": "Leg Swings (Walking)",
+  "category": "warmup_mobility",
+  "primary_muscles": ["hamstrings", "hip_flexors"],
+  "secondary_muscles": [],
+  "equipment": "bodyweight",
+  "difficulty": "beginner",
+  "movement_pattern": "dynamic_mobility",
+  "mechanics": "mobility"
+}

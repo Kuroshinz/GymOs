@@ -1,0 +1,20 @@
+{
+  "description": "Estimated 1RM calculation from rep maxes using Epley formula",
+  "formula": "estimated_1rm = weight * (1 + reps / 30)",
+  "notes": "Most accurate for reps <= 10. Beyond 10, formula overestimates. For rep maxes >10, use the Brzycki formula instead.",
+  "brzycki_formula": "estimated_1rm = weight * (36 / (37 - reps))",
+  "common_multiples": [
+    { "reps": 1, "percentage_1rm": 100 },
+    { "reps": 2, "percentage_1rm": 95 },
+    { "reps": 3, "percentage_1rm": 90 },
+    { "reps": 4, "percentage_1rm": 88 },
+    { "reps": 5, "percentage_1rm": 85 },
+    { "reps": 6, "percentage_1rm": 83 },
+    { "reps": 7, "percentage_1rm": 80 },
+    { "reps": 8, "percentage_1rm": 78 },
+    { "reps": 9, "percentage_1rm": 75 },
+    { "reps": 10, "percentage_1rm": 73 },
+    { "reps": 12, "percentage_1rm": 67 },
+    { "reps": 15, "percentage_1rm": 60 }
+  ]
+}

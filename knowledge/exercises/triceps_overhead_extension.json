@@ -1,0 +1,38 @@
+{
+  "id": "triceps_overhead_extension",
+  "name": "Overhead Triceps Extension",
+  "category": "triceps",
+  "primary_muscles": ["triceps_brachii_long_head"],
+  "secondary_muscles": ["triceps_lateral_head", "triceps_medial_head"],
+  "equipment": "dumbbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "elbow_extension",
+  "mechanics": "isolation",
+  "setup": [
+    "Sit on bench or stand, holding dumbbell overhead with both hands",
+    "Hands cupping the inner plate of dumbbell"
+  ],
+  "execution": [
+    "Lower dumbbell behind head by bending elbows",
+    "Elbows point to ceiling, upper arms stay vertical",
+    "Extend back overhead by contracting triceps"
+  ],
+  "tempo": "3-1-2",
+  "common_mistakes": [
+    "Elbows flaring outward",
+    "Using momentum (rocking body)",
+    "Not getting full stretch at bottom"
+  ],
+  "cues": [
+    "Elbows pointed at the ceiling — don't let them drift",
+    "Feel the stretch in the long head at the bottom"
+  ],
+  "variations": [
+    "cable_overhead_extension",
+    "single_arm_overhead_extension",
+    "ez_bar_overhead_extension"
+  ],
+  "advantages": [
+    "Hits triceps long head (unique growth stimulus)"
+  ]
+}

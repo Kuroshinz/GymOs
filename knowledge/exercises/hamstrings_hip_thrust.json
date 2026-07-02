@@ -1,0 +1,43 @@
+{
+  "id": "hamstrings_hip_thrust",
+  "name": "Barbell Hip Thrust",
+  "category": "hamstrings_glutes",
+  "primary_muscles": ["gluteus_maximus"],
+  "secondary_muscles": ["hamstrings", "core", "adductors"],
+  "equipment": "barbell",
+  "difficulty": "intermediate",
+  "movement_pattern": "hip_extension",
+  "mechanics": "compound",
+  "setup": [
+    "Bench behind you, shoulder blades resting on bench edge",
+    "Barbell across hip crease (use pad)",
+    "Feet flat on floor, shins vertical at top position",
+    "Barbell held in place with hands"
+  ],
+  "execution": [
+    "Drive hips up until thighs parallel to floor (or slight hyperextension)",
+    "Squeeze glutes hard at top, hold 1 second",
+    "Lower under control — don't drop hips"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Not going to parallel at top (partial ROM)",
+    "Using lower back instead of glutes (hyperextension)",
+    "Feet too far out (hamstring takeover)"
+  ],
+  "cues": [
+    "Proud chest, neutral neck",
+    "Push through heels",
+    "At the top: glutes, not lower back"
+  ],
+  "variations": [
+    "single_leg_hip_thrust",
+    "banded_hip_thrust",
+    "elevated_foot_hip_thrust"
+  ],
+  "advantages": [
+    "Best glute activation (EMG studies)",
+    "Great for glute hypertrophy",
+    "Low back-friendly"
+  ]
+}

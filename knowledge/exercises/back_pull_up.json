@@ -1,0 +1,43 @@
+{
+  "id": "back_pull_up",
+  "name": "Pull-Up",
+  "category": "back",
+  "primary_muscles": ["latissimus_dorsi", "trapezius", "biceps_brachii"],
+  "secondary_muscles": ["rhomboids", "posterior_deltoid", "core"],
+  "equipment": "pull_up_bar",
+  "difficulty": "advanced",
+  "movement_pattern": "vertical_pull",
+  "mechanics": "compound",
+  "setup": [
+    "Grip bar wider than shoulder-width (palms facing away)",
+    "Hang with arms fully extended, legs crossed behind",
+    "Scapulae retracted and depressed (active hang)"
+  ],
+  "execution": [
+    "Initiate by pulling shoulders down and back",
+    "Pull until chin clears the bar",
+    "Elbows drive down toward hips",
+    "Lower under control to full hang"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Kipping / using momentum",
+    "Partial range of motion (not going to full hang)",
+    "Chin not clearing the bar",
+    "Looking up (juts chin over bar — can strain neck)"
+  ],
+  "cues": [
+    "Pull the bar to your sternum",
+    "Drive elbows back, not down",
+    "Lead with your chest to the bar",
+    "Squeeze glutes and brace core"
+  ],
+  "variations": [
+    "wide_grip_pull_up",
+    "neutral_grip_pull_up",
+    "weighted_pull_up",
+    "muscle_up"
+  ],
+  "progression": "Negative → Band Assisted → Strict → Weighted",
+  "alternatives": ["lat_pulldown", "assisted_pull_up_machine"]
+}

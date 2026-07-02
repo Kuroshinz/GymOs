@@ -1,0 +1,11 @@
+{
+  "id": "forearms_reverse_curl",
+  "name": "Barbell Reverse Wrist Curl",
+  "category": "forearms",
+  "primary_muscles": ["forearm_extensors"],
+  "secondary_muscles": [],
+  "equipment": "barbell",
+  "difficulty": "beginner",
+  "movement_pattern": "wrist_extension",
+  "mechanics": "isolation"
+}

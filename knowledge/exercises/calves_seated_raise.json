@@ -1,0 +1,21 @@
+{
+  "id": "calves_seated_raise",
+  "name": "Seated Calf Raise",
+  "category": "calves",
+  "primary_muscles": ["soleus"],
+  "secondary_muscles": ["gastrocnemius"],
+  "equipment": "machine",
+  "difficulty": "beginner",
+  "movement_pattern": "ankle_plantarflexion",
+  "mechanics": "isolation",
+  "setup": [
+    "Sit on machine, knees under pads",
+    "Balls of feet on platform, heels free"
+  ],
+  "execution": [
+    "Lower heels for full stretch",
+    "Raise up onto toes, squeezing calves"
+  ],
+  "tempo": "2-1-3",
+  "cues": ["Bent knees isolate soleus", "Full stretch at bottom, full contraction at top"]
+}

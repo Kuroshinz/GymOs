@@ -1,0 +1,35 @@
+{
+  "id": "back_chest_supported_row",
+  "name": "Chest-Supported Row (Machine or Incline)",
+  "category": "back",
+  "primary_muscles": ["latissimus_dorsi", "rhomboids", "trapezius_middle"],
+  "secondary_muscles": ["biceps_brachii", "posterior_deltoid"],
+  "equipment": "machine",
+  "difficulty": "beginner",
+  "movement_pattern": "horizontal_pull",
+  "mechanics": "compound",
+  "setup": [
+    "Sit in row machine with chest against pad",
+    "Grip handles (neutral or wide)",
+    "Chest firmly on pad, back neutral"
+  ],
+  "execution": [
+    "Pull handles back, squeezing shoulder blades",
+    "Hold peak contraction briefly",
+    "Control to full arm extension"
+  ],
+  "tempo": "2-1-2",
+  "common_mistakes": [
+    "Pulling handles too low",
+    "Lifting chest off pad"
+  ],
+  "cues": [
+    "Drive elbows back, not down",
+    "Chest stays on pad throughout"
+  ],
+  "advantages": [
+    "Removes lower back fatigue (great for high volume)",
+    "Can train to failure safely",
+    "Excellent for targeting mid-back"
+  ]
+}
