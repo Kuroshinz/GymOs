@@ -1,0 +1,50 @@
+# Database
+database/*.db
+database/*.db-journal
+database/*.db-wal
+database/*.db-shm
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Exports (keep folder, ignore contents)
+exports/*
+!exports/.gitkeep
+
+# Reports
+reports/*
+!reports/.gitkeep
+
+# Backup
+backup/*
+!backup/.gitkeep
+
+# Images (user uploaded)
+images/*
+!images/.gitkeep
+
+# Environment
+.env
+.venv/
+venv/
+
+# Test files
+test_*.py
