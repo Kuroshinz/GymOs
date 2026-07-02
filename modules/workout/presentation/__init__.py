@@ -1,4 +1,4 @@
-from src.Workout.application import WorkoutService
+from modules.workout.application import WorkoutService
 
 
 class WorkoutController:

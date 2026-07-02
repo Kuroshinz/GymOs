@@ -1,7 +1,7 @@
 from typing import Optional
 
 from core.event_bus import EventBus
-from src.Nutrition.domain import NutritionDay, Meal
+from modules.nutrition.domain import NutritionDay, Meal
 
 
 class NutritionService:

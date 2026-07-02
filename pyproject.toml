@@ -20,7 +20,7 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 
 [tool.coverage.run]
-source = ["core", "nexus", "sdk", "plugins"]
+source = ["core", "modules", "nexus", "sdk", "plugins"]
 
 [build-system]
 requires = ["setuptools>=68.0"]

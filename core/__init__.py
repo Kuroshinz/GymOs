@@ -10,6 +10,7 @@ from core.plugin import Plugin, PluginManifest, PluginManager
 from core.command import CommandBus
 from core.settings import SettingsManager
 from core.di import Container, ServiceLifetime, Disposable
+from core.database import Database
 
 __all__ = [
     "Config",
@@ -29,4 +30,5 @@ __all__ = [
     "Container",
     "ServiceLifetime",
     "Disposable",
+    "Database",
 ]

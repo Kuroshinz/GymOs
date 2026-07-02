@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional
 
 from core.event_bus import EventBus
-from src.Workout.domain import Workout
+from modules.workout.domain import Workout
 
 
 class WorkoutService:

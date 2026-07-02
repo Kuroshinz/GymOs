@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from src.Workout.domain import Workout
+from modules.workout.domain import Workout
 
 
 class WorkoutRepository(ABC):
