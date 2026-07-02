@@ -1,53 +1,54 @@
-# NEXUS — Project Vision
+# GymOS — Project Vision
 
 ## Elevator Pitch
 
-NEXUS is an Intelligent Personal Performance Operating System.
-It is not a workout tracker. Workout tracking is only the first module.
+GymOS is a personal hypertrophy operating system. It exists for one purpose:  
+**Help the owner build the best aesthetic physique possible using data-driven training.**
 
 ## Core Identity
 
-NEXUS is the single platform that manages and optimises every dimension of
-human performance:
+GymOS is NOT a generic workout tracker, calorie counter, or social fitness app.  
+It is a single-user intelligence layer over:
 
-- Training
-- Nutrition
-- Recovery
-- Health
-- Learning
-- Productivity
-- Automation
+- **Training** — optimised PPL-UL programming with double progression
+- **Nutrition** — lean bulk macronutrient tracking
+- **Recovery** — sleep, fatigue, deload management
+- **Consistency** — streak tracking, habit formation
+- **Progressive Overload** — systematic weight/reps/volume increases
 
 ## Design Philosophy
 
-Every feature must be designed with future expansion in mind. The workout module
-must be architected so that nutrition, recovery, AI coaching, and beyond can
-plug in without refactoring.
+1. **One user, perfectly served.** Every feature is evaluated against one criterion: "Does this help the user build muscle?"
+2. **Data-driven, not hype-driven.** Training decisions are based on the user's own history, not generic programs.
+3. **Minimalist.** Features that don't directly improve Training, Nutrition, Recovery, Consistency, or Progressive Overload are rejected.
+4. **Offline-first.** The gym has no internet. The app must work flawlessly without connectivity.
+5. **Knowledge-powered.** All domain knowledge (exercises, progression rules, nutrition science) lives in `knowledge/` and drives AI recommendations.
 
 ## Long-Term Vision
 
 ```
-Phase 1     Phase 2          Phase 3              Phase 4
-Workout  →  AI Coach      →  Automation        →  Marketplace
-Dashboard   Weekly Report    Cronometer Sync      Plugin Ecosystem
-Progress    Recovery         Wearables            SDK Public
-Nutrition   Analytics        Vision AI            Open Source
-            Predictions      Voice Assistant
+Phase 1         Phase 2          Phase 3              Phase 4
+Workout Tracker → AI Coach      → Predictive        → Full Autopilot
+MVP Desktop      Weekly Report    Analytics            Self-tuning program
+Progress Charts  Recovery         Deload Advisor       that adapts weekly
+Nutrition Import Fatigue Tracking Nutrition AI         based on user data
 ```
 
-## What NEXUS is NOT
+## What GymOS is NOT
 
-- NOT a simple workout logger
-- NOT a calorie counter
 - NOT a social fitness app
+- NOT a powerlifting tracker (hypertrophy-first)
+- NOT a calorie counter (Cronometer handles that)
+- NOT a multi-user platform
 - NOT a wearable vendor lock-in
+- NOT a marketplace or plugin ecosystem
 
 ## Success Metrics
 
-| Metric | Target |
-|--------|--------|
-| Daily active users | >10,000 |
-| Workout completion rate | >85% |
-| Nutrition logging consistency | >70% |
-| User 90-day retention | >60% |
-| AI Coach recommendation acceptance | >40% |
+| Metric | Target | How to Measure |
+|--------|--------|----------------|
+| Weight gain | 63.4 kg → 72–75 kg | Weekly weigh-in trend |
+| Strength progression | Linear progress on main lifts | Volume/1RM trend charts |
+| Workout consistency | 5–6 sessions/week, no missed weeks | Streak tracking |
+| Nutrition compliance | Daily protein ≥ 140g, calories ≥ 2800 | Cronometer import review |
+| Body composition | Visible muscle gain, minimal fat gain | Progress photos, measurements |

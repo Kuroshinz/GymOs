@@ -1,9 +1,8 @@
-# NEXUS Roadmap
+# GymOS Roadmap
 
 ## Phase 0: Foundation (v0.1) ✅
 
 - [x] Core architecture (EventBus v2, DI Container, lifecycle)
-- [x] Plugin SDK contracts
 - [x] Design System with tokens
 - [x] CI/CD pipeline
 - [x] Test infrastructure (21+ tests)
@@ -47,33 +46,28 @@
 ## Phase 2: AI & Coaching (v0.2)
 
 - [ ] AI Coach: personalised recommendations
-- [ ] Weekly report (email/in-app)
-- [ ] Recovery module (sleep, HRV, readiness)
-- [ ] Prediction Engine: performance forecasting
+- [ ] Weekly report (in-app summary)
+- [ ] Recovery module (sleep, fatigue, readiness)
 - [ ] Deload scheduling
 - [ ] Exercise form tips from knowledge/
+- [ ] Prediction Engine: performance forecasting
 
 ## Phase 3: Integrations (v0.3)
 
 - [ ] Live Cronometer sync (API)
 - [ ] Hevy workout sync
 - [ ] Enhanced progress analytics
-- [ ] Workout templates sharing
 - [ ] Data import/export (JSON, CSV)
 
-## Phase 4: Advanced AI (v0.4)
+## Phase 4: Advanced (v0.4)
 
-- [ ] Computer vision: form analysis
-- [ ] Wearable integration (Apple Watch, Garmin)
-- [ ] Natural language workout queries
-- [ ] Voice control
+- [ ] Wearable integration (HRV, sleep tracking)
 - [ ] Adaptive programming (auto-adjust based on recovery)
+- [ ] Progress photos with measurement tracking
+- [ ] Natural language queries
 
-## Phase 5: Platform (v0.5+)
+## Phase 5: Polish (v0.5+)
 
-- [ ] Plugin SDK public release
-- [ ] Plugin marketplace
-- [ ] Mobile companion app
-- [ ] Cloud sync (optional)
-- [ ] Multi-user / coach features
-- [ ] Web dashboard
+- [ ] Advanced report generation
+- [ ] Workout templates
+- [ ] Enhanced AI Coach with full context awareness

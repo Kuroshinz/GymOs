@@ -1,35 +1,35 @@
 # Meal Timing Guidelines
 
-## Pre-Workout (1–3 hours before)
+## Role
 
-- **Carbs**: 30–60g (low GI for sustained energy)
-- **Protein**: 15–30g
-- **Fat**: Low (<10g) — slows digestion
-- **Hydration**: 500ml water
+- Optimise nutrient delivery around training
+- Spread protein intake for maximal muscle protein synthesis
+- Ensure energy availability for performance
 
-Examples:
-- Oats + whey protein + banana
-- Rice + chicken breast
-- Toast + peanut butter + honey
+## Current User Schedule
 
-## Intra-Workout (during session)
+Flexible — works around full-time job. Preferred windows:
 
-- **Under 60 min**: Water only (or BCAA if fasted)
-- **60–90 min**: 30–60g carbs (Gatorade, dextrose)
-- **90+ min**: 30–60g carbs/hour + electrolytes
+| Meal | Typical Time | Contents | Purpose |
+|------|-------------|----------|---------|
+| Breakfast | Wake-up (6-8am) | Protein + carbs (30g P, 40-60g C) | Break fast, fuel morning |
+| Lunch | 12-1pm | Protein + carbs + vegetables (40g P, 60-80g C) | Midday refuel |
+| Pre-workout | 1-2 hours before session | 20-30g P, 40-60g C (fast-digesting) | Training fuel |
+| Post-workout | Within 2 hours of session | 30-40g P, 40-60g C | Recovery |
+| Dinner | 6-8pm | Protein + carbs + vegetables (40g P, 60-80g C) | Evening meal |
+| Before bed | Optional | 20-30g casein protein | Overnight recovery |
 
-## Post-Workout (within 2 hours)
+## Key Points
 
-- **Protein**: 20–40g (whey fast, casein slow)
-- **Carbs**: 30–80g (depends on glycogen depletion)
-- **Timing window**: Less critical if pre-workout meal was adequate
+- Total daily intake > timing — don't stress if schedule shifts
+- Protein should be spread across 4-5 meals (30-40g each)
+- Pre-workout meal 1-2 hours before training (digestion time varies)
+- Post-workout window is flexible (2 hours is generous)
+- If training fasted (morning): BCAAs optional, but pre-workout meal preferred
+- Consistency beats optimisation — whatever schedule you can stick to
 
-Examples:
-- Whey shake + banana + rice cakes
-- Chicken + rice + vegetables
-- Greek yogurt + honey + berries
+## References
 
-## Before Bed
-
-- **Casein**: 30–40g (Greek yogurt, cottage cheese, casein shake)
-- **Slow-digesting**: Provides amino acids during sleep
+- Schoenfeld et al. (2013) — nutrient timing meta-analysis
+- Aragon & Schoenfeld (2013) — nutrient timing revisited
+- Jäger et al. (2017) — position stand on protein timing

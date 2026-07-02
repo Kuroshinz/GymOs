@@ -1,4 +1,4 @@
-# NEXUS — AI Engine Architecture
+# GymOS — AI Engine Architecture
 
 ## Overview
 

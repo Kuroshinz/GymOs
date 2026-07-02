@@ -196,3 +196,87 @@ Consequences:
 + Audit trail for fitness knowledge
 - Must keep knowledge/ in sync with code
 - File management overhead at scale
+
+---
+
+## ADR-008: Single-User Focus (Rebrand to GymOS)
+
+Status: Accepted
+
+Context:
+The original NEXUS vision targeted a broad "Personal Performance OS" with
+multi-user, marketplace, plugin ecosystem, and general wellness features.
+This generic scope added complexity without serving the user's actual goal.
+
+Decision:
+Rebrand to GymOS. Narrow the focus to ONE user's hypertrophy goal.
+Remove all multi-user, social, marketplace, and platform features from scope.
+
+Rationale:
+- Every feature that doesn't serve the single user's goal is wasted effort
+- Single-user design dramatically simplifies architecture (no auth, no sharing)
+- Focused scope delivers working product faster
+- The user's actual need is hypertrophy training, not a generic OS
+
+Consequences:
++ Massively simplified product scope
++ All features directly serve the user's goal
++ Faster MVP delivery
+- Renaming effort (code, docs, config)
+- Must reject feature requests outside scope
+
+---
+
+## ADR-009: Double Progression as Primary Hypertrophy Method
+
+Status: Accepted
+
+Context:
+GymOS is optimised for hypertrophy (not powerlifting). Need a progression
+method that maximises volume accumulation, is sustainable long-term, and
+provides clear weekly progress signals.
+
+Decision:
+Double Progression (reps first, weight second) is the primary progression
+method for all hypertrophy training.
+
+Rationale:
+- Higher volume accumulation than 5x5 / linear progression
+- Clear, measurable progress every session (more reps)
+- Built-in deload mechanism (weight jumps naturally reduce reps)
+- Better hypertrophy stimulus from higher rep ranges
+- The user can see progress even when weight hasn't increased
+
+Consequences:
++ Every session has a clear goal (beat last session's reps)
++ Sustainable for 6+ months without linear progression burnout
++ Naturally fits 8-12 and 10-15 rep ranges
+- Must educate the user on the method
+- Requires consistent tracking (which GymOS provides)
+
+---
+
+## ADR-010: Prioritised Muscle Focus in Programming
+
+Status: Accepted
+
+Context:
+GymOS must reflect the user's specific aesthetic goals, not generic
+programming advice. The user prioritises shoulders, upper chest, back
+width, and arms.
+
+Decision:
+All workout planning and exercise selection must prioritise:
+1. Side + Rear Delts (lateral raises, face pulls)
+2. Upper Chest (incline press, low-to-high fly)
+3. Back Width (lat pulldowns, pull-ups, wide rows)
+4. Arms (curls, extensions, hammer curls)
+
+Lower body volume is maintained for proportion but not prioritised.
+
+Consequences:
++ Program is personalised to the user's aesthetic goals
++ Volume distribution reflects priorities
++ Exercise suggestions bias toward focus muscles
+- Must document the priority system clearly
+- Lower body may progress slower (acceptable trade-off)

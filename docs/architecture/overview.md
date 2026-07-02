@@ -1,4 +1,4 @@
-# NEXUS Architecture Overview
+# GymOS Architecture Overview
 
 ## System Design
 

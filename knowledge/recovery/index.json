@@ -1,11 +1,14 @@
 {
   "version": "1.0.0",
-  "description": "NEXUS Recovery Knowledge Base — protocols for optimal recovery between training sessions",
+  "description": "GymOS Recovery Knowledge Base — protocols for optimal recovery between hypertrophy training sessions",
   "files": {
-    "sleep": "Sleep optimization for recovery",
+    "sleep": "Sleep optimization for muscle recovery and growth",
     "hrv": "Heart Rate Variability tracking and interpretation",
     "active_recovery": "Active recovery strategies",
-    "stretching": "Stretching protocols",
-    "stress_management": "Stress and cortisol management"
+    "stretching": "Stretching protocols for recovery",
+    "stress": "Stress management and cortisol control",
+    "fatigue": "Fatigue types, sources, and management strategies",
+    "doms": "DOMS — causes, management, and when to train",
+    "recovery_score": "Composite recovery readiness metric"
   }
 }

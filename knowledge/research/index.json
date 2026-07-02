@@ -1,12 +1,17 @@
 {
   "version": "1.0.0",
-  "description": "NEXUS Research References — curated scientific literature supporting domain knowledge",
+  "description": "GymOS Research References — curated scientific literature supporting domain knowledge and AI coaching recommendations",
   "categories": [
-    { "topic": "hypertrophy_mechanisms", "description": "Muscle growth mechanisms and training variables" },
+    { "topic": "hypertrophy", "description": "Muscle growth mechanisms and training variables — comprehensive overview" },
+    { "topic": "volume", "description": "Dose-response relationship between training volume and hypertrophy" },
+    { "topic": "frequency", "description": "Training frequency effects on muscle growth" },
+    { "topic": "range_of_motion", "description": "Full vs partial range of motion for hypertrophy" },
+    { "topic": "progressive_overload", "description": "Progressive overload methods and evidence" },
+    { "topic": "exercise_selection", "description": "Exercise selection principles for hypertrophy" },
+    { "topic": "recovery", "description": "Recovery science: sleep, stress, and muscle repair" },
+    { "topic": "nutrition", "description": "Nutrition for hypertrophy: calories, protein, timing, supplements" },
+    { "topic": "hypertrophy_mechanisms", "description": "Original: Muscle growth mechanisms and training variables" },
     { "topic": "strength_periodization", "description": "Periodization models and strength development" },
-    { "topic": "nutrition_protein", "description": "Protein requirements for muscle gain" },
-    { "topic": "recovery_sleep", "description": "Sleep and athletic recovery" },
-    { "topic": "progression_overload", "description": "Progressive overload methods" },
-    { "topic": "exercise_selection", "description": "Exercise selection and program design" }
+    { "topic": "nutrition_protein", "description": "Protein requirements for muscle gain" }
   ]
 }

@@ -1,18 +1,23 @@
 {
   "version": "1.0.0",
-  "description": "NEXUS Progression System — authoritative rules for load and volume progression",
+  "description": "GymOS Progression System — authoritative rules for hypertrophy-focused load and volume progression",
   "methods": {
-    "double_progression": "Increase reps first, then weight",
-    "linear_progression": "Add weight each session",
-    "double_linear": "Add weight each session for compounds, double progression for accessories",
-    "periodization_linear": "Weekly increases with deload cycles",
-    "rm_based": "Percentage-based based on estimated 1RM",
-    "rpe_based": "Rate of Perceived Exertion guided"
+    "double_progression": "PRIMARY method — increase reps first, then weight",
+    "linear_progression": "Add weight each session (short-term or post-deload)",
+    "rpe_based": "Rate of Perceived Exertion guided auto-regulation",
+    "rir_based": "Reps in Reserve method for proximity to failure",
+    "volume_based": "Add sets before adding weight",
+    "rm_based": "Percentage-based based on estimated 1RM"
   },
   "files": {
-    "double_progression": "Double progression method — the NEXUS default",
+    "double_progression": "Double progression method — the GymOS default for hypertrophy",
+    "linear_progression": "Linear progression — short-term use cases",
+    "volume": "Volume landmarks and progression rules",
+    "rir": "Reps in Reserve — proximity to failure guide",
+    "rpe": "RPE to reps in reserve conversion",
+    "failure": "Training to failure guidelines and risks",
     "deload": "Deload rules and scheduling",
-    "rpe_chart": "RPE to reps in reserve conversion",
-    "rm_estimator": "Rep max estimation formulas"
+    "rm_estimator": "Rep max estimation formulas",
+    "rpe_chart": "RPE to reps in reserve conversion chart"
   }
 }

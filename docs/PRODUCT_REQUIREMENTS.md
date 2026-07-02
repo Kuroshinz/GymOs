@@ -1,147 +1,172 @@
-# NEXUS — Product Requirements
+# GymOS — Product Requirements
 
 ## 1. Product Overview
 
 ### 1.1 Vision
-NEXUS is an Intelligent Personal Performance Operating System — the single
-platform that manages training, nutrition, recovery, health, learning,
-productivity, and automation.
+GymOS is a personal hypertrophy operating system for ONE user.  
+It exists to help the owner build the best aesthetic physique possible using data-driven training.
 
-### 1.2 Target Users
+### 1.2 Mission
+Replace the user's Excel workout tracker with a desktop application that plans, logs, analyses, and optimises every training session — all offline.
 
-| Persona | Description | Key Needs |
-|---------|-------------|-----------|
-| Beginner | New to gym, no tracking experience | Simple UI, guided workouts, basic progress |
-| Intermediate | 1-3 years training, uses Excel/notes | Volume tracking, PR detection, progression rules |
-| Advanced | 5+ years, periodised programming | RPE, fatigue management, deload scheduling |
-| Coach | Manages multiple clients | Client view, program assignment, analytics |
+### 1.3 Primary User
 
-### 1.3 MVP Users
-MVP focuses on **Intermediate** persona — the user who currently tracks
-workouts in Excel and wants a dedicated desktop app.
+| Attribute | Value |
+|-----------|-------|
+| Description | Male, 178 cm, 63.4 kg, lean bulking to 72-75 kg |
+| Training | PPL-UL split, 5-6 days/week |
+| Goal | Hypertrophy — build muscle, not strength |
+| Focus | Shoulders, Upper Chest, Back Width, Arms |
+| Current Tool | Excel spreadsheet (manual tracking, no analytics) |
+
+### 1.4 Success Metrics
+
+| Metric | Target | How |
+|--------|--------|-----|
+| Body weight | 63.4 → 72-75 kg | Weekly weigh-in |
+| Strength progression | Linear 6+ months | Volume/1RM charts |
+| Workout consistency | ≥85% sessions completed | Streak tracking |
+| Nutrition compliance | Protein ≥140g, calories ≥2800 daily | Macro tracking |
+| User satisfaction | Use daily, no Excel needed | Adoption metric |
+
+---
 
 ## 2. Functional Requirements
 
-### 2.1 Workout Module (MVP — Highest Priority)
+### 2.1 Workout Module (MVP)
 
 #### FR1: Workout Plans
 - Create, edit, delete workout plans
-- Each plan has a name, description, and ordered exercise list
-- Exercises reference the knowledge/ exercise library
+- Each plan has name, description, ordered exercise list
+- Default plans: PPL-UL templates aligned with user's focus muscles
+- Exercises reference `knowledge/exercises/` library
 
 #### FR2: Active Workout
 - Start a session from a plan
-- Log sets with: weight (kg), reps, RPE (optional)
-- View previous session's weights/reps for each exercise
-- Mark sets as completed or skipped
-- Add notes per exercise
+- Log sets with: weight (kg), reps, RPE (optional), completed/skipped
+- View previous session's weights and reps per exercise
+- Auto-save every 30 seconds
+- Notes per exercise
 
 #### FR3: Personal Records
-- Auto-detect PRs (weight PR, volume PR, estimated 1RM)
-- Show PR celebration on completion
+- Auto-detect PRs: weight PR, volume PR, estimated 1RM
+- Celebrate PR on completion with visual highlight
 
 #### FR4: Workout History
-- View past sessions with full details
+- View past sessions with full detail
 - Filter by date, exercise, muscle group
+- Compare volume and performance over time
 
 ### 2.2 Dashboard (MVP)
 
 #### FR5: Today's View
-- Show today's scheduled workout (or quick-start option)
-- Daily calories and protein target vs actual
-- Current body weight (last logged)
+- Scheduled workout (or rest day message)
+- Daily calories + protein: target vs actual
+- Current body weight with trend
 - Last PR achieved
 - Workout streak (consecutive days)
 
 ### 2.3 Progress (MVP)
 
 #### FR6: Charts
-- Weight trend (daily weigh-ins)
-- Volume trend (weekly total volume)
+- Weight trend (daily weigh-ins, 30/90 day view)
+- Volume trend (weekly total, per muscle group)
 - Strength trend (estimated 1RM per major lift)
 - Workout frequency (sessions per week)
-- All charts use PyQtGraph
+- All charts rendered with PyQtGraph
 
 ### 2.4 Nutrition (MVP)
 
 #### FR7: CSV Import
 - Import CSV from Cronometer
-- Display daily calories, protein, fat, carbs
+- Display daily: calories, protein, carbs, fat
+- Targets vs actual visualisation
 - No manual food logging in MVP
 
 ### 2.5 Settings (MVP)
 
 #### FR8: Configuration
-- Unit system (kg/lb)
-- Theme (light/dark)
-- Workout defaults (rest timer, warm-up sets)
-- Data export
+- Unit system (kg / lb)
+- Theme (dark / light, dark default)
+- Workout defaults: rest timer, warm-up sets
+- Data export (JSON/CSV)
+- User profile: height, current weight, goal weight, focus muscles
+
+---
 
 ## 3. Non-Functional Requirements
 
 ### 3.1 Performance
 - App launches in <3 seconds
-- Workout logging feels instant (<100ms response)
+- Workout logging: <100ms response
 - Charts render in <500ms
-- CSV import of 1 year of data completes in <5 seconds
+- CSV import of 1 year data in <5 seconds
 
 ### 3.2 Offline-First
 - All data stored locally in SQLite
-- No internet connection required
-- All features work offline
+- Zero internet required for any feature
+- All features work offline at all times
 
 ### 3.3 Data Integrity
-- Workout data is never lost on crash (transactional writes)
-- Auto-save every 30 seconds during active workout
+- Transactional writes on all workout data
+- Auto-save every 30s during active workout
 - Database backup on each app launch
 
 ### 3.4 UI/UX
-- Dark theme default
+- Dark theme as default
 - Keyboard-navigable workout logging
-- Minimal clicks to log a set (target: 2 taps)
-- Responsive to window resizing
+- Maximum 2 taps to log a completed set
+- Large tap targets (gym-ready, standing use)
+- High contrast for readability at distance
 
-## 4. Data Model (MVP)
+---
+
+## 4. Out of Scope (MVP)
+
+- AI Coach and workout recommendations
+- Weekly report generation
+- Recovery module (sleep, HRV, readiness)
+- Deload scheduling
+- Live API sync (Cronometer, wearables)
+- Mobile app
+- Cloud sync
+- Multi-user or coach features
+- Social features, leaderboards, sharing
+- Plugin SDK or marketplace
+- Vision AI / form analysis
+- Voice assistant
+
+---
+
+## 5. Future Roadmap
+
+| Version | Features |
+|---------|----------|
+| v0.1.0 (MVP) | Workout tracking, dashboard, progress charts, nutrition import, settings |
+| v0.2.0 | AI Coach, weekly report, recovery module, deload scheduling, prediction engine |
+| v0.3.0 | Live Cronometer sync, Hevy sync, enhanced analytics, data import/export |
+| v0.4.0 | Wearable integration (HRV/sleep), adaptive programming, progress photos |
+| v0.5.0 | Form analysis, voice control, natural language queries |
+
+---
+
+## 6. Data Model (MVP)
 
 ```
 WorkoutPlan
-  ├── name
-  ├── description
-  └── exercises (ordered list)
+  ├── name, description
+  └── exercises (ordered, with target sets/reps/rest)
 
 WorkoutSession
-  ├── plan_id
-  ├── started_at
-  ├── completed_at
-  └── exercises (with logged sets)
+  ├── plan_id, started_at, completed_at, duration, notes
+  └── exercise_logs [ ]
+        └── exercise_id, sort_order, notes
+              └── sets [ ]
+                    └── set_number, weight_kg, reps, rpe, is_completed, is_warmup
 
-ExerciseLog
-  ├── session_id
-  ├── exercise_id (from knowledge/)
-  ├── sets
-  │   ├── weight, reps, rpe, completed
-  ├── notes
-  └── previous_session_data (for comparison)
+NutritionLog: date, calories, protein, carbs, fat, source
+WeightLog: date, weight_kg
+PersonalRecord: exercise_id, pr_type, value, achieved_at, session_id
 
-NutritionLog
-  ├── date
-  ├── calories, protein, fat, carbs
-  └── source (Cronometer import)
-
-WeightLog
-  ├── date
-  └── weight_kg
+Settings: key-value JSON store
 ```
-
-## 5. Future Features (Post-MVP)
-
-| Feature | Target Version | Description |
-|---------|---------------|-------------|
-| AI Coach | v0.2 | Personalised recommendations based on training data |
-| Weekly Report | v0.2 | Automated email/in-app weekly summary |
-| Recovery | v0.2 | HRV, sleep, readiness scoring |
-| Cronometer Sync | v0.3 | Live API sync (not CSV) |
-| Wearables | v0.4 | Apple Watch, Garmin, Whoop integration |
-| Plugin SDK | v0.5 | Public SDK for third-party extensions |
-| Mobile App | v0.6 | Companion iOS/Android app |
-| Marketplace | v1.0 | Plugin marketplace and sharing |
