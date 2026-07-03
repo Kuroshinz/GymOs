@@ -32,6 +32,7 @@ class ProductionDataProvider(DataProvider):
         pr_engine: Any = None,
         recovery_engine: Any = None,
         progression_engine: Any = None,
+        nutrition_provider: Any = None,
     ) -> None:
         super().__init__(
             exercise_repo=exercise_repo,
@@ -43,6 +44,7 @@ class ProductionDataProvider(DataProvider):
             pr_engine=pr_engine,
             recovery_engine=recovery_engine,
             progression_engine=progression_engine,
+            nutrition_provider=nutrition_provider,
         )
         self._db = db
 

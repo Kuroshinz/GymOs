@@ -18,7 +18,7 @@ from modules.gymbrain.rules.progression_rules import ProgressionRule, DeloadRule
 from modules.gymbrain.rules.plateau_rules import WeightPlateauRule, StrengthPlateauRule, RepPlateauRule
 from modules.gymbrain.rules.fatigue_rules import FatigueRule, TechniqueRule, RestRule
 from modules.gymbrain.rules.recovery_rules import RecoveryRule, ConsistencyRule
-from modules.gymbrain.rules.nutrition_rules import NutritionRule, BodyweightStallRule
+
 
 
 class DecisionEngine:
@@ -56,6 +56,7 @@ class DecisionEngine:
         exercise_repo: Any = None,
         muscle_repo: Any = None,
         program_repo: Any = None,
+        nutrition_provider: Any = None,
         cache: AnalysisCache | None = None,
     ) -> DecisionEngine:
         """Build a fully-wired DecisionEngine backed by production infrastructure.
@@ -87,6 +88,7 @@ class DecisionEngine:
             pr_engine=pr_engine,
             recovery_engine=recovery_engine,
             progression_engine=progression_engine,
+            nutrition_provider=nutrition_provider,
         )
         return cls(provider=provider, cache=cache)
 
@@ -105,9 +107,7 @@ class DecisionEngine:
             RestRule(),
             RecoveryRule(),
             ConsistencyRule(),
-            NutritionRule(),
-            BodyweightStallRule(),
-            # New Nutrition Intelligence rules
+            # Nutrition Intelligence rules
             self._import_rule("ProteinDeficitRule"),
             self._import_rule("CalorieAdjustmentRule"),
             self._import_rule("GainRateRule"),

@@ -24,6 +24,7 @@ from modules.nutrition.infrastructure.importers import (
 )
 from modules.nutrition.infrastructure.repository import NutritionRepository
 from modules.nutrition.providers import NutritionProvider, ProductionNutritionProvider
+from shared.events.domain_events import MealLogged, NutritionUpdated, MacroTargetChanged
 
 logger = logging.getLogger("nexus.nutrition.service")
 
@@ -88,12 +89,14 @@ class NutritionService:
         day = self._repo.get_day(date) or DailyNutrition(date=date)
         day.meals.append(meal)
         saved = self._repo.save_day(day)
-        self._publish_event("MealLogged", {
-            "date": date,
-            "calories": meal.total_calories,
-            "protein": meal.total_protein,
-            "meal_name": meal.name,
-        })
+        self._publish_event(MealLogged(
+            meal_name=meal.name,
+            calories=meal.total_calories,
+            protein_g=meal.total_protein,
+            carbs_g=meal.total_carbs,
+            fat_g=meal.total_fat,
+            date=date,
+        ))
         return saved
 
     def log_water(self, date: str, ml: float) -> DailyNutrition:
@@ -101,7 +104,11 @@ class NutritionService:
         day = self._repo.get_day(date) or DailyNutrition(date=date)
         day.water_ml += ml
         saved = self._repo.save_day(day)
-        self._publish_event("NutritionUpdated", {"date": date, "type": "hydration"})
+        self._publish_event(NutritionUpdated(
+            date=date,
+            update_type="hydration",
+            entries_count=1,
+        ))
         return saved
 
     # ─── Targets ─────────────────────────────────────────────
@@ -111,10 +118,13 @@ class NutritionService:
 
     def set_target(self, target: MacroTarget) -> None:
         self._repo.save_target(target)
-        self._publish_event("MacroTargetChanged", {
-            "calories": target.calories,
-            "protein_g": target.protein_g,
-        })
+        self._publish_event(MacroTargetChanged(
+            calories=target.calories,
+            protein_g=target.protein_g,
+            carbs_g=target.carbs_g,
+            fat_g=target.fat_g,
+            goal_type=target.goal_type.value if target.goal_type else "",
+        ))
 
     # ─── Analysis ────────────────────────────────────────────
 
@@ -151,10 +161,11 @@ class NutritionService:
         if result.success and result.days:
             for day in result.days:
                 self._repo.save_day(day)
-            self._publish_event("NutritionUpdated", {
-                "entries_imported": result.entries_imported,
-                "source": filepath,
-            })
+            self._publish_event(NutritionUpdated(
+                date=datetime.now().strftime("%Y-%m-%d"),
+                update_type="import",
+                entries_count=result.entries_imported,
+            ))
         return result
 
     def preview_import(self, filepath: str) -> dict:
@@ -175,13 +186,13 @@ class NutritionService:
 
     # ─── Events ──────────────────────────────────────────────
 
-    def _publish_event(self, event_name: str, data: dict) -> None:
+    def _publish_event(self, event: object) -> None:
         if not self._event_bus:
             return
         try:
-            self._event_bus.publish_event(event_name, data)
+            self._event_bus.publish(event)
         except Exception:
-            logger.debug("Failed to publish %s event", event_name, exc_info=True)
+            logger.debug("Failed to publish %s event", type(event).__name__, exc_info=True)
 
     # ─── Cleanup ─────────────────────────────────────────────
 

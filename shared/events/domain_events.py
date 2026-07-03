@@ -120,6 +120,26 @@ class MealLogged(DomainEvent):
     source: str = "nutrition"
 
 
+@dataclass
+class NutritionUpdated(DomainEvent):
+    """Published when any nutrition data changes."""
+    date: str = ""
+    update_type: str = ""  # "meal", "hydration", "import", "all"
+    entries_count: int = 0
+    source: str = "nutrition"
+
+
+@dataclass
+class MacroTargetChanged(DomainEvent):
+    """Published when macro targets are updated."""
+    calories: float = 0.0
+    protein_g: float = 0.0
+    carbs_g: float = 0.0
+    fat_g: float = 0.0
+    goal_type: str = ""
+    source: str = "nutrition"
+
+
 # ─── Knowledge Events ───────────────────────────────────────
 
 @dataclass
@@ -154,6 +174,8 @@ DOMAIN_EVENT_REGISTRY: dict[str, type[DomainEvent]] = {
     "PersonalRecordUnlocked": PersonalRecordUnlocked,
     "RecoveryScoreUpdated": RecoveryScoreUpdated,
     "MealLogged": MealLogged,
+    "NutritionUpdated": NutritionUpdated,
+    "MacroTargetChanged": MacroTargetChanged,
     "ExerciseKnowledgeUpdated": ExerciseKnowledgeUpdated,
     "RecommendationsUpdated": RecommendationsUpdated,
 }

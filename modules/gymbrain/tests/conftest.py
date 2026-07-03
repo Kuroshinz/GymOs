@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Optional
 from unittest.mock import MagicMock
 
 import pytest
@@ -119,6 +119,7 @@ class MockDataBuilder:
         self._pr_results: list[FakePR] = []
         self._recovery_results: dict[int, FakeRecoveryReport] = {}
         self._progression_results: dict[str, FakeProgressionRec] = {}
+        self._nutrition_config: dict[str, Any] | None = None
 
     def with_exercise(self, exercise_id: str, name: str, **overrides: Any) -> MockDataBuilder:
         data = {
@@ -210,6 +211,20 @@ class MockDataBuilder:
         )
         return self
 
+    def with_nutrition_provider(self, target_calories: float = 2800.0, target_protein: float = 160.0, **overrides: Any) -> MockDataBuilder:
+        """Add a mock NutritionProvider to the built DataProvider."""
+        self._nutrition_config = {
+            "target_calories": target_calories,
+            "target_protein": target_protein,
+            "target_carbs": overrides.get("target_carbs", 350.0),
+            "target_fat": overrides.get("target_fat", 70.0),
+            "target_fiber": overrides.get("target_fiber", 30.0),
+            "target_water": overrides.get("target_water_ml", 3000.0),
+            "avg_calories": overrides.get("avg_calories", 2800.0),
+            "avg_protein": overrides.get("avg_protein", 160.0),
+        }
+        return self
+
     def with_progression(self, exercise_name: str, should_increase: bool = True, suggested_weight: float = 52.5) -> MockDataBuilder:
         self._progression_results[exercise_name] = FakeProgressionRec(
             exercise_name=exercise_name,
@@ -282,6 +297,33 @@ class MockDataBuilder:
         mock.analyse_session.side_effect = lambda s: self._recovery_results.get(getattr(s, "id", 0))
         mock.get_progression_recommendation.side_effect = lambda name: self._progression_results.get(name)
         mock.analyse_exercise.return_value = None
+
+        # Nutrition provider — default to None if not configured
+        if self._nutrition_config:
+            nutrition_mock = MagicMock()
+            cfg = self._nutrition_config
+
+            class _FakeTarget:
+                calories = cfg["target_calories"]
+                protein_g = cfg["target_protein"]
+                carbs_g = cfg["target_carbs"]
+                fat_g = cfg["target_fat"]
+                fiber_g = cfg["target_fiber"]
+                water_ml = cfg["target_water"]
+
+            nutrition_mock.get_default_target.return_value = _FakeTarget()
+            nutrition_mock.get_average_calories.return_value = cfg["avg_calories"]
+            nutrition_mock.get_average_protein.return_value = cfg["avg_protein"]
+            nutrition_mock.get_today.return_value = None
+            nutrition_mock.has_data.return_value = True
+            nutrition_mock.get_body_weight_history.return_value = self._body_weights
+            nutrition_mock.get_latest_body_weight.return_value = self._body_weights[-1] if self._body_weights else None
+
+            mock.nutrition_provider = nutrition_mock
+
+        # Default nutrition_provider to None when not configured
+        if not self._nutrition_config:
+            mock.nutrition_provider = None
 
         # Utilities
         mock.get_streak.return_value = 3

@@ -45,11 +45,13 @@ class DashboardView(QWidget):
         self,
         db: Any = None,
         prog_mgr: Any = None,
+        nutrition_service: Any = None,
         controller: DashboardController | None = None,
     ) -> None:
         super().__init__()
         self._db = db
         self._prog_mgr = prog_mgr
+        self._nutrition_service = nutrition_service
 
         if controller:
             self._controller = controller
@@ -64,7 +66,8 @@ class DashboardView(QWidget):
         from modules.gymbrain.services.decision_engine import DecisionEngine
         from modules.workout.application.pr_engine import PREngine
 
-        engine = DecisionEngine.from_production(db=db) if db else None
+        nutrition_provider = getattr(self._nutrition_service, "provider", None) if self._nutrition_service else None
+        engine = DecisionEngine.from_production(db=db, nutrition_provider=nutrition_provider) if db else None
         pr_engine = PREngine(db) if db else None
 
         self._controller = DashboardController(
@@ -72,6 +75,7 @@ class DashboardView(QWidget):
             decision_engine=engine,
             pr_engine=pr_engine,
             prog_mgr=prog_mgr,
+            nutrition_service=self._nutrition_service,
         )
 
     def _build_ui(self) -> None:

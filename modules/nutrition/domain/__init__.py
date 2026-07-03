@@ -309,7 +309,7 @@ class NutritionSummary:
     lean_bulk: Optional[LeanBulkAnalysis] = None
 
     def to_dict(self) -> dict:
-        return {
+        result = {
             "calories": {"current": self.calories_current, "target": self.calories_target},
             "protein": {"current": self.protein_current, "target": self.protein_target},
             "carbs": {"current": self.carbs_current, "target": self.carbs_target},
@@ -317,3 +317,13 @@ class NutritionSummary:
             "fiber": {"current": self.fiber_current, "target": self.fiber_target},
             "hydration": {"current": self.hydration_current, "target": self.hydration_target},
         }
+        if self.lean_bulk:
+            result["lean_bulk"] = {
+                "quality_score": self.lean_bulk.quality_score,
+                "quality_label": self.lean_bulk.quality_label,
+                "weekly_weight_gain_kg": self.lean_bulk.weekly_weight_gain_kg,
+                "is_on_track": self.lean_bulk.is_on_track,
+                "calorie_adjustment": self.lean_bulk.calorie_adjustment,
+                "recommendation": self.lean_bulk.recommendation,
+            }
+        return result

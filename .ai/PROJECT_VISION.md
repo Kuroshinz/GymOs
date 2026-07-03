@@ -1,4 +1,19 @@
 # GymOS — Project Vision
+GymOS is not a gym tracker.
+
+GymOS is not a workout logger.
+
+GymOS is a Personal Operating System dedicated to maximizing one person's physique.
+
+Every feature must directly improve one of:
+
+- Muscle Growth
+- Recovery
+- Nutrition
+- Consistency
+- Progressive Overload
+
+If a feature does not improve those five pillars, it should not exist.
 
 ## Elevator Pitch
 

@@ -393,5 +393,9 @@ class DashboardDataService:
                 data.weekly_volume_data = self._fetch_weekly_volume()
             elif section == "priority_muscles":
                 data.priority_muscles = self._fetch_priority_muscles()
+            elif section == "nutrition":
+                nutrition_summary = self._fetch_nutrition_summary()
+                data.nutrition_configured = nutrition_summary.get("configured", False)
+                data.nutrition_data = nutrition_summary.get("data", {})
         except Exception:
             pass

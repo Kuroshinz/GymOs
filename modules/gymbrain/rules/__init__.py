@@ -5,7 +5,10 @@ from modules.gymbrain.rules.progression_rules import ProgressionRule, DeloadRule
 from modules.gymbrain.rules.plateau_rules import WeightPlateauRule, StrengthPlateauRule, RepPlateauRule
 from modules.gymbrain.rules.fatigue_rules import FatigueRule, TechniqueRule, RestRule
 from modules.gymbrain.rules.recovery_rules import RecoveryRule, ConsistencyRule
-from modules.gymbrain.rules.nutrition_rules import NutritionRule, BodyweightStallRule
+from modules.gymbrain.rules.nutrition_rules import (
+    ProteinDeficitRule, CalorieAdjustmentRule, GainRateRule,
+    HydrationRule, LeanBulkQualityRule,
+)
 
 __all__ = [
     "BaseRule",
@@ -24,6 +27,9 @@ __all__ = [
     "RestRule",
     "RecoveryRule",
     "ConsistencyRule",
-    "NutritionRule",
-    "BodyweightStallRule",
+    "ProteinDeficitRule",
+    "CalorieAdjustmentRule",
+    "GainRateRule",
+    "HydrationRule",
+    "LeanBulkQualityRule",
 ]

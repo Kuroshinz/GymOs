@@ -9,6 +9,11 @@ from PySide6.QtWidgets import QApplication
 from modules.workout.infrastructure.models import init_db
 from modules.workout.infrastructure.repository import GymDatabase
 from modules.workout_program.manager import ProgramManager
+from modules.nutrition.infrastructure.repository import NutritionRepository
+from modules.nutrition.services import NutritionService
+from shared.events.event_bus import get_event_bus
+from shared.events.subscribers.nutrition_subscriber import NutritionSubscriber
+from modules.gymbrain.services.decision_engine import DecisionEngine
 from ui.main_window import MainWindow
 
 
@@ -31,15 +36,38 @@ def main() -> None:
         if programs:
             prog_mgr.switch_to_program(programs[0]["id"])
 
+    # Nutrition wiring
+    nutrition_repo = NutritionRepository(DB_PATH)
+    event_bus = get_event_bus()
+    nutrition_service = NutritionService(
+        repository=nutrition_repo,
+        db=db,
+        event_bus=event_bus,
+    )
+
+    # Wire DecisionEngine with NutritionProvider
+    engine = DecisionEngine.from_production(
+        db=db,
+        nutrition_provider=nutrition_service.provider,
+    )
+
+    # Wire NutritionSubscriber for cache invalidation
+    NutritionSubscriber(bus=event_bus, decision_engine=engine)
+
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
 
-    window = MainWindow(db, prog_mgr)
+    window = MainWindow(
+        db=db,
+        prog_mgr=prog_mgr,
+        nutrition_service=nutrition_service,
+    )
     window.show()
 
     exit_code = app.exec()
     db.dispose()
     prog_mgr.dispose()
+    nutrition_service.dispose()
     sys.exit(exit_code)
 
 

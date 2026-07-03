@@ -53,10 +53,11 @@ class SidebarButton(QPushButton):
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, db, prog_mgr=None):
+    def __init__(self, db, prog_mgr=None, nutrition_service=None):
         super().__init__()
         self._db = db
         self._prog_mgr = prog_mgr
+        self._nutrition_service = nutrition_service
         self.setWindowTitle("GymOS")
         self.setMinimumSize(1024, 768)
         self.setStyleSheet("""
@@ -79,7 +80,7 @@ class MainWindow(QMainWindow):
         self._content.setStyleSheet("background-color: #0F172A;")
         main_layout.addWidget(self._content, 1)
 
-        self._dashboard_view = DashboardView(db=db, prog_mgr=prog_mgr)
+        self._dashboard_view = DashboardView(db=db, prog_mgr=prog_mgr, nutrition_service=nutrition_service)
         self._workout_selection_view = WorkoutSelectionView(db, prog_mgr)
         self._workout_view = WorkoutView(db, prog_mgr)
         self._progress_view = ProgressView(db)

@@ -42,6 +42,7 @@ class DashboardController(QObject):
         decision_engine: Any = None,
         pr_engine: Any = None,
         prog_mgr: Any = None,
+        nutrition_service: Any = None,
         parent: QObject | None = None,
     ) -> None:
         super().__init__(parent)
@@ -49,11 +50,13 @@ class DashboardController(QObject):
         self._engine = decision_engine
         self._pr_engine = pr_engine
         self._prog_mgr = prog_mgr
+        self._nutrition_service = nutrition_service
         self._data_service = DashboardDataService(
             db=db,
             decision_engine=decision_engine,
             pr_engine=pr_engine,
             prog_mgr=prog_mgr,
+            nutrition_service=nutrition_service,
         )
         self._last_data: DashboardData = DashboardData()
         self._event_bus = None
@@ -80,6 +83,8 @@ class DashboardController(QObject):
             self._event_bus.subscribe("ExerciseKnowledgeUpdated", self._on_knowledge_updated)
             self._event_bus.subscribe("ProgramActivated", self._on_program_activated)
             self._event_bus.subscribe("ProgramImported", self._on_program_activated)
+            self._event_bus.subscribe("MealLogged", self._on_nutrition_updated)
+            self._event_bus.subscribe("NutritionUpdated", self._on_nutrition_updated)
             self._subscribed = True
             logger.info("DashboardController subscribed to domain events")
         except Exception:
@@ -134,6 +139,18 @@ class DashboardController(QObject):
         except Exception:
             pass
         self.refresh()
+
+    def _on_nutrition_updated(self, event: Any) -> None:
+        """Refresh nutrition section and recommendations when nutrition data changes."""
+        try:
+            data = self._last_data
+            self._data_service.refresh_section(data, "nutrition")
+            if self._engine:
+                self._engine.invalidate_cache("recommendations")
+                self._data_service.refresh_section(data, "recommendations")
+            self.data_updated.emit(data)
+        except Exception:
+            self.refresh()
 
     # ─── Data Flow ────────────────────────────────────────────
 

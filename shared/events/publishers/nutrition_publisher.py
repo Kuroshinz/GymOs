@@ -21,6 +21,6 @@ class NutritionPublisher(Publisher):
             calories=calories,
             protein_g=protein_g,
             carbs_g=carbs_g,
-            fat_g=carbs_g,
+            fat_g=fat_g,
             date=date,
         ))

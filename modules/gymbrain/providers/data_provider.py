@@ -26,6 +26,7 @@ class DataProvider:
         pr_engine: Any = None,
         recovery_engine: Any = None,
         progression_engine: Any = None,
+        nutrition_provider: Any = None,
     ) -> None:
         self._exercise_repo = exercise_repo
         self._muscle_repo = muscle_repo
@@ -36,6 +37,17 @@ class DataProvider:
         self._pr_engine = pr_engine
         self._recovery_engine = recovery_engine
         self._progression_engine = progression_engine
+        self._nutrition_provider = nutrition_provider
+
+    @property
+    def nutrition_provider(self) -> Any:
+        """Accessor for the NutritionProvider consumed by nutrition rules."""
+        return self._nutrition_provider
+
+    @nutrition_provider.setter
+    def nutrition_provider(self, value: Any) -> None:
+        """Allow tests to override the nutrition provider."""
+        self._nutrition_provider = value
 
     # ── Exercises ────────────────────────────────────────────────────
 
