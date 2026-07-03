@@ -2,8 +2,19 @@
   "id": "full_body_snatch",
   "name": "Snatch",
   "category": "full_body",
-  "primary_muscles": ["quadriceps", "gluteus_maximus", "trapezius", "shoulders"],
-  "secondary_muscles": ["hamstrings", "calves", "forearms", "core", "erector_spinae"],
+  "primary_muscles": [
+    "quadriceps",
+    "gluteus_maximus",
+    "trapezius",
+    "shoulders"
+  ],
+  "secondary_muscles": [
+    "hamstrings",
+    "calves",
+    "forearms",
+    "core",
+    "erector_spinae"
+  ],
   "equipment": "barbell",
   "difficulty": "advanced",
   "movement_pattern": "olympic_lift",
@@ -25,5 +36,80 @@
     "Pull yourself under the bar, not the bar up",
     "Active shoulders overhead at catch"
   ],
-  "variations": ["hang_snatch", "snatch_pull", "power_snatch"]
+  "variations": [
+    "hang_snatch",
+    "snatch_pull",
+    "power_snatch"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "common_mistakes": [],
+  "alternatives": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "moderate",
+  "skill_requirement": "high",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 0,
+    "max": 1,
+    "description": "Take close to failure, 0-1 RIR"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "quadriceps",
+      "percentage": 18.2
+    },
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 18.2
+    },
+    {
+      "muscle_id": "trapezius",
+      "percentage": 18.2
+    },
+    {
+      "muscle_id": "shoulders",
+      "percentage": 18.2
+    },
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 5.5
+    },
+    {
+      "muscle_id": "calves",
+      "percentage": 5.5
+    },
+    {
+      "muscle_id": "forearms",
+      "percentage": 5.5
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 5.5
+    },
+    {
+      "muscle_id": "erector_spinae",
+      "percentage": 5.5
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

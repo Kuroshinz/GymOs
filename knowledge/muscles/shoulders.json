@@ -1,0 +1,49 @@
+{
+  "id": "shoulders",
+  "display_name": "Shoulders (Composite)",
+  "group": "shoulders",
+  "synergists": [],
+  "antagonists": [],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 6,
+      "max_sets": 8,
+      "description": "Composite; sum of all three delt heads"
+    },
+    "mav": {
+      "min_sets": 12,
+      "max_sets": 18,
+      "description": "Composite volume across all delt heads"
+    },
+    "mrv": {
+      "min_sets": 22,
+      "max_sets": 26,
+      "description": "AC joint stress becomes a concern"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 3
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "moderate",
+    "description": "Composite reference for all three deltoid heads"
+  },
+  "recommended_exercises": [
+    "shoulders_overhead_press",
+    "shoulders_lateral_raise",
+    "shoulders_rear_delt_fly",
+    "shoulders_front_raise",
+    "shoulders_arnold_press",
+    "shoulders_face_pull"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

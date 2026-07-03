@@ -1,0 +1,50 @@
+{
+  "id": "levator_scapulae",
+  "display_name": "Levator Scapulae",
+  "group": "neck",
+  "synergists": [
+    "trapezius_upper",
+    "rhomboids"
+  ],
+  "antagonists": [
+    "serratus_anterior"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 1,
+      "max_sets": 2,
+      "description": "Minimal direct work needed; trained via shrugs and rows"
+    },
+    "mav": {
+      "min_sets": 2,
+      "max_sets": 4,
+      "description": "2-4 sets per week sufficient"
+    },
+    "mrv": {
+      "min_sets": 6,
+      "max_sets": 8,
+      "description": "Prone to tightness; avoid excessive volume"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 1,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 48
+    },
+    "fatigue_factor": "low",
+    "description": "Often tight from desk posture; needs stretching more than strengthening"
+  },
+  "recommended_exercises": [
+    "shoulders_shrug",
+    "shoulders_upright_row"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

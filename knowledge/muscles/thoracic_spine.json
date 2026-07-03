@@ -1,0 +1,46 @@
+{
+  "id": "thoracic_spine",
+  "display_name": "Thoracic Spine (Mobility)",
+  "group": "mobility",
+  "synergists": [],
+  "antagonists": [],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 0,
+      "max_sets": 0,
+      "description": "Mobility focus, not muscle"
+    },
+    "mav": {
+      "min_sets": 0,
+      "max_sets": 0,
+      "description": "Daily mobility work recommended"
+    },
+    "mrv": {
+      "min_sets": 0,
+      "max_sets": 0,
+      "description": "N/A"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 0,
+    "max_times_per_week": 0
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 0,
+      "max": 0
+    },
+    "fatigue_factor": "low",
+    "description": "Thoracic spine mobility, not a contracting muscle"
+  },
+  "recommended_exercises": [
+    "warmup_thoracic_extension",
+    "warmup_cat_cow",
+    "warmup_worlds_greatest"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

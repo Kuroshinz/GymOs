@@ -1,0 +1,83 @@
+{
+  "id": "core_cable_crunch",
+  "name": "Cable Crunch",
+  "aliases": [
+    "Cable Ab Crunch",
+    "Cable Rope Crunch"
+  ],
+  "category": "core",
+  "primary_muscles": [
+    "rectus_abdominis"
+  ],
+  "secondary_muscles": [
+    "obliques"
+  ],
+  "equipment": "cable",
+  "difficulty": "beginner",
+  "movement_pattern": "spinal_flexion",
+  "mechanics": "isolation",
+  "hypertrophy_rep_range": {
+    "min": 10,
+    "max": 20
+  },
+  "rest_time": {
+    "min_seconds": 45,
+    "max_seconds": 60,
+    "label": "45-60s"
+  },
+  "tempo": "2-1-2",
+  "setup": [
+    "Attach rope handle to high cable pulley",
+    "Kneel facing away from the machine, holding rope behind head",
+    "Hips stationary, core braced"
+  ],
+  "execution": [
+    "Crunch forward, bringing elbows toward knees",
+    "Contract abs forcefully at the bottom",
+    "Control back to starting position"
+  ],
+  "cues": [
+    "Crunch with your ribs, not your arms",
+    "Keep hips still — don't sit back on your heels"
+  ],
+  "breathing": "Exhale on crunch, inhale on return",
+  "common_mistakes": [
+    "Using arms to pull (should be core-only movement)",
+    "Sitting back onto heels (reduces tension on abs)"
+  ],
+  "alternatives": [
+    "core_crunch",
+    "core_ab_wheel"
+  ],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "moderate",
+  "skill_requirement": "low",
+  "fatigue_score": 3.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "ascending",
+  "resistance_profile": "ascending",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "rectus_abdominis",
+      "percentage": 76.9
+    },
+    {
+      "muscle_id": "obliques",
+      "percentage": 23.1
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
+}

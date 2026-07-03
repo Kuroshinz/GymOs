@@ -2,8 +2,14 @@
   "id": "shoulders_lateral_raise",
   "name": "Dumbbell Lateral Raise",
   "category": "shoulders",
-  "primary_muscles": ["medial_deltoid"],
-  "secondary_muscles": ["anterior_deltoid", "trapezius", "serratus_anterior"],
+  "primary_muscles": [
+    "medial_deltoid"
+  ],
+  "secondary_muscles": [
+    "anterior_deltoid",
+    "trapezius",
+    "serratus_anterior"
+  ],
   "equipment": "dumbbell",
   "difficulty": "beginner",
   "movement_pattern": "lateral_abduction",
@@ -35,5 +41,58 @@
     "single_arm_lateral_raise",
     "lean_away_lateral_raise"
   ],
-  "recommendation": "Light weight, high reps (12-20), strict form"
+  "recommendation": "Light weight, high reps (12-20), strict form",
+  "aliases": [
+    "DB Lateral Raise"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 60,
+    "max_seconds": 90,
+    "label": "60-90s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "low",
+  "skill_requirement": "low",
+  "fatigue_score": 3.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "medial_deltoid",
+      "percentage": 52.6
+    },
+    {
+      "muscle_id": "anterior_deltoid",
+      "percentage": 15.8
+    },
+    {
+      "muscle_id": "trapezius",
+      "percentage": 15.8
+    },
+    {
+      "muscle_id": "serratus_anterior",
+      "percentage": 15.8
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

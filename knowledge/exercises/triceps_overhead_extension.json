@@ -2,8 +2,13 @@
   "id": "triceps_overhead_extension",
   "name": "Overhead Triceps Extension",
   "category": "triceps",
-  "primary_muscles": ["triceps_brachii_long_head"],
-  "secondary_muscles": ["triceps_lateral_head", "triceps_medial_head"],
+  "primary_muscles": [
+    "triceps_brachii_long_head"
+  ],
+  "secondary_muscles": [
+    "triceps_lateral_head",
+    "triceps_medial_head"
+  ],
   "equipment": "dumbbell",
   "difficulty": "intermediate",
   "movement_pattern": "elbow_extension",
@@ -34,5 +39,51 @@
   ],
   "advantages": [
     "Hits triceps long head (unique growth stimulus)"
-  ]
+  ],
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 60,
+    "max_seconds": 90,
+    "label": "60-90s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "low",
+  "skill_requirement": "moderate",
+  "fatigue_score": 3.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "triceps_brachii_long_head",
+      "percentage": 62.5
+    },
+    {
+      "muscle_id": "triceps_lateral_head",
+      "percentage": 18.8
+    },
+    {
+      "muscle_id": "triceps_medial_head",
+      "percentage": 18.8
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

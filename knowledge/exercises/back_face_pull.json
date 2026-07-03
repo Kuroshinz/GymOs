@@ -2,8 +2,15 @@
   "id": "back_face_pull",
   "name": "Face Pull",
   "category": "back",
-  "primary_muscles": ["posterior_deltoid", "trapezius", "rhomboids"],
-  "secondary_muscles": ["infraspinatus", "teres_minor"],
+  "primary_muscles": [
+    "posterior_deltoid",
+    "trapezius",
+    "rhomboids"
+  ],
+  "secondary_muscles": [
+    "infraspinatus",
+    "teres_minor"
+  ],
   "equipment": "cable",
   "difficulty": "beginner",
   "movement_pattern": "horizontal_pull",
@@ -31,5 +38,59 @@
     "Hands finish behind your head",
     "Shoulder health — do these every session!"
   ],
-  "recommendation": "Do 3-4 sets of 15-20 at least 3x/week for shoulder health"
+  "recommendation": "Do 3-4 sets of 15-20 at least 3x/week for shoulder health",
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "movement_plane": "sagittal",
+  "stability_requirement": "moderate",
+  "skill_requirement": "low",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "ascending",
+  "resistance_profile": "ascending",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "posterior_deltoid",
+      "percentage": 27.8
+    },
+    {
+      "muscle_id": "trapezius",
+      "percentage": 27.8
+    },
+    {
+      "muscle_id": "rhomboids",
+      "percentage": 27.8
+    },
+    {
+      "muscle_id": "infraspinatus",
+      "percentage": 8.3
+    },
+    {
+      "muscle_id": "teres_minor",
+      "percentage": 8.3
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

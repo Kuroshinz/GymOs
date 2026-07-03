@@ -1,0 +1,51 @@
+{
+  "id": "brachialis",
+  "display_name": "Brachialis",
+  "group": "arms",
+  "synergists": [
+    "biceps_brachii",
+    "brachioradialis"
+  ],
+  "antagonists": [
+    "triceps_brachii"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 3,
+      "max_sets": 4,
+      "description": "Minimum 3-4 sets of direct elbow flexion"
+    },
+    "mav": {
+      "min_sets": 4,
+      "max_sets": 8,
+      "description": "Growth at 4-8 sets per week"
+    },
+    "mrv": {
+      "min_sets": 10,
+      "max_sets": 12,
+      "description": "Keep below 12 sets to avoid overtraining"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 3
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 48
+    },
+    "fatigue_factor": "low",
+    "description": "Recovers quickly; best trained with neutral-grip (hammer) curls"
+  },
+  "recommended_exercises": [
+    "biceps_hammer_curl",
+    "biceps_reverse_curl",
+    "biceps_cross_body_hammer"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

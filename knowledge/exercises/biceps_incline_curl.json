@@ -2,8 +2,13 @@
   "id": "biceps_incline_curl",
   "name": "Incline Dumbbell Curl",
   "category": "biceps",
-  "primary_muscles": ["biceps_brachii"],
-  "secondary_muscles": ["brachialis", "forearms"],
+  "primary_muscles": [
+    "biceps_brachii"
+  ],
+  "secondary_muscles": [
+    "brachialis",
+    "forearms"
+  ],
   "equipment": "dumbbell",
   "difficulty": "intermediate",
   "movement_pattern": "elbow_flexion",
@@ -25,5 +30,55 @@
   "advantages": [
     "Longer range of motion than standing",
     "Great bicep stretch at bottom"
-  ]
+  ],
+  "aliases": [
+    "Incline DB Curl"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 60,
+    "max_seconds": 90,
+    "label": "60-90s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "common_mistakes": [],
+  "alternatives": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "low",
+  "skill_requirement": "moderate",
+  "fatigue_score": 3.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "biceps_brachii",
+      "percentage": 62.5
+    },
+    {
+      "muscle_id": "brachialis",
+      "percentage": 18.8
+    },
+    {
+      "muscle_id": "forearms",
+      "percentage": 18.8
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

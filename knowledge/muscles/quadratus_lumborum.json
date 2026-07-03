@@ -1,0 +1,52 @@
+{
+  "id": "quadratus_lumborum",
+  "display_name": "Quadratus Lumborum",
+  "group": "core",
+  "synergists": [
+    "erector_spinae",
+    "obliques"
+  ],
+  "antagonists": [
+    "rectus_abdominis"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 2,
+      "max_sets": 3,
+      "description": "Trained via deadlifts and carries"
+    },
+    "mav": {
+      "min_sets": 3,
+      "max_sets": 6,
+      "description": "3-6 sets of direct work sufficient"
+    },
+    "mrv": {
+      "min_sets": 8,
+      "max_sets": 10,
+      "description": "Excessive volume leads to low back tightness"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 1,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "moderate",
+    "description": "Key for spinal stability; works isometrically in most compounds"
+  },
+  "recommended_exercises": [
+    "back_deadlift",
+    "quads_barbell_squat",
+    "core_side_plank",
+    "core_suitcase_carry"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

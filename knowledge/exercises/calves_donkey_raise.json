@@ -2,10 +2,59 @@
   "id": "calves_donkey_raise",
   "name": "Donkey Calf Raise",
   "category": "calves",
-  "primary_muscles": ["gastrocnemius"],
-  "secondary_muscles": ["soleus"],
+  "primary_muscles": [
+    "gastrocnemius"
+  ],
+  "secondary_muscles": [
+    "soleus"
+  ],
   "equipment": "machine",
   "difficulty": "intermediate",
   "movement_pattern": "ankle_plantarflexion",
-  "mechanics": "isolation"
+  "mechanics": "isolation",
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 60,
+    "max_seconds": 90,
+    "label": "60-90s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "cues": [],
+  "common_mistakes": [],
+  "alternatives": [],
+  "tempo": "2-1-2",
+  "movement_plane": "multi_planar",
+  "stability_requirement": "low",
+  "skill_requirement": "moderate",
+  "fatigue_score": 3.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "low",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "linear_variable",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "gastrocnemius",
+      "percentage": 76.9
+    },
+    {
+      "muscle_id": "soleus",
+      "percentage": 23.1
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

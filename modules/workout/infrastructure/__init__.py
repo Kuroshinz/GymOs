@@ -1,21 +1,14 @@
-from abc import ABC, abstractmethod
-from typing import Optional
+"""Workout infrastructure layer — database models, repository, and seed data."""
 
-from modules.workout.domain import Workout
+from modules.workout.infrastructure.models import Base, init_db, WorkoutProgramModel, WorkoutDayModel, DayExerciseModel, WorkoutSessionModel, SessionExerciseModel, SessionSetModel, BodyWeightModel
+from modules.workout.infrastructure.repository import GymDatabase
+from modules.workout.infrastructure.program_loader import ProgramLoader
 
-
-class WorkoutRepository(ABC):
-    @abstractmethod
-    async def save(self, workout: Workout) -> Workout: ...
-
-    @abstractmethod
-    async def get(self, workout_id: str) -> Optional[Workout]: ...
-
-    @abstractmethod
-    async def update(self, workout: Workout) -> Workout: ...
-
-    @abstractmethod
-    async def delete(self, workout_id: str) -> None: ...
-
-    @abstractmethod
-    async def list(self, limit: int = 20, offset: int = 0) -> list[Workout]: ...
+__all__ = [
+    "Base", "init_db",
+    "WorkoutProgramModel", "WorkoutDayModel", "DayExerciseModel",
+    "WorkoutSessionModel", "SessionExerciseModel", "SessionSetModel",
+    "BodyWeightModel",
+    "GymDatabase",
+    "ProgramLoader",
+]

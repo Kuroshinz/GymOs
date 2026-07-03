@@ -2,8 +2,12 @@
   "id": "hamstrings_cable_kickback",
   "name": "Cable Glute Kickback",
   "category": "hamstrings_glutes",
-  "primary_muscles": ["gluteus_maximus"],
-  "secondary_muscles": ["hamstrings"],
+  "primary_muscles": [
+    "gluteus_maximus"
+  ],
+  "secondary_muscles": [
+    "hamstrings"
+  ],
   "equipment": "cable",
   "difficulty": "beginner",
   "movement_pattern": "hip_extension",
@@ -26,5 +30,47 @@
   "cues": [
     "Think 'push the floor away behind you'",
     "Glute squeeze at full extension"
-  ]
+  ],
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 60,
+    "max_seconds": 90,
+    "label": "60-90s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "moderate",
+  "skill_requirement": "low",
+  "fatigue_score": 3.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "ascending",
+  "resistance_profile": "ascending",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 76.9
+    },
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 23.1
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

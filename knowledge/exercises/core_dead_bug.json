@@ -2,8 +2,13 @@
   "id": "core_dead_bug",
   "name": "Dead Bug",
   "category": "core",
-  "primary_muscles": ["transversus_abdominis", "rectus_abdominis"],
-  "secondary_muscles": ["hip_flexors"],
+  "primary_muscles": [
+    "transversus_abdominis",
+    "rectus_abdominis"
+  ],
+  "secondary_muscles": [
+    "hip_flexors"
+  ],
   "equipment": "bodyweight",
   "difficulty": "beginner",
   "movement_pattern": "anti_extension_anti_rotation",
@@ -33,5 +38,51 @@
     "Great for learning core bracing",
     "Low back rehab",
     "No equipment needed"
-  ]
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "high",
+  "skill_requirement": "low",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "low",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "transversus_abdominis",
+      "percentage": 43.5
+    },
+    {
+      "muscle_id": "rectus_abdominis",
+      "percentage": 43.5
+    },
+    {
+      "muscle_id": "hip_flexors",
+      "percentage": 13.0
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

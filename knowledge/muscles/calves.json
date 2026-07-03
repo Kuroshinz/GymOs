@@ -1,0 +1,42 @@
+{
+  "id": "calves",
+  "display_name": "Calves (Composite)",
+  "group": "calves",
+  "synergists": [],
+  "antagonists": [],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 6,
+      "max_sets": 8,
+      "description": "Composite; gastrocnemius + soleus"
+    },
+    "mav": {
+      "min_sets": 10,
+      "max_sets": 16,
+      "description": "Composite"
+    },
+    "mrv": {
+      "min_sets": 18,
+      "max_sets": 22,
+      "description": "Very volume tolerant"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 4
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 24,
+      "max": 48
+    },
+    "fatigue_factor": "low",
+    "description": "Composite calf reference"
+  },
+  "recommended_exercises": [],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

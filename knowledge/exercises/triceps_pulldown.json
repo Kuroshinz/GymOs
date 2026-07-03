@@ -2,7 +2,9 @@
   "id": "triceps_pulldown",
   "name": "Triceps Pushdown (Cable)",
   "category": "triceps",
-  "primary_muscles": ["triceps_brachii"],
+  "primary_muscles": [
+    "triceps_brachii"
+  ],
   "secondary_muscles": [],
   "equipment": "cable",
   "difficulty": "beginner",
@@ -34,5 +36,43 @@
     "v_bar_pulldown",
     "reverse_grip_pulldown",
     "single_arm_pulldown"
-  ]
+  ],
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 60,
+    "max_seconds": 90,
+    "label": "60-90s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "moderate",
+  "skill_requirement": "low",
+  "fatigue_score": 3.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "ascending",
+  "resistance_profile": "ascending",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "triceps_brachii",
+      "percentage": 100.0
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

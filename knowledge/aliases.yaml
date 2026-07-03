@@ -1,0 +1,204 @@
+# GymOS Exercise Alias Mapping
+# Maps common exercise names to canonical exercise IDs.
+# Used by the Knowledge Loader for import normalization.
+
+# ─── Chest ──────────────────────────────────────────────
+"Barbell Bench Press": chest_bench_press
+"Bench Press": chest_bench_press
+"Flat Bench Press": chest_bench_press
+"Incline Bench Press": chest_incline_bench_press
+"Incline DB Press": chest_incline_bench_press
+"Incline Dumbbell Press": chest_incline_bench_press
+"Decline Bench Press": chest_decline_bench_press
+"Dumbbell Bench Press": chest_dumbbell_press
+"Dumbbell Press": chest_dumbbell_press
+"Machine Chest Press": chest_machine_press
+"Chest Press Machine": chest_machine_press
+"Incline Machine Press": chest_incline_bench_press
+"Machine Shoulder Press": shoulders_machine_press
+"Machine Row": back_machine_row
+"Cable Crunch": core_cable_crunch
+"Dumbbell Fly": chest_dumbbell_fly
+"Cable Crossover": chest_cable_crossover
+"Pec Deck": chest_pec_deck
+"Pec Deck Fly": chest_pec_deck
+"Dips": chest_dips
+"Chest Dips": chest_dips
+"Push Ups": chest_push_ups
+"Push-Ups": chest_push_ups
+"Press Up": chest_push_ups
+
+# ─── Shoulders ──────────────────────────────────────────
+"Overhead Press": shoulders_overhead_press
+"OHP": shoulders_overhead_press
+"Military Press": shoulders_overhead_press
+"Standing Overhead Press": shoulders_overhead_press
+"Seated Dumbbell Press": shoulders_dumbbell_press
+"Dumbbell Shoulder Press": shoulders_dumbbell_press
+"Machine Shoulder Press": shoulders_dumbbell_press
+"Arnold Press": shoulders_arnold_press
+"Lateral Raise": shoulders_lateral_raise
+"Side Lateral Raise": shoulders_lateral_raise
+"Dumbbell Lateral Raise": shoulders_lateral_raise
+"Front Raise": shoulders_front_raise
+"Dumbbell Front Raise": shoulders_front_raise
+"Rear Delt Fly": shoulders_rear_delt_raise
+"Rear Delt Raise": shoulders_rear_delt_raise
+"Reverse Pec Deck": back_reverse_pec_deck
+"Face Pull": back_face_pull
+"Shrugs": shoulders_shrug
+"Barbell Shrug": shoulders_shrug
+"Dumbbell Shrug": shoulders_shrug
+"Upright Row": shoulders_upright_row
+"Landmine Press": shoulders_landmine_press
+"Push Press": shoulders_push_press
+
+# ─── Back ───────────────────────────────────────────────
+"Barbell Row": back_barbell_row
+"Bent Over Row": back_barbell_row
+"Deadlift": back_deadlift
+"Conventional Deadlift": back_deadlift
+"Sumo Deadlift": back_sumo_deadlift
+"Lat Pulldown": back_lat_pulldown
+"Pull-Up": back_pull_up
+"Pull Up": back_pull_up
+"Pullups": back_pull_up
+"Chin-Up": back_lat_pulldown
+"Chin Up": back_lat_pulldown
+"Chest Supported Row": back_chest_supported_row
+"Machine Row": back_chest_supported_row
+"Seated Cable Row": back_seated_cable_row
+"Cable Row": back_seated_cable_row
+"Dumbbell Row": back_dumbbell_row
+"One Arm Dumbbell Row": back_dumbbell_row
+"Single Arm Row": back_dumbbell_row
+"T-Bar Row": back_t_bar_row
+"Good Morning": back_good_morning
+
+# ─── Quads / Legs ───────────────────────────────────────
+"Barbell Squat": quads_barbell_squat
+"Back Squat": quads_barbell_squat
+"Squat": quads_barbell_squat
+"Front Squat": quads_front_squat
+"Goblet Squat": quads_goblet_squat
+"Hack Squat": quads_hack_squat
+"Leg Press": quads_leg_press
+"Leg Extension": quads_leg_extension
+"Lunges": quads_lunges
+"Walking Lunges": quads_lunges
+"Bulgarian Split Squat": quads_bulgarian_split_squat
+"Step Up": quads_step_up
+"Sissy Squat": quads_sissy_squat
+
+# ─── Hamstrings / Glutes ────────────────────────────────
+"Romanian Deadlift": hamstrings_romanian_deadlift
+"RDL": hamstrings_romanian_deadlift
+"Leg Curl": hamstrings_leg_curl
+"Lying Leg Curl": hamstrings_leg_curl
+"Seated Leg Curl": hamstrings_leg_curl
+"Nordic Curl": hamstrings_nordic_curl
+"Hyperextension": hamstrings_hyperextension
+"Back Extension": hamstrings_hyperextension
+"Hip Thrust": hamstrings_hip_thrust
+"Glute Bridge": hamstrings_glute_bridge
+"Hip Abduction Machine": hamstrings_adductor_machine
+"Hip Abduction": hamstrings_adductor_machine
+"Adductor Machine": hamstrings_adductor_machine
+"Cable Kickback": hamstrings_cable_kickback
+"Donkey Kick": hamstrings_donkey_kick
+"Single Leg RDL": hamstrings_single_leg_rdl
+
+# ─── Biceps ─────────────────────────────────────────────
+"Barbell Curl": biceps_bb_curl
+"BB Curl": biceps_bb_curl
+"EZ Bar Curl": biceps_bb_curl
+"Dumbbell Curl": biceps_db_curl
+"DB Curl": biceps_db_curl
+"Hammer Curl": biceps_hammer_curl
+"Rope Hammer Curl": biceps_hammer_curl
+"Cable Curl": biceps_cable_curl
+"Preacher Curl": biceps_preacher_curl
+"Incline Curl": biceps_incline_curl
+"Incline Dumbbell Curl": biceps_incline_curl
+
+# ─── Triceps ────────────────────────────────────────────
+"Triceps Pushdown": triceps_pulldown
+"Triceps Pulldown": triceps_pulldown
+"Cable Tricep Extension": triceps_pulldown
+"Tricep Extension": triceps_pulldown
+"Triceps Extension": triceps_pulldown
+"Skull Crusher": triceps_skull_crusher
+"Lying Triceps Extension": triceps_skull_crusher
+"Close Grip Bench Press": triceps_close_grip_bench
+"Diamond Push Up": triceps_diamond_push_up
+"Diamond Push-Up": triceps_diamond_push_up
+"Bench Dip": triceps_bench_dip
+"Overhead Triceps Extension": triceps_overhead_extension
+"Overhead Cable Extension": triceps_overhead_extension
+
+# ─── Core / Abs ─────────────────────────────────────────
+"Crunch": core_crunch
+"Ab Crunch": core_crunch
+"Cable Crunch": core_cable_crunch
+"Plank": core_plank
+"Front Plank": core_plank
+"Side Plank": core_side_plank
+"Hanging Leg Raise": core_hanging_leg_raise
+"Hanging Knee Raise": core_hanging_leg_raise
+"Ab Wheel": core_ab_wheel
+"Ab Roller": core_ab_wheel
+"Russian Twist": core_russian_twist
+"Pallof Press": core_pallof_press
+"Dead Bug": core_dead_bug
+"Turkish Get-Up": core_turkish_get_up
+"Woodchop": core_woodchop
+"Wood Chop": core_woodchop
+
+# ─── Calves ─────────────────────────────────────────────
+"Standing Calf Raise": calves_standing_raise
+"Calf Raise": calves_standing_raise
+"Seated Calf Raise": calves_seated_raise
+"Donkey Calf Raise": calves_donkey_raise
+
+# ─── Forearms ───────────────────────────────────────────
+"Wrist Curl": forearms_wrist_curl
+"Reverse Wrist Curl": forearms_reverse_curl
+"Reverse Curl": forearms_reverse_curl
+"Farmer Walk": forearms_farmer_walk
+"Farmer's Walk": forearms_farmer_walk
+"Dead Hang": forearms_deadhangs
+
+# ─── Cardio ─────────────────────────────────────────────
+"Treadmill": cardio_treadmill
+"Rowing Machine": cardio_rowing
+"Rower": cardio_rowing
+"Assault Bike": cardio_assault_bike
+"Air Bike": cardio_assault_bike
+"Spin Bike": cardio_assault_bike
+"Ski Erg": cardio_ski_erg
+"Jump Rope": cardio_jump_rope
+"Skipping": cardio_jump_rope
+"Stairmaster": cardio_stairmaster
+"Stair Climber": cardio_stairmaster
+
+# ─── Full Body ──────────────────────────────────────────
+"Trap Bar Deadlift": full_body_trap_bar_deadlift
+"Hex Bar Deadlift": full_body_trap_bar_deadlift
+"Kettlebell Swing": full_body_kettlebell_swing
+"KB Swing": full_body_kettlebell_swing
+"Burpee": full_body_burpee
+"Clean": full_body_clean
+"Clean and Jerk": full_body_clean_and_jerk
+"Clean and Press": full_body_clean_and_press
+"Snatch": full_body_snatch
+"Man Maker": full_body_manmakers
+"Manmakers": full_body_manmakers
+
+# ─── Warmup / Mobility ──────────────────────────────────
+"World's Greatest Stretch": warmup_worlds_greatest
+"Cat Cow": warmup_cat_cow
+"Inchworm": warmup_inchworm
+"Thread the Needle": warmup_thread_the_needle
+"Leg Swings": warmup_leg_swing
+"Hip Circles": warmup_hip_circle
+"Banded Pull Apart": warmup_banded_pull_apart

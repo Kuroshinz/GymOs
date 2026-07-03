@@ -1,0 +1,54 @@
+{
+  "id": "anterior_deltoid",
+  "display_name": "Anterior Deltoid",
+  "group": "shoulders",
+  "synergists": [
+    "pectoralis_major",
+    "medial_deltoid"
+  ],
+  "antagonists": [
+    "posterior_deltoid",
+    "latissimus_dorsi"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 3,
+      "max_sets": 4,
+      "description": "Heavily activated in pressing, so isolated volume can be low"
+    },
+    "mav": {
+      "min_sets": 4,
+      "max_sets": 8,
+      "description": "4-8 direct sets per week sufficient"
+    },
+    "mrv": {
+      "min_sets": 10,
+      "max_sets": 12,
+      "description": "Prone to overuse; keep below 12 direct sets"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 3
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 48
+    },
+    "fatigue_factor": "low",
+    "description": "Small muscle; recovers quickly, but prone to impingement with excessive volume"
+  },
+  "recommended_exercises": [
+    "shoulders_overhead_press",
+    "shoulders_arnold_press",
+    "shoulders_front_raise",
+    "chest_bench_press",
+    "chest_incline_bench_press"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

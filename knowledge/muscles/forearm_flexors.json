@@ -1,0 +1,53 @@
+{
+  "id": "forearm_flexors",
+  "display_name": "Forearm Flexors",
+  "group": "forearms",
+  "synergists": [
+    "forearm_extensors",
+    "brachioradialis"
+  ],
+  "antagonists": [
+    "forearm_extensors"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 2,
+      "max_sets": 3,
+      "description": "Trained via grip in pulling movements"
+    },
+    "mav": {
+      "min_sets": 3,
+      "max_sets": 6,
+      "description": "3-6 sets of direct grip work"
+    },
+    "mrv": {
+      "min_sets": 8,
+      "max_sets": 10,
+      "description": "Small muscles; low volume requirements"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 3
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "low",
+    "description": "Recovers from direct work in 1-2 days; grip endurance improves with practice"
+  },
+  "recommended_exercises": [
+    "forearms_wrist_curl",
+    "forearms_farmer_walk",
+    "forearms_dead_hang",
+    "forearms_plate_pinch",
+    "back_deadlift"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

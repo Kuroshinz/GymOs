@@ -1,0 +1,52 @@
+{
+  "id": "triceps_brachii_long_head",
+  "display_name": "Triceps Brachii (Long Head)",
+  "group": "arms",
+  "synergists": [
+    "triceps_brachii",
+    "triceps_lateral_head",
+    "triceps_medial_head"
+  ],
+  "antagonists": [
+    "biceps_brachii"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 3,
+      "max_sets": 4,
+      "description": "Targeted via overhead extension movements"
+    },
+    "mav": {
+      "min_sets": 4,
+      "max_sets": 8,
+      "description": "4-8 sets per week"
+    },
+    "mrv": {
+      "min_sets": 10,
+      "max_sets": 12,
+      "description": "Moderate volume requirements"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 3
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "low",
+    "description": "Adds most size to triceps; best hit with overhead extension"
+  },
+  "recommended_exercises": [
+    "triceps_overhead_extension",
+    "triceps_french_press",
+    "triceps_skull_crusher"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

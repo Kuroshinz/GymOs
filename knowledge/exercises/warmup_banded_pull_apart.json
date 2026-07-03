@@ -2,11 +2,64 @@
   "id": "warmup_banded_pull_apart",
   "name": "Banded Pull-Apart",
   "category": "warmup_mobility",
-  "primary_muscles": ["posterior_deltoid", "rhomboids", "trapezius"],
+  "primary_muscles": [
+    "posterior_deltoid",
+    "rhomboids",
+    "trapezius"
+  ],
   "secondary_muscles": [],
   "equipment": "band",
   "difficulty": "beginner",
   "movement_pattern": "horizontal_abduction",
   "mechanics": "mobility",
-  "purpose": "Shoulder health and posture"
+  "purpose": "Shoulder health and posture",
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 60,
+    "max_seconds": 90,
+    "label": "60-90s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "cues": [],
+  "common_mistakes": [],
+  "alternatives": [],
+  "tempo": "2-1-2",
+  "movement_plane": "multi_planar",
+  "stability_requirement": "moderate",
+  "skill_requirement": "low",
+  "fatigue_score": 5.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "ascending",
+  "resistance_profile": "ascending",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "posterior_deltoid",
+      "percentage": 33.3
+    },
+    {
+      "muscle_id": "rhomboids",
+      "percentage": 33.3
+    },
+    {
+      "muscle_id": "trapezius",
+      "percentage": 33.3
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

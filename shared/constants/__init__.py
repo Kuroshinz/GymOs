@@ -1,11 +1,11 @@
 # Application-wide constants
 
-APP_NAME = "NEXUS"
+APP_NAME = "GymOS"
 APP_VERSION = "0.1.0"
-APP_DESCRIPTION = "Next Evolution Exercise & Unified System"
+APP_DESCRIPTION = "Personal Hypertrophy Operating System"
 
 # Database
-DEFAULT_DB_PATH = "data/nexus.db"
+DEFAULT_DB_PATH = "data/gymos.db"
 
 # Events
 EVENT_WORKOUT_CREATED = "workout.created"

@@ -2,11 +2,59 @@
   "id": "warmup_cat_cow",
   "name": "Cat-Cow Stretch",
   "category": "warmup_mobility",
-  "primary_muscles": ["erector_spinae", "core"],
+  "primary_muscles": [
+    "erector_spinae",
+    "core"
+  ],
   "secondary_muscles": [],
   "equipment": "bodyweight",
   "difficulty": "beginner",
   "movement_pattern": "spinal_mobility",
   "mechanics": "mobility",
-  "purpose": "Spine warm-up and mobility"
+  "purpose": "Spine warm-up and mobility",
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 60,
+    "max_seconds": 90,
+    "label": "60-90s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "cues": [],
+  "common_mistakes": [],
+  "alternatives": [],
+  "tempo": "2-1-2",
+  "movement_plane": "multi_planar",
+  "stability_requirement": "high",
+  "skill_requirement": "low",
+  "fatigue_score": 5.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "low",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "erector_spinae",
+      "percentage": 50.0
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 50.0
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

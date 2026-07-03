@@ -1,0 +1,59 @@
+{
+  "id": "quadriceps",
+  "display_name": "Quadriceps",
+  "group": "legs",
+  "synergists": [
+    "gluteus_maximus",
+    "adductors",
+    "soleus"
+  ],
+  "antagonists": [
+    "hamstrings"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 6,
+      "max_sets": 8,
+      "description": "Minimum 6-8 sets for maintenance"
+    },
+    "mav": {
+      "min_sets": 12,
+      "max_sets": 20,
+      "description": "Optimal growth at 12-20 sets per week"
+    },
+    "mrv": {
+      "min_sets": 22,
+      "max_sets": 26,
+      "description": "Large muscle group; can handle 20+ sets"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 72,
+      "max": 96
+    },
+    "fatigue_factor": "high",
+    "description": "Large muscle group; longer recovery, significant systemic fatigue"
+  },
+  "recommended_exercises": [
+    "quads_barbell_squat",
+    "quads_leg_press",
+    "quads_leg_extension",
+    "quads_hack_squat",
+    "quads_front_squat",
+    "quads_bulgarian_split_squat",
+    "quads_goblet_squat",
+    "quads_lunges",
+    "quads_smith_machine_squat",
+    "quads_sissy_squat"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

@@ -1,0 +1,100 @@
+{
+  "id": "back_machine_row",
+  "name": "Machine Row",
+  "aliases": [
+    "Chest Supported Machine Row",
+    "Plate Loaded Row"
+  ],
+  "category": "back",
+  "primary_muscles": [
+    "latissimus_dorsi",
+    "trapezius_middle"
+  ],
+  "secondary_muscles": [
+    "rhomboids",
+    "posterior_deltoid",
+    "biceps_brachii"
+  ],
+  "equipment": "machine",
+  "difficulty": "beginner",
+  "movement_pattern": "horizontal_pull",
+  "mechanics": "compound",
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "tempo": "2-1-2",
+  "setup": [
+    "Sit on machine, chest against pad",
+    "Grip handles with neutral or pronated grip",
+    "Adjust seat so handles align with mid-chest"
+  ],
+  "execution": [
+    "Pull handles toward torso, squeezing shoulder blades together",
+    "Hold peak contraction for 1 count",
+    "Control back to full stretch"
+  ],
+  "cues": [
+    "Lead with your elbows, not your hands",
+    "Squeeze shoulder blades together at peak contraction"
+  ],
+  "breathing": "Exhale on pull, inhale on return",
+  "common_mistakes": [
+    "Using momentum (jerking body)",
+    "Rounding lower back at full stretch",
+    "Partial range of motion"
+  ],
+  "alternatives": [
+    "back_chest_supported_row",
+    "back_seated_cable_row",
+    "back_barbell_row"
+  ],
+  "movement_plane": "sagittal",
+  "stability_requirement": "low",
+  "skill_requirement": "low",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "low",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "linear_variable",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "latissimus_dorsi",
+      "percentage": 34.5
+    },
+    {
+      "muscle_id": "trapezius_middle",
+      "percentage": 34.5
+    },
+    {
+      "muscle_id": "rhomboids",
+      "percentage": 10.3
+    },
+    {
+      "muscle_id": "posterior_deltoid",
+      "percentage": 10.3
+    },
+    {
+      "muscle_id": "biceps_brachii",
+      "percentage": 10.3
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
+}

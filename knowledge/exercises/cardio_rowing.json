@@ -2,8 +2,17 @@
   "id": "cardio_rowing",
   "name": "Rowing Machine",
   "category": "cardio",
-  "primary_muscles": ["cardiovascular", "quadriceps", "lats"],
-  "secondary_muscles": ["hamstrings", "glutes", "core", "arms"],
+  "primary_muscles": [
+    "cardiovascular",
+    "quadriceps",
+    "lats"
+  ],
+  "secondary_muscles": [
+    "hamstrings",
+    "glutes",
+    "core",
+    "arms"
+  ],
   "equipment": "rowing_machine",
   "difficulty": "beginner",
   "movement_pattern": "full_body_cardio",
@@ -18,5 +27,73 @@
     "Extend arms first, then lean forward, then bend knees",
     "Repeat in sequence: legs, body, arms — arms, body, legs"
   ],
-  "cues": ["Legs drive first — not arms", "Handle to sternum, not neck", "Smooth transitions, no jerking"]
+  "cues": [
+    "Legs drive first — not arms",
+    "Handle to sternum, not neck",
+    "Smooth transitions, no jerking"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "common_mistakes": [],
+  "alternatives": [],
+  "tempo": "2-1-2",
+  "movement_plane": "multi_planar",
+  "stability_requirement": "moderate",
+  "skill_requirement": "low",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "cardiovascular",
+      "percentage": 23.8
+    },
+    {
+      "muscle_id": "quadriceps",
+      "percentage": 23.8
+    },
+    {
+      "muscle_id": "lats",
+      "percentage": 23.8
+    },
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 7.1
+    },
+    {
+      "muscle_id": "glutes",
+      "percentage": 7.1
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 7.1
+    },
+    {
+      "muscle_id": "arms",
+      "percentage": 7.1
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

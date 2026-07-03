@@ -1,0 +1,52 @@
+{
+  "id": "trapezius_upper",
+  "display_name": "Trapezius (Upper)",
+  "group": "back",
+  "synergists": [
+    "levator_scapulae",
+    "trapezius"
+  ],
+  "antagonists": [
+    "pectoralis_major",
+    "anterior_deltoid"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 3,
+      "max_sets": 4,
+      "description": "Trained via deadlifts, rows, and shrugs"
+    },
+    "mav": {
+      "min_sets": 4,
+      "max_sets": 8,
+      "description": "4-8 sets per week sufficient"
+    },
+    "mrv": {
+      "min_sets": 10,
+      "max_sets": 12,
+      "description": "Prone to tightness; moderate volume"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 1,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "low",
+    "description": "Postural muscle; often overactive from desk work"
+  },
+  "recommended_exercises": [
+    "shoulders_shrug",
+    "back_deadlift",
+    "shoulders_upright_row"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

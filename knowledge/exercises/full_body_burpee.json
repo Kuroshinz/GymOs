@@ -2,11 +2,61 @@
   "id": "full_body_burpee",
   "name": "Burpee",
   "category": "full_body",
-  "primary_muscles": ["full_body", "cardiovascular"],
+  "primary_muscles": [
+    "full_body",
+    "cardiovascular"
+  ],
   "secondary_muscles": [],
   "equipment": "bodyweight",
   "difficulty": "beginner",
   "movement_pattern": "full_body_compound",
   "mechanics": "compound",
-  "setup": ["Stand with feet shoulder-width"]
+  "setup": [
+    "Stand with feet shoulder-width"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "cues": [],
+  "common_mistakes": [],
+  "alternatives": [],
+  "tempo": "2-1-2",
+  "movement_plane": "multi_planar",
+  "stability_requirement": "high",
+  "skill_requirement": "low",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "low",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "full_body",
+      "percentage": 50.0
+    },
+    {
+      "muscle_id": "cardiovascular",
+      "percentage": 50.0
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

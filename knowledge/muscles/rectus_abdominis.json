@@ -1,0 +1,58 @@
+{
+  "id": "rectus_abdominis",
+  "display_name": "Rectus Abdominis",
+  "group": "core",
+  "synergists": [
+    "obliques",
+    "transversus_abdominis"
+  ],
+  "antagonists": [
+    "erector_spinae"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 4,
+      "max_sets": 6,
+      "description": "Minimum 4-6 sets for maintenance"
+    },
+    "mav": {
+      "min_sets": 8,
+      "max_sets": 14,
+      "description": "Growth at 8-14 sets per week"
+    },
+    "mrv": {
+      "min_sets": 16,
+      "max_sets": 20,
+      "description": "Very resilient; can handle daily training"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 4
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 24,
+      "max": 48
+    },
+    "fatigue_factor": "low",
+    "description": "Recovers quickly; can be trained frequently"
+  },
+  "recommended_exercises": [
+    "core_crunch",
+    "core_hanging_leg_raise",
+    "core_cable_crunch",
+    "core_ab_wheel",
+    "core_reverse_crunch",
+    "core_plank",
+    "core_v_up",
+    "core_toes_to_bar",
+    "core_medicine_ball_slam",
+    "core_ab_roller"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

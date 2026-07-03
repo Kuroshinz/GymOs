@@ -1,0 +1,51 @@
+{
+  "id": "hip_rotators",
+  "display_name": "Hip Rotators (Deep Six)",
+  "group": "hips",
+  "synergists": [
+    "gluteus_maximus",
+    "gluteus_medius"
+  ],
+  "antagonists": [
+    "gluteus_medius"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 1,
+      "max_sets": 2,
+      "description": "Small deep hip muscles"
+    },
+    "mav": {
+      "min_sets": 2,
+      "max_sets": 4,
+      "description": "2-4 sets per week"
+    },
+    "mrv": {
+      "min_sets": 6,
+      "max_sets": 8,
+      "description": "Low volume"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 1,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "low",
+    "description": "Deep hip rotators; important for hip stability"
+  },
+  "recommended_exercises": [
+    "warmup_hip_circle",
+    "warmup_leg_swings",
+    "hamstrings_hip_abduction"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

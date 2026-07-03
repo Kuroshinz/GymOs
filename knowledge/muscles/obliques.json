@@ -1,0 +1,54 @@
+{
+  "id": "obliques",
+  "display_name": "Obliques (External & Internal)",
+  "group": "core",
+  "synergists": [
+    "rectus_abdominis",
+    "transversus_abdominis",
+    "quadratus_lumborum"
+  ],
+  "antagonists": [
+    "erector_spinae"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 2,
+      "max_sets": 3,
+      "description": "Minimum 2-3 sets for core stability"
+    },
+    "mav": {
+      "min_sets": 4,
+      "max_sets": 8,
+      "description": "Growth at 4-8 sets per week"
+    },
+    "mrv": {
+      "min_sets": 10,
+      "max_sets": 12,
+      "description": "If waist thickening is a concern, keep volume moderate"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 3
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 24,
+      "max": 48
+    },
+    "fatigue_factor": "low",
+    "description": "Recovers fast; anti-rotation and rotation exercises"
+  },
+  "recommended_exercises": [
+    "core_russian_twist",
+    "core_side_plank",
+    "core_wood_chopper",
+    "core_pallof_press",
+    "core_windshield_wiper"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

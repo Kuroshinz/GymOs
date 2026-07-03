@@ -1,0 +1,55 @@
+{
+  "id": "hip_flexors",
+  "display_name": "Hip Flexors (Iliopsoas)",
+  "group": "hips",
+  "synergists": [
+    "rectus_abdominis",
+    "quadriceps",
+    "pectineus"
+  ],
+  "antagonists": [
+    "gluteus_maximus",
+    "hamstrings"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 1,
+      "max_sets": 2,
+      "description": "Minimal direct work; trained via leg raises"
+    },
+    "mav": {
+      "min_sets": 2,
+      "max_sets": 4,
+      "description": "2-4 sets per week sufficient"
+    },
+    "mrv": {
+      "min_sets": 6,
+      "max_sets": 8,
+      "description": "Often tight; stretching is more important"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 1,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 24,
+      "max": 48
+    },
+    "fatigue_factor": "low",
+    "description": "Often tight from prolonged sitting; prioritize flexibility"
+  },
+  "recommended_exercises": [
+    "core_hanging_leg_raise",
+    "core_reverse_crunch",
+    "core_pike",
+    "warmup_leg_swings",
+    "warmup_hip_circle"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

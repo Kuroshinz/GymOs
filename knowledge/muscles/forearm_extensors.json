@@ -1,0 +1,51 @@
+{
+  "id": "forearm_extensors",
+  "display_name": "Forearm Extensors",
+  "group": "forearms",
+  "synergists": [
+    "forearm_flexors",
+    "brachioradialis"
+  ],
+  "antagonists": [
+    "forearm_flexors"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 2,
+      "max_sets": 3,
+      "description": "Trained via reverse curls and grip work"
+    },
+    "mav": {
+      "min_sets": 3,
+      "max_sets": 6,
+      "description": "3-6 sets of direct work per week"
+    },
+    "mrv": {
+      "min_sets": 8,
+      "max_sets": 10,
+      "description": "Keep below 10 sets"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 1,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "low",
+    "description": "Prevents forearm imbalances; important for wrist health"
+  },
+  "recommended_exercises": [
+    "forearms_reverse_curl",
+    "forearms_wrist_extension",
+    "forearms_farmer_walk"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

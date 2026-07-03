@@ -2,8 +2,14 @@
   "id": "shoulders_rear_delt_raise",
   "name": "Bent-Over Dumbbell Rear Delt Raise",
   "category": "shoulders",
-  "primary_muscles": ["posterior_deltoid"],
-  "secondary_muscles": ["rhomboids", "trapezius_middle", "infraspinatus"],
+  "primary_muscles": [
+    "posterior_deltoid"
+  ],
+  "secondary_muscles": [
+    "rhomboids",
+    "trapezius_middle",
+    "infraspinatus"
+  ],
   "equipment": "dumbbell",
   "difficulty": "intermediate",
   "movement_pattern": "horizontal_abduction",
@@ -33,5 +39,57 @@
     "reverse_pec_deck",
     "face_pull",
     "cable_rear_delt_fly"
-  ]
+  ],
+  "aliases": [
+    "Bent-Over DB Rear Delt Raise"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 60,
+    "max_seconds": 90,
+    "label": "60-90s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "movement_plane": "multi_planar",
+  "stability_requirement": "low",
+  "skill_requirement": "moderate",
+  "fatigue_score": 3.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "posterior_deltoid",
+      "percentage": 52.6
+    },
+    {
+      "muscle_id": "rhomboids",
+      "percentage": 15.8
+    },
+    {
+      "muscle_id": "trapezius_middle",
+      "percentage": 15.8
+    },
+    {
+      "muscle_id": "infraspinatus",
+      "percentage": 15.8
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

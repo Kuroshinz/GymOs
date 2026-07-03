@@ -2,8 +2,15 @@
   "id": "quads_lunges",
   "name": "Walking Dumbbell Lunge",
   "category": "quads",
-  "primary_muscles": ["quadriceps", "gluteus_maximus"],
-  "secondary_muscles": ["hamstrings", "core", "calves"],
+  "primary_muscles": [
+    "quadriceps",
+    "gluteus_maximus"
+  ],
+  "secondary_muscles": [
+    "hamstrings",
+    "core",
+    "calves"
+  ],
   "equipment": "dumbbell",
   "difficulty": "intermediate",
   "movement_pattern": "lunge",
@@ -36,5 +43,65 @@
     "lateral_lunge",
     "curtsey_lunge"
   ],
-  "alternatives": ["reverse_lunge", "step_up", "split_squat"]
+  "alternatives": [
+    "reverse_lunge",
+    "step_up",
+    "split_squat"
+  ],
+  "aliases": [
+    "Walking DB Lunge"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "movement_plane": "sagittal",
+  "stability_requirement": "high",
+  "skill_requirement": "moderate",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "high",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "quadriceps",
+      "percentage": 34.5
+    },
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 34.5
+    },
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 10.3
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 10.3
+    },
+    {
+      "muscle_id": "calves",
+      "percentage": 10.3
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

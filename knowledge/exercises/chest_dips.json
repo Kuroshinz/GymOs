@@ -2,8 +2,13 @@
   "id": "chest_dips",
   "name": "Chest Dips",
   "category": "chest",
-  "primary_muscles": ["pectoralis_major_sternal", "triceps_brachii"],
-  "secondary_muscles": ["anterior_deltoid"],
+  "primary_muscles": [
+    "pectoralis_major_sternal",
+    "triceps_brachii"
+  ],
+  "secondary_muscles": [
+    "anterior_deltoid"
+  ],
   "equipment": "parallel_bars",
   "difficulty": "advanced",
   "movement_pattern": "vertical_push",
@@ -31,6 +36,54 @@
     "Elbows back, not out",
     "Feel the stretch in lower chest"
   ],
-  "alternatives": ["chest_dip_machine", "band_assisted_dip"],
-  "weight_progression": "Add weight via dip belt"
+  "alternatives": [
+    "chest_dip_machine",
+    "band_assisted_dip"
+  ],
+  "weight_progression": "Add weight via dip belt",
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "movement_plane": "sagittal",
+  "stability_requirement": "moderate",
+  "skill_requirement": "high",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 0,
+    "max": 1,
+    "description": "Take close to failure, 0-1 RIR"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "pectoralis_major_sternal",
+      "percentage": 43.5
+    },
+    {
+      "muscle_id": "triceps_brachii",
+      "percentage": 43.5
+    },
+    {
+      "muscle_id": "anterior_deltoid",
+      "percentage": 13.0
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

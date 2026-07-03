@@ -2,8 +2,13 @@
   "id": "quads_hack_squat",
   "name": "Hack Squat Machine",
   "category": "quads",
-  "primary_muscles": ["quadriceps"],
-  "secondary_muscles": ["gluteus_maximus", "hamstrings"],
+  "primary_muscles": [
+    "quadriceps"
+  ],
+  "secondary_muscles": [
+    "gluteus_maximus",
+    "hamstrings"
+  ],
   "equipment": "machine",
   "difficulty": "intermediate",
   "movement_pattern": "squat",
@@ -33,5 +38,51 @@
     "Quad-dominant (less glute involvement)",
     "Fixed path is safe",
     "Great for quad hypertrophy"
-  ]
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Brace and hold breath through descent, exhale at top of ascent",
+  "alternatives": [],
+  "movement_plane": "sagittal",
+  "stability_requirement": "low",
+  "skill_requirement": "moderate",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "high",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "linear_variable",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "quadriceps",
+      "percentage": 62.5
+    },
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 18.8
+    },
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 18.8
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

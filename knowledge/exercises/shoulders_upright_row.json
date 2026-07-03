@@ -2,8 +2,14 @@
   "id": "shoulders_upright_row",
   "name": "Barbell Upright Row",
   "category": "shoulders",
-  "primary_muscles": ["medial_deltoid", "trapezius"],
-  "secondary_muscles": ["biceps_brachii", "anterior_deltoid"],
+  "primary_muscles": [
+    "medial_deltoid",
+    "trapezius"
+  ],
+  "secondary_muscles": [
+    "biceps_brachii",
+    "anterior_deltoid"
+  ],
   "equipment": "barbell",
   "difficulty": "intermediate",
   "movement_pattern": "vertical_pull_with_abduction",
@@ -29,5 +35,58 @@
     "Bar stays close to body",
     "Pull to upper chest, not chin"
   ],
-  "shoulder_safety_note": "Avoid internal rotation at top. Many lifters should substitute face pulls or lateral raises."
+  "shoulder_safety_note": "Avoid internal rotation at top. Many lifters should substitute face pulls or lateral raises.",
+  "aliases": [
+    "Upright Row"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "moderate",
+  "skill_requirement": "moderate",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "medial_deltoid",
+      "percentage": 38.5
+    },
+    {
+      "muscle_id": "trapezius",
+      "percentage": 38.5
+    },
+    {
+      "muscle_id": "biceps_brachii",
+      "percentage": 11.5
+    },
+    {
+      "muscle_id": "anterior_deltoid",
+      "percentage": 11.5
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

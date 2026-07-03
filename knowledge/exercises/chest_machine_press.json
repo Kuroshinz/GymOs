@@ -2,8 +2,13 @@
   "id": "chest_machine_press",
   "name": "Machine Chest Press",
   "category": "chest",
-  "primary_muscles": ["pectoralis_major"],
-  "secondary_muscles": ["triceps_brachii", "anterior_deltoid"],
+  "primary_muscles": [
+    "pectoralis_major"
+  ],
+  "secondary_muscles": [
+    "triceps_brachii",
+    "anterior_deltoid"
+  ],
   "equipment": "machine",
   "difficulty": "beginner",
   "movement_pattern": "horizontal_push",
@@ -25,5 +30,52 @@
     "Good for beginners learning press pattern",
     "Safe to failure (no spotter needed)",
     "Fixed path reduces injury risk"
-  ]
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "common_mistakes": [],
+  "alternatives": [],
+  "movement_plane": "sagittal",
+  "stability_requirement": "low",
+  "skill_requirement": "low",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "low",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "linear_variable",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "pectoralis_major",
+      "percentage": 62.5
+    },
+    {
+      "muscle_id": "triceps_brachii",
+      "percentage": 18.8
+    },
+    {
+      "muscle_id": "anterior_deltoid",
+      "percentage": 18.8
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

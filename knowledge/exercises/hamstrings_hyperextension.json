@@ -2,7 +2,11 @@
   "id": "hamstrings_hyperextension",
   "name": "Hyperextension (Back Extension)",
   "category": "hamstrings_glutes",
-  "primary_muscles": ["erector_spinae", "hamstrings", "gluteus_maximus"],
+  "primary_muscles": [
+    "erector_spinae",
+    "hamstrings",
+    "gluteus_maximus"
+  ],
   "secondary_muscles": [],
   "equipment": "hyperextension_bench",
   "difficulty": "beginner",
@@ -33,5 +37,51 @@
     "weighted_hyperextension",
     "single_leg_hyperextension",
     "45_degree_hyperextension"
-  ]
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "moderate",
+  "skill_requirement": "low",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "erector_spinae",
+      "percentage": 33.3
+    },
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 33.3
+    },
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 33.3
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

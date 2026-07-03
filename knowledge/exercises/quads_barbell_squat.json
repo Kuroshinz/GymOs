@@ -2,8 +2,16 @@
   "id": "quads_barbell_squat",
   "name": "Barbell Back Squat (Low Bar)",
   "category": "quads",
-  "primary_muscles": ["quadriceps", "gluteus_maximus"],
-  "secondary_muscles": ["hamstrings", "erector_spinae", "core", "calves"],
+  "primary_muscles": [
+    "quadriceps",
+    "gluteus_maximus"
+  ],
+  "secondary_muscles": [
+    "hamstrings",
+    "erector_spinae",
+    "core",
+    "calves"
+  ],
   "equipment": "barbell",
   "difficulty": "advanced",
   "movement_pattern": "squat",
@@ -41,10 +49,74 @@
     "front_squat",
     "safety_bar_squat"
   ],
-  "alternatives": ["goblet_squat", "hack_squat", "leg_press"],
+  "alternatives": [
+    "goblet_squat",
+    "hack_squat",
+    "leg_press"
+  ],
   "rep_ranges": {
     "strength": "1-5",
     "hypertrophy": "6-15",
     "endurance": "15-20"
-  }
+  },
+  "aliases": [
+    "Back Squat (Low Bar)"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Brace and hold breath through descent, exhale at top of ascent",
+  "movement_plane": "sagittal",
+  "stability_requirement": "high",
+  "skill_requirement": "high",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "high",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 0,
+    "max": 1,
+    "description": "Take close to failure, 0-1 RIR"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "quadriceps",
+      "percentage": 31.2
+    },
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 31.2
+    },
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 9.4
+    },
+    {
+      "muscle_id": "erector_spinae",
+      "percentage": 9.4
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 9.4
+    },
+    {
+      "muscle_id": "calves",
+      "percentage": 9.4
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

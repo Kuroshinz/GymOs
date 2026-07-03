@@ -1,0 +1,51 @@
+{
+  "id": "brachioradialis",
+  "display_name": "Brachioradialis",
+  "group": "arms",
+  "synergists": [
+    "brachialis",
+    "biceps_brachii"
+  ],
+  "antagonists": [
+    "triceps_brachii"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 2,
+      "max_sets": 3,
+      "description": "Trained via hammer curls and reverse curls"
+    },
+    "mav": {
+      "min_sets": 3,
+      "max_sets": 6,
+      "description": "3-6 sets per week sufficient"
+    },
+    "mrv": {
+      "min_sets": 8,
+      "max_sets": 10,
+      "description": "Small forearm muscle; low volume needed"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 1,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 48
+    },
+    "fatigue_factor": "low",
+    "description": "Builds forearm and upper arm thickness; trained with neutral grip"
+  },
+  "recommended_exercises": [
+    "biceps_hammer_curl",
+    "biceps_reverse_curl",
+    "forearms_reverse_curl"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

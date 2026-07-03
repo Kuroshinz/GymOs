@@ -1,0 +1,53 @@
+{
+  "id": "trapezius",
+  "display_name": "Trapezius (Upper)",
+  "group": "back",
+  "synergists": [
+    "levator_scapulae",
+    "rhomboids"
+  ],
+  "antagonists": [
+    "pectoralis_major",
+    "anterior_deltoid"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 3,
+      "max_sets": 4,
+      "description": "Often overdeveloped from deadlifts; 3-4 sets min"
+    },
+    "mav": {
+      "min_sets": 4,
+      "max_sets": 8,
+      "description": "4-8 direct sets sufficient for growth"
+    },
+    "mrv": {
+      "min_sets": 10,
+      "max_sets": 12,
+      "description": "Overtraining leads to neck tightness"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 1,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "low",
+    "description": "Recovers well; traps respond to heavy deadlifts and rows"
+  },
+  "recommended_exercises": [
+    "back_deadlift",
+    "back_barbell_row",
+    "shoulders_shrug",
+    "shoulders_upright_row"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

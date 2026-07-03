@@ -1,0 +1,59 @@
+{
+  "id": "hamstrings",
+  "display_name": "Hamstrings",
+  "group": "legs",
+  "synergists": [
+    "gluteus_maximus",
+    "erector_spinae",
+    "gracilis"
+  ],
+  "antagonists": [
+    "quadriceps"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 4,
+      "max_sets": 6,
+      "description": "Minimum 4-6 sets for maintenance"
+    },
+    "mav": {
+      "min_sets": 8,
+      "max_sets": 14,
+      "description": "Optimal growth at 8-14 sets per week"
+    },
+    "mrv": {
+      "min_sets": 16,
+      "max_sets": 20,
+      "description": "Prone to injury if overtrained"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 72,
+      "max": 96
+    },
+    "fatigue_factor": "high",
+    "description": "Responds well to hip-hinge and knee-flexion exercises"
+  },
+  "recommended_exercises": [
+    "hamstrings_romanian_deadlift",
+    "hamstrings_leg_curl",
+    "hamstrings_nordic_curl",
+    "hamstrings_hip_thrust",
+    "hamstrings_good_morning",
+    "hamstrings_hyperextension",
+    "hamstrings_single_leg_curl",
+    "hamstrings_kettlebell_swing",
+    "hamstrings_straight_leg_deadlift",
+    "hamstrings_sliding_leg_curl"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

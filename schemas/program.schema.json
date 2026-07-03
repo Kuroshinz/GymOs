@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gymos.app/schemas/program.schema.json",
+  "title": "WorkoutProgram",
+  "description": "A structured workout program definition in the GymOS ecosystem",
+  "type": "object",
+  "required": ["name", "days"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema reference URL"
+    },
+    "name": {
+      "type": "string",
+      "description": "Program display name, e.g. 'PPL-UL v6'"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of the program"
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this program definition"
+    },
+    "author": {
+      "type": "string",
+      "description": "Program author name"
+    },
+    "source": {
+      "type": "string",
+      "description": "Source file name (e.g. the Excel file it was imported from)"
+    },
+    "goal": {
+      "type": "string",
+      "enum": [
+        "hypertrophy", "strength", "endurance", "power",
+        "fat_loss", "general_fitness", "rehabilitation"
+      ],
+      "description": "Primary training goal"
+    },
+    "experience_level": {
+      "type": "string",
+      "enum": ["beginner", "intermediate", "advanced"],
+      "description": "Target experience level"
+    },
+    "split": {
+      "type": "string",
+      "description": "Training split type, e.g. 'PPL-UL', 'Upper/Lower', 'Push/Pull/Legs', 'Full Body'"
+    },
+    "mesocycle_duration_weeks": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Length of the mesocycle in weeks"
+    },
+    "deload_week": {
+      "type": "object",
+      "properties": {
+        "frequency_weeks": { "type": "integer" },
+        "type": {
+          "type": "string",
+          "enum": ["full_deload", "reduced_volume", "reduced_intensity", "none"]
+        },
+        "description": { "type": "string" }
+      },
+      "description": "Deload week configuration"
+    },
+    "progression_strategy": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string",
+          "description": "Primary progression method, e.g. 'double_progression', 'linear', 'double_progression_plus'"
+        },
+        "description": { "type": "string" }
+      },
+      "description": "How to progress weight/reps over time"
+    },
+    "priority_muscles": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Muscle IDs that receive extra volume or priority in this program"
+    },
+    "rules": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Program-level training rules"
+    },
+    "days": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "exercises"],
+        "properties": {
+          "name": { "type": "string" },
+          "sort_order": { "type": "integer" },
+          "notes": { "type": "string" },
+          "exercises": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name"],
+              "properties": {
+                "name": { "type": "string" },
+                "exercise_id": {
+                  "type": "string",
+                  "description": "Reference to an exercise ID in the knowledge base"
+                },
+                "target_sets": { "type": "integer", "minimum": 1 },
+                "target_reps": { "type": "string" },
+                "muscle_group": { "type": "string" },
+                "sort_order": { "type": "integer" },
+                "notes": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+
+    "knowledge_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of this program definition"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date",
+      "description": "Date this program was created (YYYY-MM-DD)"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date",
+      "description": "Date this program was last updated (YYYY-MM-DD)"
+    }
+  },
+  "additionalProperties": false
+}

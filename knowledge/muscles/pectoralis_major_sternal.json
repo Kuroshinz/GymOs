@@ -1,0 +1,55 @@
+{
+  "id": "pectoralis_major_sternal",
+  "display_name": "Pectoralis Major (Sternal / Lower Chest)",
+  "group": "chest",
+  "synergists": [
+    "pectoralis_major",
+    "anterior_deltoid",
+    "triceps_brachii"
+  ],
+  "antagonists": [
+    "trapezius",
+    "rhomboids"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 6,
+      "max_sets": 8,
+      "description": "Minimum 6-8 weekly sets to maintain"
+    },
+    "mav": {
+      "min_sets": 10,
+      "max_sets": 16,
+      "description": "Optimal growth at 10-16 sets per week"
+    },
+    "mrv": {
+      "min_sets": 18,
+      "max_sets": 22,
+      "description": "Beyond 20 sets risks recovery failure"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "moderate",
+    "description": "Sternal fibers have slightly different line of pull; well-targeted by decline and flat pressing"
+  },
+  "recommended_exercises": [
+    "chest_bench_press",
+    "chest_decline_bench_press",
+    "chest_dips",
+    "chest_machine_press",
+    "chest_push_ups"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

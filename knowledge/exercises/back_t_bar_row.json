@@ -2,8 +2,16 @@
   "id": "back_t_bar_row",
   "name": "T-Bar Row",
   "category": "back",
-  "primary_muscles": ["latissimus_dorsi", "rhomboids", "trapezius_middle"],
-  "secondary_muscles": ["biceps_brachii", "posterior_deltoid", "erector_spinae"],
+  "primary_muscles": [
+    "latissimus_dorsi",
+    "rhomboids",
+    "trapezius_middle"
+  ],
+  "secondary_muscles": [
+    "biceps_brachii",
+    "posterior_deltoid",
+    "erector_spinae"
+  ],
   "equipment": "barbell",
   "difficulty": "intermediate",
   "movement_pattern": "horizontal_pull",
@@ -30,5 +38,66 @@
     "Pull to your belt buckle",
     "Elbows tight to body"
   ],
-  "advantages": ["Fixed bar path is back-friendly", "Easy to load heavy"]
+  "advantages": [
+    "Fixed bar path is back-friendly",
+    "Easy to load heavy"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "movement_plane": "sagittal",
+  "stability_requirement": "moderate",
+  "skill_requirement": "moderate",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "latissimus_dorsi",
+      "percentage": 25.6
+    },
+    {
+      "muscle_id": "rhomboids",
+      "percentage": 25.6
+    },
+    {
+      "muscle_id": "trapezius_middle",
+      "percentage": 25.6
+    },
+    {
+      "muscle_id": "biceps_brachii",
+      "percentage": 7.7
+    },
+    {
+      "muscle_id": "posterior_deltoid",
+      "percentage": 7.7
+    },
+    {
+      "muscle_id": "erector_spinae",
+      "percentage": 7.7
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

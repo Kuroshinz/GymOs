@@ -2,8 +2,12 @@
   "id": "shoulders_shrug",
   "name": "Dumbbell Shrug",
   "category": "shoulders",
-  "primary_muscles": ["trapezius_upper"],
-  "secondary_muscles": ["levator_scapulae"],
+  "primary_muscles": [
+    "trapezius_upper"
+  ],
+  "secondary_muscles": [
+    "levator_scapulae"
+  ],
   "equipment": "dumbbell",
   "difficulty": "beginner",
   "movement_pattern": "scapular_elevation",
@@ -33,5 +37,52 @@
     "trap_bar_shrug",
     "cable_shrug"
   ],
-  "alternatives": ["barbell_shrug", "trap_bar_shrug"]
+  "alternatives": [
+    "barbell_shrug",
+    "trap_bar_shrug"
+  ],
+  "aliases": [
+    "DB Shrug"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 60,
+    "max_seconds": 90,
+    "label": "60-90s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "movement_plane": "multi_planar",
+  "stability_requirement": "low",
+  "skill_requirement": "low",
+  "fatigue_score": 3.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "trapezius_upper",
+      "percentage": 76.9
+    },
+    {
+      "muscle_id": "levator_scapulae",
+      "percentage": 23.1
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

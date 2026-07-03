@@ -1,0 +1,42 @@
+{
+  "id": "triceps",
+  "display_name": "Triceps (Composite)",
+  "group": "arms",
+  "synergists": [],
+  "antagonists": [],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 4,
+      "max_sets": 6,
+      "description": "Composite; triceps_brachii reference"
+    },
+    "mav": {
+      "min_sets": 8,
+      "max_sets": 14,
+      "description": "Composite"
+    },
+    "mrv": {
+      "min_sets": 16,
+      "max_sets": 20,
+      "description": "Composite"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 3
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "low",
+    "description": "Composite reference"
+  },
+  "recommended_exercises": [],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

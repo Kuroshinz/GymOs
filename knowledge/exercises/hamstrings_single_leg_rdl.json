@@ -2,8 +2,15 @@
   "id": "hamstrings_single_leg_rdl",
   "name": "Single-Leg Romanian Deadlift",
   "category": "hamstrings_glutes",
-  "primary_muscles": ["hamstrings", "gluteus_maximus"],
-  "secondary_muscles": ["core", "erector_spinae", "calves"],
+  "primary_muscles": [
+    "hamstrings",
+    "gluteus_maximus"
+  ],
+  "secondary_muscles": [
+    "core",
+    "erector_spinae",
+    "calves"
+  ],
   "equipment": "dumbbell",
   "difficulty": "intermediate",
   "movement_pattern": "hip_hinge",
@@ -36,5 +43,61 @@
     "No spinal loading",
     "Great for glute med activation"
   ],
-  "alternatives": ["rdl", "leg_curl"]
+  "alternatives": [
+    "rdl",
+    "leg_curl"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Brace and hold breath through movement, exhale at lockout",
+  "movement_plane": "sagittal",
+  "stability_requirement": "high",
+  "skill_requirement": "moderate",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "high",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "unilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 34.5
+    },
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 34.5
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 10.3
+    },
+    {
+      "muscle_id": "erector_spinae",
+      "percentage": 10.3
+    },
+    {
+      "muscle_id": "calves",
+      "percentage": 10.3
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

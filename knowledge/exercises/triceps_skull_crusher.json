@@ -2,8 +2,13 @@
   "id": "triceps_skull_crusher",
   "name": "Lying Triceps Extension (Skull Crusher)",
   "category": "triceps",
-  "primary_muscles": ["triceps_brachii"],
-  "secondary_muscles": ["forearms", "anterior_deltoid"],
+  "primary_muscles": [
+    "triceps_brachii"
+  ],
+  "secondary_muscles": [
+    "forearms",
+    "anterior_deltoid"
+  ],
   "equipment": "ez_bar",
   "difficulty": "intermediate",
   "movement_pattern": "elbow_extension",
@@ -32,5 +37,54 @@
     "cable_triceps_extension",
     "incline_triceps_extension"
   ],
-  "alternatives": ["triceps_pulldown", "dips", "close_grip_bench"]
+  "alternatives": [
+    "triceps_pulldown",
+    "dips",
+    "close_grip_bench"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 60,
+    "max_seconds": 90,
+    "label": "60-90s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "movement_plane": "multi_planar",
+  "stability_requirement": "low",
+  "skill_requirement": "moderate",
+  "fatigue_score": 3.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "triceps_brachii",
+      "percentage": 62.5
+    },
+    {
+      "muscle_id": "forearms",
+      "percentage": 18.8
+    },
+    {
+      "muscle_id": "anterior_deltoid",
+      "percentage": 18.8
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

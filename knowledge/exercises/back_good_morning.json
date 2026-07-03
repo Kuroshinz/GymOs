@@ -2,8 +2,14 @@
   "id": "back_good_morning",
   "name": "Barbell Good Morning",
   "category": "back",
-  "primary_muscles": ["erector_spinae", "hamstrings"],
-  "secondary_muscles": ["gluteus_maximus", "core"],
+  "primary_muscles": [
+    "erector_spinae",
+    "hamstrings"
+  ],
+  "secondary_muscles": [
+    "gluteus_maximus",
+    "core"
+  ],
   "equipment": "barbell",
   "difficulty": "advanced",
   "movement_pattern": "hip_hinge",
@@ -29,5 +35,58 @@
     "Push hips back as if closing a car door with your butt",
     "Keep chest proud, neck neutral",
     "Feel the stretch in hamstrings, not lower back"
-  ]
+  ],
+  "aliases": [
+    "Good Morning"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Brace and hold breath through movement, exhale at lockout",
+  "alternatives": [],
+  "movement_plane": "sagittal",
+  "stability_requirement": "high",
+  "skill_requirement": "high",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "high",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 0,
+    "max": 1,
+    "description": "Take close to failure, 0-1 RIR"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "erector_spinae",
+      "percentage": 38.5
+    },
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 38.5
+    },
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 11.5
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 11.5
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

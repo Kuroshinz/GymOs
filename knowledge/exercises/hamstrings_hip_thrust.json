@@ -2,8 +2,14 @@
   "id": "hamstrings_hip_thrust",
   "name": "Barbell Hip Thrust",
   "category": "hamstrings_glutes",
-  "primary_muscles": ["gluteus_maximus"],
-  "secondary_muscles": ["hamstrings", "core", "adductors"],
+  "primary_muscles": [
+    "gluteus_maximus"
+  ],
+  "secondary_muscles": [
+    "hamstrings",
+    "core",
+    "adductors"
+  ],
   "equipment": "barbell",
   "difficulty": "intermediate",
   "movement_pattern": "hip_extension",
@@ -39,5 +45,58 @@
     "Best glute activation (EMG studies)",
     "Great for glute hypertrophy",
     "Low back-friendly"
-  ]
+  ],
+  "aliases": [
+    "Hip Thrust"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "moderate",
+  "skill_requirement": "moderate",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 52.6
+    },
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 15.8
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 15.8
+    },
+    {
+      "muscle_id": "adductors",
+      "percentage": 15.8
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

@@ -2,8 +2,18 @@
   "id": "full_body_clean",
   "name": "Power Clean",
   "category": "full_body",
-  "primary_muscles": ["quadriceps", "gluteus_maximus", "trapezius", "hamstrings"],
-  "secondary_muscles": ["erector_spinae", "calves", "forearms", "core"],
+  "primary_muscles": [
+    "quadriceps",
+    "gluteus_maximus",
+    "trapezius",
+    "hamstrings"
+  ],
+  "secondary_muscles": [
+    "erector_spinae",
+    "calves",
+    "forearms",
+    "core"
+  ],
   "equipment": "barbell",
   "difficulty": "advanced",
   "movement_pattern": "olympic_lift",
@@ -26,5 +36,76 @@
     "Fast elbows under the bar",
     "Catch in a quarter squat"
   ],
-  "variations": ["hang_clean", "clean_pull", "muscle_clean"]
+  "variations": [
+    "hang_clean",
+    "clean_pull",
+    "muscle_clean"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "common_mistakes": [],
+  "alternatives": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "moderate",
+  "skill_requirement": "high",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 0,
+    "max": 1,
+    "description": "Take close to failure, 0-1 RIR"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "quadriceps",
+      "percentage": 19.2
+    },
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 19.2
+    },
+    {
+      "muscle_id": "trapezius",
+      "percentage": 19.2
+    },
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 19.2
+    },
+    {
+      "muscle_id": "erector_spinae",
+      "percentage": 5.8
+    },
+    {
+      "muscle_id": "calves",
+      "percentage": 5.8
+    },
+    {
+      "muscle_id": "forearms",
+      "percentage": 5.8
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 5.8
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

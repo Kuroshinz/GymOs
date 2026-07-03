@@ -2,8 +2,17 @@
   "id": "back_sumo_deadlift",
   "name": "Sumo Deadlift",
   "category": "back",
-  "primary_muscles": ["gluteus_maximus", "quadriceps", "erector_spinae"],
-  "secondary_muscles": ["hamstrings", "trapezius", "adductors", "core"],
+  "primary_muscles": [
+    "gluteus_maximus",
+    "quadriceps",
+    "erector_spinae"
+  ],
+  "secondary_muscles": [
+    "hamstrings",
+    "trapezius",
+    "adductors",
+    "core"
+  ],
   "equipment": "barbell",
   "difficulty": "intermediate",
   "movement_pattern": "hip_hinge",
@@ -38,5 +47,67 @@
     "Shorter range of motion than conventional",
     "Better for taller lifters",
     "Less lower back stress for many"
-  ]
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Brace and hold breath through movement, exhale at lockout",
+  "alternatives": [],
+  "movement_plane": "sagittal",
+  "stability_requirement": "high",
+  "skill_requirement": "moderate",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "high",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 23.8
+    },
+    {
+      "muscle_id": "quadriceps",
+      "percentage": 23.8
+    },
+    {
+      "muscle_id": "erector_spinae",
+      "percentage": 23.8
+    },
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 7.1
+    },
+    {
+      "muscle_id": "trapezius",
+      "percentage": 7.1
+    },
+    {
+      "muscle_id": "adductors",
+      "percentage": 7.1
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 7.1
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

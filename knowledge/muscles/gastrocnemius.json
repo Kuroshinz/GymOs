@@ -1,0 +1,52 @@
+{
+  "id": "gastrocnemius",
+  "display_name": "Gastrocnemius",
+  "group": "calves",
+  "synergists": [
+    "soleus"
+  ],
+  "antagonists": [
+    "tibialis_anterior"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 4,
+      "max_sets": 6,
+      "description": "Requires significant volume for growth"
+    },
+    "mav": {
+      "min_sets": 8,
+      "max_sets": 14,
+      "description": "Optimal growth at 8-14 sets per week"
+    },
+    "mrv": {
+      "min_sets": 16,
+      "max_sets": 20,
+      "description": "Very resilient; can handle high volume"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 4
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 48
+    },
+    "fatigue_factor": "low",
+    "description": "Slow-twitch dominant; responds to higher frequency and volume"
+  },
+  "recommended_exercises": [
+    "calves_standing_raise",
+    "calves_donkey_raise",
+    "calves_single_leg_raise",
+    "calves_leg_press_calf_raise",
+    "calves_jump_rope"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

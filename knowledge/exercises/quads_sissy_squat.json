@@ -2,8 +2,12 @@
   "id": "quads_sissy_squat",
   "name": "Sissy Squat",
   "category": "quads",
-  "primary_muscles": ["quadriceps"],
-  "secondary_muscles": ["core"],
+  "primary_muscles": [
+    "quadriceps"
+  ],
+  "secondary_muscles": [
+    "core"
+  ],
   "equipment": "bodyweight",
   "difficulty": "intermediate",
   "movement_pattern": "knee_dominant",
@@ -23,5 +27,51 @@
     "Keep body in straight plank from knees to head",
     "Stretch the quads at the bottom"
   ],
-  "advantages": ["Insane quad isolation", "No spinal loading"]
+  "advantages": [
+    "Insane quad isolation",
+    "No spinal loading"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 60,
+    "max_seconds": 90,
+    "label": "60-90s"
+  },
+  "breathing": "Brace and hold breath through descent, exhale at top of ascent",
+  "common_mistakes": [],
+  "alternatives": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "high",
+  "skill_requirement": "moderate",
+  "fatigue_score": 3.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "low",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "quadriceps",
+      "percentage": 76.9
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 23.1
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

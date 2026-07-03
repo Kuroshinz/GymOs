@@ -1,0 +1,92 @@
+{
+  "id": "shoulders_machine_press",
+  "name": "Machine Shoulder Press",
+  "aliases": [
+    "Seated Machine Shoulder Press",
+    "Shoulder Press Machine"
+  ],
+  "category": "shoulders",
+  "primary_muscles": [
+    "anterior_deltoid",
+    "medial_deltoid"
+  ],
+  "secondary_muscles": [
+    "triceps_brachii",
+    "trapezius"
+  ],
+  "equipment": "machine",
+  "difficulty": "beginner",
+  "movement_pattern": "vertical_push",
+  "mechanics": "compound",
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "tempo": "2-1-2",
+  "setup": [
+    "Adjust seat so handles align with shoulder height",
+    "Grip handles, back flat against pad",
+    "Core braced, feet flat on floor"
+  ],
+  "execution": [
+    "Press upward until arms extended (not locked)",
+    "Lower under control to shoulder height"
+  ],
+  "cues": [
+    "Keep your back flat against the pad",
+    "Don't lock out elbows at the top"
+  ],
+  "breathing": "Exhale on press, inhale on descent",
+  "common_mistakes": [
+    "Arching lower back (too much weight)",
+    "Flaring elbows too wide"
+  ],
+  "alternatives": [
+    "shoulders_dumbbell_press",
+    "shoulders_overhead_press"
+  ],
+  "movement_plane": "sagittal",
+  "stability_requirement": "low",
+  "skill_requirement": "low",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "low",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "linear_variable",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "anterior_deltoid",
+      "percentage": 38.5
+    },
+    {
+      "muscle_id": "medial_deltoid",
+      "percentage": 38.5
+    },
+    {
+      "muscle_id": "triceps_brachii",
+      "percentage": 11.5
+    },
+    {
+      "muscle_id": "trapezius",
+      "percentage": 11.5
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
+}

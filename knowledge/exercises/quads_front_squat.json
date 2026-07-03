@@ -2,8 +2,15 @@
   "id": "quads_front_squat",
   "name": "Barbell Front Squat",
   "category": "quads",
-  "primary_muscles": ["quadriceps", "gluteus_maximus"],
-  "secondary_muscles": ["core", "erector_spinae", "trapezius"],
+  "primary_muscles": [
+    "quadriceps",
+    "gluteus_maximus"
+  ],
+  "secondary_muscles": [
+    "core",
+    "erector_spinae",
+    "trapezius"
+  ],
   "equipment": "barbell",
   "difficulty": "advanced",
   "movement_pattern": "squat",
@@ -37,6 +44,69 @@
     "Less lower back stress than back squat",
     "Better quad development"
   ],
-  "alternatives": ["goblet_squat", "hack_squat_machine", "leg_press"],
-  "rep_ranges": { "hypertrophy": "5-12", "strength": "1-5" }
+  "alternatives": [
+    "goblet_squat",
+    "hack_squat_machine",
+    "leg_press"
+  ],
+  "rep_ranges": {
+    "hypertrophy": "5-12",
+    "strength": "1-5"
+  },
+  "aliases": [
+    "Front Squat"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 5,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Brace and hold breath through descent, exhale at top of ascent",
+  "movement_plane": "sagittal",
+  "stability_requirement": "high",
+  "skill_requirement": "high",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "high",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 0,
+    "max": 1,
+    "description": "Take close to failure, 0-1 RIR"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "quadriceps",
+      "percentage": 34.5
+    },
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 34.5
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 10.3
+    },
+    {
+      "muscle_id": "erector_spinae",
+      "percentage": 10.3
+    },
+    {
+      "muscle_id": "trapezius",
+      "percentage": 10.3
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

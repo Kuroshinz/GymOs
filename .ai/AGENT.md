@@ -24,16 +24,20 @@ Every line of code you write must answer: "Does this help the user build muscle?
 
 Before implementing any feature, read in order:
 
-1. `.ai/PROJECT_CONTEXT.md` — Understand who you're building for
-2. `.ai/PROJECT_VISION.md` — Understand where GymOS is going
-3. `.ai/CURRENT_MILESTONE.md` — Know the MVP scope
-4. `.ai/ARCHITECTURE_RULES.md` — Internalise inviolable rules
-5. `.ai/DATABASE_RULES.md` — Database conventions
-6. `.ai/FITNESS_RULES.md` — Hypertrophy training principles
-7. `docs/PRODUCT_REQUIREMENTS.md` — Product spec
-8. `docs/architecture/overview.md` — System architecture
-9. `docs/database/schema.md` — Data models
-10. `knowledge/` — Load relevant domain knowledge
+1. `.ai/CONSTITUTION.md` — Supreme governing principles (highest priority)
+2. `.ai/PRODUCT_IDENTITY.md` — What GymOS is and why it exists
+3. `.ai/WORKFLOW.md` — Standard development workflow
+4. `.ai/IMPLEMENTATION_RULES.md` — Concrete coding rules
+5. `.ai/PROJECT_CONTEXT.md` — Understand who you're building for
+6. `.ai/PROJECT_VISION.md` — Understand where GymOS is going
+7. `.ai/CURRENT_MILESTONE.md` — Know the MVP scope
+8. `.ai/ARCHITECTURE_RULES.md` — Internalise inviolable rules
+9. `.ai/DATABASE_RULES.md` — Database conventions
+10. `.ai/FITNESS_RULES.md` — Hypertrophy training principles
+11. `docs/PRODUCT_REQUIREMENTS.md` — Product spec
+12. `docs/architecture/overview.md` — System architecture
+13. `docs/database/schema.md` — Data models
+14. `knowledge/` — Load relevant domain knowledge
 
 ## Execution Rules
 
@@ -54,6 +58,20 @@ Before implementing any feature, read in order:
 - Suggest a better alternative that does
 - Do not blindly implement poor designs
 - Reject features that add complexity without improving Training, Nutrition, Recovery, Consistency, or Progressive Overload
+
+## Source of Truth
+
+Never invent or modify the user's training program.
+
+The workout schedule must ONLY come from:
+
+knowledge/user/training_program.md
+
+If the file does not exist:
+
+- Ask for it.
+- Do not generate a replacement.
+- Do not assume exercises or training split.
 
 ## Self-Check Before Each PR
 

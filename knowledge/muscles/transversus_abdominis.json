@@ -1,0 +1,54 @@
+{
+  "id": "transversus_abdominis",
+  "display_name": "Transversus Abdominis",
+  "group": "core",
+  "synergists": [
+    "rectus_abdominis",
+    "obliques",
+    "pelvic_floor"
+  ],
+  "antagonists": [
+    "erector_spinae"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 2,
+      "max_sets": 3,
+      "description": "Trained via bracing and dead bugs"
+    },
+    "mav": {
+      "min_sets": 3,
+      "max_sets": 6,
+      "description": "3-6 sets of anti-extension work"
+    },
+    "mrv": {
+      "min_sets": 8,
+      "max_sets": 10,
+      "description": "Low volume; endurance-focused"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 3,
+    "max_times_per_week": 5
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 24,
+      "max": 24
+    },
+    "fatigue_factor": "low",
+    "description": "Deep core stabilizer; can be trained daily. Key for brace and spinal stability"
+  },
+  "recommended_exercises": [
+    "core_plank",
+    "core_dead_bug",
+    "core_pallof_press",
+    "core_hollow_hold",
+    "core_bird_dog"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

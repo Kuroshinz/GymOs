@@ -2,8 +2,14 @@
   "id": "chest_push_ups",
   "name": "Push-Up",
   "category": "chest",
-  "primary_muscles": ["pectoralis_major"],
-  "secondary_muscles": ["triceps_brachii", "anterior_deltoid", "core"],
+  "primary_muscles": [
+    "pectoralis_major"
+  ],
+  "secondary_muscles": [
+    "triceps_brachii",
+    "anterior_deltoid",
+    "core"
+  ],
   "equipment": "bodyweight",
   "difficulty": "beginner",
   "movement_pattern": "horizontal_push",
@@ -38,5 +44,55 @@
     "wide_push_up",
     "archer_push_up"
   ],
-  "progression": "Wall → Incline → Knee → Full → Deficit → Weighted"
+  "progression": "Wall → Incline → Knee → Full → Deficit → Weighted",
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "movement_plane": "sagittal",
+  "stability_requirement": "high",
+  "skill_requirement": "low",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "low",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "pectoralis_major",
+      "percentage": 52.6
+    },
+    {
+      "muscle_id": "triceps_brachii",
+      "percentage": 15.8
+    },
+    {
+      "muscle_id": "anterior_deltoid",
+      "percentage": 15.8
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 15.8
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

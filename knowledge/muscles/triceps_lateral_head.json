@@ -1,0 +1,52 @@
+{
+  "id": "triceps_lateral_head",
+  "display_name": "Triceps Brachii (Lateral Head)",
+  "group": "arms",
+  "synergists": [
+    "triceps_brachii",
+    "triceps_brachii_long_head",
+    "triceps_medial_head"
+  ],
+  "antagonists": [
+    "biceps_brachii"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 3,
+      "max_sets": 4,
+      "description": "Targeted via pushdown movements"
+    },
+    "mav": {
+      "min_sets": 4,
+      "max_sets": 8,
+      "description": "4-8 sets per week"
+    },
+    "mrv": {
+      "min_sets": 10,
+      "max_sets": 12,
+      "description": "Moderate volume"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 3
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "low",
+    "description": "Gives horseshoe shape; best hit with pushdowns"
+  },
+  "recommended_exercises": [
+    "triceps_pulldown",
+    "triceps_diamond_push_up",
+    "triceps_close_grip_bench"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

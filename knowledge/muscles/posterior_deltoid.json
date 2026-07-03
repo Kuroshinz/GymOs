@@ -1,0 +1,53 @@
+{
+  "id": "posterior_deltoid",
+  "display_name": "Posterior Deltoid",
+  "group": "shoulders",
+  "synergists": [
+    "rhomboids",
+    "trapezius",
+    "infraspinatus"
+  ],
+  "antagonists": [
+    "anterior_deltoid",
+    "pectoralis_major"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 3,
+      "max_sets": 4,
+      "description": "Often underdeveloped; minimum 3 sets for maintenance"
+    },
+    "mav": {
+      "min_sets": 6,
+      "max_sets": 10,
+      "description": "Growth at 6-10 sets per week"
+    },
+    "mrv": {
+      "min_sets": 12,
+      "max_sets": 14,
+      "description": "Small muscle; keep below 14 sets"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 3
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 48
+    },
+    "fatigue_factor": "low",
+    "description": "Small muscle; often neglected. Key for postural balance and shoulder health"
+  },
+  "recommended_exercises": [
+    "shoulders_rear_delt_fly",
+    "shoulders_face_pull",
+    "back_barbell_row"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

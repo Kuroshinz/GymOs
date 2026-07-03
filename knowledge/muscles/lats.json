@@ -1,0 +1,55 @@
+{
+  "id": "lats",
+  "display_name": "Lats (Composite / Latissimus Dorsi)",
+  "group": "back",
+  "synergists": [
+    "trapezius",
+    "rhomboids",
+    "posterior_deltoid"
+  ],
+  "antagonists": [
+    "anterior_deltoid",
+    "pectoralis_major"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 6,
+      "max_sets": 8,
+      "description": "Composite; see latissimus_dorsi"
+    },
+    "mav": {
+      "min_sets": 10,
+      "max_sets": 16,
+      "description": "Composite"
+    },
+    "mrv": {
+      "min_sets": 18,
+      "max_sets": 22,
+      "description": "Composite"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "moderate",
+    "description": "Alias for latissimus_dorsi"
+  },
+  "recommended_exercises": [
+    "back_pull_up",
+    "back_lat_pulldown",
+    "back_barbell_row",
+    "back_seated_cable_row",
+    "back_chest_supported_row"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

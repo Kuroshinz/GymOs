@@ -2,8 +2,12 @@
   "id": "hamstrings_leg_curl",
   "name": "Lying Leg Curl (Machine)",
   "category": "hamstrings_glutes",
-  "primary_muscles": ["hamstrings"],
-  "secondary_muscles": ["gastrocnemius"],
+  "primary_muscles": [
+    "hamstrings"
+  ],
+  "secondary_muscles": [
+    "gastrocnemius"
+  ],
   "equipment": "machine",
   "difficulty": "beginner",
   "movement_pattern": "knee_flexion",
@@ -35,5 +39,50 @@
     "single_leg_curl",
     "standing_leg_curl"
   ],
-  "alternatives": ["rdl", "nordic_curl", "hyperextension"]
+  "alternatives": [
+    "rdl",
+    "nordic_curl",
+    "hyperextension"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 60,
+    "max_seconds": 90,
+    "label": "60-90s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "movement_plane": "multi_planar",
+  "stability_requirement": "low",
+  "skill_requirement": "low",
+  "fatigue_score": 3.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "low",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "linear_variable",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 76.9
+    },
+    {
+      "muscle_id": "gastrocnemius",
+      "percentage": 23.1
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

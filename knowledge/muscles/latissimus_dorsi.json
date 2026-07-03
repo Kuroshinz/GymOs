@@ -1,0 +1,61 @@
+{
+  "id": "latissimus_dorsi",
+  "display_name": "Latissimus Dorsi",
+  "group": "back",
+  "synergists": [
+    "trapezius",
+    "rhomboids",
+    "posterior_deltoid",
+    "biceps_brachii"
+  ],
+  "antagonists": [
+    "anterior_deltoid",
+    "pectoralis_major"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 6,
+      "max_sets": 8,
+      "description": "Minimum 6-8 sets weekly for maintenance"
+    },
+    "mav": {
+      "min_sets": 10,
+      "max_sets": 16,
+      "description": "Optimal growth at 10-16 sets per week"
+    },
+    "mrv": {
+      "min_sets": 18,
+      "max_sets": 22,
+      "description": "Large muscle; can handle 20+ sets if recovered"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "moderate",
+    "description": "Large back muscle; 2x/week frequency is standard"
+  },
+  "recommended_exercises": [
+    "back_pull_up",
+    "back_lat_pulldown",
+    "back_barbell_row",
+    "back_seated_cable_row",
+    "back_chest_supported_row",
+    "back_t_bar_row",
+    "back_one_arm_dumbbell_row",
+    "back_pull_over",
+    "back_deadlift",
+    "back_machine_row"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

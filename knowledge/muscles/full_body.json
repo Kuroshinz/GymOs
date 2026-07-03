@@ -1,0 +1,42 @@
+{
+  "id": "full_body",
+  "display_name": "Full Body (Systemic)",
+  "group": "systemic",
+  "synergists": [],
+  "antagonists": [],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 0,
+      "max_sets": 0,
+      "description": "Systemic reference; not a real muscle"
+    },
+    "mav": {
+      "min_sets": 0,
+      "max_sets": 0,
+      "description": "Systemic reference"
+    },
+    "mrv": {
+      "min_sets": 0,
+      "max_sets": 0,
+      "description": "Systemic reference"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 0,
+    "max_times_per_week": 0
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 0,
+      "max": 0
+    },
+    "fatigue_factor": "high",
+    "description": "Systemic / whole-body exercises. Not an anatomical muscle."
+  },
+  "recommended_exercises": [],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

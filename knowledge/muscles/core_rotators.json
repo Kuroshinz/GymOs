@@ -1,0 +1,51 @@
+{
+  "id": "core_rotators",
+  "display_name": "Core Rotators",
+  "group": "core",
+  "synergists": [
+    "obliques",
+    "quadratus_lumborum"
+  ],
+  "antagonists": [
+    "obliques"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 2,
+      "max_sets": 3,
+      "description": "Trained via rotational movements"
+    },
+    "mav": {
+      "min_sets": 3,
+      "max_sets": 6,
+      "description": "3-6 sets per week"
+    },
+    "mrv": {
+      "min_sets": 8,
+      "max_sets": 10,
+      "description": "Low volume needs"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 1,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 24,
+      "max": 48
+    },
+    "fatigue_factor": "low",
+    "description": "Composite reference for rotational core muscles"
+  },
+  "recommended_exercises": [
+    "core_russian_twist",
+    "core_wood_chopper",
+    "core_windshield_wiper"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

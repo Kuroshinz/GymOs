@@ -2,8 +2,15 @@
   "id": "back_chest_supported_row",
   "name": "Chest-Supported Row (Machine or Incline)",
   "category": "back",
-  "primary_muscles": ["latissimus_dorsi", "rhomboids", "trapezius_middle"],
-  "secondary_muscles": ["biceps_brachii", "posterior_deltoid"],
+  "primary_muscles": [
+    "latissimus_dorsi",
+    "rhomboids",
+    "trapezius_middle"
+  ],
+  "secondary_muscles": [
+    "biceps_brachii",
+    "posterior_deltoid"
+  ],
   "equipment": "machine",
   "difficulty": "beginner",
   "movement_pattern": "horizontal_pull",
@@ -31,5 +38,59 @@
     "Removes lower back fatigue (great for high volume)",
     "Can train to failure safely",
     "Excellent for targeting mid-back"
-  ]
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "movement_plane": "sagittal",
+  "stability_requirement": "low",
+  "skill_requirement": "low",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "low",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "linear_variable",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "latissimus_dorsi",
+      "percentage": 27.8
+    },
+    {
+      "muscle_id": "rhomboids",
+      "percentage": 27.8
+    },
+    {
+      "muscle_id": "trapezius_middle",
+      "percentage": 27.8
+    },
+    {
+      "muscle_id": "biceps_brachii",
+      "percentage": 8.3
+    },
+    {
+      "muscle_id": "posterior_deltoid",
+      "percentage": 8.3
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

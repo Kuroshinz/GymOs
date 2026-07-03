@@ -1,0 +1,56 @@
+{
+  "id": "gluteus_maximus",
+  "display_name": "Gluteus Maximus",
+  "group": "glutes",
+  "synergists": [
+    "hamstrings",
+    "erector_spinae",
+    "adductors"
+  ],
+  "antagonists": [
+    "hip_flexors"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 4,
+      "max_sets": 6,
+      "description": "Minimum 4-6 sets for maintenance"
+    },
+    "mav": {
+      "min_sets": 10,
+      "max_sets": 16,
+      "description": "Optimal growth at 10-16 sets per week"
+    },
+    "mrv": {
+      "min_sets": 18,
+      "max_sets": 22,
+      "description": "Largest muscle; can handle high volume"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 72,
+      "max": 96
+    },
+    "fatigue_factor": "high",
+    "description": "Largest muscle in body; requires significant recovery"
+  },
+  "recommended_exercises": [
+    "hamstrings_hip_thrust",
+    "quads_barbell_squat",
+    "back_deadlift",
+    "hamstrings_romanian_deadlift",
+    "hamstrings_cable_pull_through",
+    "hamstrings_step_up",
+    "hamstrings_bulgarian_split_squat"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

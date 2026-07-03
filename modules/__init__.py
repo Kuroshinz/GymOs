@@ -1,9 +1,11 @@
-from modules.workout import WorkoutService, Workout, Exercise, Set, WorkoutRepository, WorkoutController
-from modules.nutrition import NutritionService, NutritionDay, Meal
-from modules.brain import Coach, Memory, Planner, Research, Reasoner, Prediction
+# Only export what actually exists
+from modules.workout import WorkoutSession, SessionExercise, SessionSet, WorkoutProgram, WorkoutDay, BodyWeight
 
 __all__ = [
-    "WorkoutService", "Workout", "Exercise", "Set", "WorkoutRepository", "WorkoutController",
-    "NutritionService", "NutritionDay", "Meal",
-    "Coach", "Memory", "Planner", "Research", "Reasoner", "Prediction",
+    "WorkoutSession",
+    "SessionExercise",
+    "SessionSet",
+    "WorkoutProgram",
+    "WorkoutDay",
+    "BodyWeight",
 ]

@@ -2,10 +2,65 @@
   "id": "forearms_deadhangs",
   "name": "Dead Hang (Weighted)",
   "category": "forearms",
-  "primary_muscles": ["forearms", "lats"],
-  "secondary_muscles": ["shoulders", "core"],
+  "primary_muscles": [
+    "forearms",
+    "lats"
+  ],
+  "secondary_muscles": [
+    "shoulders",
+    "core"
+  ],
   "equipment": "pull_up_bar",
   "difficulty": "beginner",
   "movement_pattern": "isometric_grip",
-  "mechanics": "isometric"
+  "mechanics": "isometric",
+  "rest_time": {
+    "min_seconds": 45,
+    "max_seconds": 60,
+    "label": "45-60s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "cues": [],
+  "common_mistakes": [],
+  "alternatives": [],
+  "tempo": "Hold",
+  "movement_plane": "multi_planar",
+  "stability_requirement": "moderate",
+  "skill_requirement": "low",
+  "fatigue_score": 5.0,
+  "systemic_fatigue": "moderate",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "forearms",
+      "percentage": 38.5
+    },
+    {
+      "muscle_id": "lats",
+      "percentage": 38.5
+    },
+    {
+      "muscle_id": "shoulders",
+      "percentage": 11.5
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 11.5
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

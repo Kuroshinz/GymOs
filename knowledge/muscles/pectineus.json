@@ -1,0 +1,51 @@
+{
+  "id": "pectineus",
+  "display_name": "Pectineus",
+  "group": "legs",
+  "synergists": [
+    "adductors",
+    "iliopsoas"
+  ],
+  "antagonists": [
+    "gluteus_medius"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 1,
+      "max_sets": 2,
+      "description": "Minimal direct work; trained via squats and hip flexion"
+    },
+    "mav": {
+      "min_sets": 2,
+      "max_sets": 4,
+      "description": "2-4 sets per week sufficient"
+    },
+    "mrv": {
+      "min_sets": 6,
+      "max_sets": 8,
+      "description": "Small hip muscle"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 1,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "low",
+    "description": "Hip adductor and flexor; minor role"
+  },
+  "recommended_exercises": [
+    "quads_barbell_squat",
+    "quads_leg_press",
+    "quads_cable_adduction"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

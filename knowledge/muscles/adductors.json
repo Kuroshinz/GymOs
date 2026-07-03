@@ -1,0 +1,55 @@
+{
+  "id": "adductors",
+  "display_name": "Adductors (Inner Thigh)",
+  "group": "legs",
+  "synergists": [
+    "quadriceps",
+    "gluteus_maximus",
+    "pectineus"
+  ],
+  "antagonists": [
+    "gluteus_medius",
+    "abductors"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 2,
+      "max_sets": 3,
+      "description": "Trained via squats and lunges"
+    },
+    "mav": {
+      "min_sets": 3,
+      "max_sets": 6,
+      "description": "3-6 sets of direct work per week"
+    },
+    "mrv": {
+      "min_sets": 8,
+      "max_sets": 10,
+      "description": "Low volume requirements"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 1,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "low",
+    "description": "Important for squat depth and knee tracking"
+  },
+  "recommended_exercises": [
+    "quads_barbell_squat",
+    "quads_sumo_deadlift",
+    "quads_cable_adduction",
+    "quads_adductor_machine",
+    "quads_lateral_lunge"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

@@ -1,0 +1,151 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gymos.app/schemas/muscle.schema.json",
+  "title": "Muscle",
+  "description": "A muscle group definition in the GymOS knowledge base",
+  "type": "object",
+  "required": [
+    "id", "display_name", "group", "weekly_volume_landmarks",
+    "recommended_frequency", "recovery_characteristics"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z]+(_[a-z0-9]+)*$",
+      "description": "Stable unique identifier, e.g. 'pectoralis_major'"
+    },
+    "display_name": {
+      "type": "string",
+      "description": "Human-readable name, e.g. 'Pectoralis Major'"
+    },
+    "group": {
+      "type": "string",
+      "description": "Anatomical group, e.g. 'chest', 'back', 'legs'"
+    },
+    "synergists": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Muscle IDs that assist this muscle in compound movements"
+    },
+    "antagonists": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Muscle IDs that oppose this muscle"
+    },
+    "weekly_volume_landmarks": {
+      "type": "object",
+      "required": ["mev", "mav", "mrv"],
+      "properties": {
+        "mev": {
+          "type": "object",
+          "properties": {
+            "min_sets": { "type": "integer" },
+            "max_sets": { "type": "integer" },
+            "description": { "type": "string" }
+          },
+          "description": "Minimum Effective Volume — the smallest weekly volume that drives growth"
+        },
+        "mav": {
+          "type": "object",
+          "properties": {
+            "min_sets": { "type": "integer" },
+            "max_sets": { "type": "integer" },
+            "description": { "type": "string" }
+          },
+          "description": "Maximum Adaptive Volume — the sweet spot for growth"
+        },
+        "mrv": {
+          "type": "object",
+          "properties": {
+            "min_sets": { "type": "integer" },
+            "max_sets": { "type": "integer" },
+            "description": { "type": "string" }
+          },
+          "description": "Maximum Recoverable Volume — beyond this leads to diminishing returns"
+        }
+      }
+    },
+    "recommended_frequency": {
+      "type": "object",
+      "required": ["min_times_per_week", "max_times_per_week"],
+      "properties": {
+        "min_times_per_week": { "type": "integer" },
+        "max_times_per_week": { "type": "integer" },
+        "description": { "type": "string" }
+      }
+    },
+    "recovery_characteristics": {
+      "type": "object",
+      "properties": {
+        "recovery_time_hours": {
+          "type": "object",
+          "properties": {
+            "min": { "type": "integer" },
+            "max": { "type": "integer" }
+          }
+        },
+        "fatigue_factor": {
+          "type": "string",
+          "enum": ["low", "moderate", "high"],
+          "description": "How much systemic fatigue this muscle generates"
+        },
+        "description": { "type": "string" }
+      }
+    },
+    "recommended_exercises": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Exercise IDs that effectively target this muscle"
+    },
+
+    "knowledge_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of this knowledge entry"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date",
+      "description": "Date this entry was created (YYYY-MM-DD)"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date",
+      "description": "Date this entry was last updated (YYYY-MM-DD)"
+    },
+    "verified": {
+      "type": ["boolean", "null"],
+      "description": "Whether this entry has been verified by a domain expert"
+    },
+    "verified_by": {
+      "type": "string",
+      "description": "Name or identifier of the verifier"
+    },
+    "evidence_level": {
+      "type": "string",
+      "enum": ["strong", "moderate", "limited", "expert_opinion", "emerging"],
+      "description": "Level of scientific evidence supporting this entry"
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "authors": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "year": { "type": "integer" },
+          "type": {
+            "type": "string",
+            "enum": ["study", "article", "book", "expert_opinion", "other"]
+          }
+        }
+      },
+      "description": "Scientific / expert references supporting this entry"
+    }
+  },
+  "additionalProperties": false
+}

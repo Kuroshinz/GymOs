@@ -1,0 +1,49 @@
+{
+  "id": "soleus",
+  "display_name": "Soleus",
+  "group": "calves",
+  "synergists": [
+    "gastrocnemius"
+  ],
+  "antagonists": [
+    "tibialis_anterior"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 4,
+      "max_sets": 6,
+      "description": "Similar to gastrocnemius but more endurance-oriented"
+    },
+    "mav": {
+      "min_sets": 8,
+      "max_sets": 12,
+      "description": "Growth at 8-12 sets per week"
+    },
+    "mrv": {
+      "min_sets": 14,
+      "max_sets": 18,
+      "description": "Very resilient to volume"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 4
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 24,
+      "max": 48
+    },
+    "fatigue_factor": "low",
+    "description": "Slow-twitch dominant; seated calf raises target soleus specifically"
+  },
+  "recommended_exercises": [
+    "calves_seated_raise",
+    "calves_standing_raise"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

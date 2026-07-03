@@ -2,8 +2,13 @@
   "id": "chest_incline_bench_press",
   "name": "Incline Barbell Bench Press",
   "category": "chest",
-  "primary_muscles": ["pectoralis_major_clavicular", "anterior_deltoid"],
-  "secondary_muscles": ["triceps_brachii"],
+  "primary_muscles": [
+    "pectoralis_major_clavicular",
+    "anterior_deltoid"
+  ],
+  "secondary_muscles": [
+    "triceps_brachii"
+  ],
   "equipment": "barbell",
   "difficulty": "intermediate",
   "movement_pattern": "inclined_push",
@@ -38,5 +43,53 @@
     "chest_dumbbell_press_30",
     "landmine_press",
     "cable_upper_chest_fly"
-  ]
+  ],
+  "aliases": [
+    "Incline Bench Press"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "movement_plane": "multi_planar",
+  "stability_requirement": "moderate",
+  "skill_requirement": "moderate",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "pectoralis_major_clavicular",
+      "percentage": 43.5
+    },
+    {
+      "muscle_id": "anterior_deltoid",
+      "percentage": 43.5
+    },
+    {
+      "muscle_id": "triceps_brachii",
+      "percentage": 13.0
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

@@ -2,8 +2,15 @@
   "id": "shoulders_arnold_press",
   "name": "Arnold Press",
   "category": "shoulders",
-  "primary_muscles": ["anterior_deltoid", "medial_deltoid", "posterior_deltoid"],
-  "secondary_muscles": ["triceps_brachii", "trapezius"],
+  "primary_muscles": [
+    "anterior_deltoid",
+    "medial_deltoid",
+    "posterior_deltoid"
+  ],
+  "secondary_muscles": [
+    "triceps_brachii",
+    "trapezius"
+  ],
   "equipment": "dumbbell",
   "difficulty": "intermediate",
   "movement_pattern": "vertical_push_with_rotation",
@@ -34,5 +41,59 @@
     "Hits all 3 delt heads",
     "Great for shoulder health and mobility",
     "Long time under tension"
-  ]
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "moderate",
+  "skill_requirement": "moderate",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "anterior_deltoid",
+      "percentage": 27.8
+    },
+    {
+      "muscle_id": "medial_deltoid",
+      "percentage": 27.8
+    },
+    {
+      "muscle_id": "posterior_deltoid",
+      "percentage": 27.8
+    },
+    {
+      "muscle_id": "triceps_brachii",
+      "percentage": 8.3
+    },
+    {
+      "muscle_id": "trapezius",
+      "percentage": 8.3
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

@@ -2,8 +2,17 @@
   "id": "full_body_kettlebell_swing",
   "name": "Kettlebell Swing",
   "category": "full_body",
-  "primary_muscles": ["gluteus_maximus", "hamstrings", "core"],
-  "secondary_muscles": ["erector_spinae", "lats", "shoulders", "forearms"],
+  "primary_muscles": [
+    "gluteus_maximus",
+    "hamstrings",
+    "core"
+  ],
+  "secondary_muscles": [
+    "erector_spinae",
+    "lats",
+    "shoulders",
+    "forearms"
+  ],
   "equipment": "kettlebell",
   "difficulty": "intermediate",
   "movement_pattern": "hip_hinge",
@@ -31,5 +40,71 @@
     "Bell is just along for the ride",
     "Crush a walnut with your glutes at the top"
   ],
-  "variations": ["single_arm_swing", "double_kettlebell_swing", "american_swing"]
+  "variations": [
+    "single_arm_swing",
+    "double_kettlebell_swing",
+    "american_swing"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Brace and hold breath through movement, exhale at lockout",
+  "alternatives": [],
+  "movement_plane": "sagittal",
+  "stability_requirement": "high",
+  "skill_requirement": "moderate",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "high",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 23.8
+    },
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 23.8
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 23.8
+    },
+    {
+      "muscle_id": "erector_spinae",
+      "percentage": 7.1
+    },
+    {
+      "muscle_id": "lats",
+      "percentage": 7.1
+    },
+    {
+      "muscle_id": "shoulders",
+      "percentage": 7.1
+    },
+    {
+      "muscle_id": "forearms",
+      "percentage": 7.1
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

@@ -1,0 +1,49 @@
+{
+  "id": "cardiovascular",
+  "display_name": "Cardiovascular System",
+  "group": "systemic",
+  "synergists": [],
+  "antagonists": [],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 0,
+      "max_sets": 0,
+      "description": "Measured in minutes, not sets"
+    },
+    "mav": {
+      "min_sets": 0,
+      "max_sets": 0,
+      "description": "150+ min moderate or 75+ min vigorous per week"
+    },
+    "mrv": {
+      "min_sets": 0,
+      "max_sets": 0,
+      "description": "Depends on recovery capacity"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 6
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 24,
+      "max": 48
+    },
+    "fatigue_factor": "moderate",
+    "description": "Cardio conditioning; not a skeletal muscle"
+  },
+  "recommended_exercises": [
+    "cardio_treadmill",
+    "cardio_rowing",
+    "cardio_assault_bike",
+    "cardio_ski_erg",
+    "cardio_jump_rope",
+    "cardio_swimming"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

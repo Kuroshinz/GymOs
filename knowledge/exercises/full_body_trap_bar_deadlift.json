@@ -2,8 +2,17 @@
   "id": "full_body_trap_bar_deadlift",
   "name": "Trap Bar Deadlift",
   "category": "full_body",
-  "primary_muscles": ["quadriceps", "gluteus_maximus", "erector_spinae"],
-  "secondary_muscles": ["hamstrings", "trapezius", "core", "forearms"],
+  "primary_muscles": [
+    "quadriceps",
+    "gluteus_maximus",
+    "erector_spinae"
+  ],
+  "secondary_muscles": [
+    "hamstrings",
+    "trapezius",
+    "core",
+    "forearms"
+  ],
   "equipment": "trap_bar",
   "difficulty": "beginner",
   "movement_pattern": "hip_hinge",
@@ -18,6 +27,76 @@
     "Lock out: hips forward, glutes squeezed"
   ],
   "tempo": "1-1-2",
-  "cues": ["Push floor away", "Stand tall, chest up"],
-  "advantages": ["Less lower back stress than conventional", "More quad involvement", "Good for beginners"]
+  "cues": [
+    "Push floor away",
+    "Stand tall, chest up"
+  ],
+  "advantages": [
+    "Less lower back stress than conventional",
+    "More quad involvement",
+    "Good for beginners"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Brace and hold breath through movement, exhale at lockout",
+  "common_mistakes": [],
+  "alternatives": [],
+  "movement_plane": "sagittal",
+  "stability_requirement": "high",
+  "skill_requirement": "low",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "high",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "quadriceps",
+      "percentage": 23.8
+    },
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 23.8
+    },
+    {
+      "muscle_id": "erector_spinae",
+      "percentage": 23.8
+    },
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 7.1
+    },
+    {
+      "muscle_id": "trapezius",
+      "percentage": 7.1
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 7.1
+    },
+    {
+      "muscle_id": "forearms",
+      "percentage": 7.1
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

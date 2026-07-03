@@ -1,0 +1,42 @@
+{
+  "id": "glutes",
+  "display_name": "Glutes (Composite)",
+  "group": "glutes",
+  "synergists": [],
+  "antagonists": [],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 4,
+      "max_sets": 6,
+      "description": "Composite; all gluteal muscles"
+    },
+    "mav": {
+      "min_sets": 10,
+      "max_sets": 16,
+      "description": "Composite"
+    },
+    "mrv": {
+      "min_sets": 20,
+      "max_sets": 24,
+      "description": "Large muscle group; high volume tolerance"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 72,
+      "max": 96
+    },
+    "fatigue_factor": "high",
+    "description": "Composite glute reference"
+  },
+  "recommended_exercises": [],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

@@ -1,0 +1,55 @@
+{
+  "id": "erector_spinae",
+  "display_name": "Erector Spinae",
+  "group": "back",
+  "synergists": [
+    "quadratus_lumborum",
+    "gluteus_maximus",
+    "hamstrings"
+  ],
+  "antagonists": [
+    "rectus_abdominis"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 3,
+      "max_sets": 4,
+      "description": "Sufficiently trained via deadlifts and good mornings"
+    },
+    "mav": {
+      "min_sets": 4,
+      "max_sets": 8,
+      "description": "4-8 sets per week sufficient"
+    },
+    "mrv": {
+      "min_sets": 10,
+      "max_sets": 12,
+      "description": "CNS fatigue is limiting factor"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 1,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "high",
+    "description": "Generates significant CNS fatigue; recovery is systemic"
+  },
+  "recommended_exercises": [
+    "back_deadlift",
+    "hamstrings_romanian_deadlift",
+    "quads_barbell_squat",
+    "back_hyperextension",
+    "core_back_extension",
+    "hamstrings_good_morning"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

@@ -1,0 +1,57 @@
+{
+  "id": "biceps_brachii",
+  "display_name": "Biceps Brachii",
+  "group": "arms",
+  "synergists": [
+    "brachialis",
+    "brachioradialis"
+  ],
+  "antagonists": [
+    "triceps_brachii"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 4,
+      "max_sets": 6,
+      "description": "Minimum 4-6 direct sets for growth"
+    },
+    "mav": {
+      "min_sets": 8,
+      "max_sets": 14,
+      "description": "Optimal growth at 10-14 sets per week"
+    },
+    "mrv": {
+      "min_sets": 16,
+      "max_sets": 20,
+      "description": "Small muscle group; beyond 18 sets risks tendonitis"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 3
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 48
+    },
+    "fatigue_factor": "low",
+    "description": "Small muscle; recovers fast. Can handle high frequency"
+  },
+  "recommended_exercises": [
+    "biceps_bb_curl",
+    "biceps_dumbbell_curl",
+    "biceps_hammer_curl",
+    "biceps_cable_curl",
+    "biceps_preacher_curl",
+    "biceps_incline_curl",
+    "biceps_concentration_curl",
+    "biceps_spider_curl",
+    "biceps_bayesian_curl"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

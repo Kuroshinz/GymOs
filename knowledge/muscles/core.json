@@ -1,0 +1,48 @@
+{
+  "id": "core",
+  "display_name": "Core (Composite)",
+  "group": "core",
+  "synergists": [],
+  "antagonists": [],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 4,
+      "max_sets": 6,
+      "description": "Composite indicator; refer to individual core muscles"
+    },
+    "mav": {
+      "min_sets": 8,
+      "max_sets": 14,
+      "description": "Composite; varies by individual muscle"
+    },
+    "mrv": {
+      "min_sets": 16,
+      "max_sets": 20,
+      "description": "Composite"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 4
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 24,
+      "max": 48
+    },
+    "fatigue_factor": "low",
+    "description": "Composite reference; individual core muscles vary"
+  },
+  "recommended_exercises": [
+    "core_plank",
+    "core_crunch",
+    "core_hanging_leg_raise",
+    "core_ab_wheel",
+    "core_pallof_press"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

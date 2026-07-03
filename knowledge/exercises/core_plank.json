@@ -2,8 +2,15 @@
   "id": "core_plank",
   "name": "Plank",
   "category": "core",
-  "primary_muscles": ["rectus_abdominis", "transversus_abdominis"],
-  "secondary_muscles": ["obliques", "erector_spinae", "shoulders"],
+  "primary_muscles": [
+    "rectus_abdominis",
+    "transversus_abdominis"
+  ],
+  "secondary_muscles": [
+    "obliques",
+    "erector_spinae",
+    "shoulders"
+  ],
   "equipment": "bodyweight",
   "difficulty": "beginner",
   "movement_pattern": "anti_extension",
@@ -28,5 +35,56 @@
     "Pull elbows toward toes (create full-body tension)",
     "Breathe steadily"
   ],
-  "progression": "30s → 60s → 90s → Weighted → Single-leg → Stability ball"
+  "progression": "30s → 60s → 90s → Weighted → Single-leg → Stability ball",
+  "rest_time": {
+    "min_seconds": 45,
+    "max_seconds": 60,
+    "label": "45-60s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "tempo": "Hold",
+  "movement_plane": "multi_planar",
+  "stability_requirement": "high",
+  "skill_requirement": "low",
+  "fatigue_score": 5.0,
+  "systemic_fatigue": "moderate",
+  "joint_stress": {
+    "overall": "low",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "rectus_abdominis",
+      "percentage": 34.5
+    },
+    {
+      "muscle_id": "transversus_abdominis",
+      "percentage": 34.5
+    },
+    {
+      "muscle_id": "obliques",
+      "percentage": 10.3
+    },
+    {
+      "muscle_id": "erector_spinae",
+      "percentage": 10.3
+    },
+    {
+      "muscle_id": "shoulders",
+      "percentage": 10.3
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

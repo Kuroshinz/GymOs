@@ -2,8 +2,15 @@
   "id": "core_hanging_leg_raise",
   "name": "Hanging Leg Raise",
   "category": "core",
-  "primary_muscles": ["rectus_abdominis", "hip_flexors"],
-  "secondary_muscles": ["obliques", "forearms", "lats"],
+  "primary_muscles": [
+    "rectus_abdominis",
+    "hip_flexors"
+  ],
+  "secondary_muscles": [
+    "obliques",
+    "forearms",
+    "lats"
+  ],
   "equipment": "pull_up_bar",
   "difficulty": "advanced",
   "movement_pattern": "spinal_flexion",
@@ -33,5 +40,59 @@
     "toes_to_bar",
     "windshield_wiper"
   ],
-  "progression": "Knee raise → Bent leg raise → Straight leg → Weighted"
+  "progression": "Knee raise → Bent leg raise → Straight leg → Weighted",
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "moderate",
+  "skill_requirement": "high",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 0,
+    "max": 1,
+    "description": "Take close to failure, 0-1 RIR"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "rectus_abdominis",
+      "percentage": 34.5
+    },
+    {
+      "muscle_id": "hip_flexors",
+      "percentage": 34.5
+    },
+    {
+      "muscle_id": "obliques",
+      "percentage": 10.3
+    },
+    {
+      "muscle_id": "forearms",
+      "percentage": 10.3
+    },
+    {
+      "muscle_id": "lats",
+      "percentage": 10.3
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

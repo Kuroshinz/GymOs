@@ -2,8 +2,16 @@
   "id": "back_pull_up",
   "name": "Pull-Up",
   "category": "back",
-  "primary_muscles": ["latissimus_dorsi", "trapezius", "biceps_brachii"],
-  "secondary_muscles": ["rhomboids", "posterior_deltoid", "core"],
+  "primary_muscles": [
+    "latissimus_dorsi",
+    "trapezius",
+    "biceps_brachii"
+  ],
+  "secondary_muscles": [
+    "rhomboids",
+    "posterior_deltoid",
+    "core"
+  ],
   "equipment": "pull_up_bar",
   "difficulty": "advanced",
   "movement_pattern": "vertical_pull",
@@ -39,5 +47,69 @@
     "muscle_up"
   ],
   "progression": "Negative → Band Assisted → Strict → Weighted",
-  "alternatives": ["lat_pulldown", "assisted_pull_up_machine"]
+  "alternatives": [
+    "lat_pulldown",
+    "assisted_pull_up_machine"
+  ],
+  "aliases": [
+    "Pull Up",
+    "Pullups"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "movement_plane": "sagittal",
+  "stability_requirement": "moderate",
+  "skill_requirement": "high",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 0,
+    "max": 1,
+    "description": "Take close to failure, 0-1 RIR"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "latissimus_dorsi",
+      "percentage": 25.6
+    },
+    {
+      "muscle_id": "trapezius",
+      "percentage": 25.6
+    },
+    {
+      "muscle_id": "biceps_brachii",
+      "percentage": 25.6
+    },
+    {
+      "muscle_id": "rhomboids",
+      "percentage": 7.7
+    },
+    {
+      "muscle_id": "posterior_deltoid",
+      "percentage": 7.7
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 7.7
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

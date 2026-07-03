@@ -1,0 +1,57 @@
+{
+  "id": "triceps_brachii",
+  "display_name": "Triceps Brachii",
+  "group": "arms",
+  "synergists": [
+    "anterior_deltoid",
+    "pectoralis_major"
+  ],
+  "antagonists": [
+    "biceps_brachii"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 4,
+      "max_sets": 6,
+      "description": "Already trained via pressing; 4-6 direct sets min"
+    },
+    "mav": {
+      "min_sets": 8,
+      "max_sets": 14,
+      "description": "Optimal growth at 8-14 sets per week"
+    },
+    "mrv": {
+      "min_sets": 16,
+      "max_sets": 20,
+      "description": "Elbow tendonitis risk beyond 18 sets"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 3
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 48
+    },
+    "fatigue_factor": "low",
+    "description": "Recovers quickly; makes up ~2/3 of upper arm mass"
+  },
+  "recommended_exercises": [
+    "triceps_pulldown",
+    "triceps_skull_crusher",
+    "triceps_close_grip_bench",
+    "triceps_overhead_extension",
+    "triceps_dips",
+    "triceps_kickback",
+    "triceps_diamond_push_up",
+    "triceps_french_press",
+    "triceps_cable_overhead"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

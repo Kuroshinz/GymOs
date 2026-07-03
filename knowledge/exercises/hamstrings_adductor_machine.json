@@ -2,8 +2,14 @@
   "id": "hamstrings_adductor_machine",
   "name": "Adductor Machine",
   "category": "hamstrings_glutes",
-  "primary_muscles": ["adductors", "pectineus", "gracilis"],
-  "secondary_muscles": ["gluteus_maximus"],
+  "primary_muscles": [
+    "adductors",
+    "pectineus",
+    "gracilis"
+  ],
+  "secondary_muscles": [
+    "gluteus_maximus"
+  ],
   "equipment": "machine",
   "difficulty": "beginner",
   "movement_pattern": "hip_adduction",
@@ -22,5 +28,58 @@
     "Squeeze a beach ball between your knees",
     "Slow and controlled"
   ],
-  "alternatives": ["cable_adduction", "banded_adduction"]
+  "alternatives": [
+    "cable_adduction",
+    "banded_adduction"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 60,
+    "max_seconds": 90,
+    "label": "60-90s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "common_mistakes": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "low",
+  "skill_requirement": "low",
+  "fatigue_score": 3.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "low",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "linear_variable",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "adductors",
+      "percentage": 30.3
+    },
+    {
+      "muscle_id": "pectineus",
+      "percentage": 30.3
+    },
+    {
+      "muscle_id": "gracilis",
+      "percentage": 30.3
+    },
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 9.1
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

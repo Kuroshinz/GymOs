@@ -2,8 +2,14 @@
   "id": "core_turkish_get_up",
   "name": "Turkish Get-Up (TGU)",
   "category": "core",
-  "primary_muscles": ["core", "shoulders", "glutes"],
-  "secondary_muscles": ["full_body_stabilizers"],
+  "primary_muscles": [
+    "core",
+    "shoulders",
+    "glutes"
+  ],
+  "secondary_muscles": [
+    "full_body_stabilizers"
+  ],
   "equipment": "kettlebell",
   "difficulty": "advanced",
   "movement_pattern": "full_body_compound",
@@ -30,5 +36,56 @@
     "Full body stability and mobility",
     "Shoulder health",
     "Core strength and body control"
-  ]
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "common_mistakes": [],
+  "alternatives": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "moderate",
+  "skill_requirement": "high",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 0,
+    "max": 1,
+    "description": "Take close to failure, 0-1 RIR"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "core",
+      "percentage": 30.3
+    },
+    {
+      "muscle_id": "shoulders",
+      "percentage": 30.3
+    },
+    {
+      "muscle_id": "glutes",
+      "percentage": 30.3
+    },
+    {
+      "muscle_id": "full_body_stabilizers",
+      "percentage": 9.1
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

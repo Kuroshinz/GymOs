@@ -1,36 +1,50 @@
+"""Workout application service."""
+
 from datetime import datetime
 from typing import Optional
 
-from core.event_bus import EventBus
-from modules.workout.domain import Workout
+from modules.workout.domain import WorkoutSession
 
 
 class WorkoutService:
-    def __init__(self, repository, event_bus: EventBus) -> None:
-        self._repository = repository
-        self._event_bus = event_bus
+    """Synchronous application service for workout operations."""
 
-    async def create_workout(self, name: str) -> Workout:
-        workout = Workout(name=name, started_at=datetime.now())
-        saved = await self._repository.save(workout)
-        await self._event_bus.emit("workout.created", {"workout_id": saved.id})
-        return saved
+    def __init__(self, db) -> None:
+        self._db = db
 
-    async def complete_workout(self, workout_id: str) -> Workout:
-        workout = await self._repository.get(workout_id)
-        if not workout:
-            raise ValueError(f"Workout {workout_id} not found")
-        workout.completed_at = datetime.now()
-        await self._repository.update(workout)
-        await self._event_bus.emit("workout.completed", {
-            "workout_id": workout.id,
-            "duration": workout.duration_minutes,
-            "volume": workout.total_volume,
-        })
-        return workout
+    def create_session(self, day_name: str, program_name: str = "PPL-UL",
+                       exercise_names: list[str] | None = None,
+                       target_sets_list: list[int] | None = None) -> WorkoutSession:
+        """Create a new workout session."""
+        from modules.workout.domain import SessionExercise, SessionSet
 
-    async def get_workout(self, workout_id: str) -> Optional[Workout]:
-        return await self._repository.get(workout_id)
+        names = exercise_names or []
+        sets_counts = target_sets_list or [3] * len(names)
 
-    async def list_workouts(self, limit: int = 20, offset: int = 0) -> list[Workout]:
-        return await self._repository.list(limit=limit, offset=offset)
+        exercises = []
+        for i, name in enumerate(names):
+            target = sets_counts[i] if i < len(sets_counts) else 3
+            sets = [SessionSet(set_number=j + 1) for j in range(target)]
+            exercises.append(SessionExercise(name=name, sets=sets, sort_order=i))
+
+        session = WorkoutSession(
+            day_name=day_name,
+            program_name=program_name,
+            exercises=exercises,
+            started_at=datetime.now(),
+        )
+        return self._db.save_session(session)
+
+    def complete_session(self, session_id: str) -> WorkoutSession:
+        """Mark a workout session as completed."""
+        session = self._db.get_session(session_id)
+        if not session:
+            raise ValueError(f"Session {session_id} not found")
+        session.completed_at = datetime.now()
+        return self._db.save_session(session)
+
+    def get_session(self, session_id: str) -> Optional[WorkoutSession]:
+        return self._db.get_session(session_id)
+
+    def list_sessions(self, limit: int = 20, offset: int = 0) -> list[WorkoutSession]:
+        return self._db.list_sessions(limit=limit, offset=offset)

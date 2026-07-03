@@ -1,0 +1,54 @@
+{
+  "id": "rhomboids",
+  "display_name": "Rhomboids",
+  "group": "back",
+  "synergists": [
+    "trapezius_middle",
+    "posterior_deltoid"
+  ],
+  "antagonists": [
+    "pectoralis_major",
+    "serratus_anterior"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 3,
+      "max_sets": 4,
+      "description": "Minimum 3-4 sets for maintenance"
+    },
+    "mav": {
+      "min_sets": 4,
+      "max_sets": 8,
+      "description": "Growth at 4-8 sets per week"
+    },
+    "mrv": {
+      "min_sets": 10,
+      "max_sets": 12,
+      "description": "Small muscle; keep below 12 sets"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 1,
+    "max_times_per_week": 2
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 48,
+      "max": 72
+    },
+    "fatigue_factor": "low",
+    "description": "Key for posture, scapular retraction, and healthy shoulders"
+  },
+  "recommended_exercises": [
+    "back_barbell_row",
+    "back_seated_cable_row",
+    "back_chest_supported_row",
+    "back_face_pull",
+    "shoulders_rear_delt_fly"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

@@ -2,8 +2,13 @@
   "id": "hamstrings_nordic_curl",
   "name": "Nordic Hamstring Curl",
   "category": "hamstrings_glutes",
-  "primary_muscles": ["hamstrings"],
-  "secondary_muscles": ["gluteus_maximus", "calves"],
+  "primary_muscles": [
+    "hamstrings"
+  ],
+  "secondary_muscles": [
+    "gluteus_maximus",
+    "calves"
+  ],
   "equipment": "bodyweight",
   "difficulty": "advanced",
   "movement_pattern": "knee_flexion",
@@ -33,5 +38,51 @@
     "Injury prevention for hamstring strains",
     "No equipment needed"
   ],
-  "progression": "Band assist → Full eccentric → Eccentric + concentric → Weighted"
+  "progression": "Band assist → Full eccentric → Eccentric + concentric → Weighted",
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 60,
+    "max_seconds": 90,
+    "label": "60-90s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "movement_plane": "multi_planar",
+  "stability_requirement": "high",
+  "skill_requirement": "high",
+  "fatigue_score": 3.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "low",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 0,
+    "max": 1,
+    "description": "Take close to failure, 0-1 RIR"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 62.5
+    },
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 18.8
+    },
+    {
+      "muscle_id": "calves",
+      "percentage": 18.8
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

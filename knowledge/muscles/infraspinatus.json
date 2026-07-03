@@ -1,0 +1,52 @@
+{
+  "id": "infraspinatus",
+  "display_name": "Infraspinatus",
+  "group": "shoulders",
+  "synergists": [
+    "teres_minor",
+    "posterior_deltoid"
+  ],
+  "antagonists": [
+    "subscapularis"
+  ],
+  "weekly_volume_landmarks": {
+    "mev": {
+      "min_sets": 2,
+      "max_sets": 3,
+      "description": "Small rotator cuff; indirect training from rows"
+    },
+    "mav": {
+      "min_sets": 3,
+      "max_sets": 6,
+      "description": "3-6 sets direct external rotation work"
+    },
+    "mrv": {
+      "min_sets": 8,
+      "max_sets": 10,
+      "description": "Keep volume moderate for shoulder health"
+    }
+  },
+  "recommended_frequency": {
+    "min_times_per_week": 2,
+    "max_times_per_week": 3
+  },
+  "recovery_characteristics": {
+    "recovery_time_hours": {
+      "min": 24,
+      "max": 48
+    },
+    "fatigue_factor": "low",
+    "description": "Rotator cuff; essential for external rotation and shoulder stability"
+  },
+  "recommended_exercises": [
+    "shoulders_face_pull",
+    "shoulders_rear_delt_fly",
+    "back_seated_cable_row",
+    "warmup_external_rotation"
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "",
+  "last_updated": "2026-07-02",
+  "verified_by": "",
+  "references": []
+}

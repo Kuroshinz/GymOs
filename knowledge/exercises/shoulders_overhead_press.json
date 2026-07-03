@@ -2,8 +2,16 @@
   "id": "shoulders_overhead_press",
   "name": "Barbell Overhead Press (Strict)",
   "category": "shoulders",
-  "primary_muscles": ["anterior_deltoid", "medial_deltoid"],
-  "secondary_muscles": ["triceps_brachii", "trapezius", "serratus_anterior", "core"],
+  "primary_muscles": [
+    "anterior_deltoid",
+    "medial_deltoid"
+  ],
+  "secondary_muscles": [
+    "triceps_brachii",
+    "trapezius",
+    "serratus_anterior",
+    "core"
+  ],
   "equipment": "barbell",
   "difficulty": "intermediate",
   "movement_pattern": "vertical_push",
@@ -40,5 +48,69 @@
     "arnold_press",
     "push_press"
   ],
-  "alternatives": ["dumbbell_shoulder_press", "machine_shoulder_press"]
+  "alternatives": [
+    "dumbbell_shoulder_press",
+    "machine_shoulder_press"
+  ],
+  "aliases": [
+    "Overhead Press (Strict)",
+    "Overhead Press"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "movement_plane": "sagittal",
+  "stability_requirement": "moderate",
+  "skill_requirement": "moderate",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "anterior_deltoid",
+      "percentage": 31.2
+    },
+    {
+      "muscle_id": "medial_deltoid",
+      "percentage": 31.2
+    },
+    {
+      "muscle_id": "triceps_brachii",
+      "percentage": 9.4
+    },
+    {
+      "muscle_id": "trapezius",
+      "percentage": 9.4
+    },
+    {
+      "muscle_id": "serratus_anterior",
+      "percentage": 9.4
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 9.4
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

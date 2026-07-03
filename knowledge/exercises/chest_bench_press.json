@@ -2,8 +2,13 @@
   "id": "chest_bench_press",
   "name": "Barbell Bench Press",
   "category": "chest",
-  "primary_muscles": ["pectoralis_major"],
-  "secondary_muscles": ["anterior_deltoid", "triceps_brachii"],
+  "primary_muscles": [
+    "pectoralis_major"
+  ],
+  "secondary_muscles": [
+    "anterior_deltoid",
+    "triceps_brachii"
+  ],
   "equipment": "barbell",
   "difficulty": "intermediate",
   "movement_pattern": "horizontal_push",
@@ -44,5 +49,53 @@
     "chest_push_ups",
     "chest_machine_press"
   ],
-  "spotting": "Two hands alternating grip, assist on concentric"
+  "spotting": "Two hands alternating grip, assist on concentric",
+  "aliases": [
+    "Bench Press"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 6,
+    "max": 12
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "movement_plane": "sagittal",
+  "stability_requirement": "moderate",
+  "skill_requirement": "moderate",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "pectoralis_major",
+      "percentage": 62.5
+    },
+    {
+      "muscle_id": "anterior_deltoid",
+      "percentage": 18.8
+    },
+    {
+      "muscle_id": "triceps_brachii",
+      "percentage": 18.8
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

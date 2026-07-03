@@ -2,8 +2,13 @@
   "id": "core_russian_twist",
   "name": "Russian Twist",
   "category": "core",
-  "primary_muscles": ["obliques"],
-  "secondary_muscles": ["rectus_abdominis", "hip_flexors"],
+  "primary_muscles": [
+    "obliques"
+  ],
+  "secondary_muscles": [
+    "rectus_abdominis",
+    "hip_flexors"
+  ],
   "equipment": "bodyweight",
   "difficulty": "intermediate",
   "movement_pattern": "spinal_rotation",
@@ -28,5 +33,53 @@
     "Rotate from the ribs, not the shoulders",
     "Keep core braced throughout"
   ],
-  "alternatives": ["cable_woodchop", "pallof_press"]
+  "alternatives": [
+    "cable_woodchop",
+    "pallof_press"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 8,
+    "max": 15
+  },
+  "rest_time": {
+    "min_seconds": 60,
+    "max_seconds": 90,
+    "label": "60-90s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "movement_plane": "multi_planar",
+  "stability_requirement": "high",
+  "skill_requirement": "moderate",
+  "fatigue_score": 3.0,
+  "systemic_fatigue": "low",
+  "joint_stress": {
+    "overall": "low",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 1,
+    "max": 2,
+    "description": "Leave 1-2 reps in reserve"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "obliques",
+      "percentage": 62.5
+    },
+    {
+      "muscle_id": "rectus_abdominis",
+      "percentage": 18.8
+    },
+    {
+      "muscle_id": "hip_flexors",
+      "percentage": 18.8
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

@@ -2,8 +2,18 @@
   "id": "back_deadlift",
   "name": "Barbell Deadlift (Conventional)",
   "category": "back",
-  "primary_muscles": ["erector_spinae", "gluteus_maximus", "hamstrings"],
-  "secondary_muscles": ["trapezius", "rhomboids", "forearms", "core", "quadriceps"],
+  "primary_muscles": [
+    "erector_spinae",
+    "gluteus_maximus",
+    "hamstrings"
+  ],
+  "secondary_muscles": [
+    "trapezius",
+    "rhomboids",
+    "forearms",
+    "core",
+    "quadriceps"
+  ],
   "equipment": "barbell",
   "difficulty": "advanced",
   "movement_pattern": "hip_hinge",
@@ -44,10 +54,81 @@
     "trap_bar_deadlift",
     "deficit_deadlift"
   ],
-  "alternatives": ["trap_bar_deadlift", "rack_pull"],
+  "alternatives": [
+    "trap_bar_deadlift",
+    "rack_pull"
+  ],
   "rep_ranges": {
     "strength": "1-5",
     "hypertrophy": "5-10",
     "technique": "3-5"
-  }
+  },
+  "aliases": [
+    "Deadlift"
+  ],
+  "hypertrophy_rep_range": {
+    "min": 5,
+    "max": 10
+  },
+  "rest_time": {
+    "min_seconds": 90,
+    "max_seconds": 120,
+    "label": "90-120s"
+  },
+  "breathing": "Brace and hold breath through movement, exhale at lockout",
+  "movement_plane": "sagittal",
+  "stability_requirement": "high",
+  "skill_requirement": "high",
+  "fatigue_score": 6.0,
+  "systemic_fatigue": "high",
+  "joint_stress": {
+    "overall": "high",
+    "notes": ""
+  },
+  "force_curve": "flat",
+  "resistance_profile": "constant",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 0,
+    "max": 1,
+    "description": "Take close to failure, 0-1 RIR"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "erector_spinae",
+      "percentage": 22.2
+    },
+    {
+      "muscle_id": "gluteus_maximus",
+      "percentage": 22.2
+    },
+    {
+      "muscle_id": "hamstrings",
+      "percentage": 22.2
+    },
+    {
+      "muscle_id": "trapezius",
+      "percentage": 6.7
+    },
+    {
+      "muscle_id": "rhomboids",
+      "percentage": 6.7
+    },
+    {
+      "muscle_id": "forearms",
+      "percentage": 6.7
+    },
+    {
+      "muscle_id": "core",
+      "percentage": 6.7
+    },
+    {
+      "muscle_id": "quadriceps",
+      "percentage": 6.7
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }

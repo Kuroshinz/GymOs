@@ -2,8 +2,13 @@
   "id": "core_pallof_press",
   "name": "Pallof Press",
   "category": "core",
-  "primary_muscles": ["obliques", "transversus_abdominis"],
-  "secondary_muscles": ["rectus_abdominis"],
+  "primary_muscles": [
+    "obliques",
+    "transversus_abdominis"
+  ],
+  "secondary_muscles": [
+    "rectus_abdominis"
+  ],
   "equipment": "cable",
   "difficulty": "beginner",
   "movement_pattern": "anti_rotation",
@@ -33,5 +38,47 @@
     "Excellent anti-rotation core strength",
     "Low spine load",
     "Shoulder-safe"
-  ]
+  ],
+  "rest_time": {
+    "min_seconds": 45,
+    "max_seconds": 60,
+    "label": "45-60s"
+  },
+  "breathing": "Exhale on concentric, inhale on eccentric",
+  "alternatives": [],
+  "movement_plane": "transverse",
+  "stability_requirement": "moderate",
+  "skill_requirement": "low",
+  "fatigue_score": 5.0,
+  "systemic_fatigue": "moderate",
+  "joint_stress": {
+    "overall": "moderate",
+    "notes": ""
+  },
+  "force_curve": "ascending",
+  "resistance_profile": "ascending",
+  "unilateral_bilateral": "bilateral",
+  "recommended_rir": {
+    "min": 2,
+    "max": 3,
+    "description": "Leave 2-3 reps in reserve for safety"
+  },
+  "muscle_contributions": [
+    {
+      "muscle_id": "obliques",
+      "percentage": 43.5
+    },
+    {
+      "muscle_id": "transversus_abdominis",
+      "percentage": 43.5
+    },
+    {
+      "muscle_id": "rectus_abdominis",
+      "percentage": 13.0
+    }
+  ],
+  "tags": [],
+  "knowledge_version": "1.0.0",
+  "last_updated": "2026-07-02",
+  "references": []
 }
