@@ -9,10 +9,13 @@ All business intelligence flows through the DecisionEngine.
 
 from __future__ import annotations
 
+import logging
 from datetime import datetime
 from typing import Any
 
 from ui.dashboard.dashboard_models import DashboardData
+
+logger = logging.getLogger(__name__)
 
 
 class DashboardDataService:
@@ -127,6 +130,7 @@ class DashboardDataService:
                 nutrition_data=nutrition_summary.get("data", {}),
             )
         except Exception:
+            logger.warning("Dashboard fetch_all failed", exc_info=True)
             return DashboardData()
 
     # ─── Header ───────────────────────────────────────────────
@@ -138,7 +142,7 @@ class DashboardDataService:
                 try:
                     prog_name = self._prog_mgr.get_active_name()
                 except Exception:
-                    pass
+                    logger.warning("Failed to get active program name", exc_info=True)
 
             total = 0
             streak = 0
@@ -148,21 +152,21 @@ class DashboardDataService:
                 try:
                     total = self._db.get_total_workouts()
                 except Exception:
-                    pass
+                    logger.warning("Failed to get total workouts", exc_info=True)
                 try:
                     streak = self._db.get_streak()
                 except Exception:
-                    pass
+                    logger.warning("Failed to get streak", exc_info=True)
                 try:
                     volume = self._db.get_recent_volume(7)
                 except Exception:
-                    pass
+                    logger.warning("Failed to get recent volume", exc_info=True)
                 try:
                     latest_bw = self._db.get_latest_body_weight()
                     if latest_bw:
                         current_weight = float(getattr(latest_bw, "weight_kg", 0))
                 except Exception:
-                    pass
+                    logger.warning("Failed to get latest body weight", exc_info=True)
 
             hour = datetime.now().hour
             if hour < 12:
@@ -184,7 +188,7 @@ class DashboardDataService:
                             idx = total % len(days)
                             split_day = days[idx].get("name", "") if idx < len(days) else ""
             except Exception:
-                pass
+                logger.warning("Failed to compute mesocycle week", exc_info=True)
 
             return {
                 "user_name": "",
@@ -198,6 +202,7 @@ class DashboardDataService:
                 "weekly_volume_kg": volume,
             }
         except Exception:
+            logger.warning("Dashboard _fetch_header failed", exc_info=True)
             return {}
 
     # ─── Goal Progress ────────────────────────────────────────
@@ -208,6 +213,7 @@ class DashboardDataService:
         try:
             return self._engine.get_goal_progress()
         except Exception:
+            logger.warning("Failed to fetch goal progress", exc_info=True)
             return None
 
     # ─── Recommendations ──────────────────────────────────────
@@ -218,6 +224,7 @@ class DashboardDataService:
         try:
             return self._engine.get_today_recommendations(max_recs=10)
         except Exception:
+            logger.warning("Failed to fetch recommendations", exc_info=True)
             return []
 
     # ─── Today's Workout ──────────────────────────────────────
@@ -229,7 +236,7 @@ class DashboardDataService:
                 try:
                     days = self._prog_mgr.get_active_program_days()
                 except Exception:
-                    pass
+                    logger.warning("Failed to get active program days", exc_info=True)
             if not days:
                 return {}
 
@@ -238,7 +245,7 @@ class DashboardDataService:
                 try:
                     total = self._db.get_total_workouts()
                 except Exception:
-                    pass
+                    logger.warning("Failed to get total workouts", exc_info=True)
 
             idx = total % len(days) if total > 0 else 0
             day = days[idx] if idx < len(days) else days[0]
@@ -264,7 +271,7 @@ class DashboardDataService:
                         if level in ("high", "very_high"):
                             warmup_status = "Extended warm-up recommended due to high fatigue."
                 except Exception:
-                    pass
+                    logger.warning("Failed to get recovery status for warmup", exc_info=True)
 
             return {
                 "name": day.get("name", "Rest Day"),
@@ -275,6 +282,7 @@ class DashboardDataService:
                 "warmup_status": warmup_status,
             }
         except Exception:
+            logger.warning("Dashboard _fetch_today_workout failed", exc_info=True)
             return {}
 
     # ─── Priority Muscles ─────────────────────────────────────
@@ -285,6 +293,7 @@ class DashboardDataService:
         try:
             return self._engine.get_priority_muscles()
         except Exception:
+            logger.warning("Failed to fetch priority muscles", exc_info=True)
             return []
 
     # ─── Recovery ─────────────────────────────────────────────
@@ -296,7 +305,7 @@ class DashboardDataService:
             try:
                 status = self._engine.get_recovery_status()
             except Exception:
-                pass
+                logger.warning("Failed to get recovery status from engine", exc_info=True)
 
         if self._db:
             try:
@@ -307,7 +316,7 @@ class DashboardDataService:
                 if report:
                     flags = report.flags
             except Exception:
-                pass
+                logger.warning("Failed to get dashboard flags from RecoveryEngine", exc_info=True)
 
         return {"status": status, "flags": flags}
 
@@ -319,6 +328,7 @@ class DashboardDataService:
         try:
             return self._db.get_volume_by_day(days=28)
         except Exception:
+            logger.warning("Failed to fetch weekly volume", exc_info=True)
             return []
 
     # ─── Nutrition ────────────────────────────────────────────
@@ -334,6 +344,7 @@ class DashboardDataService:
                 "data": summary.to_dict(),
             }
         except Exception:
+            logger.warning("Failed to fetch nutrition summary", exc_info=True)
             return {"configured": False, "data": {}}
 
     # ─── Recent PRs ───────────────────────────────────────────
@@ -344,6 +355,7 @@ class DashboardDataService:
         try:
             return self._pr_engine.get_latest_prs(limit=5)
         except Exception:
+            logger.warning("Failed to fetch recent PRs", exc_info=True)
             return []
 
     # ─── Section Refresh ──────────────────────────────────────
@@ -398,4 +410,4 @@ class DashboardDataService:
                 data.nutrition_configured = nutrition_summary.get("configured", False)
                 data.nutrition_data = nutrition_summary.get("data", {})
         except Exception:
-            pass
+            logger.warning("Dashboard refresh_section(%s) failed", section, exc_info=True)

@@ -2,20 +2,26 @@
 
 import uuid
 from datetime import datetime, timedelta
-from typing import Optional
 
-from sqlalchemy import create_engine, select, func
+from sqlalchemy import create_engine, func, select
 from sqlalchemy.orm import Session
 
 from modules.workout.domain import (
-    WorkoutSession, SessionExercise, SessionSet,
-    WorkoutProgram, WorkoutDay, BodyWeight, PreviousSessionData,
+    BodyWeight,
+    PreviousSessionData,
+    SessionExercise,
+    SessionSet,
+    WorkoutSession,
 )
+
 from .models import (
-    Base, init_db,
-    WorkoutProgramModel, WorkoutDayModel, DayExerciseModel,
-    WorkoutSessionModel, SessionExerciseModel, SessionSetModel,
     BodyWeightModel,
+    DayExerciseModel,
+    SessionExerciseModel,
+    SessionSetModel,
+    WorkoutDayModel,
+    WorkoutProgramModel,
+    WorkoutSessionModel,
 )
 from .program_loader import ProgramLoader
 
@@ -176,7 +182,7 @@ class GymDatabase:
             session_data.id = session_id
             return session_data
 
-    def get_session(self, session_id: str) -> Optional[WorkoutSession]:
+    def get_session(self, session_id: str) -> WorkoutSession | None:
         """Get a single workout session."""
         with self._get_session() as session:
             model = session.get(WorkoutSessionModel, session_id)
@@ -233,7 +239,7 @@ class GymDatabase:
             notes=model.notes or "",
         )
 
-    def get_last_session_for_exercise(self, exercise_name: str) -> Optional[PreviousSessionData]:
+    def get_last_session_for_exercise(self, exercise_name: str) -> PreviousSessionData | None:
         """Get the most recent session data for a given exercise."""
         with self._get_session() as db_session:
             stmt = (
@@ -371,7 +377,7 @@ class GymDatabase:
             weight.id = weight_id
             return weight
 
-    def get_body_weight(self, date: str) -> Optional[BodyWeight]:
+    def get_body_weight(self, date: str) -> BodyWeight | None:
         """Get body weight for a specific date."""
         with self._get_session() as session:
             stmt = select(BodyWeightModel).where(BodyWeightModel.date == date)
@@ -400,7 +406,7 @@ class GymDatabase:
                 for m in models
             ]
 
-    def get_latest_body_weight(self) -> Optional[BodyWeight]:
+    def get_latest_body_weight(self) -> BodyWeight | None:
         """Get the most recent body weight entry."""
         with self._get_session() as session:
             stmt = (

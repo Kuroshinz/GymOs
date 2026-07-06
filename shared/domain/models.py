@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from typing import Optional
 
 
 @dataclass
@@ -7,7 +6,7 @@ class Reference:
     title: str = ""
     url: str = ""
     authors: list[str] = field(default_factory=list)
-    year: Optional[int] = None
+    year: int | None = None
     type: str = "other"
 
 
@@ -46,7 +45,7 @@ class RecommendedFrequency:
 
 @dataclass
 class RecoveryCharacteristics:
-    recovery_time_hours: Optional[dict] = None
+    recovery_time_hours: dict | None = None
     fatigue_factor: str = "moderate"
     description: str = ""
 
@@ -74,28 +73,28 @@ class ExerciseData:
     variations: list[str] = field(default_factory=list)
     progression: str = ""
     spotting: str = ""
-    rep_ranges: Optional[dict] = None
+    rep_ranges: dict | None = None
     advantages: list[str] = field(default_factory=list)
     weight_progression: str = ""
     alterations: list[str] = field(default_factory=list)
     recommendation: str = ""
-    alternative: Optional[list[str] | str] = None
-    uses: Optional[list[str] | str] = None
+    alternative: list[str] | str | None = None
+    uses: list[str] | str | None = None
     shoulder_safety_note: str = ""
     triceps_activation: str = ""
     purpose: str = ""
-    hypertrophy_rep_range: Optional[dict] = None
-    rest_time: Optional[dict] = None
+    hypertrophy_rep_range: dict | None = None
+    rest_time: dict | None = None
     movement_plane: str = ""
     stability_requirement: str = "moderate"
     skill_requirement: str = "moderate"
-    fatigue_score: Optional[float] = None
+    fatigue_score: float | None = None
     systemic_fatigue: str = "moderate"
-    joint_stress: Optional[JointStress] = None
+    joint_stress: JointStress | None = None
     force_curve: str = ""
     resistance_profile: str = ""
     unilateral_bilateral: str = "bilateral"
-    recommended_rir: Optional[RecommendedRir] = None
+    recommended_rir: RecommendedRir | None = None
     muscle_contributions: list[MuscleContribution] = field(default_factory=list)
     tags: list[str] = field(default_factory=list)
     knowledge_version: str = ""
@@ -182,14 +181,14 @@ class MuscleData:
     group: str
     synergists: list[str] = field(default_factory=list)
     antagonists: list[str] = field(default_factory=list)
-    weekly_volume_landmarks: Optional[VolumeLandmarks] = None
-    recommended_frequency: Optional[RecommendedFrequency] = None
-    recovery_characteristics: Optional[RecoveryCharacteristics] = None
+    weekly_volume_landmarks: VolumeLandmarks | None = None
+    recommended_frequency: RecommendedFrequency | None = None
+    recovery_characteristics: RecoveryCharacteristics | None = None
     recommended_exercises: list[str] = field(default_factory=list)
     knowledge_version: str = ""
     created_at: str = ""
     last_updated: str = ""
-    verified: Optional[bool] = None
+    verified: bool | None = None
     verified_by: str = ""
     evidence_level: str = ""
     references: list[Reference] = field(default_factory=list)
@@ -261,8 +260,8 @@ class ProgramData:
     experience_level: str = "intermediate"
     split: str = ""
     mesocycle_duration_weeks: int = 8
-    deload_week: Optional[dict] = None
-    progression_strategy: Optional[dict] = None
+    deload_week: dict | None = None
+    progression_strategy: dict | None = None
     priority_muscles: list[str] = field(default_factory=list)
     rules: list[str] = field(default_factory=list)
     days: list[ProgramDayData] = field(default_factory=list)

@@ -5,10 +5,8 @@ import logging
 from shared.events.domain_events import (
     DomainEvent,
     PersonalRecordUnlocked,
-    SetCompleted,
     WorkoutCompleted,
 )
-from shared.events.event_bus import get_event_bus
 from shared.events.publisher import Publisher
 from shared.events.subscriber import Subscriber
 

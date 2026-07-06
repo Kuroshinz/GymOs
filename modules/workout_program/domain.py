@@ -1,7 +1,6 @@
 """Domain models for workout programs — pure data, no persistence."""
 
 from dataclasses import dataclass, field
-from typing import Optional
 
 
 @dataclass
@@ -47,8 +46,8 @@ class WorkoutProgram:
     experience_level: str = "intermediate"
     split: str = ""
     mesocycle_duration_weeks: int = 8
-    deload_week: Optional[DeloadWeek] = None
-    progression_strategy: Optional[ProgressionStrategy] = None
+    deload_week: DeloadWeek | None = None
+    progression_strategy: ProgressionStrategy | None = None
     priority_muscles: list[str] = field(default_factory=list)
     rules: list[str] = field(default_factory=list)
     days: list[ProgramDay] = field(default_factory=list)

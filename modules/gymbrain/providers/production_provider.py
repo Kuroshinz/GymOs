@@ -6,11 +6,14 @@ into the DataProvider interface consumed by GymBrain.
 
 from __future__ import annotations
 
+import logging
 from datetime import datetime, timedelta
 from typing import Any
 
 from modules.gymbrain.providers.data_provider import DataProvider
 from modules.workout.infrastructure.repository import GymDatabase
+
+logger = logging.getLogger(__name__)
 
 
 class ProductionDataProvider(DataProvider):
@@ -57,6 +60,7 @@ class ProductionDataProvider(DataProvider):
             ex = self._exercise_repo.get_by_id(exercise_id)
             return getattr(ex, "raw", ex) if ex else None
         except Exception:
+            logger.warning("get_exercise(%s) failed", exercise_id, exc_info=True)
             return None
 
     def get_exercise_by_name(self, name: str) -> dict[str, Any] | None:
@@ -66,6 +70,7 @@ class ProductionDataProvider(DataProvider):
             ex = self._exercise_repo.get_by_name(name)
             return getattr(ex, "raw", ex) if ex else None
         except Exception:
+            logger.warning("get_exercise_by_name(%s) failed", name, exc_info=True)
             return None
 
     def get_all_exercises(self) -> list[dict[str, Any]]:
@@ -77,6 +82,7 @@ class ProductionDataProvider(DataProvider):
                 return [getattr(v, "raw", v) for v in exercises.values()]
             return [getattr(e, "raw", e) for e in exercises]
         except Exception:
+            logger.warning("get_all_exercises failed", exc_info=True)
             return []
 
     def get_exercises_by_muscle(self, muscle_id: str) -> list[dict[str, Any]]:
@@ -88,6 +94,7 @@ class ProductionDataProvider(DataProvider):
                 return [getattr(v, "raw", v) for v in exercises.values()]
             return [getattr(e, "raw", e) for e in exercises]
         except Exception:
+            logger.warning("get_exercises_by_muscle(%s) failed", muscle_id, exc_info=True)
             return []
 
     def get_exercises_by_category(self, category: str) -> list[dict[str, Any]]:
@@ -99,6 +106,7 @@ class ProductionDataProvider(DataProvider):
                 return [getattr(v, "raw", v) for v in exercises.values()]
             return [getattr(e, "raw", e) for e in exercises]
         except Exception:
+            logger.warning("get_exercises_by_category(%s) failed", category, exc_info=True)
             return []
 
     # ─── Muscles ──────────────────────────────────────────────────
@@ -110,6 +118,7 @@ class ProductionDataProvider(DataProvider):
             m = self._muscle_repo.get_by_id(muscle_id)
             return getattr(m, "raw", m) if m else None
         except Exception:
+            logger.warning("get_muscle(%s) failed", muscle_id, exc_info=True)
             return None
 
     def get_all_muscles(self) -> list[dict[str, Any]]:
@@ -121,6 +130,7 @@ class ProductionDataProvider(DataProvider):
                 return [getattr(v, "raw", v) for v in muscles.values()]
             return [getattr(m, "raw", m) for m in muscles]
         except Exception:
+            logger.warning("get_all_muscles failed", exc_info=True)
             return []
 
     def get_muscles_by_group(self, group: str) -> list[dict[str, Any]]:
@@ -132,6 +142,7 @@ class ProductionDataProvider(DataProvider):
                 return [getattr(v, "raw", v) for v in muscles.values()]
             return [getattr(m, "raw", m) for m in muscles]
         except Exception:
+            logger.warning("get_muscles_by_group(%s) failed", group, exc_info=True)
             return []
 
     # ─── Program ──────────────────────────────────────────────────
@@ -143,6 +154,7 @@ class ProductionDataProvider(DataProvider):
             p = self._program_repo.get_program()
             return getattr(p, "raw", p) if p else None
         except Exception:
+            logger.warning("get_program failed", exc_info=True)
             return None
 
     def get_program_exercise_ids(self) -> list[str]:
@@ -151,6 +163,7 @@ class ProductionDataProvider(DataProvider):
         try:
             return list(self._program_repo.get_exercise_ids())
         except Exception:
+            logger.warning("get_program_exercise_ids failed", exc_info=True)
             return []
 
     def get_priority_muscles(self) -> list[str]:
@@ -167,18 +180,21 @@ class ProductionDataProvider(DataProvider):
         try:
             return self._db.list_sessions(limit=limit, offset=offset)
         except Exception:
+            logger.warning("list_sessions failed", exc_info=True)
             return []
 
     def get_session(self, session_id: int) -> Any | None:
         try:
             return self._db.get_session(session_id)
         except Exception:
+            logger.warning("get_session(%s) failed", session_id, exc_info=True)
             return None
 
     def get_last_session_for_exercise(self, exercise_name: str) -> Any | None:
         try:
             return self._db.get_last_session_for_exercise(exercise_name)
         except Exception:
+            logger.warning("get_last_session_for_exercise(%s) failed", exercise_name, exc_info=True)
             return None
 
     def get_recent_sessions(self, days: int = 14) -> list[Any]:
@@ -187,55 +203,59 @@ class ProductionDataProvider(DataProvider):
             cutoff = datetime.now() - timedelta(days=days)
             return [s for s in sessions if hasattr(s, "started_at") and s.started_at and s.started_at >= cutoff]
         except Exception:
+            logger.warning("get_recent_sessions failed", exc_info=True)
             return []
 
     def get_body_weight(self, date: datetime | None = None) -> Any | None:
         try:
             return self._db.get_body_weight(date)
         except Exception:
+            logger.warning("get_body_weight failed", exc_info=True)
             return None
 
     def get_latest_body_weight(self) -> Any | None:
         try:
             return self._db.get_latest_body_weight()
         except Exception:
+            logger.warning("get_latest_body_weight failed", exc_info=True)
             return None
 
     def get_body_weight_history(self, days: int = 90) -> list[Any]:
         try:
             return self._db.get_body_weight_history(days=days)
         except Exception:
+            logger.warning("get_body_weight_history failed", exc_info=True)
             return []
 
     def get_recent_volume(self, days: int = 7) -> float:
         try:
             return self._db.get_recent_volume(days=days)
         except Exception:
+            logger.warning("get_recent_volume failed", exc_info=True)
             return 0.0
 
     def get_volume_by_day(self, days: int = 90) -> list[dict[str, Any]]:
         try:
             return self._db.get_volume_by_day(days=days)
         except Exception:
+            logger.warning("get_volume_by_day failed", exc_info=True)
             return []
 
     def get_streak(self) -> int:
         try:
             return self._db.get_streak()
         except Exception:
+            logger.warning("get_streak failed", exc_info=True)
             return 0
 
     def get_total_workouts(self) -> int:
         try:
             return self._db.get_total_workouts()
         except Exception:
+            logger.warning("get_total_workouts failed", exc_info=True)
             return 0
 
     # ─── Volume Engine ────────────────────────────────────────────
-    #
-    # Note: VolumeEngine expects (ExerciseData, int) for sets, but
-    # GymBrain passes (ExerciseData, list[SessionSet]). We bridge
-    # by passing len(sets) as the set count.
 
     def calculate_effective_volume(self, exercise: Any, sets: list[Any]) -> list[Any]:
         if not self._volume_engine:
@@ -243,6 +263,7 @@ class ProductionDataProvider(DataProvider):
         try:
             return self._volume_engine.calculate_effective_volume(exercise, len(sets))
         except Exception:
+            logger.warning("calculate_effective_volume failed", exc_info=True)
             return []
 
     def calculate_total_weekly_volume(self, weekly_exercises: list[tuple[Any, list[Any]]]) -> dict[str, float]:
@@ -252,6 +273,7 @@ class ProductionDataProvider(DataProvider):
             converted = [(ex, len(sets)) for ex, sets in weekly_exercises]
             return self._volume_engine.calculate_total_weekly_volume(converted)
         except Exception:
+            logger.warning("calculate_total_weekly_volume failed", exc_info=True)
             return {}
 
     # ─── Engines ──────────────────────────────────────────────────
@@ -262,6 +284,7 @@ class ProductionDataProvider(DataProvider):
         try:
             return self._pr_engine.detect_prs(session)
         except Exception:
+            logger.warning("detect_prs failed", exc_info=True)
             return []
 
     def analyse_session(self, session: Any) -> Any | None:
@@ -270,6 +293,7 @@ class ProductionDataProvider(DataProvider):
         try:
             return self._recovery_engine.analyse_session(session)
         except Exception:
+            logger.warning("analyse_session failed", exc_info=True)
             return None
 
     def analyse_exercise(
@@ -280,6 +304,7 @@ class ProductionDataProvider(DataProvider):
         try:
             return self._progression_engine.analyse_exercise(exercise_name, sets, target_reps, acceptable_rir)
         except Exception:
+            logger.warning("analyse_exercise(%s) failed", exercise_name, exc_info=True)
             return None
 
     def get_progression_recommendation(self, exercise_name: str) -> Any | None:
@@ -288,4 +313,5 @@ class ProductionDataProvider(DataProvider):
         try:
             return self._progression_engine.get_recommendation(exercise_name)
         except Exception:
+            logger.warning("get_progression_recommendation(%s) failed", exercise_name, exc_info=True)
             return None

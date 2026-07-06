@@ -8,12 +8,10 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
 
-from shared.events.domain_events import DOMAIN_EVENT_REGISTRY, DomainEvent, event_from_dict
-from shared.events.event import DomainEvent as BaseDomainEvent
+from shared.events.domain_events import DomainEvent, event_from_dict
 
 logger = logging.getLogger("nexus.events.store")
 
@@ -35,7 +33,7 @@ class EventStore:
 
     def _flush(self, event: DomainEvent) -> None:
         """Append one event to the daily log file."""
-        date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        date_str = datetime.now(UTC).strftime("%Y-%m-%d")
         log_file = self._path / f"events-{date_str}.jsonl"
         try:
             with open(log_file, "a", encoding="utf-8") as f:

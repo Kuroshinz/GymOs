@@ -1,8 +1,24 @@
 [project]
 name = "gymos"
-version = "0.1.0"
+version = "0.5.0"
 description = "Personal Hypertrophy Operating System"
 requires-python = ">=3.11"
+authors = [
+    {name = "GymOS Contributors"},
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Win32 (MS Windows)",
+    "Environment :: X11 Applications :: Qt",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Games/Entertainment",
+]
 dependencies = [
     "PySide6>=6.6",
     "SQLAlchemy>=2.0",
@@ -17,12 +33,31 @@ dev = [
     "jsonschema>=4.0",
 ]
 
+[project.scripts]
+gymos = "main:main"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
 
 [tool.coverage.run]
-source = ["modules", "ui", "shared"]
+source = ["modules", "ui", "shared", "main.py"]
+
+[tool.coverage.report]
+fail_under = 70
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+exclude = [
+    "scripts/",
+    "tests/",
+    "alembic/",
+]
 
 [build-system]
 requires = ["setuptools>=68.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["shared*", "modules*", "ui*", "scripts*"]

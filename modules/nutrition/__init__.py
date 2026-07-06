@@ -14,9 +14,19 @@ Usage:
 
 from modules.nutrition.analysis import LeanBulkAnalyzer, MacroAnalyzer
 from modules.nutrition.domain import (
-    DailyNutrition, Hydration, LeanBulkAnalysis, MacroAnalysis,
-    MacroStatusResult, MacroStatus, MacroTarget, Meal,
-    MealItem, MealType, NutritionGoal, NutritionGoalType, NutritionSummary,
+    DailyNutrition,
+    Hydration,
+    LeanBulkAnalysis,
+    MacroAnalysis,
+    MacroStatus,
+    MacroStatusResult,
+    MacroTarget,
+    Meal,
+    MealItem,
+    MealType,
+    NutritionGoal,
+    NutritionGoalType,
+    NutritionSummary,
 )
 from modules.nutrition.infrastructure.repository import NutritionRepository
 from modules.nutrition.providers import NutritionProvider, ProductionNutritionProvider

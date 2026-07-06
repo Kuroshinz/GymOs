@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import asyncio
 import logging
+from collections.abc import Callable, Coroutine
 from dataclasses import dataclass, field
-from typing import Any, Callable, Coroutine, Optional
+from typing import Any, Optional
 
 TaskFunc = Callable[..., Coroutine[Any, Any, None] | None]
 
@@ -14,13 +15,13 @@ class ScheduledTask:
     interval: float
     args: tuple = field(default_factory=tuple)
     kwargs: dict = field(default_factory=dict)
-    _task: Optional[asyncio.Task] = None
+    _task: asyncio.Task | None = None
 
 
 class Scheduler:
-    _instance: Optional["Scheduler"] = None
+    _instance: Scheduler | None = None
 
-    def __new__(cls) -> "Scheduler":
+    def __new__(cls) -> Scheduler:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance._tasks: dict[str, ScheduledTask] = {}

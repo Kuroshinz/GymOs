@@ -2,14 +2,18 @@
 
 import os
 
-from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFrame,
-    QWizard, QWizardPage, QFileDialog, QListWidget, QListWidgetItem,
-    QMessageBox, QProgressBar,
+    QFileDialog,
+    QLabel,
+    QListWidget,
+    QListWidgetItem,
+    QMessageBox,
+    QProgressBar,
+    QPushButton,
+    QVBoxLayout,
+    QWizard,
+    QWizardPage,
 )
-from PySide6.QtGui import QFont
-
 
 STYLE = """
     QWizard {
@@ -185,8 +189,6 @@ class ImportProgressPage(QWizardPage):
 
 class ImportWizard(QWizard):
     """Multi-step wizard for importing workout programs."""
-
-    Done = QWizard.Accepted
 
     def __init__(self, prog_mgr, parent=None):
         super().__init__(parent)

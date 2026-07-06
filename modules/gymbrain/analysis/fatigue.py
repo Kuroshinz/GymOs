@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Any
-
 from modules.gymbrain.models.analysis import FatigueLevel, FatigueResult
 from modules.gymbrain.providers.data_provider import DataProvider
 

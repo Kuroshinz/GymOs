@@ -12,19 +12,25 @@ from typing import Any, Optional
 
 from modules.nutrition.analysis import LeanBulkAnalyzer, MacroAnalyzer
 from modules.nutrition.domain import (
-    DailyNutrition, LeanBulkAnalysis, MacroAnalysis,
-    MacroTarget, Meal, MealItem, NutritionGoal, NutritionSummary,
+    DailyNutrition,
+    LeanBulkAnalysis,
+    MacroAnalysis,
+    MacroTarget,
+    Meal,
+    MealItem,
+    NutritionGoal,
+    NutritionSummary,
 )
 from modules.nutrition.infrastructure.importers import (
     CSVNutritionImporter,
+    ExportResult,
+    ImportResult,
     JSONNutritionImporter,
     NutritionExporter,
-    ImportResult,
-    ExportResult,
 )
 from modules.nutrition.infrastructure.repository import NutritionRepository
 from modules.nutrition.providers import NutritionProvider, ProductionNutritionProvider
-from shared.events.domain_events import MealLogged, NutritionUpdated, MacroTargetChanged
+from shared.events.domain_events import MacroTargetChanged, MealLogged, NutritionUpdated
 
 logger = logging.getLogger("nexus.nutrition.service")
 
@@ -70,10 +76,10 @@ class NutritionService:
 
     # ─── Data Access ─────────────────────────────────────────
 
-    def get_today(self) -> Optional[DailyNutrition]:
+    def get_today(self) -> DailyNutrition | None:
         return self._repo.get_day(datetime.now().strftime("%Y-%m-%d"))
 
-    def get_day(self, date: str) -> Optional[DailyNutrition]:
+    def get_day(self, date: str) -> DailyNutrition | None:
         return self._repo.get_day(date)
 
     def get_recent_days(self, days: int = 7) -> list[DailyNutrition]:
@@ -192,7 +198,7 @@ class NutritionService:
         try:
             self._event_bus.publish(event)
         except Exception:
-            logger.debug("Failed to publish %s event", type(event).__name__, exc_info=True)
+            logger.warning("Failed to publish %s event", type(event).__name__, exc_info=True)
 
     # ─── Cleanup ─────────────────────────────────────────────
 

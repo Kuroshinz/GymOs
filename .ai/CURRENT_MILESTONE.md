@@ -1,61 +1,56 @@
-# Current Milestone — v0.1.0 MVP
+# Current Milestone — v0.5 Platform Standardization Complete
 
 ## Version
 
-v0.1.0 MVP
+v0.5.0 — Platform Maturity
 
-## Goal
+## Governing Document
 
-Replace the user's Excel workout tracker with a desktop application that runs daily in the gym. The app must handle workout logging, progress tracking, and basic nutrition visibility — all offline.
+**GMP-001 (GymOS Master Plan)** at `docs/GMP/MASTER_PLAN.md` is now the permanent governing document for all product, architecture, and engineering decisions. This milestone context is consistent with GMP-001.
 
-## User Profile for MVP
+## What Has Been Achieved
 
-A 178 cm, 63.4 kg male on a PPL-UL split, lean bulking to 72–75 kg. Focus muscles: Shoulders, Upper Chest, Back Width, Arms. Hypertrophy-first approach using double progression.
+| Sprint | Achievement | Tests |
+|--------|-------------|-------|
+| Sprint 1 | Core architecture, workout tracking, dashboard, progress charts | 140+ |
+| Sprint 2 | GymBrain v1 — 15 rules, analysis engines, Knowledge Platform | 163 |
+| Sprint 3.2 | Nutrition Intelligence — providers, events, analysis, 49 new tests | 212 |
+| Sprint 3.2.5 | Platform Standardization — ADRs, Protocols, Constitution, Standards | 688 |
+| Sprint 3.2.6 | RFC-018 Capability Platform — registry, health, deps, reports, docs | 688 |
+| RFC-020/020.5 | Prediction Intelligence — 9 core engines, 4 analysis engines, explainability, risk, UI | 484 |
 
-## MVP Scope — Allowed
+## Current State
 
-| Module | Description |
-|--------|-------------|
-| Workout | Plans, exercises, sets, reps, weight, RPE, PRs, completion flow |
-| Dashboard | Today's workout, daily calories/protein, body weight, last PR, streak |
-| Progress | Weight trend, volume trend, strength trend, frequency (PyQtGraph) |
-| Nutrition | CSV import from Cronometer only — display daily macros |
-| Settings | Unit system, theme, workout defaults, data export |
+The application has evolved beyond an MVP replacement for Excel. It is now a platform with:
 
-## MVP Scope — Forbidden
+- **Workout Intelligence** — Full PPL-UL tracking with PR detection, volume analysis, fatigue analysis, plateau detection, and progression recommendations
+- **Nutrition Intelligence** — Macro tracking, lean bulk analysis, hydration management, GymBrain integration (5 nutrition rules)
+- **Prediction Intelligence** — 9 core prediction engines × 4 windows, scenario simulation (10 interventions), counterfactual analysis (5 queries), explainability (factor ranking, reason chain, NL + MR), risk metrics (5 dimensions), 5 UI widgets. 272 tests.
+- **GymBrain** — 18 deterministic rules across training, nutrition, and recovery domains; explainable, rankable recommendations
+- **Event Platform** — 14 typed Domain Events, single registry, serialization round-trips
+- **Knowledge Platform** — 170+ knowledge files, validated pipeline, no module bypasses it
+- **Platform Standards** — Engineering Constitution, 5 ADRs, Protocol interfaces, DI Standard, Module Audit, Fitness Engine Standard
+- **Capability Platform** — 12 registered capabilities, health scoring, dependency graph, platform state, markdown/JSON reports, ADR-006
+- **GMP-001** — Master Plan with mission, vision, philosophy, principles, roadmap, lifecycle, maturity model, governance, and document index
 
-Do NOT implement:
+## What Is NOT Yet Built
 
-- AI Coach (v0.2)
-- Weekly Reports (v0.2)
-- Recovery module (sleep/HRV) (v0.2)
-- Deload scheduling (v0.2)
-- Prediction Engine (v0.2)
-- Live API sync with Cronometer (v0.3)
-- Wearable integration (v0.4)
-- Any social/multi-user features
-- Plugin SDK or marketplace
-- Cloud sync
-- Voice/vision AI
+| Area | Status | Target |
+|------|--------|--------|
+| Recovery Intelligence | Scaffolding only — events exist, no implementation | v0.6 |
+| Nutrition dashboard widgets | Planned — NutritionService wired, no UI | v0.6 |
+| Weekly review rendering | Planned — WeeklyReviewGenerator exists, not wired to UI | v0.6 |
+| Deload scheduling UI | Planned — DeloadRule exists, no scheduler | v0.6 |
+| AI Coach | Not started | v0.8 |
+| Adaptive Programming | Not started | v0.9 |
 
-## Current Sprint — Workout Module
+## Priority Muscles
 
-Implement:
-- Workout plan CRUD (PPL-UL templates as defaults)
-- Exercise library integration from `knowledge/exercises/`
-- Set logging with weight (kg), reps, RPE
-- Previous session comparison
-- Personal Record detection (weight PR, volume PR, e1RM PR)
-- Workout completion flow with summary
-
-## Priority Muscles in Exercise Selection
-
-When building templates or suggesting exercises, prioritise:
-1. **Shoulders** — lateral raises, overhead press, face pulls
-2. **Upper Chest** — incline press, low-to-high cable flies
-3. **Back Width** — lat pulldowns, pull-ups, wide rows
-4. **Arms** — bicep curls, tricep extensions, hammer curls
-5. Legs, glutes, hamstrings — maintain proportion but not primary focus
+1. Shoulders — lateral raises, overhead press, face pulls
+2. Upper Chest — incline press, low-to-high cable flies
+3. Back Width — lat pulldowns, pull-ups, wide rows
+4. Arms — bicep curls, tricep extensions, hammer curls
+5. Legs, glutes, hamstrings — maintain proportion, not primary focus
 
 ## Blockers
 

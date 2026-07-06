@@ -1,7 +1,6 @@
 """ProgramValidator — validate workout program structure before import."""
 
 from dataclasses import dataclass, field
-from typing import Optional
 
 from modules.workout_program.domain import WorkoutProgram
 
@@ -10,8 +9,8 @@ from modules.workout_program.domain import WorkoutProgram
 class ValidationError:
     field: str
     message: str
-    day: Optional[str] = None
-    exercise: Optional[str] = None
+    day: str | None = None
+    exercise: str | None = None
 
 
 @dataclass

@@ -1,10 +1,11 @@
-"""Recovery Engine subscriber — analyses recovery on workout completion."""
+"""Recovery subscriber — recomputes recovery scores on workout completion."""
 
 import logging
+from datetime import datetime
 
 from shared.events.domain_events import (
     DomainEvent,
-    RecoveryScoreUpdated,
+    RecoveryUpdated,
     WorkoutCompleted,
 )
 from shared.events.publisher import Publisher
@@ -14,11 +15,15 @@ logger = logging.getLogger("nexus.events.subscribers.recovery")
 
 
 class RecoverySubscriber(Subscriber):
-    """Listens for WorkoutCompleted and updates recovery scores."""
+    """Listens for WorkoutCompleted and recomputes recovery scores.
 
-    def __init__(self, bus=None, recovery_engine=None):
+    Uses the RecoveryService to compute updated recovery metrics
+    and publishes RecoveryUpdated events for cache invalidation.
+    """
+
+    def __init__(self, bus=None, recovery_service=None):
         super().__init__(bus)
-        self._recovery_engine = recovery_engine
+        self._recovery_service = recovery_service
         self._publisher = Publisher(self._bus)
 
     def handled_events(self) -> list[type[DomainEvent]]:
@@ -27,15 +32,17 @@ class RecoverySubscriber(Subscriber):
     def handle(self, event: DomainEvent) -> None:
         if not isinstance(event, WorkoutCompleted):
             return
-        logger.info("Recovery analysis for workout %s", event.workout_id)
-        if self._recovery_engine:
-            try:
-                result = self._recovery_engine.analyse_by_workout_id(event.workout_id)
-                self._publisher.publish(RecoveryScoreUpdated(
-                    score=result.get("score", 100.0),
-                    flags=result.get("flags", []),
-                    session_id=event.workout_id,
-                    correlation_id=event.correlation_id,
-                ))
-            except Exception:
-                logger.exception("Recovery analysis failed for workout %s", event.workout_id)
+        logger.info("Recomputing recovery after workout %s", event.workout_id)
+        if not self._recovery_service:
+            return
+        try:
+            target_date = datetime.now().strftime("%Y-%m-%d")
+            score = self._recovery_service.compute_and_save_score(target_date)
+            self._publisher.publish(RecoveryUpdated(
+                date=target_date,
+                update_type="score",
+                recovery_score=score.overall_score if score else 0.0,
+                correlation_id=event.correlation_id,
+            ))
+        except Exception:
+            logger.exception("Recovery computation failed for workout %s", event.workout_id)

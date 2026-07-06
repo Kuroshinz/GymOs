@@ -38,6 +38,7 @@ class DataProvider:
         self._recovery_engine = recovery_engine
         self._progression_engine = progression_engine
         self._nutrition_provider = nutrition_provider
+        self._recovery_provider = None
 
     @property
     def nutrition_provider(self) -> Any:
@@ -48,6 +49,16 @@ class DataProvider:
     def nutrition_provider(self, value: Any) -> None:
         """Allow tests to override the nutrition provider."""
         self._nutrition_provider = value
+
+    @property
+    def recovery_provider(self) -> Any:
+        """Accessor for the IRecoveryProvider consumed by recovery rules."""
+        return self._recovery_provider
+
+    @recovery_provider.setter
+    def recovery_provider(self, value: Any) -> None:
+        """Allow tests to override the recovery provider."""
+        self._recovery_provider = value
 
     # ── Exercises ────────────────────────────────────────────────────
 

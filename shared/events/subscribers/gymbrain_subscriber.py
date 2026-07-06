@@ -12,7 +12,6 @@ from typing import Any
 
 from shared.events.domain_events import (
     BodyWeightUpdated,
-    DomainEvent,
     ExerciseKnowledgeUpdated,
     ProgramActivated,
     RecommendationsUpdated,

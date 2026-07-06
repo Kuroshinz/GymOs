@@ -1,14 +1,22 @@
 """Settings view — configuration, export, user info."""
 
 import json
-import os
 from datetime import datetime
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QLabel, QFrame, QPushButton,
-    QComboBox, QFileDialog, QMessageBox,
+    QComboBox,
+    QFileDialog,
+    QFrame,
+    QHBoxLayout,
+    QLabel,
+    QMessageBox,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
 )
+
+from shared.version import APP_VERSION
 
 
 class SettingRow(QFrame):
@@ -61,10 +69,10 @@ class SettingsView(QWidget):
         info_layout.setSpacing(4)
 
         info_items = [
-            ("Application", "GymOS v0.1.0 MVP"),
-            ("User", "178 cm · 63.4 kg · Lean Bulk → 72-75 kg"),
+            ("Application", f"GymOS v{APP_VERSION}"),
+            ("User", "Profile not yet configured"),
             ("Database", "SQLite (offline, local)"),
-            ("Focus", "Shoulders · Upper Chest · Back Width · Arms"),
+            ("Focus", "Set your priority muscles in the program"),
         ]
         self._info_labels: dict[str, QLabel] = {}
         for title, value in info_items:

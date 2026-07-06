@@ -13,8 +13,6 @@ Knowledge sources:
 """
 
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from typing import Optional
 
 
 @dataclass
@@ -24,7 +22,7 @@ class RecoveryFlag:
     flag_type: str  # "rir_zero", "rep_drop", "decline", "high_volume"
     severity: str  # "info", "warning", "critical"
     message: str
-    exercise_name: Optional[str] = None
+    exercise_name: str | None = None
     detail: str = ""
 
 
@@ -126,8 +124,8 @@ class RecoveryEngine:
                 flag_type="high_volume",
                 severity="info",
                 message=f"High volume session: {total_sets} working sets",
-                detail=f"Research suggests diminishing returns beyond 20 sets/session. "
-                       f"Optimal range is 10-20 sets.",
+                detail="Research suggests diminishing returns beyond 20 sets/session. "
+                       "Optimal range is 10-20 sets.",
             ))
 
         # Flag 5: Check recent training frequency

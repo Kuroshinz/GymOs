@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Any, Callable, Optional
+from typing import Any, Optional
 
 
 @dataclass
@@ -13,9 +14,9 @@ class Command:
 
 
 class CommandBus:
-    _instance: Optional["CommandBus"] = None
+    _instance: CommandBus | None = None
 
-    def __new__(cls) -> "CommandBus":
+    def __new__(cls) -> CommandBus:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance._commands: dict[str, Command] = {}

@@ -4,9 +4,10 @@ import asyncio
 import logging
 import uuid
 from collections import defaultdict
-from datetime import datetime, timezone
+from collections.abc import Awaitable, Callable
+from datetime import UTC, datetime, timezone
 from fnmatch import fnmatch
-from typing import Any, Awaitable, Callable
+from typing import Any
 
 logger = logging.getLogger("nexus.event_bus")
 
@@ -26,7 +27,7 @@ class Event:
         self.id: str = uuid.uuid4().hex[:12]
         self.name: str = name
         self.data: dict = data or {}
-        self.timestamp: datetime = datetime.now(timezone.utc)
+        self.timestamp: datetime = datetime.now(UTC)
         self.source: str = source
         self.correlation_id: str = correlation_id or self.id
         self._stopped: bool = False

@@ -1,4 +1,3 @@
-from typing import Optional
 
 from shared.domain.models import ExerciseData, MuscleData, ProgramData
 from shared.knowledge_loader import KnowledgeLoader
@@ -8,11 +7,11 @@ class ExerciseRepository:
     def __init__(self, loader: KnowledgeLoader):
         self._loader = loader
 
-    def get_by_id(self, exercise_id: str) -> Optional[ExerciseData]:
+    def get_by_id(self, exercise_id: str) -> ExerciseData | None:
         raw = self._loader.get_exercise(exercise_id)
         return ExerciseData.from_dict(raw) if raw else None
 
-    def get_by_name(self, name: str) -> Optional[ExerciseData]:
+    def get_by_name(self, name: str) -> ExerciseData | None:
         raw = self._loader.get_exercise_by_name(name)
         return ExerciseData.from_dict(raw) if raw else None
 
@@ -39,7 +38,7 @@ class MuscleRepository:
     def __init__(self, loader: KnowledgeLoader):
         self._loader = loader
 
-    def get_by_id(self, muscle_id: str) -> Optional[MuscleData]:
+    def get_by_id(self, muscle_id: str) -> MuscleData | None:
         raw = self._loader.get_muscle(muscle_id)
         return MuscleData.from_dict(raw) if raw else None
 
@@ -60,7 +59,7 @@ class ProgramRepository:
     def __init__(self, loader: KnowledgeLoader):
         self._loader = loader
 
-    def get_program(self) -> Optional[ProgramData]:
+    def get_program(self) -> ProgramData | None:
         raw = self._loader.load_program()
         return ProgramData.from_dict(raw) if raw else None
 

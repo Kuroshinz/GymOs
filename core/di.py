@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from enum import Enum
-from typing import Any, Callable, TypeVar
+from typing import Any, TypeVar
 
 T = TypeVar("T")
 

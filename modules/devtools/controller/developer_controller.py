@@ -4,10 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from modules.devtools.models.settings import DeveloperSettings
 from modules.devtools.services.devtool_service import DevToolsService
 from shared.observability import (
-    DeveloperConsole,
     InspectedEvent,
     ReplayMode,
     SubscriberInfo,

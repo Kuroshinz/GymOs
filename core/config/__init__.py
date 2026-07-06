@@ -5,13 +5,14 @@ import os
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-class Config:
-    _instance: Optional["Config"] = None
 
-    def __new__(cls) -> "Config":
+class Config:
+    _instance: Config | None = None
+
+    def __new__(cls) -> Config:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
-            cls._instance._data: Dict[str, Any] = {}
+            cls._instance._data: dict[str, Any] = {}
             cls._instance._env_prefix = "NEXUS_"
         return cls._instance
 
@@ -57,5 +58,5 @@ class Config:
         target[keys[-1]] = value
 
     @property
-    def all(self) -> Dict[str, Any]:
+    def all(self) -> dict[str, Any]:
         return self._data

@@ -12,7 +12,7 @@ class SessionSet:
     set_number: int
     weight_kg: float = 0.0
     reps: int = 0
-    rir: Optional[int] = None  # Reps in Reserve (1-5)
+    rir: int | None = None  # Reps in Reserve (1-5)
     completed: bool = True
 
 
@@ -30,7 +30,7 @@ class SessionExercise:
         return sum(s.weight_kg * s.reps for s in self.sets if s.completed)
 
     @property
-    def best_set(self) -> Optional[SessionSet]:
+    def best_set(self) -> SessionSet | None:
         if not self.sets:
             return None
         return max(
@@ -44,12 +44,12 @@ class SessionExercise:
 class WorkoutSession:
     """A completed workout session."""
 
-    id: Optional[str] = None
+    id: str | None = None
     day_name: str = ""
     program_name: str = "PPL-UL"
     exercises: list[SessionExercise] = field(default_factory=list)
-    started_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
     notes: str = ""
 
     @property
@@ -79,7 +79,7 @@ class WorkoutSession:
 class WorkoutDay:
     """A template day within a workout program."""
 
-    id: Optional[str] = None
+    id: str | None = None
     name: str = ""
     sort_order: int = 0
     exercise_names: list[str] = field(default_factory=list)
@@ -92,7 +92,7 @@ class WorkoutDay:
 class WorkoutProgram:
     """A workout program containing days."""
 
-    id: Optional[str] = None
+    id: str | None = None
     name: str = ""
     description: str = ""
     days: list[WorkoutDay] = field(default_factory=list)
@@ -102,7 +102,7 @@ class WorkoutProgram:
 class BodyWeight:
     """Daily body weight log."""
 
-    id: Optional[str] = None
+    id: str | None = None
     date: str = ""
     weight_kg: float = 0.0
     notes: str = ""
@@ -114,4 +114,4 @@ class PreviousSessionData:
 
     exercise_name: str
     sets: list[dict] = field(default_factory=list)  # [{weight, reps, rir}]
-    date: Optional[str] = None
+    date: str | None = None

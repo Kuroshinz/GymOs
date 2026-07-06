@@ -3,17 +3,24 @@
 from datetime import datetime
 
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFrame,
-    QScrollArea, QGridLayout, QLineEdit, QTextEdit, QMessageBox,
-    QDialog, QDialogButtonBox,
-)
 from PySide6.QtGui import QIntValidator
+from PySide6.QtWidgets import (
+    QDialog,
+    QDialogButtonBox,
+    QFrame,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QScrollArea,
+    QVBoxLayout,
+    QWidget,
+)
 
-from modules.workout.domain import WorkoutSession, SessionExercise, SessionSet
 from modules.workout.application.pr_engine import PREngine
 from modules.workout.application.progression_engine import ProgressionEngine
 from modules.workout.application.recovery_engine import RecoveryEngine
+from modules.workout.domain import SessionExercise, SessionSet, WorkoutSession
 
 
 class SetRow(QFrame):
@@ -305,6 +312,7 @@ class WorkoutView(QWidget):
         self._current_day_name = ""
         self._current_session: WorkoutSession | None = None
         self._cards: list[ExerciseCard] = []
+        self._started_at: datetime | None = None
         self._build_ui()
 
     def _build_ui(self):
@@ -380,6 +388,7 @@ class WorkoutView(QWidget):
         self._current_day_name = day_name
         self._title_label.setText(day_name)
         self._cards.clear()
+        self._started_at = datetime.now()
 
         # Clear existing widgets
         while self._scroll_layout.count():
@@ -424,7 +433,8 @@ class WorkoutView(QWidget):
 
     def _finish_workout(self):
         """Save the workout, detect PRs, analyse recovery, show summary."""
-        now = datetime.now()
+        completed_at = datetime.now()
+        started_at = self._started_at or completed_at
 
         exercises = []
         for card in self._cards:
@@ -438,8 +448,8 @@ class WorkoutView(QWidget):
         session = WorkoutSession(
             day_name=self._current_day_name,
             exercises=exercises,
-            started_at=now,
-            completed_at=now,
+            started_at=started_at,
+            completed_at=completed_at,
         )
 
         saved = self._db.save_session(session)

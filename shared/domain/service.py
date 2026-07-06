@@ -1,6 +1,5 @@
-from typing import Optional
 
-from shared.domain.models import ExerciseData, MuscleData, ProgramData
+from shared.domain.models import ExerciseData
 from shared.domain.repositories import (
     ExerciseRepository,
     MuscleRepository,
@@ -13,7 +12,7 @@ from shared.knowledge_loader import KnowledgeLoader
 
 
 class KnowledgeService:
-    def __init__(self, loader: Optional[KnowledgeLoader] = None):
+    def __init__(self, loader: KnowledgeLoader | None = None):
         self._loader = loader or KnowledgeLoader()
         self._loader.load_all()
         self.exercises = ExerciseRepository(self._loader)

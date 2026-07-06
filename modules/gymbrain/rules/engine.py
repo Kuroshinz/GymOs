@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from typing import Any
 
-from modules.gymbrain.models.recommendations import Recommendation, RecommendationPriority
+from modules.gymbrain.models.recommendations import Recommendation
 from modules.gymbrain.providers.data_provider import DataProvider
-from modules.gymbrain.rules.base import BaseRule, RuleResult
+from modules.gymbrain.rules.base import BaseRule
 
 
 class RuleEngine:

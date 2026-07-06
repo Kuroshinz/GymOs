@@ -1,26 +1,26 @@
 from shared.domain.models import (
     ExerciseData,
+    JointStress,
+    MuscleContribution,
     MuscleData,
     ProgramData,
     ProgramDayData,
     ProgramExerciseData,
-    MuscleContribution,
+    RecommendedFrequency,
     RecommendedRir,
-    JointStress,
+    RecoveryCharacteristics,
     Reference,
     VolumeLandmarks,
-    RecommendedFrequency,
-    RecoveryCharacteristics,
 )
 from shared.domain.repositories import (
     ExerciseRepository,
     MuscleRepository,
     ProgramRepository,
 )
-from shared.domain.volume import VolumeEngine, VolumeResult
+from shared.domain.service import KnowledgeService
 from shared.domain.tags import TagEngine
 from shared.domain.validator import KnowledgeValidator, ValidationError
-from shared.domain.service import KnowledgeService
+from shared.domain.volume import VolumeEngine, VolumeResult
 
 __all__ = [
     "ExerciseData",

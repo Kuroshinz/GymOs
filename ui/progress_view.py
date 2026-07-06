@@ -2,12 +2,13 @@
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QLabel, QFrame, QComboBox,
+    QComboBox,
+    QFrame,
+    QHBoxLayout,
+    QLabel,
+    QVBoxLayout,
+    QWidget,
 )
-from PySide6.QtGui import QFont
-
-from modules.workout.domain import WorkoutSession
-
 
 try:
     import pyqtgraph as pg
@@ -150,11 +151,12 @@ class ProgressView(QWidget):
         layout.addStretch()
 
     def refresh(self):
-        period_idx = self._period_combo.currentIndex()
+        period_map = {0: 30, 1: 90, 2: 365}
+        days = period_map.get(self._period_combo.currentIndex(), 90)
 
         # Body weight chart
         if HAS_PQTG:
-            bw_data = self._db.get_body_weight_history(days=90)
+            bw_data = self._db.get_body_weight_history(days=days)
             if bw_data:
                 dates = [w.date[-5:] for w in bw_data]  # MM-DD
                 weights = [w.weight_kg for w in bw_data]
@@ -169,7 +171,7 @@ class ProgressView(QWidget):
                     )
 
             # Volume chart
-            vol_data = self._db.get_volume_by_day(days=90)
+            vol_data = self._db.get_volume_by_day(days=days)
             if vol_data:
                 weeks = [v["week"][-5:] for v in vol_data]
                 volumes = [v["volume"] / 1000 for v in vol_data]  # Show in thousands

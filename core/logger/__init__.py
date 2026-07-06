@@ -10,7 +10,7 @@ class Logger:
     def __new__(cls) -> "Logger":
         if cls._instance is None:
             cls._instance = super().__new__(cls)
-            cls._instance._logger: Optional[logging.Logger] = None
+            cls._instance._logger: logging.Logger | None = None
         return cls._instance
 
     def setup(

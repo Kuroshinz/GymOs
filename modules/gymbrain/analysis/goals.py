@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta
-from typing import Any
 
 from modules.gymbrain.models.analysis import GoalProgress
 from modules.gymbrain.providers.data_provider import DataProvider
@@ -28,13 +27,18 @@ class GoalTracker:
         if current_weight == 0:
             return GoalProgress()
 
+        def _ensure_dt(val: Any) -> datetime:
+            if isinstance(val, str):
+                return datetime.strptime(val, "%Y-%m-%d")
+            return val if isinstance(val, datetime) else datetime.min
+
         sorted_bw = sorted(
             bw_history,
-            key=lambda x: getattr(x, "date", datetime.min) if hasattr(x, "date") else datetime.min,
+            key=lambda x: _ensure_dt(getattr(x, "date", "")) if hasattr(x, "date") else datetime.min,
         )
         weights = [getattr(w, "weight_kg", 0) for w in sorted_bw if hasattr(w, "weight_kg")]
         dates = [
-            getattr(w, "date", datetime.min) if hasattr(w, "date") else datetime.min
+            _ensure_dt(getattr(w, "date", "")) if hasattr(w, "date") else datetime.min
             for w in sorted_bw
         ]
 

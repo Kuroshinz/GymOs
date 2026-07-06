@@ -1,11 +1,10 @@
 """ProgramManager — orchestrates import, validation, storage, and activation."""
 
-from typing import Optional
 
-from modules.workout_program.domain import WorkoutProgram, ProgramDay, ProgramExercise
+from modules.workout_program.domain import WorkoutProgram
 from modules.workout_program.importer import ProgramImporter
-from modules.workout_program.validator import ProgramValidator, ValidationResult
 from modules.workout_program.repository import ProgramRepository
+from modules.workout_program.validator import ProgramValidator, ValidationResult
 
 
 class ProgramManager:
@@ -21,7 +20,7 @@ class ProgramManager:
         result = self.validator.validate(program)
         return program, result
 
-    def import_and_save(self, filepath: str) -> tuple[Optional[str], ValidationResult]:
+    def import_and_save(self, filepath: str) -> tuple[str | None, ValidationResult]:
         program, result = self.import_program(filepath)
         if not result.passed:
             return None, result
@@ -33,7 +32,7 @@ class ProgramManager:
         program_id = self.repository.save(program)
         return program_id, result
 
-    def import_save_and_activate(self, filepath: str) -> tuple[Optional[str], ValidationResult]:
+    def import_save_and_activate(self, filepath: str) -> tuple[str | None, ValidationResult]:
         program_id, result = self.import_and_save(filepath)
         if program_id is not None:
             self.repository.activate(program_id)
@@ -49,7 +48,7 @@ class ProgramManager:
     def list_programs(self) -> list[dict]:
         return self.repository.get_all()
 
-    def get_active_program(self) -> Optional[WorkoutProgram]:
+    def get_active_program(self) -> WorkoutProgram | None:
         return self.repository.get_active()
 
     def get_active_program_days(self) -> list[dict]:

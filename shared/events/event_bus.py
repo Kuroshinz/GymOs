@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import logging
-from typing import Callable
+from collections.abc import Callable
 
 from core.event_bus import EventBus as CoreEventBus
 from shared.events.event import DomainEvent
@@ -70,11 +70,13 @@ class EventBus:
                 try:
                     domain_event = event_from_dict(payload)
                 except (ValueError, KeyError):
-                    logger.warning("Could not deserialize event: %s", event_name)
-                    return
+                    logger.warning("Could not deserialize event: %s, falling back to generic DomainEvent", event_name)
+                    domain_event = DomainEvent.from_dict(payload)
                 for h in self._handlers.get(event_name, []):
                     try:
-                        h(domain_event)
+                        result = h(domain_event)
+                        if hasattr(result, "__await__"):
+                            await result
                     except Exception:
                         logger.exception("Handler failed for %s", event_name)
 

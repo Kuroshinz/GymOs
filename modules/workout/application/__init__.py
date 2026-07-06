@@ -43,7 +43,7 @@ class WorkoutService:
         session.completed_at = datetime.now()
         return self._db.save_session(session)
 
-    def get_session(self, session_id: str) -> Optional[WorkoutSession]:
+    def get_session(self, session_id: str) -> WorkoutSession | None:
         return self._db.get_session(session_id)
 
     def list_sessions(self, limit: int = 20, offset: int = 0) -> list[WorkoutSession]:

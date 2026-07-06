@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Any, Callable
+from datetime import UTC, datetime
+from typing import Any
 
 
 @dataclass
@@ -13,7 +13,7 @@ class PerfSample:
     operation: str
     duration_ms: float
     component: str = ""
-    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    timestamp: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
     tags: dict[str, str] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -120,7 +120,7 @@ class _PerfTimer:
         self._tags = tags
         self._start: float = 0.0
 
-    def __enter__(self) -> "_PerfTimer":
+    def __enter__(self) -> _PerfTimer:
         self._start = time.perf_counter()
         return self
 

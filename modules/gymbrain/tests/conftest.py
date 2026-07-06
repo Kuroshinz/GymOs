@@ -4,15 +4,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Any, Optional
+from typing import Any
 from unittest.mock import MagicMock
 
 import pytest
 
-from modules.gymbrain.models.analysis import FatigueLevel, MuscleStatus
-from modules.gymbrain.models.recommendations import Recommendation, RecommendationCategory, RecommendationPriority
 from modules.gymbrain.providers.data_provider import DataProvider
-
 
 # ── Fake data objects ──────────────────────────────────────────────
 

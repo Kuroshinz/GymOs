@@ -1,6 +1,5 @@
 import json
 from pathlib import Path
-from typing import Optional
 
 import jsonschema
 import yaml
@@ -29,7 +28,7 @@ def _load_json(path: Path) -> dict:
 
 
 class KnowledgeValidator:
-    def __init__(self, loader: Optional[KnowledgeLoader] = None):
+    def __init__(self, loader: KnowledgeLoader | None = None):
         self._loader = loader or KnowledgeLoader()
         self._loader.load_all()
         self._exercises_dir = PROJECT_ROOT / "knowledge" / "exercises"

@@ -5,9 +5,9 @@ from __future__ import annotations
 import logging
 import threading
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 
 class LogLevel(Enum):
@@ -19,14 +19,14 @@ class LogLevel(Enum):
 
 @dataclass
 class LogEntry:
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
     level: str = "INFO"
     module: str = ""
     message: str = ""
     correlation_id: str = ""
     event_id: str = ""
     context: dict[str, Any] = field(default_factory=dict)
-    duration_ms: Optional[float] = None
+    duration_ms: float | None = None
     thread: str = field(default_factory=lambda: threading.current_thread().name)
 
     def to_dict(self) -> dict[str, Any]:

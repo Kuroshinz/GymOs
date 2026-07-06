@@ -1,73 +1,116 @@
 # GymOS Roadmap
 
-## Phase 0: Foundation (v0.1) ✅
+## v0.5 — Platform Maturity ✅
 
-- [x] Core architecture (EventBus v2, DI Container, lifecycle)
-- [x] Design System with tokens
-- [x] CI/CD pipeline
-- [x] Test infrastructure (21+ tests)
-- [x] Database migration (Alembic)
-- [x] Technical documentation
-- [x] AI Development Kit (`.ai/` + `knowledge/` + skills)
+*Current version*
 
-## Phase 1: MVP (v0.1.0) — Current Sprint
+**Identity:** Platform  
+**Theme:** Architecture hardening, standardization, Nutrition Intelligence
 
-### Workout Module
-- [ ] Workout plan CRUD
-- [ ] Exercise library with knowledge/ integration
-- [ ] Set logging (weight, reps, RPE)
-- [ ] Previous session comparison
-- [ ] Personal record detection
-- [ ] Workout completion
+| Area | Status |
+|------|--------|
+| Engineering Constitution | ✅ |
+| 5 ADRs (Event, Knowledge, GymBrain, Providers, Communication) | ✅ |
+| Protocol interfaces (7 total) | ✅ |
+| DI Standard + dependency graph | ✅ |
+| Module Responsibility Audit | ✅ |
+| Knowledge Platform (validated pipeline) | ✅ |
+| 4 Engineering Standards | ✅ |
+| Nutrition Intelligence (49 tests) | ✅ |
+| Test infrastructure + conftest | ✅ |
+| All module READMEs | ✅ |
 
-### Dashboard
-- [ ] Today's workout view
-- [ ] Daily nutrition summary
-- [ ] Current weight display
-- [ ] Last PR highlight
-- [ ] Workout streak
+**688 tests passing**
 
-### Progress
-- [ ] Weight trend chart
-- [ ] Volume trend chart
-- [ ] Strength (1RM) trend chart
-- [ ] Frequency chart
+---
 
-### Nutrition
-- [ ] Cronometer CSV import
-- [ ] Daily macro display
+## v0.6 — Recovery Intelligence ⏳
 
-### Settings
-- [ ] Unit system
-- [ ] Theme toggle
-- [ ] Workout defaults
-- [ ] Data export
+*Next sprint*
 
-## Phase 2: AI & Coaching (v0.2)
+**Identity:** Coach  
+**Theme:** Recovery tracking, deload scheduling, nutrition UI, weekly review
 
-- [ ] AI Coach: personalised recommendations
-- [ ] Weekly report (in-app summary)
-- [ ] Recovery module (sleep, fatigue, readiness)
-- [ ] Deload scheduling
-- [ ] Exercise form tips from knowledge/
-- [ ] Prediction Engine: performance forecasting
+| Epic | Description |
+|------|-------------|
+| Recovery Module | Sleep tracking, HRV, fatigue, readiness score — domain entities through infrastructure |
+| Deload Scheduling | Scheduler that detects accumulated fatigue and suggests deload weeks |
+| Nutrition Dashboard | Daily nutrition widget, macro target editing, meal log UI |
+| Weekly Review UI | Render WeeklyReview from GymBrain as a rich dashboard section |
+| Goal Configuration | Macro target configuration, weight goal management |
 
-## Phase 3: Integrations (v0.3)
+**Target: 800+ tests**
 
-- [ ] Live Cronometer sync (API)
-- [ ] Hevy workout sync
-- [ ] Enhanced progress analytics
-- [ ] Data import/export (JSON, CSV)
+---
 
-## Phase 4: Advanced (v0.4)
+## v0.7 — Prediction Engine
 
-- [ ] Wearable integration (HRV, sleep tracking)
-- [ ] Adaptive programming (auto-adjust based on recovery)
-- [ ] Progress photos with measurement tracking
-- [ ] Natural language queries
+**Identity:** Analyst  
+**Theme:** Trend prediction, forecasting, smart recommendations
 
-## Phase 5: Polish (v0.5+)
+| Epic | Description |
+|------|-------------|
+| Prediction Engine | Plateau timing prediction, goal completion forecasting |
+| Performance Trends | Automated trend analysis on all tracked metrics |
+| Cronometer API Sync | Live nutrition import (replaces CSV workflow) |
+| Recovery Provider | Wire IRecoveryProvider into DataProvider |
 
-- [ ] Advanced report generation
-- [ ] Workout templates
-- [ ] Enhanced AI Coach with full context awareness
+**Target: 900+ tests**
+
+---
+
+## v0.8 — AI Coach
+
+**Identity:** Coach  
+**Theme:** Natural language explanations, adaptive guidance
+
+| Epic | Description |
+|------|-------------|
+| Recommendation NLG | Convert RuleResult into natural language explanations |
+| Context-Aware Coaching | Recommendations consider training history, nutrition, recovery simultaneously |
+| Adaptive Rule Prioritization | Rules reorder based on user's current phase/goals |
+| Progress Narrative | Monthly summary in natural language |
+
+**Target: 1000+ tests**
+
+---
+
+## v0.9 — Adaptive Programming
+
+**Identity:** Autopilot  
+**Theme:** Self-tuning programs, automated adjustments
+
+| Epic | Description |
+|------|-------------|
+| Auto-Adjustment Engine | Modify program parameters based on recovery/nutrition data |
+| Dynamic Exercise Selection | Swap exercises based on plateau detection and variety needs |
+| Volume Auto-Regulation | Adjust weekly volume based on recovery trend |
+| Deload Auto-Scheduling | Automatic deload insertion based on fatigue model |
+
+**Target: 1100+ tests**
+
+---
+
+## v1.0 — Full Autopilot
+
+**Identity:** Operating System  
+**Theme:** Complete, polished, production-ready
+
+| Criteria | Definition |
+|----------|------------|
+| All 7 pillars implemented | Training, Nutrition, Recovery, Consistency, Intelligence, Automation, Knowledge |
+| Recovery module complete | Sleep, HRV, readiness, deload |
+| Prediction engine live | Forecasting plateaus, goal timing, performance trends |
+| AI Coach integrated | Natural language explanations for all recommendations |
+| Adaptive programming | Program auto-adjusts weekly |
+| 1200+ tests | All passing |
+| Performance targets met | Launch <1s, logging <100ms, charts <500ms |
+| Documentation complete | Product, architecture, ADR, user guide |
+
+---
+
+## Legend
+
+- ✅ Complete
+- ⏳ In progress
+- 📋 Planned

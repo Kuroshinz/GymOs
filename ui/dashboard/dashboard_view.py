@@ -1,39 +1,36 @@
-"""Dashboard view — scrollable card-based training intelligence hub.
-
-Layout order (per spec):
-  Header → Goal Progress → Recommendation → Today's Workout →
-  Priority Muscles → Recovery Status → Weekly Volume →
-  Recent PRs → Nutrition Summary → Quick Actions
-"""
-
 from __future__ import annotations
 
 from typing import Any
 
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtWidgets import QFrame, QScrollArea, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget
 
 from ui.dashboard.dashboard_controller import DashboardController
 from ui.dashboard.dashboard_models import DashboardData
-from ui.dashboard.dashboard_widgets.goal_progress_widget import GoalProgressWidget
-from ui.dashboard.dashboard_widgets.header_widget import DashboardHeader
-from ui.dashboard.dashboard_widgets.nutrition_widget import NutritionWidget
-from ui.dashboard.dashboard_widgets.priority_muscles_widget import PriorityMusclesWidget
-from ui.dashboard.dashboard_widgets.pr_widget import PRWidget
-from ui.dashboard.dashboard_widgets.quick_actions_widget import QuickActionsWidget
-from ui.dashboard.dashboard_widgets.recommendation_widget import RecommendationWidget
-from ui.dashboard.dashboard_widgets.recovery_widget import RecoveryWidget
-from ui.dashboard.dashboard_widgets.volume_widget import VolumeWidget
-from ui.dashboard.dashboard_widgets.workout_widget import WorkoutWidget
+from ui.design_system.components import SectionHeader
+from ui.design_system.layout import (
+    EditorialGrid,
+    HeroPanel,
+    MetricPanel,
+    PanelSpan,
+    ScrollContainer,
+    SectionPanel,
+)
+from ui.design_system.tokens.color import ColorScheme, color_from_scheme
+from ui.design_system.tokens.radius import RadiusTokens
+from ui.design_system.tokens.spacing import SpacingTokens
+from ui.design_system.visualization import (
+    GoalRing,
+    RecoveryRing,
+    RiskMeter,
+    WeeklyTimeline,
+)
+
+S = SpacingTokens()
+R = RadiusTokens()
 
 
 class DashboardView(QWidget):
-    """Main dashboard view — scrollable card layout.
-
-    Assembles all dashboard widgets vertically in priority order.
-    Connected to a DashboardController for data flow.
-    """
-
     start_workout_clicked = Signal()
     view_all_prs_clicked = Signal()
     weekly_review_clicked = Signal()
@@ -62,14 +59,11 @@ class DashboardView(QWidget):
         self._connect_signals()
 
     def _build_default_controller(self, db: Any, prog_mgr: Any) -> None:
-        """Auto-wire a controller with default engines."""
         from modules.gymbrain.services.decision_engine import DecisionEngine
         from modules.workout.application.pr_engine import PREngine
-
         nutrition_provider = getattr(self._nutrition_service, "provider", None) if self._nutrition_service else None
         engine = DecisionEngine.from_production(db=db, nutrition_provider=nutrition_provider) if db else None
         pr_engine = PREngine(db) if db else None
-
         self._controller = DashboardController(
             db=db,
             decision_engine=engine,
@@ -78,123 +72,246 @@ class DashboardView(QWidget):
             nutrition_service=self._nutrition_service,
         )
 
+    def _colors(self):
+        return color_from_scheme(ColorScheme.DARK)
+
     def _build_ui(self) -> None:
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(0)
+        colors = self._colors()
+        scroll = ScrollContainer()
+        scroll_layout = scroll._wrapper.layout()
+        scroll_layout.setContentsMargins(32, 24, 32, 32)
+        scroll_layout.setSpacing(0)
+        scroll_layout.setAlignment(Qt.AlignTop)
 
-        scroll = QScrollArea()
-        scroll.setWidgetResizable(True)
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll.setStyleSheet("""
-            QScrollArea {
-                background-color: #0F172A;
-                border: none;
-            }
-            QScrollBar:vertical {
-                background-color: #0F172A;
-                width: 8px;
-                border: none;
-            }
-            QScrollBar::handle:vertical {
-                background-color: #334155;
-                border-radius: 4px;
-                min-height: 30px;
-            }
-            QScrollBar::handle:vertical:hover {
-                background-color: #475569;
-            }
-            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
-                height: 0px;
-            }
-        """)
+        main_layout = QVBoxLayout()
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(24)
+        scroll_layout.insertLayout(0, main_layout)
 
-        scroll_content = QWidget()
-        scroll_content.setStyleSheet("background-color: #0F172A;")
-        content_layout = QVBoxLayout(scroll_content)
-        content_layout.setContentsMargins(32, 24, 32, 32)
-        content_layout.setSpacing(16)
+        outer_layout = QVBoxLayout(self)
+        outer_layout.setContentsMargins(0, 0, 0, 0)
+        outer_layout.addWidget(scroll)
 
-        # 1. Header
-        self._header = DashboardHeader()
-        content_layout.addWidget(self._header)
+        self._build_hero_section(main_layout)
+        self._build_middle_section(main_layout)
+        self._build_bottom_section(main_layout)
 
-        # 2. Goal Progress
-        self._goal_progress = GoalProgressWidget()
-        content_layout.addWidget(self._goal_progress)
+        main_layout.addStretch()
 
-        # 3. Today's Recommendation
-        self._recommendation = RecommendationWidget()
-        content_layout.addWidget(self._recommendation)
+    def _build_hero_section(self, parent: QVBoxLayout) -> None:
+        colors = self._colors()
 
-        # 4. Today's Workout
-        self._workout = WorkoutWidget()
-        self._workout.start_workout_clicked.connect(self.start_workout_clicked.emit)
-        content_layout.addWidget(self._workout)
-
-        # 5. Priority Muscles
-        self._priority_muscles = PriorityMusclesWidget()
-        content_layout.addWidget(self._priority_muscles)
-
-        # 6. Recovery Status
-        self._recovery = RecoveryWidget()
-        content_layout.addWidget(self._recovery)
-
-        # 7. Weekly Volume
-        self._volume = VolumeWidget()
-        content_layout.addWidget(self._volume)
-
-        # 8. Recent PRs
-        self._prs = PRWidget()
-        self._prs.view_all_prs_clicked.connect(self.view_all_prs_clicked.emit)
-        content_layout.addWidget(self._prs)
-
-        # 9. Nutrition Summary
-        self._nutrition = NutritionWidget()
-        content_layout.addWidget(self._nutrition)
-
-        # 10. Quick Actions
-        self._quick_actions = QuickActionsWidget()
-        self._quick_actions.start_workout_clicked.connect(
-            self.start_workout_clicked.emit
+        hero = HeroPanel(
+            title="Today's Mission",
+            subtitle="Your readiness, goal progress, and next action at a glance.",
         )
-        self._quick_actions.log_weight_clicked.connect(
-            self.log_weight_clicked.emit
-        )
-        self._quick_actions.weekly_review_clicked.connect(
-            self.weekly_review_clicked.emit
-        )
-        self._quick_actions.view_recommendations_clicked.connect(
-            self.view_recommendations_clicked.emit
-        )
-        self._quick_actions.import_program_clicked.connect(
-            self.import_program_clicked.emit
-        )
-        content_layout.addWidget(self._quick_actions)
+        parent.addWidget(hero)
 
-        content_layout.addStretch()
+        self._recovery_ring = RecoveryRing(size=100)
+        hero.add_content(self._recovery_ring)
 
-        scroll.setWidget(scroll_content)
-        layout.addWidget(scroll)
+        self._goal_ring = GoalRing(size=100)
+        hero.add_content(self._goal_ring)
+
+        self._hero_readiness = MetricPanel(value="--", label="Readiness", icon="")
+        hero.add_content(self._hero_readiness)
+
+        grid = EditorialGrid()
+        grid.set_spacing(16)
+        parent.addWidget(grid)
+
+        self._hero_workout_section = SectionPanel(title="Next Workout", subtitle="No active program", span=PanelSpan.HALF)
+        self._hero_workout_name = QLabel("")
+        self._hero_workout_name.setStyleSheet(
+            f"color: {colors.text_primary}; font-size: 18px; font-weight: 700; background: transparent; border: none;"
+        )
+        self._hero_workout_section.add_content(self._hero_workout_name)
+        grid.add_section(self._hero_workout_section)
+
+        self._hero_rec_section = SectionPanel(title="Top Recommendation", subtitle="No recommendations", span=PanelSpan.HALF)
+        grid.add_section(self._hero_rec_section)
+
+    def _build_middle_section(self, parent: QVBoxLayout) -> None:
+        colors = self._colors()
+
+        middle_header = SectionHeader(title="Overview", subtitle="Recovery, prediction, and weekly trends")
+        parent.addWidget(middle_header)
+
+        middle_grid = EditorialGrid()
+        middle_grid.set_spacing(16)
+        parent.addWidget(middle_grid)
+
+        self._recovery_section = SectionPanel(title="Recovery", subtitle="Readiness & fatigue", span=PanelSpan.THIRD)
+        self._recovery_value = QLabel("--")
+        self._recovery_value.setStyleSheet(
+            f"color: {colors.text_primary}; font-size: 32px; font-weight: 800; background: transparent; border: none;"
+        )
+        self._recovery_section.add_content(self._recovery_value)
+
+        self._recovery_status = QLabel("")
+        self._recovery_status.setStyleSheet(
+            f"color: {colors.text_secondary}; font-size: 13px; background: transparent; border: none;"
+        )
+        self._recovery_section.add_content(self._recovery_status)
+        middle_grid.add_section(self._recovery_section)
+
+        self._prediction_section = SectionPanel(title="Prediction", subtitle="Forecast & risk", span=PanelSpan.THIRD)
+        self._prediction_risk = RiskMeter(width=140, height=24)
+        self._prediction_risk.set_risk(0.0, "Risk Level")
+        self._prediction_section.add_content(self._prediction_risk)
+
+        self._prediction_conf = QLabel("-- confidence")
+        self._prediction_conf.setStyleSheet(
+            f"color: {colors.text_disabled}; font-size: 12px; background: transparent; border: none;"
+        )
+        self._prediction_section.add_content(self._prediction_conf)
+        middle_grid.add_section(self._prediction_section)
+
+        self._weekly_section = SectionPanel(title="Weekly Volume", subtitle="Sets by day", span=PanelSpan.THIRD)
+        self._weekly_timeline = WeeklyTimeline()
+        self._weekly_section.add_content(self._weekly_timeline)
+        self._weekly_total = QLabel("")
+        self._weekly_total.setStyleSheet(
+            f"color: {colors.text_disabled}; font-size: 12px; background: transparent; border: none;"
+        )
+        self._weekly_section.add_content(self._weekly_total)
+        middle_grid.add_section(self._weekly_section)
+
+    def _build_bottom_section(self, parent: QVBoxLayout) -> None:
+        bottom_header = SectionHeader(title="Insights", subtitle="Explainability, milestones & timeline")
+        parent.addWidget(bottom_header)
+
+        bottom_grid = EditorialGrid()
+        bottom_grid.set_spacing(16)
+        parent.addWidget(bottom_grid)
+
+        self._recommendation_section = SectionPanel(title="Recommendations", subtitle="AI-driven insights", span=PanelSpan.HALF)
+        bottom_grid.add_section(self._recommendation_section)
+
+        self._milestones_section = SectionPanel(title="Upcoming Milestones", subtitle="Your next achievements", span=PanelSpan.HALF)
+        bottom_grid.add_section(self._milestones_section)
 
     def _connect_signals(self) -> None:
         self._controller.data_updated.connect(self._on_data_updated)
 
     def _on_data_updated(self, data: DashboardData) -> None:
-        """Update all widgets with fresh data."""
-        self._header.update(data)
-        self._goal_progress.update(data)
-        self._recommendation.set_data(data)
-        self._workout.update(data)
-        self._priority_muscles.update(data)
-        self._recovery.update(data)
-        self._volume.update(data)
-        self._prs.set_data(data)
-        self._nutrition.update(data)
-        self._quick_actions.update(data)
+        self._update_hero(data)
+        self._update_middle(data)
+        self._update_bottom(data)
+
+    def _update_hero(self, data: DashboardData) -> None:
+        rec_score = getattr(data, "recovery_score", 0.0) or 0.0
+        self._recovery_ring.set_value(rec_score, 100.0, "Recovery")
+
+        goal_pct = getattr(data, "goal_progress_percent", 0.0) or 0.0
+        goal_target = getattr(data, "goal_progress_target", 100.0) or 100.0
+        goal_current = getattr(data, "goal_progress_weight", 0.0) or 0.0
+        if goal_current > 0:
+            self._goal_ring.set_goal(goal_current, goal_target, "Goal", "kg")
+        else:
+            self._goal_ring.set_goal(0, 100, "Goal", "")
+
+        readiness = getattr(data, "recovery_level", "") or "N/A"
+        self._hero_readiness = MetricPanel(value=readiness.capitalize() if readiness != "N/A" else "--", label="Readiness Level")
+
+        workout_name = getattr(data, "today_workout_name", "") or ""
+        if workout_name:
+            self._hero_workout_section.clear()
+            self._hero_workout_name.setText(workout_name)
+            self._hero_workout_section.add_content(self._hero_workout_name)
+            ex_count = getattr(data, "today_workout_exercise_count", 0) or 0
+            dur = getattr(data, "today_workout_estimated_duration", 0) or 0
+            meta = QLabel(f"{ex_count} exercises  \u00B7  ~{dur} min" if dur else f"{ex_count} exercises")
+            meta.setStyleSheet(
+                f"color: {self._colors().text_disabled}; font-size: 12px; background: transparent; border: none;"
+            )
+            self._hero_workout_section.add_content(meta)
+        else:
+            self._hero_workout_section.clear()
+
+        recs = getattr(data, "recommendations", [])
+        self._hero_rec_section.clear()
+        if recs:
+            top = recs[0]
+            title = getattr(top, "title", "") or getattr(top, "description", "Recommendation")
+            t = QLabel(title)
+            t.setStyleSheet(
+                f"color: {self._colors().text_primary}; font-size: 14px; font-weight: 600; "
+                f"background: transparent; border: none;"
+            )
+            t.setWordWrap(True)
+            self._hero_rec_section.add_content(t)
+
+    def _update_middle(self, data: DashboardData) -> None:
+        colors = self._colors()
+        rec_score = getattr(data, "recovery_score", 0.0) or 0.0
+        self._recovery_value.setText(f"{rec_score:.0f}")
+        rec_level = getattr(data, "recovery_level", "") or ""
+        if rec_level:
+            self._recovery_status.setText(rec_level.capitalize())
+        else:
+            self._recovery_status.setText("N/A")
+
+        risk_val = max(0.0, min(1.0, (100 - rec_score) / 100))
+        self._prediction_risk.set_risk(risk_val, "Overtraining Risk")
+
+        vol_data = getattr(data, "weekly_volume_data", [])
+        if vol_data:
+            values = []
+            for v in vol_data:
+                if isinstance(v, dict):
+                    values.append(v.get("volume", 0.0) or 0.0)
+                else:
+                    values.append(float(v) if v else 0.0)
+            self._weekly_timeline.set_data(values, max_value=max(values) if values else 100.0)
+        else:
+            self._weekly_timeline.set_data([0, 0, 0, 0, 0, 0, 0])
+
+        weekly_vol = getattr(data, "weekly_volume_kg", 0.0) or 0.0
+        self._weekly_total.setText(f"Total: {weekly_vol:.0f} kg this week")
+
+    def _update_bottom(self, data: DashboardData) -> None:
+        colors = self._colors()
+
+        recs = getattr(data, "recommendations", [])
+        self._recommendation_section.clear()
+        if recs:
+            for i, rec in enumerate(recs[:3]):
+                title = getattr(rec, "title", "") or getattr(rec, "description", f"Recommendation {i+1}")
+                t = QLabel(f"\u2022  {title}")
+                t.setStyleSheet(
+                    f"color: {colors.text_primary}; font-size: 13px; background: transparent; border: none;"
+                )
+                t.setWordWrap(True)
+                self._recommendation_section.add_content(t)
+        else:
+            empty = QLabel("No recommendations available.")
+            empty.setStyleSheet(f"color: {colors.text_disabled}; font-size: 13px; background: transparent; border: none;")
+            self._recommendation_section.add_content(empty)
+
+        self._milestones_section.clear()
+        prs = getattr(data, "recent_prs", [])
+        if prs:
+            for pr in prs[:3]:
+                pr_name = pr if isinstance(pr, str) else getattr(pr, "exercise_name", str(pr))
+                t = QLabel(f"\u2B50  {pr_name}")
+                t.setStyleSheet(
+                    f"color: {colors.text_primary}; font-size: 13px; background: transparent; border: none;"
+                )
+                self._milestones_section.add_content(t)
+        else:
+            empty = QLabel("No recent PRs.")
+            empty.setStyleSheet(f"color: {colors.text_disabled}; font-size: 13px; background: transparent; border: none;")
+            self._milestones_section.add_content(empty)
+            goal_date = getattr(data, "goal_progress_estimated_date", "") or ""
+            if goal_date:
+                est = QLabel(f"Goal estimated by: {goal_date}")
+                est.setStyleSheet(
+                    f"color: {colors.text_secondary}; font-size: 12px; background: transparent; border: none;"
+                )
+                self._milestones_section.add_content(est)
 
     def refresh(self) -> None:
-        """Full dashboard refresh."""
         self._controller.refresh()
 
     def controller(self) -> DashboardController:

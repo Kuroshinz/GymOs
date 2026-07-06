@@ -11,7 +11,6 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional
 
-
 # ─── Enums ──────────────────────────────────────────────────
 
 class MealType(Enum):
@@ -76,11 +75,11 @@ class MealItem:
 @dataclass
 class Meal:
     """A single meal containing multiple food items."""
-    id: Optional[str] = None
+    id: str | None = None
     name: str = ""
-    meal_type: Optional[MealType] = None
+    meal_type: MealType | None = None
     items: list[MealItem] = field(default_factory=list)
-    eaten_at: Optional[datetime] = None
+    eaten_at: datetime | None = None
     notes: str = ""
 
     @property
@@ -181,7 +180,7 @@ class DailyNutrition:
     date: str = ""
     meals: list[Meal] = field(default_factory=list)
     water_ml: float = 0.0
-    target: Optional[MacroTarget] = None
+    target: MacroTarget | None = None
     notes: str = ""
 
     @property
@@ -212,13 +211,13 @@ class DailyNutrition:
     def has_data(self) -> bool:
         return len(self.meals) > 0 or self.water_ml > 0
 
-    def calories_remaining(self, target: Optional[MacroTarget] = None) -> float:
+    def calories_remaining(self, target: MacroTarget | None = None) -> float:
         t = target or self.target
         if not t:
             return 0.0
         return max(0.0, t.calories - self.total_calories)
 
-    def protein_remaining(self, target: Optional[MacroTarget] = None) -> float:
+    def protein_remaining(self, target: MacroTarget | None = None) -> float:
         t = target or self.target
         if not t:
             return 0.0
@@ -306,7 +305,7 @@ class NutritionSummary:
     hydration_target: float = 3000.0
     overall_score: float = 0.0
     configured: bool = True
-    lean_bulk: Optional[LeanBulkAnalysis] = None
+    lean_bulk: LeanBulkAnalysis | None = None
 
     def to_dict(self) -> dict:
         result = {

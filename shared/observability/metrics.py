@@ -6,9 +6,9 @@ import threading
 import time
 from collections import defaultdict
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from enum import Enum
-from typing import Any, Callable
+from typing import Any
 
 
 class MetricType(Enum):
@@ -24,7 +24,7 @@ class MetricSample:
     metric_type: str
     value: float
     tags: dict[str, str] = field(default_factory=dict)
-    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -169,7 +169,7 @@ class _TimerContext:
         self._tags = tags
         self._start: float = 0.0
 
-    def __enter__(self) -> "_TimerContext":
+    def __enter__(self) -> _TimerContext:
         self._start = time.perf_counter()
         return self
 

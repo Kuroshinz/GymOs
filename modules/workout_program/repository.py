@@ -1,15 +1,16 @@
 """ProgramRepository — CRUD operations for workout programs in the database."""
 
 import uuid
-from typing import Optional
 
-from sqlalchemy import create_engine, select, func, update
+from sqlalchemy import create_engine, func, select, update
 from sqlalchemy.orm import Session
 
-from modules.workout_program.domain import WorkoutProgram, ProgramDay, ProgramExercise
 from modules.workout.infrastructure.models import (
-    WorkoutProgramModel, WorkoutDayModel, DayExerciseModel,
+    DayExerciseModel,
+    WorkoutDayModel,
+    WorkoutProgramModel,
 )
+from modules.workout_program.domain import ProgramDay, ProgramExercise, WorkoutProgram
 
 
 class ProgramRepository:
@@ -63,14 +64,14 @@ class ProgramRepository:
             models = session.execute(stmt).scalars().all()
             return [self._model_to_dict(m) for m in models]
 
-    def get_by_id(self, program_id: str) -> Optional[WorkoutProgram]:
+    def get_by_id(self, program_id: str) -> WorkoutProgram | None:
         with self._get_session() as session:
             model = session.get(WorkoutProgramModel, program_id)
             if model is None:
                 return None
             return self._model_to_domain(model)
 
-    def get_by_name(self, name: str) -> Optional[WorkoutProgram]:
+    def get_by_name(self, name: str) -> WorkoutProgram | None:
         with self._get_session() as session:
             stmt = select(WorkoutProgramModel).where(WorkoutProgramModel.name == name)
             model = session.execute(stmt).scalars().first()
@@ -78,7 +79,7 @@ class ProgramRepository:
                 return None
             return self._model_to_domain(model)
 
-    def get_active(self) -> Optional[WorkoutProgram]:
+    def get_active(self) -> WorkoutProgram | None:
         with self._get_session() as session:
             stmt = (
                 select(WorkoutProgramModel)
@@ -154,7 +155,7 @@ class ProgramRepository:
                     model.is_active = False
                 session.commit()
 
-    def get_active_id(self) -> Optional[str]:
+    def get_active_id(self) -> str | None:
         with self._get_session() as session:
             stmt = (
                 select(WorkoutProgramModel.id)

@@ -7,9 +7,7 @@ Knowledge source: knowledge/progression/volume.md
 """
 
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from typing import Optional
-
+from datetime import datetime
 
 # Exercise → muscle group mapping
 # Based on seed data exercises

@@ -1,7 +1,25 @@
-"""Recovery Infrastructure — SQLite repository, external API adapters.
+"""Recovery infrastructure layer — database models and repository."""
 
-Planned adapters:
-  - RecoveryRepository: SQLite-backed
-  - WearableAdapter: import from smartwatch APIs
-  - ManualEntryAdapter: user-submitted data
-"""
+from modules.recovery.infrastructure.models import (
+    Base,
+    DeloadPlanModel,
+    ReadinessAssessmentModel,
+    RecoveryProfileModel,
+    RecoveryRecommendationModel,
+    RecoveryScoreModel,
+    SleepLogModel,
+    StressLogModel,
+)
+from modules.recovery.infrastructure.repository import RecoveryRepository
+
+__all__ = [
+    "Base",
+    "RecoveryProfileModel",
+    "RecoveryScoreModel",
+    "SleepLogModel",
+    "StressLogModel",
+    "ReadinessAssessmentModel",
+    "DeloadPlanModel",
+    "RecoveryRecommendationModel",
+    "RecoveryRepository",
+]

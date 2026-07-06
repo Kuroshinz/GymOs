@@ -4,9 +4,9 @@ from typing import Any, Optional
 
 
 class SettingsManager:
-    _instance: Optional["SettingsManager"] = None
+    _instance: SettingsManager | None = None
 
-    def __new__(cls) -> "SettingsManager":
+    def __new__(cls) -> SettingsManager:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance._settings: dict[str, Any] = {}

@@ -1,11 +1,16 @@
 """Personal Records screen — displays all PRs with best weight, reps, volume, e1RM."""
 
-from datetime import datetime, date
+from datetime import date, datetime
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QLabel, QFrame, QScrollArea,
-    QGridLayout, QSizePolicy,
+    QFrame,
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QScrollArea,
+    QVBoxLayout,
+    QWidget,
 )
 
 

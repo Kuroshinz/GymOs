@@ -7,11 +7,9 @@ Uses Epley formula from knowledge/progression/rm_estimator.json:
 Knowledge source: knowledge/progression/rm_estimator.json
 """
 
-from dataclasses import dataclass, field
-from datetime import datetime
-from typing import Optional
+from dataclasses import dataclass
 
-from modules.workout.domain import WorkoutSession, SessionExercise, SessionSet
+from modules.workout.domain import WorkoutSession
 
 
 @dataclass
@@ -23,8 +21,8 @@ class PersonalRecord:
     value: float
     previous_value: float | None = None
     improvement: float | None = None  # percentage improvement
-    achieved_at: Optional[str] = None
-    session_id: Optional[str] = None
+    achieved_at: str | None = None
+    session_id: str | None = None
 
     @property
     def label(self) -> str:
@@ -140,7 +138,7 @@ class PREngine:
         return prs
 
     def _get_historical_best(self, exercise_name: str,
-                             exclude_session_id: Optional[str] = None) -> dict:
+                             exclude_session_id: str | None = None) -> dict:
         """Get the best historical values for an exercise."""
         sessions = self._db.list_sessions(limit=500)
 

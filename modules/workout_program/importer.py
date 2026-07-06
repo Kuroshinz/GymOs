@@ -1,14 +1,15 @@
 """ProgramImporter — parse Excel, YAML, or JSON files into WorkoutProgram domain models."""
 
 import json
-import os
 import re
 from pathlib import Path
-from typing import Optional
 
 from modules.workout_program.domain import (
-    WorkoutProgram, ProgramDay, ProgramExercise,
-    DeloadWeek, ProgressionStrategy,
+    DeloadWeek,
+    ProgramDay,
+    ProgramExercise,
+    ProgressionStrategy,
+    WorkoutProgram,
 )
 
 
@@ -55,7 +56,7 @@ class ProgramImporter:
         rows = list(ws.iter_rows(min_row=2, max_row=ws.max_row, values_only=True))
 
         days: list[ProgramDay] = []
-        current_day: Optional[ProgramDay] = None
+        current_day: ProgramDay | None = None
 
         for row in rows:
             vals = [str(v).strip() if v is not None else "" for v in row] + [""] * 8

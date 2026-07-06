@@ -85,6 +85,9 @@ class DashboardController(QObject):
             self._event_bus.subscribe("ProgramImported", self._on_program_activated)
             self._event_bus.subscribe("MealLogged", self._on_nutrition_updated)
             self._event_bus.subscribe("NutritionUpdated", self._on_nutrition_updated)
+            self._event_bus.subscribe("RecoveryUpdated", self._on_recovery_updated)
+            self._event_bus.subscribe("RecoveryScoreChanged", self._on_recovery_updated)
+            self._event_bus.subscribe("ReadinessChanged", self._on_recovery_updated)
             self._subscribed = True
             logger.info("DashboardController subscribed to domain events")
         except Exception:
@@ -147,6 +150,18 @@ class DashboardController(QObject):
             self._data_service.refresh_section(data, "nutrition")
             if self._engine:
                 self._engine.invalidate_cache("recommendations")
+                self._data_service.refresh_section(data, "recommendations")
+            self.data_updated.emit(data)
+        except Exception:
+            self.refresh()
+
+    def _on_recovery_updated(self, event: Any) -> None:
+        """Refresh recovery section when recovery data changes."""
+        try:
+            data = self._last_data
+            self._data_service.refresh_section(data, "recovery")
+            if self._engine:
+                self._engine.invalidate_cache("recovery_status")
                 self._data_service.refresh_section(data, "recommendations")
             self.data_updated.emit(data)
         except Exception:

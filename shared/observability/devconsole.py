@@ -2,20 +2,21 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Any, Callable
+from collections.abc import Callable
+from dataclasses import dataclass
+from datetime import UTC, datetime
+from typing import Any
 
 from shared.events.event_bus import EventBus, get_event_bus
 from shared.events.store import EventStore
+from shared.observability.health import ComponentHealth, HealthDashboard, HealthStatus
 from shared.observability.inspector import EventInspector
-from shared.observability.timeline import EventTimeline
-from shared.observability.subscriber_monitor import SubscriberMonitor
+from shared.observability.logger import get_logger
+from shared.observability.metrics import get_metrics
 from shared.observability.perf_monitor import PerformanceMonitor
-from shared.observability.health import HealthDashboard, HealthStatus, ComponentHealth
-from shared.observability.replay import ReplayCenter, ReplayMode
-from shared.observability.logger import StructuredLogger, get_logger
-from shared.observability.metrics import MetricsCollector, get_metrics
+from shared.observability.replay import ReplayCenter
+from shared.observability.subscriber_monitor import SubscriberMonitor
+from shared.observability.timeline import EventTimeline
 
 
 @dataclass
@@ -74,7 +75,7 @@ class DeveloperConsole:
         self._bus = bus or get_event_bus()
         self._store = store or EventStore()
         self._enabled = enabled
-        self._start_time = datetime.now(timezone.utc)
+        self._start_time = datetime.now(UTC)
         self._plugins: dict[str, DeveloperPlugin] = {}
 
         self.inspector = EventInspector(self._bus)
@@ -125,7 +126,7 @@ class DeveloperConsole:
             health_status=overall.value,
             inspector_paused=self.inspector.is_paused,
             replay_status=self.replay.progress().status,
-            uptime_seconds=(datetime.now(timezone.utc) - self._start_time).total_seconds(),
+            uptime_seconds=(datetime.now(UTC) - self._start_time).total_seconds(),
             events_per_sec=self.metrics.events_per_sec(),
         )
 

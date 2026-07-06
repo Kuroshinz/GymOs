@@ -1,8 +1,4 @@
-# Application-wide constants
-
-APP_NAME = "GymOS"
-APP_VERSION = "0.1.0"
-APP_DESCRIPTION = "Personal Hypertrophy Operating System"
+from shared.version import APP_DESCRIPTION, APP_NAME, APP_VERSION
 
 # Database
 DEFAULT_DB_PATH = "data/gymos.db"

@@ -7,9 +7,9 @@ from typing import Any, Optional
 
 
 class Cache:
-    _instance: Optional["Cache"] = None
+    _instance: Cache | None = None
 
-    def __new__(cls) -> "Cache":
+    def __new__(cls) -> Cache:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance._store: dict = {}

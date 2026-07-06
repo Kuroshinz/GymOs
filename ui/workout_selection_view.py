@@ -2,9 +2,12 @@
 
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QGridLayout, QFrame,
+    QFrame,
+    QGridLayout,
+    QLabel,
+    QVBoxLayout,
+    QWidget,
 )
-
 
 DAY_ICONS = {
     "Push": "🏋️",
@@ -24,6 +27,8 @@ DAY_DESC = {
 
 
 class DayCard(QFrame):
+    clicked = Signal(str)
+
     def __init__(self, name: str):
         super().__init__()
         self.day_name = name
@@ -40,6 +45,7 @@ class DayCard(QFrame):
 
         self.setMinimumSize(200, 140)
         self.setCursor(Qt.PointingHandCursor)
+        self.setFocusPolicy(Qt.StrongFocus)
         self.setStyleSheet("""
             DayCard {
                 background-color: #1E293B;
@@ -50,6 +56,9 @@ class DayCard(QFrame):
             DayCard:hover {
                 border: 2px solid #818CF8;
                 background-color: #1E293B;
+            }
+            DayCard:focus {
+                border: 2px solid #818CF8;
             }
         """)
 
@@ -69,6 +78,15 @@ class DayCard(QFrame):
         desc_label.setStyleSheet("color: #64748B; font-size: 12px;")
         desc_label.setWordWrap(True)
         layout.addWidget(desc_label)
+
+    def mousePressEvent(self, event):
+        self.clicked.emit(self.day_name)
+        super().mousePressEvent(event)
+
+    def keyPressEvent(self, event):
+        if event.key() in (Qt.Key_Return, Qt.Key_Space):
+            self.clicked.emit(self.day_name)
+        super().keyPressEvent(event)
 
 
 class WorkoutSelectionView(QWidget):
@@ -112,7 +130,7 @@ class WorkoutSelectionView(QWidget):
         row, col = 0, 0
         for day in days:
             card = DayCard(day["name"])
-            card.mousePressEvent = lambda e, n=day["name"]: self.workout_selected.emit(n)
+            card.clicked.connect(self.workout_selected.emit)
             self._grid.addWidget(card, row, col)
             col += 1
             if col > 2:

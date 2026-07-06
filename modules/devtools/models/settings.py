@@ -1,7 +1,7 @@
 """Developer settings and state models."""
 
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 
@@ -37,7 +37,7 @@ class DevToolsState:
     health_status: str = "unknown"
     uptime_seconds: float = 0.0
     events_per_sec: float = 0.0
-    last_refresh: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    last_refresh: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
 
     def to_dict(self) -> dict[str, Any]:
         return {

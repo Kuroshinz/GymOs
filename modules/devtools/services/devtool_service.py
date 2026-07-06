@@ -10,13 +10,11 @@ from shared.observability import (
     EventInspector,
     EventTimeline,
     HealthDashboard,
-    ReplayCenter,
-    ReplayMode,
-    SubscriberMonitor,
-    PerformanceMonitor,
     MetricsCollector,
+    PerformanceMonitor,
+    ReplayCenter,
     StructuredLogger,
-    get_logger,
+    SubscriberMonitor,
 )
 from shared.observability.health import ComponentHealth
 

@@ -1,0 +1,50 @@
+============================================================
+GymOS Crash Report
+============================================================
+Time:       2026-07-06T13:35:06.336119+00:00
+Version:    0.5.0 (build 1)
+Python:     3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]
+Platform:   win32
+------------------------------------------------------------
+Exception:
+Traceback (most recent call last):
+  File "C:\Users\nhan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\engine\base.py", line 1417, in execute
+    meth = statement._execute_on_connection
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute '_execute_on_connection'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Personal\NexusOs\main.py", line 187, in <module>
+    main()
+  File "D:\Personal\NexusOs\main.py", line 104, in main
+    init_infrastructure()
+  File "D:\Personal\NexusOs\main.py", line 52, in init_infrastructure
+    conn.execute("SELECT 1")
+  File "C:\Users\nhan\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    raise exc.ObjectNotExecutableError(statement) from err
+sqlalchemy.exc.ObjectNotExecutableError: Not an executable object: 'SELECT 1'
+
+------------------------------------------------------------
+Loaded Modules (last 20):
+  ui.visualization.timelines.mesocycle_timeline
+  ui.visualization.timelines.prediction_timeline
+  ui.visualization.timelines.recovery_timeline
+  ui.visualization.timelines.weekly_timeline
+  ui.visualization.timelines.workout_timeline
+  ui.workout_selection_view
+  ui.workout_view
+  urllib
+  urllib.parse
+  uuid
+  warnings
+  weakref
+  winreg
+  xml
+  xml.etree
+  xml.etree.ElementPath
+  xml.etree.ElementTree
+  zipfile
+  zipimport
+  zlib

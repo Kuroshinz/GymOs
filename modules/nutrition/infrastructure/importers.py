@@ -14,8 +14,7 @@ import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
-from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from modules.nutrition.domain import DailyNutrition, Meal, MealItem, MealType
 

@@ -4,8 +4,8 @@ Idempotent — safe to run multiple times.
 """
 
 import json
-from pathlib import Path
 from datetime import date
+from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 EXERCISES_DIR = PROJECT_ROOT / "knowledge" / "exercises"
@@ -125,9 +125,7 @@ def _infer_joint_stress(ex: dict) -> dict:
     mp = ex.get("movement_pattern", "")
     stress = "moderate"
     notes = ""
-    if equip == "machine":
-        stress = "low"
-    elif equip == "bodyweight":
+    if equip == "machine" or equip == "bodyweight":
         stress = "low"
     if mp in ("squat", "hip_hinge", "lunge"):
         stress = "high"

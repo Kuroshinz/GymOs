@@ -13,7 +13,6 @@ Usage:
 
 import json
 from pathlib import Path
-from typing import Optional
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
@@ -59,7 +58,7 @@ class KnowledgeLoader:
         self._exercises: dict[str, dict] = {}
         self._muscles: dict[str, dict] = {}
         self._aliases: dict[str, str] = {}
-        self._program: Optional[dict] = None
+        self._program: dict | None = None
         self._loaded = False
 
     # ─── Load All ────────────────────────────────────────────
@@ -97,12 +96,12 @@ class KnowledgeLoader:
             except (json.JSONDecodeError, KnowledgeLoadError) as e:
                 raise KnowledgeLoadError(f"Failed to load {path.name}: {e}") from e
 
-    def get_exercise(self, exercise_id: str) -> Optional[dict]:
+    def get_exercise(self, exercise_id: str) -> dict | None:
         """Get an exercise definition by its stable ID."""
         self.load_all()
         return self._exercises.get(exercise_id)
 
-    def get_exercise_by_name(self, name: str) -> Optional[dict]:
+    def get_exercise_by_name(self, name: str) -> dict | None:
         """Find an exercise by its display name (case-insensitive)."""
         self.load_all()
         name_lower = name.strip().lower()
@@ -147,7 +146,7 @@ class KnowledgeLoader:
             except (json.JSONDecodeError, KnowledgeLoadError) as e:
                 raise KnowledgeLoadError(f"Failed to load {path.name}: {e}") from e
 
-    def get_muscle(self, muscle_id: str) -> Optional[dict]:
+    def get_muscle(self, muscle_id: str) -> dict | None:
         """Get a muscle definition by its stable ID."""
         self.load_all()
         return self._muscles.get(muscle_id)
@@ -220,7 +219,7 @@ class KnowledgeLoader:
 
     # ─── Program ─────────────────────────────────────────────
 
-    def load_program(self, path: Optional[str] = None) -> dict:
+    def load_program(self, path: str | None = None) -> dict:
         """Load and cache a workout program JSON file."""
         if self._program is not None and path is None:
             return self._program
@@ -283,7 +282,7 @@ class KnowledgeLoader:
 
 # ─── Module-level convenience functions ──────────────────────
 
-_global_loader: Optional[KnowledgeLoader] = None
+_global_loader: KnowledgeLoader | None = None
 
 
 def get_loader() -> KnowledgeLoader:
@@ -294,7 +293,7 @@ def get_loader() -> KnowledgeLoader:
     return _global_loader
 
 
-def get_exercise(exercise_id: str) -> Optional[dict]:
+def get_exercise(exercise_id: str) -> dict | None:
     return get_loader().get_exercise(exercise_id)
 
 

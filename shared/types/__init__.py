@@ -30,4 +30,4 @@ class Goal:
     type: str
     target: float
     current: float
-    deadline: Optional[datetime] = None
+    deadline: datetime | None = None

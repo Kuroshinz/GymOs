@@ -4,17 +4,23 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime, timedelta
-from typing import Optional
 
-from sqlalchemy import create_engine, select, func
+from sqlalchemy import create_engine, func, select
 from sqlalchemy.orm import Session
 
 from modules.nutrition.domain import (
-    DailyNutrition, Meal, MealItem, MealType, MacroTarget, NutritionGoalType,
+    DailyNutrition,
+    MacroTarget,
+    Meal,
+    MealItem,
+    MealType,
+    NutritionGoalType,
 )
 from modules.nutrition.infrastructure.models import (
-    Base,
-    NutritionDayModel, MealModel, MealItemModel, MacroTargetModel,
+    MacroTargetModel,
+    MealItemModel,
+    MealModel,
+    NutritionDayModel,
 )
 from modules.workout.infrastructure.models import init_db as ensure_tables
 
@@ -85,7 +91,7 @@ class NutritionRepository:
             session.commit()
             return day
 
-    def get_day(self, date: str) -> Optional[DailyNutrition]:
+    def get_day(self, date: str) -> DailyNutrition | None:
         """Get nutrition data for a specific date."""
         with self._get_session() as session:
             model = session.execute(
@@ -146,7 +152,7 @@ class NutritionRepository:
 
     # ─── Macro Targets ───────────────────────────────────────
 
-    def save_target(self, target: MacroTarget, date: Optional[str] = None) -> MacroTarget:
+    def save_target(self, target: MacroTarget, date: str | None = None) -> MacroTarget:
         """Save macro targets for a date (or as default if date is None)."""
         target_date = date or "default"
         with self._get_session() as session:
@@ -179,7 +185,7 @@ class NutritionRepository:
             session.commit()
             return target
 
-    def get_target(self, date: Optional[str] = None) -> Optional[MacroTarget]:
+    def get_target(self, date: str | None = None) -> MacroTarget | None:
         """Get macro targets for a date (falls back to 'default')."""
         target_date = date or "default"
         with self._get_session() as session:

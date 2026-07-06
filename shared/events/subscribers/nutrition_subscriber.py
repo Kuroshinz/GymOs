@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from shared.events.domain_events import MealLogged, NutritionUpdated, MacroTargetChanged
+from shared.events.domain_events import MacroTargetChanged, MealLogged, NutritionUpdated
 from shared.events.subscriber import Subscriber
 
 logger = logging.getLogger("nexus.events.subscribers.nutrition")

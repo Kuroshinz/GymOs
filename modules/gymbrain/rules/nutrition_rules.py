@@ -14,7 +14,7 @@ Rules:
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
 
 from modules.gymbrain.models.recommendations import (
     Recommendation,
@@ -213,7 +213,7 @@ class GainRateRule(BaseRule):
                     confidence=0.85,
                     evidence=[
                         f"Weekly gain: {analysis.weekly_weight_gain_kg:.2f} kg",
-                        f"Optimal range: 0.25-0.5 kg/week",
+                        "Optimal range: 0.25-0.5 kg/week",
                         f"Quality score: {analysis.quality_score:.0f}/100",
                     ],
                     action=RecommendationAction(
@@ -240,7 +240,7 @@ class GainRateRule(BaseRule):
                     confidence=0.75,
                     evidence=[
                         f"Weekly gain: {analysis.weekly_weight_gain_kg:.2f} kg",
-                        f"Optimal range: 0.25-0.5 kg/week",
+                        "Optimal range: 0.25-0.5 kg/week",
                     ],
                     action=RecommendationAction(
                         type="increase_calories_slight",

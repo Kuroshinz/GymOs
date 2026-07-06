@@ -6,12 +6,12 @@ from typing import Optional
 
 
 class SecurityManager:
-    _instance: Optional["SecurityManager"] = None
+    _instance: SecurityManager | None = None
 
-    def __new__(cls) -> "SecurityManager":
+    def __new__(cls) -> SecurityManager:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
-            cls._instance._secret_key: Optional[str] = None
+            cls._instance._secret_key: str | None = None
         return cls._instance
 
     def initialize(self, secret_key: str | None = None) -> None:
@@ -36,7 +36,8 @@ class SecurityManager:
     def decrypt(self, token: str) -> str:
         if not self._secret_key:
             raise RuntimeError("SecurityManager not initialized")
-        from cryptography.fernet import Fernet
         import base64
+
+        from cryptography.fernet import Fernet
         key = base64.urlsafe_b64encode(hashlib.sha256(self._secret_key.encode()).digest())
         return Fernet(key).decrypt(token.encode()).decode()

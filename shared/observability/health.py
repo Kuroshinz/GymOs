@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from enum import Enum
-from typing import Any, Callable
+from typing import Any
 
 
 class HealthStatus(Enum):
@@ -22,7 +22,7 @@ class ComponentHealth:
     name: str
     status: HealthStatus = HealthStatus.UNKNOWN
     message: str = ""
-    last_checked: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    last_checked: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
     response_time_ms: float = 0.0
     metadata: dict[str, Any] = field(default_factory=dict)
 

@@ -1,7 +1,6 @@
 """Base subscriber — modules extend this to react to domain events."""
 
 from abc import ABC, abstractmethod
-from typing import Any
 
 from shared.events.domain_events import DomainEvent
 from shared.events.event_bus import EventBus, get_event_bus

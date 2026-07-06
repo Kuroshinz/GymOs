@@ -1,0 +1,11 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\Personal\NexusOs
+configfile: pyproject.toml
+plugins: anyio-4.10.0, asyncio-1.4.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 238 items
+
+tests\unit\command_center\test_controller.py .........                   [  3%]
+tests\unit\command_center\test_controller_edge.py ......                 [  6%]
+tests\unit\command_center\test_layout.py 

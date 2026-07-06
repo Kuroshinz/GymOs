@@ -12,8 +12,12 @@ from datetime import datetime, timedelta
 from typing import Any, Optional
 
 from modules.nutrition.domain import (
-    DailyNutrition, LeanBulkAnalysis, MacroAnalysis,
-    MacroStatus, MacroStatusResult, MacroTarget,
+    DailyNutrition,
+    LeanBulkAnalysis,
+    MacroAnalysis,
+    MacroStatus,
+    MacroStatusResult,
+    MacroTarget,
 )
 from modules.nutrition.providers import NutritionProvider
 
@@ -28,7 +32,7 @@ class MacroAnalyzer:
     def __init__(self, provider: NutritionProvider) -> None:
         self._provider = provider
 
-    def analyze_day(self, date: Optional[str] = None) -> MacroAnalysis:
+    def analyze_day(self, date: str | None = None) -> MacroAnalysis:
         """Analyze a single day's macro intake."""
         if date is None:
             date = datetime.now().strftime("%Y-%m-%d")

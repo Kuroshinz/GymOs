@@ -14,8 +14,13 @@ from datetime import datetime, timedelta
 from typing import Any, Optional
 
 from modules.nutrition.domain import (
-    DailyNutrition, LeanBulkAnalysis, MacroAnalysis,
-    MacroStatusResult, MacroStatus, MacroTarget, NutritionSummary,
+    DailyNutrition,
+    LeanBulkAnalysis,
+    MacroAnalysis,
+    MacroStatus,
+    MacroStatusResult,
+    MacroTarget,
+    NutritionSummary,
 )
 from modules.nutrition.infrastructure.repository import NutritionRepository
 
@@ -28,11 +33,11 @@ class NutritionProvider(ABC):
     """
 
     @abstractmethod
-    def get_today(self) -> Optional[DailyNutrition]:
+    def get_today(self) -> DailyNutrition | None:
         ...
 
     @abstractmethod
-    def get_day(self, date: str) -> Optional[DailyNutrition]:
+    def get_day(self, date: str) -> DailyNutrition | None:
         ...
 
     @abstractmethod
@@ -60,7 +65,7 @@ class NutritionProvider(ABC):
         ...
 
     @abstractmethod
-    def get_latest_body_weight(self) -> Optional[Any]:
+    def get_latest_body_weight(self) -> Any | None:
         ...
 
     @abstractmethod
@@ -83,11 +88,11 @@ class ProductionNutritionProvider(NutritionProvider):
         self._repo = repository
         self._db = db
 
-    def get_today(self) -> Optional[DailyNutrition]:
+    def get_today(self) -> DailyNutrition | None:
         today = datetime.now().strftime("%Y-%m-%d")
         return self._repo.get_day(today)
 
-    def get_day(self, date: str) -> Optional[DailyNutrition]:
+    def get_day(self, date: str) -> DailyNutrition | None:
         return self._repo.get_day(date)
 
     def get_recent_days(self, days: int = 7) -> list[DailyNutrition]:
@@ -113,7 +118,7 @@ class ProductionNutritionProvider(NutritionProvider):
                 pass
         return []
 
-    def get_latest_body_weight(self) -> Optional[Any]:
+    def get_latest_body_weight(self) -> Any | None:
         if self._db:
             try:
                 return self._db.get_latest_body_weight()

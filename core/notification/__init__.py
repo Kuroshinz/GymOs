@@ -22,9 +22,9 @@ class Notification:
 
 
 class NotificationService:
-    _instance: Optional["NotificationService"] = None
+    _instance: NotificationService | None = None
 
-    def __new__(cls) -> "NotificationService":
+    def __new__(cls) -> NotificationService:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance._handlers: list = []

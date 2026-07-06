@@ -15,10 +15,8 @@ Knowledge sources:
 """
 
 from dataclasses import dataclass, field
-from datetime import datetime
-from typing import Optional
 
-from modules.workout.domain import WorkoutSession, SessionExercise, SessionSet
+from modules.workout.domain import SessionSet, WorkoutSession
 
 
 @dataclass
@@ -195,8 +193,8 @@ class ProgressionEngine:
                 )
             else:
                 reason = (
-                    f"Reps look good. Keep current weight and focus on "
-                    f"technique and controlled eccentrics."
+                    "Reps look good. Keep current weight and focus on "
+                    "technique and controlled eccentrics."
                 )
 
         return ProgressionRecommendation(

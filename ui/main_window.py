@@ -2,25 +2,37 @@
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
-    QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
-    QPushButton, QStackedWidget, QLabel, QFrame,
+    QFrame,
+    QHBoxLayout,
+    QLabel,
+    QMainWindow,
+    QPushButton,
+    QStackedWidget,
+    QVBoxLayout,
+    QWidget,
+    QWizard,
 )
 
 from ui.dashboard import DashboardView
+from ui.experience import ExperienceManager
+from ui.experience.integration import integrate_with_command_center
+from ui.import_wizard import ImportWizard
+from ui.pr_view import PRView
+from ui.prediction import PredictionDashboard, PredictionDashboardData
+from ui.progress_view import ProgressView
+from ui.recovery import RecoveryDashboard
+from ui.settings_view import SettingsView
 from ui.workout_selection_view import WorkoutSelectionView
 from ui.workout_view import WorkoutView
-from ui.progress_view import ProgressView
-from ui.settings_view import SettingsView
-from ui.pr_view import PRView
-from ui.import_wizard import ImportWizard
-
 
 PAGE_INDEX = {
     "dashboard": 0,
     "workout": 1,
     "progress": 2,
-    "prs": 3,
-    "settings": 4,
+    "recovery": 3,
+    "predictions": 4,
+    "prs": 5,
+    "settings": 6,
 }
 
 
@@ -53,11 +65,16 @@ class SidebarButton(QPushButton):
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, db, prog_mgr=None, nutrition_service=None):
+    def __init__(self, db, prog_mgr=None, nutrition_service=None, recovery_service=None, prediction_service=None, experience=None):
         super().__init__()
         self._db = db
         self._prog_mgr = prog_mgr
         self._nutrition_service = nutrition_service
+        self._recovery_service = recovery_service
+        self._prediction_service = prediction_service
+        self._recovery_dashboard = None
+        self._prediction_dashboard = None
+        self._experience = experience or ExperienceManager(self)
         self.setWindowTitle("GymOS")
         self.setMinimumSize(1024, 768)
         self.setStyleSheet("""
@@ -84,15 +101,21 @@ class MainWindow(QMainWindow):
         self._workout_selection_view = WorkoutSelectionView(db, prog_mgr)
         self._workout_view = WorkoutView(db, prog_mgr)
         self._progress_view = ProgressView(db)
+        self._recovery_dashboard = RecoveryDashboard() if recovery_service else None
+        self._prediction_dashboard = PredictionDashboard() if prediction_service else None
         self._pr_view = PRView(db)
         self._settings_view = SettingsView(db, prog_mgr)
 
-        self._content.addWidget(self._dashboard_view)       # 0
-        self._content.addWidget(self._workout_selection_view)  # 1
-        self._content.addWidget(self._progress_view)         # 2
-        self._content.addWidget(self._pr_view)               # 3
-        self._content.addWidget(self._settings_view)         # 4
-        self._content.addWidget(self._workout_view)          # 5
+        self._content.addWidget(self._dashboard_view)           # 0
+        self._content.addWidget(self._workout_selection_view)   # 1
+        self._content.addWidget(self._progress_view)            # 2
+        if self._recovery_dashboard:
+            self._content.addWidget(self._recovery_dashboard)   # 3
+        if self._prediction_dashboard:
+            self._content.addWidget(self._prediction_dashboard)  # 4
+        self._content.addWidget(self._pr_view)                  # 5
+        self._content.addWidget(self._settings_view)            # 6
+        self._content.addWidget(self._workout_view)             # 7
 
         self._dashboard_view.start_workout_clicked.connect(
             lambda: self._switch_to(PAGE_INDEX["workout"])
@@ -118,6 +141,10 @@ class MainWindow(QMainWindow):
             lambda: self._switch_to(PAGE_INDEX["workout"])
         )
 
+        self._experience.initialize()
+        integrate_with_command_center(self._experience)
+        self._experience.focus.register_sidebar(sidebar)
+
         self._switch_to(PAGE_INDEX["dashboard"])
 
     def _build_sidebar(self) -> QFrame:
@@ -141,6 +168,8 @@ class MainWindow(QMainWindow):
             ("dashboard", "Dashboard"),
             ("workout", "Workout"),
             ("progress", "Progress"),
+            ("recovery", "Recovery"),
+            ("predictions", "Predictions"),
             ("prs", "Records"),
             ("settings", "Settings"),
         ]
@@ -163,7 +192,8 @@ class MainWindow(QMainWindow):
 
         layout.addStretch()
 
-        version = QLabel("v0.1.0 MVP")
+        from shared.version import APP_VERSION
+        version = QLabel(f"v{APP_VERSION}")
         version.setStyleSheet("color: #475569; font-size: 11px; padding: 8px 12px;")
         layout.addWidget(version)
 
@@ -171,7 +201,7 @@ class MainWindow(QMainWindow):
 
     def _open_import_wizard(self):
         dialog = ImportWizard(self._prog_mgr, self)
-        if dialog.exec() == ImportWizard.Done:
+        if dialog.exec() == QWizard.Accepted:
             self._dashboard_view.refresh()
             self._workout_selection_view.refresh()
 
@@ -187,6 +217,10 @@ class MainWindow(QMainWindow):
             self._workout_selection_view.refresh()
         elif index == PAGE_INDEX["progress"]:
             self._progress_view.refresh()
+        elif index == PAGE_INDEX["recovery"]:
+            self._refresh_recovery()
+        elif index == PAGE_INDEX["predictions"]:
+            self._refresh_predictions()
         elif index == PAGE_INDEX["prs"]:
             self._pr_view.refresh()
         elif index == PAGE_INDEX["settings"]:
@@ -196,7 +230,54 @@ class MainWindow(QMainWindow):
 
     def _on_workout_selected(self, day_name: str):
         self._workout_view.load_day(day_name)
-        self._content.setCurrentIndex(5)
+        self._content.setCurrentIndex(7)
+
+    def _refresh_predictions(self):
+        if self._prediction_service and self._prediction_dashboard:
+            from modules.prediction.presentation import PredictionFormatter
+            result = self._prediction_service.generate_all_predictions()
+            vm = PredictionFormatter.prediction_result_to_view_model(result)
+            data = PredictionDashboardData(
+                view_model=vm,
+                has_data=len(result.predictions) > 0,
+                result=result,
+            )
+            self._prediction_dashboard.refresh(data)
+
+    def _refresh_recovery(self):
+        if self._recovery_service and self._recovery_dashboard:
+            svc = self._recovery_service
+            snapshot = svc.get_snapshot()
+            scores = svc.get_recent_scores(days=7)
+            trend = svc.get_trend(days=14)
+            weekly = svc.get_weekly_averages(weeks=4)
+            active_deload = svc.get_active_deload()
+            recs = svc.get_recommendations(days=1)
+
+            level_str = ""
+            if hasattr(snapshot, "readiness_level"):
+                lvl = snapshot.readiness_level
+                if hasattr(lvl, "value"):
+                    level_str = lvl.value
+                else:
+                    level_str = str(lvl)
+
+            from ui.recovery.recovery_dashboard import RecoveryDashboardData
+            data = RecoveryDashboardData(
+                recovery_score=snapshot.recovery_score if hasattr(snapshot, "recovery_score") else 0.0,
+                recovery_level=level_str,
+                recovery_flags=snapshot.flags if hasattr(snapshot, "flags") else [],
+                recovery_sleep_score=snapshot.sleep_score if hasattr(snapshot, "sleep_score") else 0.0,
+                recovery_stress_score=snapshot.stress_score if hasattr(snapshot, "stress_score") else 0.0,
+                recovery_fatigue_score=snapshot.fatigue_score if hasattr(snapshot, "fatigue_score") else 0.0,
+                recovery_trend=trend if hasattr(trend, "direction") else None,
+                recovery_active_deload=active_deload,
+                recovery_scores=scores,
+                recovery_scores_count=len(scores),
+                recovery_weekly=weekly,
+                recovery_action=recs[0].message if recs and hasattr(recs[0], "message") else "",
+            )
+            self._recovery_dashboard.refresh(data)
 
     def _on_workout_saved(self):
         self._switch_to(PAGE_INDEX["dashboard"])

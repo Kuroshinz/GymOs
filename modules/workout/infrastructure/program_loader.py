@@ -7,7 +7,6 @@ PPL_UL_MASTER_v6_UPDATED_LEGS.xlsx via scripts/parse_excel_program.py.
 
 import json
 import os
-from typing import Optional
 
 
 class ProgramLoader:
@@ -16,11 +15,11 @@ class ProgramLoader:
     The default path is data/program.json relative to the project root.
     """
 
-    def __init__(self, program_path: Optional[str] = None) -> None:
+    def __init__(self, program_path: str | None = None) -> None:
         self._program_path = program_path or os.path.join(
             os.path.dirname(__file__), "..", "..", "..", "data", "program.json"
         )
-        self._program: Optional[dict] = None
+        self._program: dict | None = None
 
     @property
     def program_path(self) -> str:

@@ -105,7 +105,7 @@ class ShadowTokens:
 class Theme:
     name: str
     colors: ColorTokens
-    dark_colors: Optional[ColorTokens] = None
+    dark_colors: ColorTokens | None = None
     typography: TypographyTokens = field(default_factory=TypographyTokens)
     spacing: SpacingTokens = field(default_factory=SpacingTokens)
     radius: BorderRadiusTokens = field(default_factory=BorderRadiusTokens)
@@ -142,13 +142,13 @@ DARK_THEME = Theme(
 
 
 class ThemeManager:
-    _instance: Optional["ThemeManager"] = None
+    _instance: ThemeManager | None = None
 
-    def __new__(cls) -> "ThemeManager":
+    def __new__(cls) -> ThemeManager:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance._themes: dict[str, Theme] = {}
-            cls._instance._current: Optional[Theme] = None
+            cls._instance._current: Theme | None = None
         return cls._instance
 
     def __init__(self) -> None:

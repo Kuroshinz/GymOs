@@ -9,7 +9,6 @@ import pytest
 
 from shared.interfaces import INutritionProvider
 
-
 # ── Event bus fixture ──────────────────────────────────────────────
 
 @pytest.fixture

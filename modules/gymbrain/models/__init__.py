@@ -1,19 +1,19 @@
-from modules.gymbrain.models.recommendations import (
-    Recommendation,
-    RecommendationCategory,
-    RecommendationPriority,
-    RecommendationAction,
-    RecommendationEvidence,
-)
 from modules.gymbrain.models.analysis import (
     FatigueLevel,
     FatigueResult,
+    GoalProgress,
+    MuscleAnalysisResult,
+    MuscleStatus,
     PlateauResult,
     PlateauType,
-    MuscleStatus,
-    MuscleAnalysisResult,
-    GoalProgress,
     WeeklyReview,
+)
+from modules.gymbrain.models.recommendations import (
+    Recommendation,
+    RecommendationAction,
+    RecommendationCategory,
+    RecommendationEvidence,
+    RecommendationPriority,
 )
 
 __all__ = [

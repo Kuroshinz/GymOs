@@ -113,7 +113,7 @@ class ConsistencyRule(BaseRule):
             return RuleResult()
 
         week_sessions = [s for s in sessions if hasattr(s, "started_at")]
-        from datetime import datetime, timedelta
+        from datetime import datetime
         now = datetime.now()
 
         weeks: dict[int, int] = {}
@@ -145,8 +145,8 @@ class ConsistencyRule(BaseRule):
                 category=RecommendationCategory.CONSISTENCY,
                 priority=priority,
                 title=title,
-                description=f"You completed fewer sessions than your program prescribes. "
-                            f"Consistency is the most important factor for hypertrophy.",
+                description="You completed fewer sessions than your program prescribes. "
+                            "Consistency is the most important factor for hypertrophy.",
                 reason="; ".join(missed),
                 confidence=0.80,
                 evidence=missed,

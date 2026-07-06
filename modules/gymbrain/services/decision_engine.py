@@ -7,18 +7,27 @@ from modules.gymbrain.analysis.goals import GoalTracker
 from modules.gymbrain.analysis.muscle import MuscleAnalyzer
 from modules.gymbrain.analysis.plateau import PlateauDetector
 from modules.gymbrain.cache.analysis_cache import AnalysisCache
-from modules.gymbrain.providers.production_provider import ProductionDataProvider
-from modules.gymbrain.services.weekly_review import WeeklyReviewGenerator
-from modules.gymbrain.models.analysis import FatigueResult, GoalProgress, MuscleAnalysisResult, PlateauResult, WeeklyReview
+from modules.gymbrain.models.analysis import (
+    FatigueResult,
+    GoalProgress,
+    MuscleAnalysisResult,
+    PlateauResult,
+    WeeklyReview,
+)
 from modules.gymbrain.models.recommendations import Recommendation
 from modules.gymbrain.providers.data_provider import DataProvider
+from modules.gymbrain.providers.production_provider import ProductionDataProvider
 from modules.gymbrain.rules.engine import RuleEngine
-from modules.gymbrain.rules.volume_rules import VolumeRule, VolumeExcessRule, FrequencyRule
-from modules.gymbrain.rules.progression_rules import ProgressionRule, DeloadRule
-from modules.gymbrain.rules.plateau_rules import WeightPlateauRule, StrengthPlateauRule, RepPlateauRule
-from modules.gymbrain.rules.fatigue_rules import FatigueRule, TechniqueRule, RestRule
-from modules.gymbrain.rules.recovery_rules import RecoveryRule, ConsistencyRule
-
+from modules.gymbrain.rules.fatigue_rules import FatigueRule, RestRule, TechniqueRule
+from modules.gymbrain.rules.plateau_rules import (
+    RepPlateauRule,
+    StrengthPlateauRule,
+    WeightPlateauRule,
+)
+from modules.gymbrain.rules.progression_rules import DeloadRule, ProgressionRule
+from modules.gymbrain.rules.recovery_rules import ConsistencyRule, RecoveryRule
+from modules.gymbrain.rules.volume_rules import FrequencyRule, VolumeExcessRule, VolumeRule
+from modules.gymbrain.services.weekly_review import WeeklyReviewGenerator
 
 
 class DecisionEngine:
@@ -57,6 +66,7 @@ class DecisionEngine:
         muscle_repo: Any = None,
         program_repo: Any = None,
         nutrition_provider: Any = None,
+        recovery_provider: Any = None,
         cache: AnalysisCache | None = None,
     ) -> DecisionEngine:
         """Build a fully-wired DecisionEngine backed by production infrastructure.
@@ -70,8 +80,8 @@ class DecisionEngine:
             engine = DecisionEngine.from_production(db=GymDatabase("data/gymos.db"))
         """
         from modules.workout.application.pr_engine import PREngine
-        from modules.workout.application.recovery_engine import RecoveryEngine
         from modules.workout.application.progression_engine import ProgressionEngine
+        from modules.workout.application.recovery_engine import RecoveryEngine
 
         # Auto-create engines from db if not provided
         pr_engine = pr_engine or PREngine(db)
@@ -90,6 +100,8 @@ class DecisionEngine:
             progression_engine=progression_engine,
             nutrition_provider=nutrition_provider,
         )
+        if recovery_provider:
+            provider.recovery_provider = recovery_provider
         return cls(provider=provider, cache=cache)
 
     def _register_default_rules(self) -> None:
