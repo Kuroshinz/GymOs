@@ -6,7 +6,8 @@ from PySide6.QtCore import QRectF, Qt
 from PySide6.QtGui import QColor, QPainter, QPen
 from PySide6.QtWidgets import QWidget
 
-from ui.visualization.core.base import RADIUS, BaseVisualization, radius_to_px
+from ui.design_system.tokens.radius import radius_to_px
+from ui.visualization.core.base import RADIUS, BaseVisualization
 
 
 class MesocycleTimeline(BaseVisualization):
