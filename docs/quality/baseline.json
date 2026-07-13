@@ -1,0 +1,119 @@
+{
+  "meta": {
+    "rep": "REP-005",
+    "date": "2026-07-06",
+    "version": "0.5.0",
+    "commit": "a848868",
+    "generated_by": "REP-005_baseline"
+  },
+  "import_verification": {
+    "import_main": true,
+    "circular_imports": false,
+    "errors": []
+  },
+  "ruff": {
+    "version": "0.15.20",
+    "total_violations": 353,
+    "categories": {
+      "F401": {"count": 107, "description": "unused-import"},
+      "N802": {"count": 71, "description": "invalid-function-name"},
+      "F841": {"count": 61, "description": "unused-variable"},
+      "B007": {"count": 26, "description": "unused-loop-control-variable"},
+      "B008": {"count": 16, "description": "function-call-in-default-argument"},
+      "SIM105": {"count": 16, "description": "suppressible-exception"},
+      "SIM102": {"count": 10, "description": "collapsible-if"},
+      "SIM108": {"count": 9, "description": "if-else-block-instead-of-if-exp"},
+      "B905": {"count": 7, "description": "zip-without-explicit-strict"},
+      "F821": {"count": 6, "description": "undefined-name"},
+      "B904": {"count": 4, "description": "raise-without-from-inside-except"},
+      "E402": {"count": 4, "description": "module-import-not-at-top-of-file"},
+      "E741": {"count": 4, "description": "ambiguous-variable-name"},
+      "E712": {"count": 2, "description": "true-false-comparison"},
+      "E731": {"count": 2, "description": "lambda-assignment"},
+      "N817": {"count": 2, "description": "camelcase-imported-as-acronym"},
+      "UP042": {"count": 2, "description": "replace-str-enum"},
+      "N801": {"count": 1, "description": "invalid-class-name"},
+      "SIM103": {"count": 1, "description": "needless-bool"},
+      "SIM110": {"count": 1, "description": "reimplemented-builtin"},
+      "UP035": {"count": 1, "description": "deprecated-import"}
+    }
+  },
+  "mypy": {
+    "version": "2.1.0",
+    "config": "python_version=3.11, ignore_missing_imports=true, exclude=tests,scripts,alembic",
+    "total_errors": 1109,
+    "files_with_errors": 205,
+    "total_modules_checked": 549,
+    "top_20_modules": [
+      {"errors": 109, "module": "ui/visualization/gallery/gallery_page.py"},
+      {"errors": 57, "module": "shared/capabilities/__init__.py"},
+      {"errors": 25, "module": "ui/dashboard/dashboard_widgets/goal_progress_widget.py"},
+      {"errors": 21, "module": "core/cache/__init__.py"},
+      {"errors": 18, "module": "ui/dashboard/dashboard_widgets/nutrition_widget.py"},
+      {"errors": 17, "module": "ui/dashboard/dashboard_widgets/volume_widget.py"},
+      {"errors": 16, "module": "shared/knowledge_loader.py"},
+      {"errors": 16, "module": "ui/experience/welcome_wizard.py"},
+      {"errors": 16, "module": "ui/design_system/layout/kpi_strip.py"},
+      {"errors": 15, "module": "ui/command_center/controller.py"},
+      {"errors": 14, "module": "ui/experience/interaction_engine.py"},
+      {"errors": 14, "module": "ui/dashboard/dashboard_widgets/workout_widget.py"},
+      {"errors": 14, "module": "shared/explainability/reports.py"},
+      {"errors": 14, "module": "ui/command_center/pages/adaptive_center_page.py"},
+      {"errors": 14, "module": "ui/command_center/pages/system_center_page.py"},
+      {"errors": 14, "module": "ui/command_center/pages/knowledge_center_page.py"},
+      {"errors": 14, "module": "ui/command_center/pages/analytics_center_page.py"},
+      {"errors": 13, "module": "ui/dashboard/dashboard_widgets/quick_actions_widget.py"},
+      {"errors": 13, "module": "ui/dashboard/dashboard_widgets/priority_muscles_widget.py"}
+    ]
+  },
+  "pytest": {
+    "total": 3377,
+    "passed": 3375,
+    "failed": 0,
+    "skipped": 2,
+    "xfailed": 0,
+    "runtime_seconds": 37.07
+  },
+  "runtime": {
+    "startup_ms": 2550,
+    "import_ms": 2217,
+    "infrastructure_ms": 69,
+    "database_ms": 6,
+    "program_manager_ms": 35,
+    "services_ms": 15,
+    "decision_engine_ms": 0.3,
+    "main_window_ms": 208,
+    "memory_import_mb": 147.0,
+    "memory_full_mb": 174.6,
+    "memory_delta_mb": 27.6,
+    "widget_count": 568,
+    "top_level_windows": 47,
+    "startup_sequence_ok": true,
+    "shutdown_ok": true
+  },
+  "documentation_audit": {
+    "version_consistency": true,
+    "adr_on_disk": 24,
+    "adr_indexed": 11,
+    "adr_index_coverage_pct": 45.8,
+    "rfc_registered": 5,
+    "rfc_references": 98,
+    "capability_registry_symbols": 28,
+    "roadmap_consistent": true
+  },
+  "scores": {
+    "test_health": {"pass_rate_pct": 99.94, "grade": "A"},
+    "code_quality": {"ruff_violations": 353, "grade": "C"},
+    "type_safety": {"mypy_errors": 1109, "grade": "F"},
+    "runtime_health": {"startup_ms": 2550, "memory_mb": 174.6, "grade": "B"},
+    "documentation": {"adr_index_pct": 45.8, "grade": "C"},
+    "import_integrity": {"circular_imports": false, "grade": "A"}
+  },
+  "known_issues": [
+    "main.py:47 conn.execute('SELECT 1') requires text() wrapper for SQLAlchemy 2.x compliance",
+    "6 shortcuts registered without parent widget",
+    "ADR index coverage 46% (11/24)",
+    "DashboardDataService silent exceptions (KNOWN_LIMITATIONS.md H1)",
+    "ProductionProvider silent exceptions (KNOWN_LIMITATIONS.md H2)"
+  ]
+}

@@ -17,6 +17,7 @@ from modules.recovery.infrastructure.repository import RecoveryRepository
 from modules.workout.infrastructure.models import init_db
 from modules.workout.infrastructure.repository import GymDatabase
 from modules.workout_program.manager import ProgramManager
+from sqlalchemy import text
 from shared.crash.handler import install_global_handler, register_cleanup, safe_shutdown
 from shared.crash.recovery import show_recovery_dialog_if_needed
 from shared.database.compatibility import all_compatible
@@ -44,7 +45,7 @@ def init_infrastructure(db_path: str = DB_PATH) -> None:
 
     engine = create_safe_engine(db_path)
     with engine.connect() as conn:
-        conn.execute("SELECT 1")
+        conn.execute(text("SELECT 1"))
 
     if not all_compatible(engine):
         logger.warning("Database compatibility check failed — attempting migration")

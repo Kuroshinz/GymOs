@@ -41,36 +41,36 @@ class CommandCenterService:
         data = CommandCenterData()
         try:
             data.mission = self._mission.fetch()
-        except Exception as e:
-            data.errors.append(f"mission: {e}")
+        except Exception:
+            logger.exception("Command Center: mission service failed")
         try:
             data.planning = self._planning.fetch()
-        except Exception as e:
-            data.errors.append(f"planning: {e}")
+        except Exception:
+            logger.exception("Command Center: planning service failed")
         try:
             data.prediction = self._prediction.fetch()
-        except Exception as e:
-            data.errors.append(f"prediction: {e}")
+        except Exception:
+            logger.exception("Command Center: prediction service failed")
         try:
             data.recovery = self._recovery.fetch()
-        except Exception as e:
-            data.errors.append(f"recovery: {e}")
+        except Exception:
+            logger.exception("Command Center: recovery service failed")
         try:
             data.knowledge = self._knowledge.fetch()
-        except Exception as e:
-            data.errors.append(f"knowledge: {e}")
+        except Exception:
+            logger.exception("Command Center: knowledge service failed")
         try:
             data.adaptive = self._adaptive.fetch()
-        except Exception as e:
-            data.errors.append(f"adaptive: {e}")
+        except Exception:
+            logger.exception("Command Center: adaptive service failed")
         try:
             data.analytics = self._analytics.fetch()
-        except Exception as e:
-            data.errors.append(f"analytics: {e}")
+        except Exception:
+            logger.exception("Command Center: analytics service failed")
         try:
             data.system = self._system.fetch()
-        except Exception as e:
-            data.errors.append(f"system: {e}")
+        except Exception:
+            logger.exception("Command Center: system service failed")
         return data
 
     def refresh_section(self, data: CommandCenterData, section: str) -> None:
@@ -91,5 +91,5 @@ class CommandCenterService:
                 data.analytics = self._analytics.fetch()
             elif section == "system":
                 data.system = self._system.fetch()
-        except Exception as e:
-            data.errors.append(f"{section}: {e}")
+        except Exception:
+            logger.exception("Command Center: refresh section %s failed", section)

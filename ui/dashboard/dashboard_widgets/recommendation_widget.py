@@ -174,9 +174,10 @@ class RecommendationWidget(DashboardCard):
             reason_label.setWordWrap(True)
             self._content.addWidget(reason_label)
 
-        # Rule name
-        if rule_name:
-            rule_label = QLabel(rule_name)
+        # Rule name — only show if it looks user-friendly
+        if rule_name and not rule_name.startswith("_"):
+            display_rule = rule_name.replace("_", " ").replace(".", " · ").title()
+            rule_label = QLabel(display_rule)
             rule_label.setStyleSheet(self.RULE_STYLE)
             self._content.addWidget(rule_label)
 
@@ -207,7 +208,7 @@ class RecommendationWidget(DashboardCard):
             self._content.addWidget(toggle_btn)
 
             ev_text = "\n".join(
-                [str(e) for e in evidence[:5]]
+                getattr(e, "label", str(e)) for e in evidence[:5]
             )
             self._evidence_label = QLabel(ev_text)
             self._evidence_label.setStyleSheet(self.EVIDENCE_STYLE)

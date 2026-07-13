@@ -222,8 +222,13 @@ class ImportWizard(QWizard):
         try:
             preview = self._prog_mgr.preview(filepath)
             self._preview_page.set_preview(preview)
-        except Exception as e:
-            QMessageBox.critical(self, "Import Error", f"Failed to parse file:\n{e}")
+        except Exception:
+            import logging
+            logging.getLogger(__name__).exception("Preview failed")
+            QMessageBox.critical(self, "Import Error",
+                "Could not read the selected file. "
+                "Please make sure it is a valid workout program "
+                "(.xlsx, .json, .yaml) and try again.")
             self.back()
 
     def _do_import(self):
@@ -237,6 +242,9 @@ class ImportWizard(QWizard):
                 self._progress_page._progress.setValue(100)
             else:
                 self._progress_page.set_errors(result.errors)
-        except Exception as e:
-            self._progress_page._status_label.setText(f"Import failed: {e}")
+        except Exception:
+            import logging
+            logging.getLogger(__name__).exception("Import failed")
+            self._progress_page._status_label.setText(
+                "Import failed. Please check the file and try again.")
             self._progress_page._status_label.setStyleSheet("color: #F87171; font-size: 14px;")

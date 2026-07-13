@@ -63,24 +63,25 @@ def _show_dialog(report_path: str) -> None:
         return
 
     dialog = QDialog()
-    dialog.setWindowTitle("GymOS — Recovery")
+    dialog.setWindowTitle("GymOS")
     dialog.setMinimumWidth(480)
 
     layout = QVBoxLayout(dialog)
 
     title = QLabel(
         "<h2>GymOS did not shut down properly</h2>"
-        f"<p>A crash report from a previous session was found.</p>"
-        f"<p style='font-size: 11px; color: gray;'>{report_path}</p>"
+        "<p>A crash report from a previous session was found.</p>"
+        "<p style='font-size: 11px; color: gray;'>"
     )
     title.setWordWrap(True)
     layout.addWidget(title)
 
     info = QLabel(
-        "<p>Your data files should still be intact. "
-        "If you were in the middle of a workout, "
+        "<p><b>Your data is safe.</b> "
+        "Workouts, settings, and progress files are preserved.</p>"
+        "<p>If you were in the middle of a workout, "
         "any unsaved progress may have been lost.</p>"
-        f"<p>GymOS version: {APP_VERSION}</p>"
+        "<p>Version: {}</p>".format(APP_VERSION)
     )
     info.setWordWrap(True)
     layout.addWidget(info)

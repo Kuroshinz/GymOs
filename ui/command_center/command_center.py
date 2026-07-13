@@ -325,9 +325,9 @@ class CommandCenter(QWidget):
             stats = kg.get_statistics() if hasattr(kg, "get_statistics") else {}
             nodes = stats.get("total_nodes", 0) if isinstance(stats, dict) else 0
             edges = stats.get("total_edges", 0) if isinstance(stats, dict) else 0
-            QMessageBox.information(self, "Knowledge Graph", f"Graph: {nodes} nodes, {edges} edges")
+            QMessageBox.information(self, "Knowledge Graph", f"{nodes} topics, {edges} connections")
         except Exception:
-            QMessageBox.information(self, "Knowledge Graph", "Graph engine available")
+            QMessageBox.information(self, "Knowledge Graph", "Knowledge graph is ready")
 
     def _on_search_knowledge(self) -> None:
         from PySide6.QtWidgets import QInputDialog as QID
@@ -349,7 +349,9 @@ class CommandCenter(QWidget):
         self._on_run_scenario()
 
     def _on_compare_periods(self) -> None:
-        QMessageBox.information(self, "Compare Periods", "Period comparison mode toggled")
+        QMessageBox.information(self, "Compare Periods",
+            "Select two date ranges to compare. "
+            "This feature is available in a future update.")
 
     def _on_view_logs(self) -> None:
         dlg = SystemLogViewerDialog(parent=self)
@@ -365,18 +367,17 @@ class CommandCenter(QWidget):
             arch = getattr(health, "architecture_health", 0.0)
             eng = getattr(health, "engineering_health", 0.0)
             msg = (
-                f"Product Health:\n"
+                f"System Status:\n"
                 f"  Overall: {overall:.1f}%\n"
-                f"  Architecture: {arch:.1f}%\n"
-                f"  Engineering: {eng:.1f}%"
+                f"  Stability: {arch:.1f}%\n"
+                f"  Performance: {eng:.1f}%"
             )
-            QMessageBox.information(self, "Diagnostics", msg)
+            QMessageBox.information(self, "System Status", msg)
         except Exception:
             QMessageBox.information(self, "Diagnostics", "Health engine not available.")
 
     def _on_generate_briefing(self) -> None:
-        self.refresh()
-        QMessageBox.information(self, "Briefing", "Briefing generated from latest data.")
+        self._navigate("prediction")
 
     def _on_configure_ai(self) -> None:
         dlg = AIConfigurationDialog(parent=self)

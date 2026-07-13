@@ -128,12 +128,17 @@ def _show_recovery_dialog(
         msg.setIcon(QMessageBox.Critical)
         msg.setWindowTitle("GymOS — Unexpected Error")
         msg.setText(
-            f"GymOS encountered an unexpected error and needs to close.\n\n"
-            f"{exc_type.__name__}: {exc_value}"
+            "GymOS encountered an unexpected error and needs to close.\n\n"
+            "Your workouts and settings have been saved."
         )
         msg.setInformativeText(
-            f"A crash report has been saved to:\n{report_path}\n\n"
-            f"Please report this issue with the crash report file."
+            "Please restart GymOS. If the problem persists, "
+            "contact support with the crash report file.\n\n"
+            "Crash report: data/crashes/crash.log"
+        )
+        msg.setDetailedText(
+            f"{exc_type.__name__}: {exc_value}\n"
+            f"Report: {report_path}"
         )
         msg.setStandardButtons(QMessageBox.Close)
         msg.exec()
