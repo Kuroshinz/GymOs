@@ -9,30 +9,30 @@ from PySide6.QtWidgets import QGraphicsDropShadowEffect, QWidget
 
 @dataclass(frozen=True)
 class GlowTokens:
-    primary: str = "rgba(129, 140, 248, 0.25)"
-    goal: str = "rgba(245, 166, 35, 0.2)"
-    success: str = "rgba(52, 211, 153, 0.2)"
-    pr: str = "rgba(52, 211, 153, 0.25)"
-    warning: str = "rgba(245, 166, 35, 0.15)"
-    focus: str = "rgba(129, 140, 248, 0.4)"
+    primary: str = "rgba(124, 58, 237, 0.35)"
+    goal: str = "rgba(251, 191, 36, 0.2)"
+    success: str = "rgba(52, 211, 153, 0.25)"
+    pr: str = "rgba(192, 132, 252, 0.3)"
+    warning: str = "rgba(251, 191, 36, 0.15)"
+    focus: str = "rgba(124, 58, 237, 0.5)"
 
 
 _SHADOW_PARAMS: dict[int, tuple[int, int, int, float]] = {
     0: (0, 0, 0, 0.0),
-    1: (0, 1, 4, 0.15),
-    2: (0, 2, 8, 0.2),
-    3: (0, 4, 16, 0.3),
-    4: (0, 8, 24, 0.35),
-    5: (0, 12, 32, 0.4),
+    1: (0, 1, 4, 0.12),
+    2: (0, 2, 8, 0.15),
+    3: (0, 4, 16, 0.2),
+    4: (0, 8, 24, 0.25),
+    5: (0, 12, 32, 0.3),
 }
 
 _DARK_SHADOW_PARAMS: dict[int, tuple[int, int, int, float]] = {
     0: (0, 0, 0, 0.0),
-    1: (0, 1, 4, 0.08),
-    2: (0, 2, 8, 0.12),
-    3: (0, 4, 16, 0.15),
-    4: (0, 8, 24, 0.2),
-    5: (0, 12, 32, 0.25),
+    1: (0, 1, 6, 0.05),
+    2: (0, 2, 12, 0.08),
+    3: (0, 4, 20, 0.10),
+    4: (0, 8, 32, 0.12),
+    5: (0, 16, 48, 0.15),
 }
 
 _LIGHT_SHADOW_PARAMS: dict[int, tuple[int, int, int, float]] = {

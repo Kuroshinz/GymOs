@@ -222,8 +222,8 @@ class DashboardView(QWidget):
         self._hero_frame.setStyleSheet(f"""
             QFrame#HeroFrame {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 #0C1033, stop:0.35 #14104A,
-                    stop:0.7 #1A0D44, stop:1 #0A0E28);
+                    stop:0 rgba(12,16,51,0.85), stop:0.35 rgba(20,16,74,0.7),
+                    stop:0.7 rgba(26,13,68,0.6), stop:1 rgba(10,14,40,0.5));
                 border-radius: {R.xl};
                 border: 1px solid rgba(139, 92, 246, 0.10);
             }}
@@ -272,7 +272,7 @@ class DashboardView(QWidget):
         top_row.addLayout(rings_area)
         hero_layout.addLayout(top_row)
 
-        hero_layout.addSpacing(_px12)
+        hero_layout.addSpacing(_px16)
 
         # Motivational prediction sentence
         self._hero_prediction = QLabel("")
@@ -335,25 +335,25 @@ class DashboardView(QWidget):
 
         self._hero_start_btn = QPushButton("  \u25B6  Start Workout")
         self._hero_start_btn.setCursor(Qt.PointingHandCursor)
-        self._hero_start_btn.setFixedHeight(48)
+        self._hero_start_btn.setFixedHeight(52)
         self._hero_start_btn.setMinimumWidth(200)
         self._hero_start_btn.setStyleSheet(f"""
             QPushButton {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                    stop:0 #8B5CF6, stop:0.5 #A855F7, stop:1 #D946EF);
+                    stop:0 rgba(139,92,246,0.9), stop:0.5 rgba(168,85,247,0.85), stop:1 rgba(217,70,239,0.8));
                 color: #FFFFFF;
-                border: none;
-                border-radius: {R.lg};
-                padding: 0 {S.s6};
+                border: 1px solid rgba(255,255,255,0.08);
+                border-radius: {R.size_2xl};
+                padding: 0 {S.s7};
                 {font_style('body', 'bold')}
             }}
             QPushButton:hover {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                    stop:0 #A78BFA, stop:0.5 #C084FC, stop:1 #E879F9);
+                    stop:0 rgba(167,139,250,0.9), stop:0.5 rgba(192,132,252,0.85), stop:1 rgba(232,121,249,0.8));
             }}
             QPushButton:pressed {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                    stop:0 #7C3AED, stop:0.5 #9333EA, stop:1 #C026D3);
+                    stop:0 rgba(124,58,237,0.95), stop:0.5 rgba(147,51,234,0.9), stop:1 rgba(192,38,211,0.85));
             }}
             QPushButton:focus {{
                 border: 2px solid #A78BFA;
@@ -366,14 +366,14 @@ class DashboardView(QWidget):
 
         self._hero_review_btn = QPushButton("  \u270F  Review Week")
         self._hero_review_btn.setCursor(Qt.PointingHandCursor)
-        self._hero_review_btn.setFixedHeight(48)
+        self._hero_review_btn.setFixedHeight(52)
         self._hero_review_btn.setStyleSheet(f"""
             QPushButton {{
                 background-color: transparent;
                 color: {colors.text_primary};
                 border: 1px solid rgba(139, 92, 246, 0.12);
-                border-radius: {R.lg};
-                padding: 0 {S.s6};
+                border-radius: {R.size_2xl};
+                padding: 0 {S.s7};
                 {font_style('body', 'bold')}
             }}
             QPushButton:hover {{
@@ -402,10 +402,10 @@ class DashboardView(QWidget):
         self._mission_card.setStyleSheet(f"""
             AppCard {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 #0C1033, stop:0.4 #110D3D,
-                    stop:0.75 #160A38, stop:1 #0A0E28);
+                    stop:0 rgba(12,16,51,0.85), stop:0.4 rgba(17,13,61,0.7),
+                    stop:0.75 rgba(22,10,56,0.6), stop:1 rgba(10,14,40,0.5));
                 border-radius: {R.xl};
-                border: 1px solid rgba(139, 92, 246, 0.08);
+                border: 1px solid rgba(139, 92, 246, 0.10);
             }}
         """)
 
@@ -445,21 +445,21 @@ class DashboardView(QWidget):
 
         self._mission_start_btn = QPushButton("  \u25B6  Start Workout")
         self._mission_start_btn.setCursor(Qt.PointingHandCursor)
-        self._mission_start_btn.setFixedHeight(48)
+        self._mission_start_btn.setFixedHeight(52)
         self._mission_start_btn.setMinimumWidth(200)
         self._mission_start_btn.setStyleSheet(f"""
             QPushButton {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                    stop:0 #8B5CF6, stop:0.5 #A855F7, stop:1 #D946EF);
+                    stop:0 rgba(139,92,246,0.9), stop:0.5 rgba(168,85,247,0.85), stop:1 rgba(217,70,239,0.8));
                 color: #FFFFFF;
-                border: none;
-                border-radius: {R.lg};
-                padding: 0 {S.s6};
+                border: 1px solid rgba(255,255,255,0.08);
+                border-radius: {R.size_2xl};
+                padding: 0 {S.s7};
                 {font_style('body', 'bold')}
             }}
             QPushButton:hover {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                    stop:0 #A78BFA, stop:0.5 #C084FC, stop:1 #E879F9);
+                    stop:0 rgba(167,139,250,0.9), stop:0.5 rgba(192,132,252,0.85), stop:1 rgba(232,121,249,0.8));
             }}
             QPushButton:focus {{
                 border: 2px solid #A78BFA;
@@ -505,7 +505,7 @@ class DashboardView(QWidget):
         self._recovery_card.setStyleSheet(f"""
             AppCard {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 #0C1033, stop:1 #080C24);
+                    stop:0 rgba(12,16,51,0.8), stop:1 rgba(8,12,36,0.5));
                 border-radius: {R.lg};
                 border: 1px solid rgba(139, 92, 246, 0.08);
             }}
@@ -554,8 +554,8 @@ class DashboardView(QWidget):
         self._coach_card.setStyleSheet(f"""
             AppCard {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 #110D3D, stop:0.5 #14104A,
-                    stop:0.8 #160A38, stop:1 #0C1033);
+                    stop:0 rgba(17,13,61,0.85), stop:0.5 rgba(20,16,74,0.7),
+                    stop:0.8 rgba(22,10,56,0.6), stop:1 rgba(12,16,51,0.5));
                 border-radius: {R.lg};
                 border: 1px solid rgba(139, 92, 246, 0.12);
             }}
@@ -588,7 +588,7 @@ class DashboardView(QWidget):
         self._progress_card.setStyleSheet(f"""
             AppCard {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 #0C1033, stop:1 #080C24);
+                    stop:0 rgba(12,16,51,0.8), stop:1 rgba(8,12,36,0.5));
                 border-radius: {R.lg};
                 border: 1px solid rgba(139, 92, 246, 0.08);
             }}
@@ -683,7 +683,7 @@ class DashboardView(QWidget):
         self._predictions_card.setStyleSheet(f"""
             AppCard {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 #0C1033, stop:1 #080C24);
+                    stop:0 rgba(12,16,51,0.8), stop:1 rgba(8,12,36,0.5));
                 border-radius: {R.lg};
                 border: 1px solid rgba(139, 92, 246, 0.08);
             }}
@@ -738,15 +738,15 @@ class DashboardView(QWidget):
             card.clicked.connect(handler)
 
             if primary:
-                bg_grad = "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #8B5CF6, stop:0.6 #A855F7, stop:1 #D946EF)"
-                bg_hover_grad = "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #A78BFA, stop:0.6 #C084FC, stop:1 #E879F9)"
+                bg_grad = "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(139,92,246,0.9), stop:0.6 rgba(168,85,247,0.85), stop:1 rgba(217,70,239,0.8))"
+                bg_hover_grad = "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(167,139,250,0.9), stop:0.6 rgba(192,132,252,0.85), stop:1 rgba(232,121,249,0.8))"
                 bdr = "none"
                 txt = "#FFFFFF"
                 txt_desc = "rgba(255,255,255,0.7)"
             else:
-                bg_grad = "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #0C1033, stop:1 #080C24)"
-                bg_hover_grad = "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #14184A, stop:1 #0C1033)"
-                bdr = "1px solid rgba(139, 92, 246, 0.08)"
+                bg_grad = "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(12,16,51,0.8), stop:1 rgba(8,12,36,0.5))"
+                bg_hover_grad = "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(20,24,74,0.8), stop:1 rgba(12,16,51,0.6))"
+                bdr = "1px solid rgba(139, 92, 246, 0.10)"
                 txt = "#F1F5F9"
                 txt_desc = "#64748B"
 

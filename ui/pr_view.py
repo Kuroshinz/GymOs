@@ -14,7 +14,11 @@ from PySide6.QtWidgets import (
 )
 
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
+from ui.design_system.tokens.radius import RadiusTokens
 from ui.design_system.tokens.typography import font_style
+
+
+R = RadiusTokens()
 
 
 class PRCard(QFrame):
@@ -37,7 +41,7 @@ class PRCard(QFrame):
             PRCard {{
                 background-color: {c.surface_elevated};
                 border: 1px solid {c.border};
-                border-radius: 12px;
+                border-radius: {R.lg};
                 padding: 16px;
             }}
             PRCard:focus {{

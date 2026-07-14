@@ -6,11 +6,11 @@ from dataclasses import dataclass
 @dataclass(frozen=True)
 class RadiusTokens:
     none: str = "0px"
-    sm: str = "0.25rem"
-    md: str = "0.5rem"
-    lg: str = "0.75rem"
-    xl: str = "1rem"
-    size_2xl: str = "1.5rem"
+    sm: str = "0.375rem"
+    md: str = "0.625rem"
+    lg: str = "1rem"
+    xl: str = "1.25rem"
+    size_2xl: str = "1.75rem"
     full: str = "9999px"
 
 
