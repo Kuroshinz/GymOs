@@ -159,7 +159,7 @@ class SettingsExperience(QWidget):
                 color: {colors.text_primary};
                 border: 1px solid {colors.border};
                 border-radius: {R.md};
-                padding: 6px 12px;
+                padding: 0 12px;
                 {font_style('body_small')}
                 min-width: 140px;
             }}
@@ -180,10 +180,10 @@ class SettingsExperience(QWidget):
         btn.setStyleSheet(f"""
             QPushButton {{
                 background-color: {colors.primary};
-                color: #FFFFFF;
+                color: {colors.text_inverse};
                 border: 1px solid transparent;
                 border-radius: {R.md};
-                padding: 8px 20px;
+                padding: 0 20px;
                 {font_style('body_small', 'bold')}
             }}
             QPushButton:hover {{ background-color: {colors.primary_hover}; }}
@@ -206,7 +206,7 @@ class SettingsExperience(QWidget):
                 color: {colors.text_primary};
                 border: 1px solid {colors.border};
                 border-radius: {R.md};
-                padding: 8px 20px;
+                padding: 0 20px;
                 {font_style('body_small')}
             }}
             QPushButton:hover {{ background-color: {colors.surface_hover}; border-color: {colors.border_hover}; }}
@@ -239,7 +239,7 @@ class SettingsExperience(QWidget):
 
         accent = QFrame()
         accent.setFixedWidth(4)
-        accent.setStyleSheet(f"background-color: {colors.accent}; border-radius: 2px; border: none;")
+        accent.setStyleSheet(f"background-color: {colors.accent}; border-radius: {R.sm}; border: none;")
         hero_layout.addWidget(accent)
 
         text_area = QVBoxLayout()
@@ -414,7 +414,7 @@ class SettingsExperience(QWidget):
                     width: 18px;
                     height: 18px;
                     border: 2px solid {colors.border};
-                    border-radius: 4px;
+                    border-radius: {R.sm};
                     background-color: transparent;
                 }}
                 QCheckBox::indicator:hover {{

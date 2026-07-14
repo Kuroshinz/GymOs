@@ -160,7 +160,7 @@ class PredictionDashboard(QWidget):
 
         accent = QFrame()
         accent.setFixedWidth(4)
-        accent.setStyleSheet(f"background-color: {colors.secondary}; border-radius: 2px; border: none;")
+        accent.setStyleSheet(f"background-color: {colors.secondary}; border-radius: {R.sm}; border: none;")
         hero_layout.addWidget(accent)
 
         text_area = QVBoxLayout()

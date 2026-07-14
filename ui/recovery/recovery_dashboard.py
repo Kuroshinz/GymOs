@@ -117,7 +117,7 @@ class RecoveryDashboard(QWidget):
 
         accent = QFrame()
         accent.setFixedWidth(4)
-        accent.setStyleSheet(f"background-color: {colors.primary}; border-radius: 2px; border: none;")
+        accent.setStyleSheet(f"background-color: {colors.primary}; border-radius: {R.sm}; border: none;")
         hero_layout.addWidget(accent)
 
         text_area = QVBoxLayout()

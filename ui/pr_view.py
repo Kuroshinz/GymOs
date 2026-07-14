@@ -73,7 +73,7 @@ class PRCard(QFrame):
         type_label = QLabel(pr_type_label)
         type_label.setAccessibleName(f"PR type: {pr_type_label}")
         type_label.setStyleSheet(f"color: {color}; font-size: 11px; font-weight: 600; "
-                                 f"background-color: {c.surface}; border-radius: 4px; "
+                                 f"background-color: {c.surface}; border-radius: {R.sm}; "
                                  f"padding: 2px 8px;")
         row1.addWidget(type_label)
         row1.addStretch()

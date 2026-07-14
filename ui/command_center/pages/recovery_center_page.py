@@ -13,6 +13,10 @@ from ui.design_system.layout import (
 )
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.design_system.visualization import WeeklyTimeline
+from ui.design_system.tokens.radius import RadiusTokens
+
+R = RadiusTokens()
+
 
 
 class RecoveryCenterPage(QWidget):
@@ -87,7 +91,7 @@ class RecoveryCenterPage(QWidget):
         self._score_bar.setStyleSheet(f"""
             QFrame {{
                 background-color: {colors.border};
-                border-radius: 3px;
+                border-radius: {R.sm};
                 border: none;
             }}
         """)
@@ -96,7 +100,7 @@ class RecoveryCenterPage(QWidget):
         self._score_fill.setStyleSheet(f"""
             QFrame {{
                 background-color: {colors.warning};
-                border-radius: 3px;
+                border-radius: {R.sm};
                 border: none;
             }}
         """)
@@ -143,8 +147,8 @@ class RecoveryCenterPage(QWidget):
                 background-color: {colors.warning};
                 color: white;
                 border: none;
-                border-radius: 8px;
-                padding: 10px 24px;
+                border-radius: {R.lg};
+                padding: 0 24px;
                 font-size: 14px;
                 font-weight: 700;
             }}
@@ -161,8 +165,8 @@ class RecoveryCenterPage(QWidget):
                 background-color: transparent;
                 color: {colors.text_secondary};
                 border: 1px solid {colors.border};
-                border-radius: 8px;
-                padding: 8px 24px;
+                border-radius: {R.lg};
+                padding: 0 20px;
                 font-size: 13px;
                 font-weight: 500;
             }}
@@ -197,7 +201,7 @@ class RecoveryCenterPage(QWidget):
             card.setStyleSheet(f"""
                 QFrame {{
                     background-color: {colors.surface};
-                    border-radius: 8px;
+                    border-radius: {R.lg};
                     border: 1px solid {colors.border};
                 }}
             """)
@@ -218,13 +222,13 @@ class RecoveryCenterPage(QWidget):
             bar.setStyleSheet(f"""
                 QFrame {{
                     background-color: {colors.border};
-                    border-radius: 2px;
+                    border-radius: {R.sm};
                     border: none;
                 }}
             """)
             fill = QFrame(bar)
             fill.setFixedHeight(4)
-            fill.setStyleSheet(f"background-color: {bar_color}; border-radius: 2px; border: none;")
+            fill.setStyleSheet(f"background-color: {bar_color}; border-radius: {R.sm}; border: none;")
             fill.setFixedWidth(0)
             card_layout.addWidget(bar)
 
@@ -300,7 +304,7 @@ class RecoveryCenterPage(QWidget):
         self._score_fill.setFixedWidth(bar_width)
 
         bar_color = colors.success if score >= 70 else colors.warning if score >= 40 else colors.error
-        self._score_fill.setStyleSheet(f"background-color: {bar_color}; border-radius: 3px; border: none;")
+        self._score_fill.setStyleSheet(f"background-color: {bar_color}; border-radius: {R.sm}; border: none;")
 
         sleep = recovery_data.get("sleep_score", 0.0) or 0.0
         stress = recovery_data.get("stress_score", 0.0) or 0.0

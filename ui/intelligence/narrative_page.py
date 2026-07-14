@@ -14,6 +14,7 @@ from ui.design_system.layout import (
     SectionPanel,
 )
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
+from ui.design_system.tokens.radius import RadiusTokens
 from ui.narrative import (
     CoachCardStack,
     Narrative,
@@ -28,6 +29,11 @@ from ui.narrative import (
     risk_alerts,
     today_focus,
 )
+
+from ui.design_system.tokens.spacing import SpacingTokens
+
+S = SpacingTokens()
+R = RadiusTokens()
 
 
 def _dict_val(data: Any, key: str) -> dict:
@@ -126,8 +132,8 @@ class IntelligencePage(QWidget):
                 background-color: {colors.accent};
                 color: white;
                 border: none;
-                border-radius: 8px;
-                padding: 10px 24px;
+                border-radius: {R.lg};
+                padding: 0 24px;
                 font-size: 14px;
                 font-weight: 700;
             }}
@@ -144,8 +150,8 @@ class IntelligencePage(QWidget):
                 background-color: transparent;
                 color: {colors.text_secondary};
                 border: 1px solid {colors.border};
-                border-radius: 8px;
-                padding: 8px 24px;
+                border-radius: {R.lg};
+                padding: 0 20px;
                 font-size: 13px;
                 font-weight: 500;
             }}

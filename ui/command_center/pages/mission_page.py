@@ -14,6 +14,10 @@ from ui.design_system.layout import (
     SectionPanel,
 )
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
+from ui.design_system.tokens.radius import RadiusTokens
+
+R = RadiusTokens()
+
 
 
 class MissionPage(QWidget):
@@ -95,8 +99,8 @@ class MissionPage(QWidget):
                 background-color: {colors.success};
                 color: white;
                 border: none;
-                border-radius: 8px;
-                padding: 10px 24px;
+                border-radius: {R.lg};
+                padding: 0 24px;
                 font-size: 14px;
                 font-weight: 700;
             }}
@@ -113,8 +117,8 @@ class MissionPage(QWidget):
                 background-color: transparent;
                 color: {colors.text_secondary};
                 border: 1px solid {colors.border};
-                border-radius: 8px;
-                padding: 8px 24px;
+                border-radius: {R.lg};
+                padding: 0 20px;
                 font-size: 13px;
                 font-weight: 500;
             }}
@@ -144,7 +148,7 @@ class MissionPage(QWidget):
         self._progress_bar.setStyleSheet(f"""
             QFrame {{
                 background-color: {colors.border};
-                border-radius: 4px;
+                border-radius: {R.sm};
                 border: none;
             }}
         """)
@@ -153,7 +157,7 @@ class MissionPage(QWidget):
         self._progress_fill.setStyleSheet(f"""
             QFrame {{
                 background-color: {colors.success};
-                border-radius: 4px;
+                border-radius: {R.sm};
                 border: none;
             }}
         """)

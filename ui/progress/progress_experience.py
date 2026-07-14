@@ -97,7 +97,7 @@ class ProgressExperience(QWidget):
 
         accent = QFrame()
         accent.setFixedWidth(4)
-        accent.setStyleSheet(f"background-color: {colors.accent}; border-radius: 2px; border: none;")
+        accent.setStyleSheet(f"background-color: {colors.accent}; border-radius: {R.sm}; border: none;")
         hero_layout.addWidget(accent)
 
         text_area = QVBoxLayout()
@@ -167,7 +167,7 @@ class ProgressExperience(QWidget):
                 color: {colors.text_primary};
                 border: 1px solid {colors.border};
                 border-radius: {R.md};
-                padding: 6px 12px;
+                padding: 0 12px;
                 {font_style('body_small')}
                 min-width: 140px;
             }}
