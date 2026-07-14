@@ -28,7 +28,7 @@ class VolumeHeatmap(BaseVisualization):
         self._max_val = max(max_val, 1.0)
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()

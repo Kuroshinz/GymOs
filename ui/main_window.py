@@ -1,6 +1,6 @@
 """GymOS Main Window — sidebar navigation with stacked content views."""
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QTimer, Qt
 from PySide6.QtWidgets import (
     QFrame,
     QHBoxLayout,
@@ -14,14 +14,16 @@ from PySide6.QtWidgets import (
 )
 
 from ui.dashboard import DashboardView
+from ui.design_system.theme import global_stylesheet
+from ui.design_system.tokens.color import ColorScheme
 from ui.experience import ExperienceManager
 from ui.experience.integration import integrate_with_command_center
 from ui.import_wizard import ImportWizard
 from ui.pr_view import PRView
 from ui.prediction import PredictionDashboard, PredictionDashboardData
-from ui.progress_view import ProgressView
+from ui.progress import ProgressExperience
 from ui.recovery import RecoveryDashboard
-from ui.settings_view import SettingsView
+from ui.settings import SettingsExperience
 from ui.workout_selection_view import WorkoutSelectionView
 from ui.workout_view import WorkoutView
 
@@ -37,15 +39,21 @@ PAGE_INDEX = {
 
 
 class SidebarButton(QPushButton):
-    def __init__(self, text: str, parent=None):
+    def __init__(self, text: str, tooltip: str = "", parent=None):
         super().__init__(text, parent)
         self.setFixedHeight(48)
         self.setCursor(Qt.PointingHandCursor)
+        self.setFocusPolicy(Qt.StrongFocus)
+        if tooltip:
+            self.setToolTip(tooltip)
+        self._update_style()
+
+    def _update_style(self) -> None:
         self.setStyleSheet("""
             QPushButton {
                 background-color: transparent;
                 color: #94A3B8;
-                border: none;
+                border: 1px solid transparent;
                 border-radius: 8px;
                 padding: 8px 16px;
                 text-align: left;
@@ -56,12 +64,24 @@ class SidebarButton(QPushButton):
                 background-color: #1E293B;
                 color: #F1F5F9;
             }
+            QPushButton:focus {
+                border-color: #818CF8;
+                background-color: #1E293B;
+            }
             QPushButton[active="true"] {
                 background-color: #1E293B;
                 color: #818CF8;
                 font-weight: 600;
             }
+            QPushButton[active="true"]:focus {
+                border-color: #A5B4FC;
+            }
         """)
+
+    def set_active(self, active: bool) -> None:
+        self.setProperty("active", active)
+        self.style().unpolish(self)
+        self.style().polish(self)
 
 
 class MainWindow(QMainWindow):
@@ -75,7 +95,11 @@ class MainWindow(QMainWindow):
         self._recovery_dashboard = None
         self._prediction_dashboard = None
         self._experience = experience or ExperienceManager(self)
+        self._prediction_cache: PredictionDashboardData | None = None
+        self._prediction_cache_time: float = 0.0
+        self._dashboard_cache_time: float = 0.0
         self.setWindowTitle("GymOS")
+        self.setAccessibleName("GymOS Main Window")
         self.setMinimumSize(1024, 768)
         self.setStyleSheet("""
             QMainWindow { background-color: #0F172A; }
@@ -94,17 +118,18 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(sidebar)
 
         self._content = QStackedWidget()
+        self._content.setAccessibleName("Content area")
         self._content.setStyleSheet("background-color: #0F172A;")
         main_layout.addWidget(self._content, 1)
 
         self._dashboard_view = DashboardView(db=db, prog_mgr=prog_mgr, nutrition_service=nutrition_service)
         self._workout_selection_view = WorkoutSelectionView(db, prog_mgr)
         self._workout_view = WorkoutView(db, prog_mgr)
-        self._progress_view = ProgressView(db)
+        self._progress_view = ProgressExperience(db)
         self._recovery_dashboard = RecoveryDashboard() if recovery_service else None
         self._prediction_dashboard = PredictionDashboard() if prediction_service else None
         self._pr_view = PRView(db)
-        self._settings_view = SettingsView(db, prog_mgr)
+        self._settings_view = SettingsExperience(db, prog_mgr)
 
         self._content.addWidget(self._dashboard_view)           # 0
         self._content.addWidget(self._workout_selection_view)   # 1
@@ -145,6 +170,12 @@ class MainWindow(QMainWindow):
         integrate_with_command_center(self._experience)
         self._experience.focus.register_sidebar(sidebar)
 
+        a11y = self._experience.accessibility
+        a11y.high_contrast_changed.connect(self._on_high_contrast_changed)
+
+        last_sidebar = self._nav_buttons[-1] if self._nav_buttons else sidebar
+        self.setTabOrder(last_sidebar, self._content)
+
         self._switch_to(PAGE_INDEX["dashboard"])
 
     def _build_sidebar(self) -> QFrame:
@@ -159,41 +190,52 @@ class MainWindow(QMainWindow):
         layout.setSpacing(4)
 
         logo = QLabel("GymOS")
+        logo.setAccessibleName("Application logo")
         logo.setStyleSheet(
             "font-size: 20px; font-weight: 700; color: #818CF8; padding: 8px 12px 20px 12px;"
         )
         layout.addWidget(logo)
 
         nav_items = [
-            ("dashboard", "Dashboard"),
-            ("workout", "Workout"),
-            ("progress", "Progress"),
-            ("recovery", "Recovery"),
-            ("predictions", "Predictions"),
-            ("prs", "Records"),
-            ("settings", "Settings"),
+            ("dashboard", "Dashboard", "View your training overview and quick actions"),
+            ("workout", "Workout", "Select and start a workout session"),
+            ("progress", "Progress", "View your training progress charts"),
+            ("recovery", "Recovery", "Check recovery status and readiness"),
+            ("predictions", "Predictions", "View training predictions and forecasts"),
+            ("prs", "Records", "Browse your personal records"),
+            ("settings", "Settings", "Configure application preferences"),
         ]
 
-        for page_key, label in nav_items:
-            btn = SidebarButton(label)
+        prev_btn: QPushButton | None = None
+        for page_key, label, tip in nav_items:
+            btn = SidebarButton(label, tooltip=tip)
+            btn.setAccessibleName(f"Navigate to {label}")
             idx = PAGE_INDEX[page_key]
             btn.clicked.connect(lambda checked, i=idx: self._switch_to(i))
             self._nav_buttons.append(btn)
             layout.addWidget(btn)
+            if prev_btn:
+                self.setTabOrder(prev_btn, btn)
+            prev_btn = btn
 
         if self._prog_mgr:
-            import_btn = SidebarButton("Import Program")
+            import_btn = SidebarButton("Import Program", tooltip="Import a workout program from a JSON file")
+            import_btn.setAccessibleName("Import workout program")
             import_btn.setStyleSheet(import_btn.styleSheet() + """
                 QPushButton { color: #818CF8; font-size: 12px; border-top: 1px solid #1E293B; margin-top: 8px; padding-top: 12px; }
                 QPushButton:hover { color: #6366F1; }
             """)
             import_btn.clicked.connect(self._open_import_wizard)
             layout.addWidget(import_btn)
+            if prev_btn:
+                self.setTabOrder(prev_btn, import_btn)
+            prev_btn = import_btn
 
         layout.addStretch()
 
         from shared.version import APP_VERSION
         version = QLabel(f"v{APP_VERSION}")
+        version.setAccessibleName(f"GymOS version {APP_VERSION}")
         version.setStyleSheet("color: #475569; font-size: 11px; padding: 8px 12px;")
         layout.addWidget(version)
 
@@ -202,17 +244,25 @@ class MainWindow(QMainWindow):
     def _open_import_wizard(self):
         dialog = ImportWizard(self._prog_mgr, self)
         if dialog.exec() == QWizard.Accepted:
+            self._prediction_cache = None
+            self._dashboard_cache_time = 0.0
             self._dashboard_view.refresh()
             self._workout_selection_view.refresh()
 
+    def _on_high_contrast_changed(self, enabled: bool) -> None:
+        colors = global_stylesheet(ColorScheme.HIGH_CONTRAST if enabled else ColorScheme.DARK)
+        self.setStyleSheet(colors)
+
     def _switch_to(self, index: int):
         for i, btn in enumerate(self._nav_buttons):
-            btn.setProperty("active", i == index)
-            btn.style().unpolish(btn)
-            btn.style().polish(btn)
+            btn.set_active(i == index)
 
         if index == PAGE_INDEX["dashboard"]:
-            self._dashboard_view.refresh()
+            import time
+            now = time.time()
+            if now - self._dashboard_cache_time > 30:
+                self._dashboard_cache_time = now
+                QTimer.singleShot(0, self._dashboard_view.refresh)
         elif index == PAGE_INDEX["workout"]:
             self._workout_selection_view.refresh()
         elif index == PAGE_INDEX["progress"]:
@@ -233,16 +283,30 @@ class MainWindow(QMainWindow):
         self._content.setCurrentIndex(7)
 
     def _refresh_predictions(self):
-        if self._prediction_service and self._prediction_dashboard:
-            from modules.prediction.presentation import PredictionFormatter
-            result = self._prediction_service.generate_all_predictions()
-            vm = PredictionFormatter.prediction_result_to_view_model(result)
-            data = PredictionDashboardData(
-                view_model=vm,
-                has_data=len(result.predictions) > 0,
-                result=result,
-            )
-            self._prediction_dashboard.refresh(data)
+        if not self._prediction_service or not self._prediction_dashboard:
+            return
+        import time
+        now = time.time()
+        if self._prediction_cache is not None and now - self._prediction_cache_time < 60:
+            self._prediction_dashboard.refresh(self._prediction_cache)
+            return
+        QTimer.singleShot(0, self._do_refresh_predictions)
+
+    def _do_refresh_predictions(self):
+        if not self._prediction_service or not self._prediction_dashboard:
+            return
+        import time
+        from modules.prediction.presentation import PredictionFormatter
+        result = self._prediction_service.generate_all_predictions()
+        vm = PredictionFormatter.prediction_result_to_view_model(result)
+        data = PredictionDashboardData(
+            view_model=vm,
+            has_data=len(result.predictions) > 0,
+            result=result,
+        )
+        self._prediction_cache = data
+        self._prediction_cache_time = time.time()
+        self._prediction_dashboard.refresh(data)
 
     def _refresh_recovery(self):
         if self._recovery_service and self._recovery_dashboard:
@@ -257,10 +321,7 @@ class MainWindow(QMainWindow):
             level_str = ""
             if hasattr(snapshot, "readiness_level"):
                 lvl = snapshot.readiness_level
-                if hasattr(lvl, "value"):
-                    level_str = lvl.value
-                else:
-                    level_str = str(lvl)
+                level_str = lvl.value if hasattr(lvl, "value") else str(lvl)
 
             from ui.recovery.recovery_dashboard import RecoveryDashboardData
             data = RecoveryDashboardData(
@@ -280,4 +341,6 @@ class MainWindow(QMainWindow):
             self._recovery_dashboard.refresh(data)
 
     def _on_workout_saved(self):
+        self._prediction_cache = None
+        self._dashboard_cache_time = 0.0
         self._switch_to(PAGE_INDEX["dashboard"])

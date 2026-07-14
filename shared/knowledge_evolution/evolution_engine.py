@@ -178,7 +178,7 @@ class EvolutionEngine:
         updated = self.deprecate_obsolete(updated, deprecated_ids)
 
         revisions: list[KnowledgeRevision] = []
-        for orig, curr in zip(aggregated, updated):
+        for orig, curr in zip(aggregated, updated, strict=True):
             if orig.confidence.score != curr.confidence.score:
                 revisions.append(
                     self.create_revision(curr, RevisionReason.CONFIDENCE_UPDATE)

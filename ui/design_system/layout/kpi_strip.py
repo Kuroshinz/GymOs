@@ -110,13 +110,13 @@ class KpiStrip(QFrame):
         layout.addLayout(top)
 
         if item.label:
-            l = QLabel(item.label)
-            l.setStyleSheet(
+            _label = QLabel(item.label)
+            _label.setStyleSheet(
                 f"color: {colors.text_disabled}; font-size: 10px; font-weight: 500; "
                 f"background: transparent; border: none;"
             )
-            l.setAlignment(Qt.AlignCenter)
-            layout.addWidget(l)
+            _label.setAlignment(Qt.AlignCenter)
+            layout.addWidget(_label)
 
         frame.mousePressEvent = lambda event, idx=frame._kpi_index: self._on_kpi_clicked(event, idx)
         return frame

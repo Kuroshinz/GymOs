@@ -36,7 +36,7 @@ class AdaptationTimeline(BaseVisualization):
         self._items = list(items) if items else []
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()

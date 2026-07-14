@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from PySide6.QtCore import QObject, Qt, Signal
 from PySide6.QtWidgets import (
     QDialog,
+    QFrame,
     QHBoxLayout,
     QLabel,
     QLineEdit,

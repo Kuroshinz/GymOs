@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
 
 from modules.prediction.domain import (
     ExplainabilityDetail,
@@ -68,7 +68,6 @@ class PredictionService:
         return self._repo
 
     def generate_all_predictions(self) -> PredictionResult:
-        today = datetime.now().strftime("%Y-%m-%d")
         predictions: list[Prediction] = []
 
         for window in PredictionWindow:
@@ -161,7 +160,6 @@ class PredictionService:
                 consistency_streak = self._db.get_streak() if hasattr(self._db, "get_streak") else 0
                 sessions = self._db.list_sessions(limit=20) if hasattr(self._db, "list_sessions") else []
                 recent_prs = sum(1 for s in sessions if hasattr(s, "is_pr") and s.is_pr) if sessions else 0
-                bw = self._db.get_latest_body_weight() if hasattr(self._db, "get_latest_body_weight") else None
             except Exception:
                 logger.warning("Failed to fetch PR prediction data", exc_info=True)
 

@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 class Config:
@@ -26,8 +26,8 @@ class Config:
                 import yaml
                 with open(path) as f:
                     self._data.update(yaml.safe_load(f))
-            except ImportError:
-                raise ImportError("PyYAML is required to load YAML config files")
+            except ImportError as e:
+                raise ImportError("PyYAML is required to load YAML config files") from e
         else:
             raise ValueError(f"Unsupported config format: {path.suffix}")
 

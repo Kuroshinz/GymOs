@@ -6,6 +6,7 @@ import os
 import sys
 
 from PySide6.QtWidgets import QApplication
+from sqlalchemy import text
 
 from modules.gymbrain.services.decision_engine import DecisionEngine
 from modules.nutrition.infrastructure.repository import NutritionRepository
@@ -17,7 +18,6 @@ from modules.recovery.infrastructure.repository import RecoveryRepository
 from modules.workout.infrastructure.models import init_db
 from modules.workout.infrastructure.repository import GymDatabase
 from modules.workout_program.manager import ProgramManager
-from sqlalchemy import text
 from shared.crash.handler import install_global_handler, register_cleanup, safe_shutdown
 from shared.crash.recovery import show_recovery_dialog_if_needed
 from shared.database.compatibility import all_compatible

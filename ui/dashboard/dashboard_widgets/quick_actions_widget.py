@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QGridLayout, QPushButton
+from PySide6.QtWidgets import QFrame, QGridLayout, QPushButton
 
 from .base_card import DashboardCard
 
@@ -33,7 +33,7 @@ class QuickActionsWidget(DashboardCard):
         QPushButton {
             background-color: #334155;
             color: #F1F5F9;
-            border: none;
+            border: 1px solid transparent;
             border-radius: 8px;
             height: 44px;
             font-size: 13px;
@@ -43,13 +43,16 @@ class QuickActionsWidget(DashboardCard):
         QPushButton:hover {
             background-color: #475569;
         }
+        QPushButton:focus {
+            border-color: #818CF8;
+        }
     """
 
     BUTTON_PRIMARY = """
         QPushButton {
             background-color: #818CF8;
             color: #FFFFFF;
-            border: none;
+            border: 1px solid transparent;
             border-radius: 8px;
             height: 44px;
             font-size: 13px;
@@ -58,6 +61,9 @@ class QuickActionsWidget(DashboardCard):
         }
         QPushButton:hover {
             background-color: #6366F1;
+        }
+        QPushButton:focus {
+            border-color: #A5B4FC;
         }
     """
 
@@ -69,22 +75,32 @@ class QuickActionsWidget(DashboardCard):
         grid.setSpacing(10)
 
         self._start_btn = QPushButton("▶  Start Workout")
+        self._start_btn.setAccessibleName("Start Workout")
+        self._start_btn.setToolTip("Begin a new workout session")
         self._start_btn.setStyleSheet(self.BUTTON_PRIMARY)
         self._start_btn.clicked.connect(self.start_workout_clicked.emit)
 
         self._weight_btn = QPushButton("⚖️  Log Body Weight")
+        self._weight_btn.setAccessibleName("Log Body Weight")
+        self._weight_btn.setToolTip("Record your current body weight")
         self._weight_btn.setStyleSheet(self.BUTTON_BASE)
         self._weight_btn.clicked.connect(self.log_weight_clicked.emit)
 
         self._import_btn = QPushButton("📥  Import Program")
+        self._import_btn.setAccessibleName("Import Program")
+        self._import_btn.setToolTip("Import a workout program from file")
         self._import_btn.setStyleSheet(self.BUTTON_BASE)
         self._import_btn.clicked.connect(self.import_program_clicked.emit)
 
         self._review_btn = QPushButton("📊  Weekly Review")
+        self._review_btn.setAccessibleName("Weekly Review")
+        self._review_btn.setToolTip("View your weekly training summary")
         self._review_btn.setStyleSheet(self.BUTTON_BASE)
         self._review_btn.clicked.connect(self.weekly_review_clicked.emit)
 
         self._recs_btn = QPushButton("📋  Recommendations")
+        self._recs_btn.setAccessibleName("Recommendations")
+        self._recs_btn.setToolTip("View personalized training recommendations")
         self._recs_btn.setStyleSheet(self.BUTTON_BASE)
         self._recs_btn.clicked.connect(self.view_recommendations_clicked.emit)
 

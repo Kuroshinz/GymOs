@@ -36,7 +36,7 @@ class ReasonTreeView(BaseVisualization):
 
     def _layout(self) -> dict[int, tuple[float, float]]:
         positions: dict[int, tuple[float, float]] = {}
-        w, h = self.width(), self.height()
+        w = self.width()
         if not self._nodes:
             return positions
 
@@ -52,7 +52,7 @@ class ReasonTreeView(BaseVisualization):
         dfs(self._root, w / 2, 20, w / 3)
         return positions
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()

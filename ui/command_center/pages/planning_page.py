@@ -34,7 +34,6 @@ class PlanningPage(QWidget):
         return color_from_scheme(ColorScheme.DARK)
 
     def _build_ui(self) -> None:
-        colors = self._colors()
         scroll = ScrollContainer()
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
@@ -271,7 +270,6 @@ class PlanningPage(QWidget):
             self._cycle_name.setText("No active cycle")
             self._week_label.setText("")
 
-        adherence = review.get("adherence_rate", 0.0) if review else 0.0
         sessions = review.get("sessions_completed", 0) if review else 0
         total_s = review.get("total_sessions", 0) if review else 0
         prs = review.get("prs_set", 0) if review else 0

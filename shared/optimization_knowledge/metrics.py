@@ -21,8 +21,8 @@ def _generate_id(prefix: str = "km") -> str:
 class KnowledgeMetrics:
     """Computes knowledge quality, coverage, and reliability metrics."""
 
-    def __init__(self, config: KnowledgeConfig = KnowledgeConfig()) -> None:
-        self.config = config
+    def __init__(self, config: KnowledgeConfig | None = None) -> None:
+        self.config = config or KnowledgeConfig()
 
     def compute_metrics(
         self,

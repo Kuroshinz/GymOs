@@ -32,7 +32,7 @@ class DependencyGraphView(BaseVisualization):
         self._edges = list(edges) if edges else []
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()

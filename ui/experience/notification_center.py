@@ -276,7 +276,7 @@ class NotificationCenter(QObject):
         self.dismiss(notification_id)
 
     def _reposition_toasts(self) -> None:
-        for i, (nid, toast) in enumerate(self._toasts.items()):
+        for i, (_nid, toast) in enumerate(self._toasts.items()):
             toast.setGeometry(0, i * 80, 340, 68)
 
     def clear_all(self) -> None:

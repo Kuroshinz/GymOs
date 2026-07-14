@@ -22,8 +22,8 @@ def _generate_id(prefix: str = "stat") -> str:
 class StatisticsEngine:
     """Computes descriptive statistics, confidence intervals, trends, and profiles from optimization experiences."""
 
-    def __init__(self, config: KnowledgeConfig = KnowledgeConfig()) -> None:
-        self.config = config
+    def __init__(self, config: KnowledgeConfig | None = None) -> None:
+        self.config = config or KnowledgeConfig()
 
     def compute_all(
         self,
@@ -36,14 +36,14 @@ class StatisticsEngine:
         results.append(stats)
 
         by_goal = self._group_by(experiences, lambda e: e.goal or "unknown")
-        for goal, group in by_goal.items():
+        for _goal, group in by_goal.items():
             if len(group) >= self.config.min_pattern_sample:
                 results.append(self.compute_statistics(
                     group, KnowledgeScope.GOAL,
                 ))
 
         by_split = self._group_by(experiences, lambda e: e.split_style or "unknown")
-        for split, group in by_split.items():
+        for _split, group in by_split.items():
             if len(group) >= self.config.min_pattern_sample:
                 results.append(self.compute_statistics(
                     group, KnowledgeScope.SPLIT,
@@ -188,7 +188,7 @@ class StatisticsEngine:
         x_vals = list(range(n))
         x_mean = (n - 1) / 2
         y_mean = sum(scores) / n
-        numerator = sum((x - x_mean) * (y - y_mean) for x, y in zip(x_vals, scores))
+        numerator = sum((x - x_mean) * (y - y_mean) for x, y in zip(x_vals, scores, strict=True))
         denominator = sum((x - x_mean) ** 2 for x in x_vals)
         if denominator == 0:
             return "stable", 0.0

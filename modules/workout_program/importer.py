@@ -45,8 +45,8 @@ class ProgramImporter:
     def _import_excel(self, path: Path) -> WorkoutProgram:
         try:
             import openpyxl
-        except ImportError:
-            raise ImportError("openpyxl is required to import .xlsx files. Install with: pip install openpyxl")
+        except ImportError as e:
+            raise ImportError("openpyxl is required to import .xlsx files. Install with: pip install openpyxl") from e
 
         wb = openpyxl.load_workbook(str(path), data_only=True)
 
@@ -119,8 +119,8 @@ class ProgramImporter:
     def _import_yaml(self, path: Path) -> WorkoutProgram:
         try:
             import yaml
-        except ImportError:
-            raise ImportError("PyYAML is required to import .yaml files. Install with: pip install pyyaml")
+        except ImportError as e:
+            raise ImportError("PyYAML is required to import .yaml files. Install with: pip install pyyaml") from e
 
         with open(path, encoding="utf-8") as f:
             data = yaml.safe_load(f)

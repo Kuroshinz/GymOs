@@ -51,6 +51,7 @@ class BaseVisualization(QFrame):
         self.setMouseTracking(True)
         self.setCursor(Qt.PointingHandCursor)
         self.setAccessibleName(self.__class__.__name__)
+        self._register_reduced_motion()
 
     # ── Theme ────────────────────────────────────────────────
 
@@ -100,37 +101,37 @@ class BaseVisualization(QFrame):
 
     # ── Interaction ──────────────────────────────────────────
 
-    def enterEvent(self, event) -> None:
+    def enterEvent(self, event) -> None:  # noqa: N802
         self._hovered = True
         self.update()
         if self._tooltip_text:
             self.hovered.emit(self._tooltip_text)
         super().enterEvent(event)
 
-    def leaveEvent(self, event) -> None:
+    def leaveEvent(self, event) -> None:  # noqa: N802
         self._hovered = False
         self.update()
         super().leaveEvent(event)
 
-    def mousePressEvent(self, event) -> None:
+    def mousePressEvent(self, event) -> None:  # noqa: N802
         if event.button() == Qt.LeftButton:
             self._selected = not self._selected
             self.clicked.emit()
             self.update()
         super().mousePressEvent(event)
 
-    def mouseDoubleClickEvent(self, event) -> None:
+    def mouseDoubleClickEvent(self, event) -> None:  # noqa: N802
         self.double_clicked.emit()
         super().mouseDoubleClickEvent(event)
 
-    def wheelEvent(self, event) -> None:
+    def wheelEvent(self, event) -> None:  # noqa: N802
         delta = event.angleDelta().y() / 120
         self._zoom_level = max(0.5, min(3.0, self._zoom_level + delta * 0.1))
         self.zoom_changed.emit(self._zoom_level)
         self.update()
         super().wheelEvent(event)
 
-    def keyPressEvent(self, event) -> None:
+    def keyPressEvent(self, event) -> None:  # noqa: N802
         if event.key() == Qt.Key_Escape:
             self._selected = False
             self.update()
@@ -159,6 +160,22 @@ class BaseVisualization(QFrame):
     def set_tooltip_text(self, text: str) -> None:
         self._tooltip_text = text
         self.setToolTip(text)
+
+    # ── Accessibility integration ────────────────────────────
+
+    def _register_reduced_motion(self) -> None:
+        try:
+            from ui.experience.accessibility import AccessibilityManager
+            parent = self.parent()
+            while parent is not None:
+                if hasattr(parent, "_experience") and hasattr(parent._experience, "accessibility"):
+                    a11y = parent._experience.accessibility
+                    if isinstance(a11y, AccessibilityManager):
+                        a11y.register_reduced_motion_widget(self)
+                    return
+                parent = parent.parent() if hasattr(parent, "parent") else None
+        except ImportError:
+            pass
 
     # ── Helpers for subclasses ───────────────────────────────
 

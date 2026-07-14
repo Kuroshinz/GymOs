@@ -41,9 +41,7 @@ class SystemService:
                     ],
                 )
 
-                from shared.capabilities.health import calculate_health
                 from shared.capabilities.platform_state import compute_platform_state
-                from shared.capabilities.report_generator import generate_markdown_report
 
                 state = compute_platform_state(self._registry)
                 if state:

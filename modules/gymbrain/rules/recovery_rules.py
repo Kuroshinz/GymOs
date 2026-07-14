@@ -128,7 +128,6 @@ class ConsistencyRule(BaseRule):
         for week_num in range(2):
             actual = weeks.get(week_num, 0)
             if actual < expected_per_week:
-                diff = expected_per_week - actual
                 label = "This week" if week_num == 0 else "Last week"
                 missed.append(f"{label}: {actual}/{expected_per_week} sessions completed")
 

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import uuid
 from datetime import datetime, timedelta
 
@@ -252,10 +253,8 @@ class NutritionRepository:
             ]
             meal_type = None
             if m.meal_type:
-                try:
+                with contextlib.suppress(ValueError):
                     meal_type = MealType(m.meal_type)
-                except ValueError:
-                    pass
             meals.append(Meal(
                 id=m.id,
                 name=m.name,
@@ -273,10 +272,8 @@ class NutritionRepository:
 
     def _model_to_target(self, model: MacroTargetModel) -> MacroTarget:
         goal_type = NutritionGoalType.LEAN_BULK
-        try:
+        with contextlib.suppress(ValueError):
             goal_type = NutritionGoalType(model.goal_type)
-        except ValueError:
-            pass
         return MacroTarget(
             calories=model.calories,
             protein_g=model.protein_g,

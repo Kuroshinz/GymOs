@@ -108,10 +108,13 @@ class ProgressView(QWidget):
         period_layout.setSpacing(8)
 
         period_label = QLabel("View:")
+        period_label.setAccessibleName("Period selector label")
         period_label.setStyleSheet("color: #94A3B8; font-size: 13px;")
         period_layout.addWidget(period_label)
 
         self._period_combo = QComboBox()
+        self._period_combo.setAccessibleName("Progress time period")
+        self._period_combo.setToolTip("Select the date range for progress charts")
         self._period_combo.addItems(["Last 30 days", "Last 90 days", "All time"])
         self._period_combo.setStyleSheet("""
             QComboBox {
@@ -122,6 +125,9 @@ class ProgressView(QWidget):
                 padding: 6px 12px;
                 font-size: 13px;
                 min-width: 140px;
+            }
+            QComboBox:focus {
+                border-color: #818CF8;
             }
             QComboBox::drop-down {
                 border: none;
@@ -138,14 +144,17 @@ class ProgressView(QWidget):
 
         # Chart: Body Weight
         self._weight_chart = ChartWidget("Body Weight")
+        self._weight_chart.setAccessibleName("Body weight chart")
         layout.addWidget(self._weight_chart)
 
         # Chart: Weekly Volume
         self._volume_chart = ChartWidget("Weekly Volume")
+        self._volume_chart.setAccessibleName("Weekly volume chart")
         layout.addWidget(self._volume_chart)
 
         # Chart: Volume by Muscle Group
         self._muscle_chart = ChartWidget("Volume by Muscle Group (This Week)")
+        self._muscle_chart.setAccessibleName("Volume by muscle group chart")
         layout.addWidget(self._muscle_chart)
 
         layout.addStretch()

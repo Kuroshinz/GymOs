@@ -42,10 +42,7 @@ def compute_platform_state(registry: CapabilityRegistry) -> PlatformState:
     blocked = sum(1 for c in caps if c.status == CapabilityStatus.BLOCKED)
 
     # Overall health: average of all capability health scores
-    if caps:
-        overall_health = sum(calculate_health(c).overall for c in caps) / len(caps)
-    else:
-        overall_health = 0.0
+    overall_health = sum(calculate_health(c).overall for c in caps) / len(caps) if caps else 0.0
 
     # Weakest/strongest by health
     weakest = ""

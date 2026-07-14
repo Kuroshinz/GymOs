@@ -28,7 +28,7 @@ class RadarChart(BaseVisualization):
         self._max_val = max(max_val, 1.0)
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()
@@ -56,7 +56,7 @@ class RadarChart(BaseVisualization):
             painter.drawPath(path)
 
         data_path = QPainterPath()
-        for i, (label, val) in enumerate(self._axes):
+        for i, (_label, val) in enumerate(self._axes):
             a = -math.pi / 2 + i * angle_step
             frac = min(val / self._max_val, 1.0)
             px = cx + r * frac * math.cos(a)

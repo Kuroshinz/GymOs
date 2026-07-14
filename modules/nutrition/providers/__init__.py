@@ -10,15 +10,11 @@ Design:
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from datetime import datetime, timedelta
-from typing import Any, Optional
+from datetime import datetime
+from typing import Any
 
 from modules.nutrition.domain import (
     DailyNutrition,
-    LeanBulkAnalysis,
-    MacroAnalysis,
-    MacroStatus,
-    MacroStatusResult,
     MacroTarget,
     NutritionSummary,
 )

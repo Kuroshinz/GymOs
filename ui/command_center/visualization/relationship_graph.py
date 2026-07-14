@@ -22,7 +22,7 @@ class RelationshipGraph(QFrame):
         self._edges = edges
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         if not self._nodes:
             painter = QPainter(self)
             painter.setPen(QColor(C.TEXT_MUTED))

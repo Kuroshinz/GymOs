@@ -8,6 +8,7 @@ Design:
 
 from __future__ import annotations
 
+import contextlib
 import csv
 import json
 import logging
@@ -127,10 +128,8 @@ class CSVNutritionImporter(NutritionImporter):
         # Parse water if present
         water_str = row.get("water_ml", "").strip()
         if water_str:
-            try:
+            with contextlib.suppress(ValueError):
                 days_map[date]["water_ml"] = float(water_str)
-            except ValueError:
-                pass
 
         # Parse meal
         meal_name = row.get("meal_name", "").strip()
@@ -252,10 +251,8 @@ class JSONNutritionImporter(NutritionImporter):
             meal_type = None
             mt = meal_data.get("meal_type", "")
             if mt:
-                try:
+                with contextlib.suppress(ValueError):
                     meal_type = MealType(mt)
-                except ValueError:
-                    pass
 
             meals.append(Meal(
                 name=meal_data.get("name", "Meal"),

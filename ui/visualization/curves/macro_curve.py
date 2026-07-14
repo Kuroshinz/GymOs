@@ -28,7 +28,7 @@ class MacroCurve(BaseVisualization):
         self._colors_map = dict(colors_map) if colors_map else {}
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()
@@ -43,7 +43,7 @@ class MacroCurve(BaseVisualization):
 
         def yp(v): return h - 10 - (v / mx) * (h - 20) if mx > 0 else h / 2
 
-        for si, (sname, spts) in enumerate(self._series.items()):
+        for si, (_sname, spts) in enumerate(self._series.items()):
             n = len(spts)
             if n < 2:
                 continue

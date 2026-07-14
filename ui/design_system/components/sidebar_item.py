@@ -25,6 +25,11 @@ class SidebarItem(QPushButton):
         self.setText(f"{icon_text}{text}")
         self.setFixedHeight(44)
         self.setCursor(Qt.PointingHandCursor)
+        self.setFocusPolicy(Qt.StrongFocus)
+        if text:
+            self.setAccessibleName(f"Navigate to {text}")
+        if tooltip := (icon_text + text if icon_text else text):
+            self.setToolTip(tooltip)
         self._update_style()
 
     def _colors(self):
@@ -39,7 +44,7 @@ class SidebarItem(QPushButton):
             QPushButton {{
                 background-color: {bg};
                 color: {color};
-                border: none;
+                border: 1px solid transparent;
                 border-radius: {RADIUS.md};
                 padding: 8px 16px;
                 text-align: left;
@@ -49,6 +54,9 @@ class SidebarItem(QPushButton):
             QPushButton:hover {{
                 background-color: {colors.surface_hover};
                 color: {colors.text_primary};
+            }}
+            QPushButton:focus {{
+                border-color: {colors.focus_ring};
             }}
         """)
 

@@ -33,7 +33,6 @@ class ExplainabilityEngine:
     """
 
     def explain(self, prediction: Prediction) -> ExplainabilityDetail:
-        pred_type = prediction.prediction_type
         factor_contribs = self._compute_factor_contributions(prediction)
         reason_chain = self._build_reason_chain(prediction, factor_contribs)
         nl = self._generate_nl_explanation(prediction, factor_contribs)

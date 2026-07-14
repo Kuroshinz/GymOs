@@ -29,6 +29,12 @@ Thumbs.db
 exports/*
 !exports/.gitkeep
 
+# Logs & crash dumps
+*.log
+startup_*.txt
+data/crashes/
+data/.profile_created
+
 # Reports
 reports/*
 !reports/.gitkeep

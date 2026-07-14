@@ -96,7 +96,6 @@ def compute_evolution_velocity(
 
     completed_rfcs = sum(1 for r in state.rfcs.values() if r.status.name == "COMPLETE")
     completed_caps = sum(1 for c in caps if c.status == CapabilityStatus.COMPLETE)
-
     total_maturity = 0.0
     for cap in caps:
         health = calculate_health(cap)
@@ -135,7 +134,6 @@ def compute_rfc_contributions(
 
     caps = _cap_registry.list_all()
     total_caps = max(len(caps), 1)
-    completed_caps = sum(1 for c in caps if c.status == CapabilityStatus.COMPLETE)
 
     contributions: list[RfcContribution] = []
     for impact in impacts:

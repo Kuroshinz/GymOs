@@ -39,7 +39,7 @@ class MesocycleTimeline(BaseVisualization):
         self._current_week = current_week
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()
@@ -52,7 +52,7 @@ class MesocycleTimeline(BaseVisualization):
         seg_w = (w - 20) / n
         r = radius_to_px(RADIUS.sm)
 
-        for i, (name, phase, weeks) in enumerate(self._phases):
+        for i, (name, phase, _weeks) in enumerate(self._phases):
             x = 10 + i * seg_w
             c = self._phase_color(phase, colors)
             rect = QRectF(x, 4, seg_w - 4, h - 8)

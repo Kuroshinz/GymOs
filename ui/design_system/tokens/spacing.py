@@ -37,11 +37,22 @@ class SpacingTokens:
     s60: str = "15rem"
     s64: str = "16rem"
 
+    page_margin: str = "2rem"
+    section_gap: str = "1.5rem"
+    card_gap: str = "1rem"
+    card_padding: str = "1.25rem"
+    dense_padding: str = "1rem"
+    row_gap: str = "0.75rem"
+    item_gap: str = "0.5rem"
+    inline_gap: str = "0.25rem"
+    hero_gap: str = "2rem"
+    content_gap: str = "1rem"
+
+    # Deprecated aliases — kept for backward compatibility
     section: str = "1.5rem"
     page: str = "2rem"
     gutter: str = "1.5rem"
     container_padding: str = "1rem"
-    card_padding: str = "1rem"
     list_gap: str = "0.5rem"
 
     _MULTIPLIER: float = 0.25

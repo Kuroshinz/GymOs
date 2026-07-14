@@ -26,10 +26,8 @@ from __future__ import annotations
 
 import math
 from datetime import datetime, timedelta
-from typing import Optional
 
 from modules.prediction.domain import (
-    ConfidenceLevel,
     Forecast,
     ForecastPoint,
     Prediction,
@@ -41,6 +39,24 @@ from modules.prediction.domain import (
     PredictionWindow,
     TrendModel,
 )
+
+__all__ = (
+    "PlateauPredictionEngine",
+    "PRPredictionEngine",
+    "RecoveryPredictionEngine",
+    "FatiguePredictionEngine",
+    "BodyweightPredictionEngine",
+    "GoalEtaPredictionEngine",
+    "VolumePredictionEngine",
+    "ConsistencyPredictionEngine",
+    "DeloadPredictionEngine",
+    "PredictionScenarioEngine",
+    "CounterfactualEngine",
+    "ExplainabilityEngine",
+    "RiskEngine",
+    "ScenarioBuilder",
+)
+
 
 # ═══════════════════════════════════════════════════════════════
 # Utility helpers
@@ -553,7 +569,6 @@ class GoalEtaPredictionEngine:
             days_remaining = abs(int(weight_diff / (effective_rate / 7.0)))
             eta_date = (datetime.now() + timedelta(days=days_remaining)).strftime("%Y-%m-%d") if days_remaining < 9999 else "unknown"
 
-        achievable = days_remaining < 365 or (days_remaining >= 365 and abs(weight_diff) < 5)
         confidence_score = min(0.8, 0.3 + (calorie_adherence * 0.4) + (0.1 if days_remaining < 365 else 0.0))
 
         factors: list[str] = []
@@ -863,16 +878,12 @@ class DeloadPredictionEngine:
 # Imports from new engine modules (RFC-020.5)
 # ═══════════════════════════════════════════════════════════════
 
-from modules.prediction.engines.counterfactual_engine import (
-    CounterfactualEngine,
-)
-from modules.prediction.engines.explainability_engine import (
-    ExplainabilityEngine,
-)
-from modules.prediction.engines.risk_engine import (
-    RiskEngine,
-)
-from modules.prediction.engines.scenario_engine import (
+from modules.prediction.engines.counterfactual_engine import CounterfactualEngine  # noqa: E402
+from modules.prediction.engines.explainability_engine import ExplainabilityEngine  # noqa: E402
+from modules.prediction.engines.risk_engine import RiskEngine  # noqa: E402
+from modules.prediction.engines.scenario_engine import (  # noqa: E402
     PredictionScenarioEngine,
     ScenarioBuilder,
 )
+
+

@@ -9,7 +9,6 @@ Reads from three canonical sources without duplicating data:
 from __future__ import annotations
 
 from shared.capabilities import registry as _cap_registry
-from shared.capabilities.enums import CapabilityMaturity
 from shared.evolution.milestone_graph import build_milestone_progress
 from shared.evolution.timeline import build_evolution_chain
 from shared.graph.edge import Edge, EdgeType
@@ -77,8 +76,6 @@ class GraphBuilder:
 
     def _add_roadmap_nodes(self, graph: KnowledgeGraph) -> None:
         """Add roadmap stages as nodes, linked to milestones and versions."""
-        milestones = build_milestone_progress()
-
         roadmap_stages = {
             "v0.5": "Platform Maturity — Architecture hardening, standards, Nutrition Intelligence",
             "v0.6": "Recovery Intelligence — Sleep, HRV, deload, nutrition UI",
@@ -108,17 +105,6 @@ class GraphBuilder:
     def _add_capability_nodes(self, graph: KnowledgeGraph) -> None:
         """Add all 12 registered capabilities as nodes with metadata."""
         for cap in _cap_registry.list_all():
-            maturity_map = {
-                CapabilityMaturity.CONCEPT: 5.0,
-                CapabilityMaturity.DESIGN: 15.0,
-                CapabilityMaturity.FOUNDATION: 30.0,
-                CapabilityMaturity.IMPLEMENTED: 60.0,
-                CapabilityMaturity.STABLE: 80.0,
-                CapabilityMaturity.ADVANCED: 90.0,
-                CapabilityMaturity.OPTIMIZED: 95.0,
-                CapabilityMaturity.SELF_EVOLVING: 100.0,
-            }
-
             node = Node(
                 node_id=f"capability:{cap.capability_id}",
                 node_type=NodeType.CAPABILITY,
@@ -136,13 +122,6 @@ class GraphBuilder:
             graph.add_node(node)
 
             # Connect capability to its category/vision
-            category_map = {
-                "core": "Training Intelligence",
-                "intelligence": "Decision Intelligence",
-                "platform": "Platform Maturity",
-                "meta": "Product Intelligence",
-                "future": "Digital Twin",
-            }
             vision_id = "vision:gymos"
             graph.add_edge(Edge(node.node_id, vision_id, EdgeType.BELONGS_TO))
 
@@ -335,7 +314,7 @@ class GraphBuilder:
 
     def _add_document_nodes(self, graph: KnowledgeGraph) -> None:
         """Add documents as nodes, linked to what they document."""
-        documents: list[tuple[str, str, str, str]] = [
+        documents: list[tuple[str, str, str]] = [
             ("PRODUCT_STRATEGY", "Product Strategy", "vision:gymos"),
             ("ARCHITECTURE_OVERVIEW", "Architecture Overview", "vision:gymos"),
             ("PRODUCT_REQUIREMENTS", "Product Requirements", "vision:seven-pillars"),
@@ -370,20 +349,17 @@ class GraphBuilder:
             version_id = f"version:{link.milestone_version}"
 
             # Link RFC → Milestone (via capability)
-            if graph.has_node(rfc_id) and graph.has_node(milestone_id):
-                if not graph.has_edge(rfc_id, milestone_id):
-                    graph.add_edge(Edge(rfc_id, milestone_id, EdgeType.EVOLVES_TO,
-                                        metadata=f"Evolution chain: {link.rfc_id} → {link.milestone_label}"))
+            if graph.has_node(rfc_id) and graph.has_node(milestone_id) and not graph.has_edge(rfc_id, milestone_id):
+                graph.add_edge(Edge(rfc_id, milestone_id, EdgeType.EVOLVES_TO,
+                                    metadata=f"Evolution chain: {link.rfc_id} → {link.milestone_label}"))
 
             # Link Capability → Milestone
-            if graph.has_node(cap_id) and graph.has_node(milestone_id):
-                if not graph.has_edge(cap_id, milestone_id):
-                    graph.add_edge(Edge(cap_id, milestone_id, EdgeType.CONTAINS))
+            if graph.has_node(cap_id) and graph.has_node(milestone_id) and not graph.has_edge(cap_id, milestone_id):
+                graph.add_edge(Edge(cap_id, milestone_id, EdgeType.CONTAINS))
 
             # Link Milestone → Version
-            if graph.has_node(milestone_id) and graph.has_node(version_id):
-                if not graph.has_edge(milestone_id, version_id):
-                    graph.add_edge(Edge(milestone_id, version_id, EdgeType.EVOLVES_TO))
+            if graph.has_node(milestone_id) and graph.has_node(version_id) and not graph.has_edge(milestone_id, version_id):
+                graph.add_edge(Edge(milestone_id, version_id, EdgeType.EVOLVES_TO))
 
 
 def build_graph() -> KnowledgeGraph:

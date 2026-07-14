@@ -28,7 +28,7 @@ class WorkoutTimeline(BaseVisualization):
         self._max_volume = max(max_volume, 1.0)
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()

@@ -187,7 +187,7 @@ class PlanningMetrics:
             total_sess += plan.total_sessions
             total_set += plan.total_sets
 
-        avg = lambda vals: sum(vals) / len(vals) if vals else 0.0
+        def avg(vals): return sum(vals) / len(vals) if vals else 0.0
 
         return PlanningMetrics(
             total_plans=total,

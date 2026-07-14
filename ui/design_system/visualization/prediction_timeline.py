@@ -32,7 +32,7 @@ class PredictionTimeline(QFrame):
         self._goal_line = goal_line
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
 
@@ -70,7 +70,7 @@ class PredictionTimeline(QFrame):
             painter.setPen(pen)
             painter.drawLine(x1, y1, x2, y2)
 
-        for i, (date, label, val) in enumerate(self._points):
+        for i, (date, _label, val) in enumerate(self._points):
             x, y = int(x_pos(i)), int(y_pos(val))
             painter.setBrush(QColor(colors.primary))
             painter.setPen(Qt.NoPen)

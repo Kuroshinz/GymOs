@@ -4,7 +4,7 @@ import asyncio
 import logging
 from collections.abc import Callable, Coroutine
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any
 
 TaskFunc = Callable[..., Coroutine[Any, Any, None] | None]
 

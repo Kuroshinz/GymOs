@@ -56,7 +56,7 @@ class HoverWatcher(QObject):
             widget.removeEventFilter(self)
         self._effects.pop(widget_id, None)
 
-    def eventFilter(self, obj: QWidget | None, event: QEvent | None) -> bool:
+    def eventFilter(self, obj: QWidget | None, event: QEvent | None) -> bool:  # noqa: N802
         if event is None or obj is None:
             return super().eventFilter(obj, event)
 

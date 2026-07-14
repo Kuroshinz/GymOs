@@ -77,7 +77,7 @@ class Sidebar(QFrame):
         layout.addWidget(logo)
         layout.addSpacing(20)
 
-        for page_id, section, icon, desc in NAV_ITEMS:
+        for page_id, section, icon, _desc in NAV_ITEMS:
             sec_label = QLabel(section)
             sec_label.setStyleSheet(Font.LABEL)
             sec_label.setContentsMargins(12, 8, 0, 2)

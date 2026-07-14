@@ -66,7 +66,7 @@ class MicroUX(QWidget):
         self._anim.setEndValue(1.0)
         self._anim.setEasingCurve(QEasingCurve.Type.OutCubic)
 
-    def showEvent(self, event: object) -> None:
+    def showEvent(self, event: object) -> None:  # noqa: N802
         super().showEvent(event)
         self._anim.start()
 
@@ -215,7 +215,7 @@ class AchievementBadge(QFrame):
             desc_label.setStyleSheet(font_style("caption") + f" color: {colors.text_secondary};")
             layout.addWidget(desc_label)
 
-    def mousePressEvent(self, event: object) -> None:
+    def mousePressEvent(self, event: object) -> None:  # noqa: N802
         super().mousePressEvent(event)
         self.clicked.emit(self._name)
 

@@ -57,7 +57,7 @@ class ReleaseReadinessWidget(DashboardCard):
             self._gaps_list.addWidget(lbl)
 
     def _clear_gaps(self) -> None:
-        for i in reversed(range(self._gaps_list.count())):
+        for _i in reversed(range(self._gaps_list.count())):
             item = self._gaps_list.takeAt(0)
             if item and item.widget():
                 item.widget().deleteLater()

@@ -24,6 +24,7 @@ class SettingRow(QFrame):
 
     def __init__(self, label: str, widget: QWidget):
         super().__init__()
+        self.setAccessibleDescription(f"Setting: {label}")
         self.setStyleSheet("""
             SettingRow {
                 background-color: transparent;
@@ -37,6 +38,7 @@ class SettingRow(QFrame):
 
         lbl = QLabel(label)
         lbl.setStyleSheet("color: #F1F5F9; font-size: 14px; font-weight: 500;")
+        lbl.setAccessibleName(f"{label} setting label")
         lbl.setFixedWidth(180)
         layout.addWidget(lbl)
 
@@ -57,11 +59,13 @@ class SettingsView(QWidget):
         layout.setSpacing(24)
 
         header = QLabel("Settings")
+        header.setAccessibleName("Settings heading")
         header.setStyleSheet("font-size: 24px; font-weight: 700; color: #F1F5F9;")
         layout.addWidget(header)
 
         # User info section
         info_card = QFrame()
+        info_card.setAccessibleName("Application information")
         info_card.setStyleSheet(
             "background-color: #1E293B; border-radius: 12px; padding: 20px;"
         )
@@ -79,10 +83,12 @@ class SettingsView(QWidget):
             row = QHBoxLayout()
             row.setSpacing(12)
             t = QLabel(f"{title}:")
+            t.setAccessibleName(f"{title} info label")
             t.setStyleSheet("color: #94A3B8; font-size: 13px;")
             t.setFixedWidth(100)
             row.addWidget(t)
             v = QLabel(value)
+            v.setAccessibleName(f"{title} value")
             v.setStyleSheet("color: #F1F5F9; font-size: 13px; font-weight: 500;")
             row.addWidget(v)
             row.addStretch()
@@ -93,10 +99,12 @@ class SettingsView(QWidget):
         split_row = QHBoxLayout()
         split_row.setSpacing(12)
         split_t = QLabel("Split:")
+        split_t.setAccessibleName("Current program split label")
         split_t.setStyleSheet("color: #94A3B8; font-size: 13px;")
         split_t.setFixedWidth(100)
         split_row.addWidget(split_t)
         self._split_label = QLabel("Loading...")
+        self._split_label.setAccessibleName("Current program split value")
         self._split_label.setStyleSheet("color: #F1F5F9; font-size: 13px; font-weight: 500;")
         split_row.addWidget(self._split_label)
         split_row.addStretch()
@@ -106,6 +114,7 @@ class SettingsView(QWidget):
 
         # Preferences section
         prefs_card = QFrame()
+        prefs_card.setAccessibleName("Preferences settings")
         prefs_card.setStyleSheet(
             "background-color: #1E293B; border-radius: 12px; padding: 20px;"
         )
@@ -113,11 +122,14 @@ class SettingsView(QWidget):
         prefs_layout.setSpacing(8)
 
         prefs_title = QLabel("Preferences")
+        prefs_title.setAccessibleName("Preferences section heading")
         prefs_title.setStyleSheet("color: #F1F5F9; font-size: 16px; font-weight: 600; margin-bottom: 8px;")
         prefs_layout.addWidget(prefs_title)
 
         # Unit system
         unit_combo = QComboBox()
+        unit_combo.setAccessibleName("Unit System")
+        unit_combo.setToolTip("Choose your preferred measurement units")
         unit_combo.addItems(["kg / cm", "lbs / ft"])
         unit_combo.setStyleSheet("""
             QComboBox {
@@ -129,19 +141,39 @@ class SettingsView(QWidget):
                 font-size: 13px;
                 min-width: 120px;
             }
+            QComboBox:focus {
+                border-color: #818CF8;
+            }
         """)
         prefs_layout.addWidget(SettingRow("Unit System", unit_combo))
 
         # Theme toggle
         theme_combo = QComboBox()
-        theme_combo.addItems(["Dark (default)", "Light"])
-        theme_combo.setStyleSheet(unit_combo.styleSheet())
+        theme_combo.setAccessibleName("Theme")
+        theme_combo.setToolTip("Change the application color scheme. High contrast improves visibility.")
+        theme_combo.addItems(["Dark (default)", "Light", "High Contrast"])
+        theme_combo.setStyleSheet("""
+            QComboBox {
+                background-color: #0F172A;
+                color: #F1F5F9;
+                border: 1px solid #475569;
+                border-radius: 6px;
+                padding: 6px 12px;
+                font-size: 13px;
+                min-width: 120px;
+            }
+            QComboBox:focus {
+                border-color: #818CF8;
+            }
+        """)
+        theme_combo.currentIndexChanged.connect(self._on_theme_changed)
         prefs_layout.addWidget(SettingRow("Theme", theme_combo))
 
         layout.addWidget(prefs_card)
 
         # Export section
         export_card = QFrame()
+        export_card.setAccessibleName("Data export options")
         export_card.setStyleSheet(
             "background-color: #1E293B; border-radius: 12px; padding: 20px;"
         )
@@ -149,30 +181,36 @@ class SettingsView(QWidget):
         export_layout.setSpacing(8)
 
         export_title = QLabel("Data Export")
+        export_title.setAccessibleName("Data export section heading")
         export_title.setStyleSheet(
             "color: #F1F5F9; font-size: 16px; font-weight: 600; margin-bottom: 8px;"
         )
         export_layout.addWidget(export_title)
 
         export_json_btn = QPushButton("Export as JSON")
+        export_json_btn.setAccessibleName("Export data as JSON")
+        export_json_btn.setToolTip("Export all workout data to a JSON file")
         export_json_btn.setFixedHeight(40)
         export_json_btn.setCursor(Qt.PointingHandCursor)
         export_json_btn.setStyleSheet("""
             QPushButton {
                 background-color: #818CF8;
                 color: #FFFFFF;
-                border: none;
+                border: 1px solid transparent;
                 border-radius: 8px;
                 padding: 8px 20px;
                 font-size: 13px;
                 font-weight: 600;
             }
             QPushButton:hover { background-color: #6366F1; }
+            QPushButton:focus { border-color: #A5B4FC; }
         """)
         export_json_btn.clicked.connect(self._export_json)
         export_layout.addWidget(export_json_btn)
 
         export_csv_btn = QPushButton("Export as CSV")
+        export_csv_btn.setAccessibleName("Export data as CSV")
+        export_csv_btn.setToolTip("Export all workout data to a CSV file")
         export_csv_btn.setFixedHeight(40)
         export_csv_btn.setCursor(Qt.PointingHandCursor)
         export_csv_btn.setStyleSheet("""
@@ -186,6 +224,7 @@ class SettingsView(QWidget):
                 font-weight: 500;
             }
             QPushButton:hover { background-color: #334155; }
+            QPushButton:focus { border-color: #818CF8; }
         """)
         export_csv_btn.clicked.connect(self._export_csv)
         export_layout.addWidget(export_csv_btn)
@@ -193,6 +232,26 @@ class SettingsView(QWidget):
         layout.addWidget(export_card)
 
         layout.addStretch()
+
+    def _on_theme_changed(self, index: int) -> None:
+        from ui.design_system.tokens.color import ColorScheme
+        window = self.window()
+        if window is None:
+            return
+        if index == 0:
+            scheme = ColorScheme.DARK
+            high_contrast = False
+        elif index == 1:
+            scheme = ColorScheme.LIGHT
+            high_contrast = False
+        else:
+            scheme = ColorScheme.HIGH_CONTRAST
+            high_contrast = True
+        from ui.design_system.theme import global_stylesheet
+        window.setStyleSheet(global_stylesheet(scheme))
+        experience = getattr(window, "_experience", None)
+        if experience and hasattr(experience, "accessibility"):
+            experience.accessibility.set_high_contrast(high_contrast)
 
     def refresh(self):
         if self._prog_mgr:

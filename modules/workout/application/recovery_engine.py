@@ -88,18 +88,17 @@ class RecoveryEngine:
             completed_reps = [
                 s.reps for s in ex.sets if s.completed and s.reps > 0
             ]
-            if len(completed_reps) >= 3:
-                if max(completed_reps) - min(completed_reps) >= 4:
-                    report.flags.append(RecoveryFlag(
-                        flag_type="rep_drop",
-                        severity="info",
-                        exercise_name=ex.name,
-                        message=f"Rep drop in {ex.name}: "
-                                f"{', '.join(str(r) for r in completed_reps)}",
-                        detail=f"Drop of {max(completed_reps) - min(completed_reps)} "
-                               f"reps suggests fatigue accumulation.",
-                    ))
-                    report.has_warnings = True
+            if len(completed_reps) >= 3 and max(completed_reps) - min(completed_reps) >= 4:
+                report.flags.append(RecoveryFlag(
+                    flag_type="rep_drop",
+                    severity="info",
+                    exercise_name=ex.name,
+                    message=f"Rep drop in {ex.name}: "
+                            f"{', '.join(str(r) for r in completed_reps)}",
+                    detail=f"Drop of {max(completed_reps) - min(completed_reps)} "
+                           f"reps suggests fatigue accumulation.",
+                ))
+                report.has_warnings = True
 
         # Flag 3: Consecutive performance decline
         for ex in session.exercises:

@@ -34,7 +34,7 @@ class ReadinessRing(BaseVisualization):
         self._sub_value = min(sleep_score, 100.0)
         self._label = label
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()

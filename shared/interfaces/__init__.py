@@ -16,7 +16,7 @@ Usage:
 
 from __future__ import annotations
 
-from typing import Any, Optional, Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 # ─── Forward type references (strings to avoid circular imports) ───
 

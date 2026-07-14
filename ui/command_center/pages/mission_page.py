@@ -33,7 +33,6 @@ class MissionPage(QWidget):
         return color_from_scheme(ColorScheme.DARK)
 
     def _build_ui(self) -> None:
-        colors = self._colors()
         scroll = ScrollContainer()
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
@@ -286,7 +285,6 @@ class MissionPage(QWidget):
             for dec in decisions[:6]:
                 text = dec if isinstance(dec, str) else dec.get("decision_type", str(dec))
                 outcome = dec.get("outcome", "") if isinstance(dec, dict) else ""
-                icon = "" if outcome else ""
                 lbl = QLabel(f"  {text}" + (f"  [{outcome}]" if outcome else ""))
                 lbl.setStyleSheet(
                     f"color: {colors.text_primary}; font-size: 13px; "

@@ -29,7 +29,7 @@ class HeatmapWidget(QFrame):
         self._col_labels = col_labels or []
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         if not self._data:
             return
 

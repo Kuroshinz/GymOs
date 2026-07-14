@@ -84,7 +84,7 @@ class _ChartCanvas(QFrame):
         self._line_color = line_color
         self._fill_color = fill_color
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         if len(self._data) < 2:
             return
         painter = QPainter(self)
@@ -117,7 +117,6 @@ class _ChartCanvas(QFrame):
         fill_pen = QPen(Qt.NoPen)
         painter.setPen(fill_pen)
         painter.setBrush(self._fill_color)
-        path_poly = [QPoint(padding, int(padding + plot_h))] if False else []
         from PySide6.QtCore import QPointF
         from PySide6.QtGui import QPainterPath
 

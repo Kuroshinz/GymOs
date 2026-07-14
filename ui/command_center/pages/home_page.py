@@ -40,7 +40,6 @@ class HomePage(QWidget):
         return color_from_scheme(ColorScheme.DARK)
 
     def _build_ui(self) -> None:
-        colors = self._colors()
         scroll = ScrollContainer()
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
@@ -269,13 +268,11 @@ class HomePage(QWidget):
         colors = self._colors()
         mission = _safe_dict(data, "mission")
         recovery = _safe_dict(data, "recovery")
-        prediction = _safe_dict(data, "prediction")
         knowledge = _safe_dict(data, "knowledge")
         planning = _safe_dict(data, "planning")
 
         recovery_data = recovery.get("recovery_overview", {})
         score = recovery_data.get("score", 0.0) or 0.0
-        level = recovery_data.get("level", "") or ""
         self._recovery_ring.set_value(score, 100, "Recovery")
 
         readiness_data = recovery.get("training_readiness", {}) or mission.get("training_readiness", {})
@@ -334,7 +331,6 @@ class HomePage(QWidget):
             flag_text = "; ".join(str(f) for f in flags[:2])
             self._warning_banner.deleteLater()
             self._warning_banner = WarningBanner(icon="", message=flag_text, level="warning")
-            bottom_container = self._warning_banner.parentWidget()
         else:
             self._warning_banner.deleteLater()
             self._warning_banner = WarningBanner(icon="", message="All systems nominal.", level="success")

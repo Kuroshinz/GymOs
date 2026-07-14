@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
 
 from modules.nutrition.analysis import LeanBulkAnalyzer, MacroAnalyzer
 from modules.nutrition.domain import (
@@ -17,7 +17,6 @@ from modules.nutrition.domain import (
     MacroAnalysis,
     MacroTarget,
     Meal,
-    MealItem,
     NutritionGoal,
     NutritionSummary,
 )

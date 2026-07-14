@@ -58,6 +58,7 @@ class NavigationRail(QFrame):
         layout.setSpacing(2)
 
         logo = QLabel("N")
+        logo.setAccessibleName("Navigation logo")
         logo.setStyleSheet(
             f"color: {colors.primary}; font-size: 22px; font-weight: 800; "
             f"background: transparent; border: none; padding: 8px 0;"
@@ -66,11 +67,15 @@ class NavigationRail(QFrame):
         layout.addWidget(logo)
         layout.addSpacing(16)
 
+        prev_btn: QPushButton | None = None
         for item in items:
             btn = self._make_button(item)
             self._buttons[item.id] = btn
             self._items[item.id] = item
             layout.addWidget(btn)
+            if prev_btn:
+                self.setTabOrder(prev_btn, btn)
+            prev_btn = btn
 
         layout.addStretch()
 
@@ -79,7 +84,6 @@ class NavigationRail(QFrame):
             self._set_active(first_id)
 
     def _make_button(self, item: NavigationItem) -> QPushButton:
-        colors = self._colors()
         btn = QPushButton()
         text = f"{item.icon} " if item.icon else ""
         btn.setText(f"{text}{item.label[0] if len(item.label) > 0 else ''}")
@@ -104,11 +108,15 @@ class NavigationRail(QFrame):
                 QPushButton {{
                     background-color: {bg};
                     color: {text_color};
-                    border: none;
+                    border: 1px solid transparent;
                     border-radius: {RADIUS.md};
                     padding: 8px 0;
                     font-size: 13px;
                     font-weight: {weight};
+                }}
+                QPushButton:focus {{
+                    border-color: {colors.focus_ring};
+                    border: 2px solid {colors.focus_ring};
                 }}
                 QPushButton:hover {{
                     background-color: {colors.surface_hover if not active else colors.primary_variant};

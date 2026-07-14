@@ -31,6 +31,12 @@ class AppCard(QFrame):
         self._interactive = interactive
         self._color_scheme = ColorScheme.DARK
         self._build_ui(title, subtitle, badge, elevated)
+        if title:
+            self.setAccessibleName(f"Card: {title}")
+        if subtitle:
+            self.setAccessibleDescription(subtitle)
+        if interactive:
+            self.setFocusPolicy(Qt.StrongFocus)
 
     def _colors(self):
         return color_from_scheme(self._color_scheme)
@@ -53,6 +59,10 @@ class AppCard(QFrame):
                 AppCard:hover {{
                     border-color: {colors.border_hover};
                     background-color: {colors.surface_hover};
+                }}
+                AppCard:focus {{
+                    border-color: {colors.focus_ring};
+                    border: 2px solid {colors.focus_ring};
                 }}
             """
         self.setStyleSheet(style)
@@ -103,7 +113,7 @@ class AppCard(QFrame):
     def add_layout(self, layout: Any) -> None:
         self._body.addLayout(layout)
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event):  # noqa: N802
         super().mousePressEvent(event)
         if self._interactive:
             self.clicked.emit()

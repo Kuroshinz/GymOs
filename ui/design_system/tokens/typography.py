@@ -5,36 +5,36 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class TypographyTokens:
-    font_family: str = "Inter, -apple-system, BlinkMacSystemFont, sans-serif"
+    font_family: str = "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
     font_family_mono: str = "JetBrains Mono, Fira Code, monospace"
-    font_family_display: str = "Inter, -apple-system, BlinkMacSystemFont, sans-serif"
+    font_family_display: str = "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
 
-    h1_size: str = "2.25rem"
+    hero_size: str = "2rem"
+    hero_weight: str = "700"
+    hero_line_height: str = "1.2"
+    hero_letter_spacing: str = "-0.03em"
+
+    h1_size: str = "1.5rem"
     h1_weight: str = "700"
     h1_line_height: str = "1.25"
     h1_letter_spacing: str = "-0.025em"
 
-    h2_size: str = "1.875rem"
+    h2_size: str = "1.25rem"
     h2_weight: str = "700"
     h2_line_height: str = "1.3"
     h2_letter_spacing: str = "-0.02em"
 
-    h3_size: str = "1.5rem"
+    h3_size: str = "1rem"
     h3_weight: str = "600"
-    h3_line_height: str = "1.35"
+    h3_line_height: str = "1.4"
     h3_letter_spacing: str = "-0.015em"
 
-    h4_size: str = "1.25rem"
-    h4_weight: str = "600"
-    h4_line_height: str = "1.4"
-    h4_letter_spacing: str = "-0.01em"
-
-    body_size: str = "1rem"
+    body_size: str = "0.875rem"
     body_weight: str = "400"
     body_line_height: str = "1.5"
     body_letter_spacing: str = "0em"
 
-    body_small_size: str = "0.875rem"
+    body_small_size: str = "0.8125rem"
     body_small_weight: str = "400"
     body_small_line_height: str = "1.5"
     body_small_letter_spacing: str = "0em"
@@ -48,6 +48,17 @@ class TypographyTokens:
     label_weight: str = "600"
     label_line_height: str = "1.25"
     label_letter_spacing: str = "0.05em"
+
+    metric_size: str = "1.75rem"
+    metric_weight: str = "800"
+    metric_line_height: str = "1.1"
+    metric_letter_spacing: str = "-0.02em"
+
+    # Deprecated — kept for backward compatibility
+    h4_size: str = "1.25rem"
+    h4_weight: str = "600"
+    h4_line_height: str = "1.4"
+    h4_letter_spacing: str = "-0.01em"
 
     overline_size: str = "0.625rem"
     overline_weight: str = "700"
@@ -68,7 +79,7 @@ class TypographyTokens:
 
 
 @dataclass(frozen=True)
-class type_scale:
+class TypeScale:
     xs: str = "0.75rem"
     sm: str = "0.875rem"
     base: str = "1rem"

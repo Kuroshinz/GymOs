@@ -52,7 +52,7 @@ class GoalProgressWidget(DashboardCard):
         self._container.addWidget(placeholder)
 
     def _clear(self) -> None:
-        for i in reversed(range(self._container.count())):
+        for _i in reversed(range(self._container.count())):
             item = self._container.takeAt(0)
             if item:
                 w = item.widget()
@@ -154,7 +154,7 @@ class GoalProgressWidget(DashboardCard):
         self._bar_fraction = clamped
         return container
 
-    def eventFilter(self, obj: QFrame, event: object) -> bool:
+    def eventFilter(self, obj: QFrame, event: object) -> bool:  # noqa: N802
         from PySide6.QtCore import QEvent
 
         if event.type() == QEvent.Resize and isinstance(obj, QFrame):

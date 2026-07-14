@@ -86,7 +86,6 @@ class PlanningOptimizerRepository:
         return self._active_request_id if self._active_request_id else None
 
     def get_state(self) -> OptimizerState:
-        requests = self.list_requests()
         results = self.list_results()
         total_candidates = sum(
             len(cands) for cands in self._candidates.values()

@@ -1,16 +1,15 @@
 from dataclasses import dataclass
 from datetime import datetime
-from enum import Enum
-from typing import Any, Optional
+from enum import StrEnum
 
 
-class Platform(str, Enum):
+class Platform(StrEnum):
     WINDOWS = "windows"
     MACOS = "macos"
     LINUX = "linux"
 
 
-class AppMode(str, Enum):
+class AppMode(StrEnum):
     DEVELOPMENT = "development"
     PRODUCTION = "production"
     TESTING = "testing"

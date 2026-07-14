@@ -57,7 +57,6 @@ class ContextEngine:
         rs = data.get("recovery_score", 0)
         fs = data.get("fatigue_score", 0)
         rl = data.get("readiness_score", 0)
-        sr = data.get("sleep_score", 0)
         adh = data.get("weekly_adherence", 0)
         pa = data.get("prediction_accuracy", 0)
         sh = data.get("system_health", 0)

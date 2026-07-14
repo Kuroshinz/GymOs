@@ -64,7 +64,6 @@ class KernelRuntimeOrchestrator:
         return list(self.snapshots)
 
     def _compute_product_health(self) -> ProductHealth:
-        runtime = self.get_runtime()
         metrics = self.get_metrics()
         release = self.assess_release()
 

@@ -6,6 +6,7 @@ from PySide6.QtCore import QObject, Signal
 from PySide6.QtWidgets import QWidget
 
 from ui.command_center.models import CommandCenterData
+from ui.experience.accessibility import AccessibilityManager
 from ui.experience.animation_manager import AnimationManager
 from ui.experience.command_palette_engine import CommandItem, CommandPaletteEngine
 from ui.experience.empty_state_manager import EmptyStateManager
@@ -33,6 +34,7 @@ class ExperienceManager(QObject):
     def __init__(self, parent: QObject | None = None) -> None:
         super().__init__(parent)
 
+        self.accessibility = AccessibilityManager(self)
         self.animation = AnimationManager(self)
         self.layout = LayoutEngine(self)
         self.navigation = NavigationEngine(self)
@@ -67,6 +69,8 @@ class ExperienceManager(QObject):
         self.shortcuts.register_many([
             Shortcut("toggle_command_palette", "Ctrl+K", self._open_command_palette, "Open command palette", "navigation"),
             Shortcut("toggle_focus", "Ctrl+Shift+F", self.focus.toggle, "Toggle focus mode", "navigation"),
+            Shortcut("toggle_high_contrast", "Ctrl+Shift+C", self.accessibility.toggle_high_contrast, "Toggle high contrast mode", "accessibility"),
+            Shortcut("toggle_reduced_motion", "Ctrl+Shift+M", self.accessibility.toggle_reduced_motion, "Toggle reduced motion", "accessibility"),
             Shortcut("go_back", "Alt+Left", self.navigation.go_back, "Go back", "navigation"),
             Shortcut("go_forward", "Alt+Right", self.navigation.go_forward, "Go forward", "navigation"),
             Shortcut("global_search", "Ctrl+Shift+P", self._open_global_search, "Global search", "navigation"),
@@ -85,6 +89,8 @@ class ExperienceManager(QObject):
             CommandItem("go_forward", "Go Forward", "Navigate to next page", "navigation", "Alt+Right", "", lambda: self.navigation.go_forward()),
             CommandItem("refresh", "Refresh", "Refresh current view", "navigation", "Ctrl+R", "", self._refresh_current),
             CommandItem("toggle_sidebar", "Toggle Sidebar", "Show or hide the sidebar", "layout", "", "", self._toggle_sidebar),
+            CommandItem("toggle_high_contrast", "Toggle High Contrast", "Switch to high-contrast color scheme", "accessibility", "Ctrl+Shift+C", "", self.accessibility.toggle_high_contrast),
+            CommandItem("toggle_reduced_motion", "Toggle Reduced Motion", "Disable animations and transitions", "accessibility", "Ctrl+Shift+M", "", self.accessibility.toggle_reduced_motion),
             CommandItem("clear_notifications", "Clear Notifications", "Dismiss all notifications", "notifications", "", "", self.notifications.clear_all),
             CommandItem("mark_all_read", "Mark All Read", "Mark all notifications as read", "notifications", "", "", self.notifications.mark_all_read),
         ])

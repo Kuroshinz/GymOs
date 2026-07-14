@@ -25,8 +25,8 @@ class PatternMiningEngine:
     success rate, sample size, and confidence level.
     """
 
-    def __init__(self, config: KnowledgeConfig = KnowledgeConfig()) -> None:
-        self.config = config
+    def __init__(self, config: KnowledgeConfig | None = None) -> None:
+        self.config = config or KnowledgeConfig()
 
     def mine_all(
         self,
@@ -177,7 +177,7 @@ class PatternMiningEngine:
         for i in range(len(bins) - 1):
             lo, hi = bins[i], bins[i + 1]
             in_range = [
-                (e, v) for e, v in zip(experiences, values)
+                (e, v) for e, v in zip(experiences, values, strict=True)
                 if lo <= v < hi
             ]
             if len(in_range) < self.config.min_pattern_sample:
@@ -213,7 +213,7 @@ class PatternMiningEngine:
     ) -> list[OptimizationPattern]:
         patterns: list[OptimizationPattern] = []
         for val in unique_values:
-            group = [e for e, v in zip(experiences, values) if v == val]
+            group = [e for e, v in zip(experiences, values, strict=True) if v == val]
             if len(group) < self.config.min_pattern_sample:
                 continue
             sr = self._success_rate(group)
@@ -245,7 +245,7 @@ class PatternMiningEngine:
         patterns: list[OptimizationPattern] = []
         categories = sorted(set(values))
         for cat in categories:
-            group = [e for e, v in zip(experiences, values) if v == cat]
+            group = [e for e, v in zip(experiences, values, strict=True) if v == cat]
             if len(group) < self.config.min_pattern_sample:
                 continue
             sr = self._success_rate(group)

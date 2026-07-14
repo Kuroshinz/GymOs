@@ -190,9 +190,8 @@ class GraphHealthAnalyzer:
             visited.add(current)
             max_depth[0] = max(max_depth[0], depth)
             for edge in self._graph.get_outgoing(current):
-                if edge.edge_type in (EdgeType.DEPENDS_ON, EdgeType.USES):
-                    if edge.target_id not in visited:
-                        _dfs(edge.target_id, depth + 1)
+                if edge.edge_type in (EdgeType.DEPENDS_ON, EdgeType.USES) and edge.target_id not in visited:
+                    _dfs(edge.target_id, depth + 1)
 
         _dfs(node_id, 0)
         return max_depth[0]

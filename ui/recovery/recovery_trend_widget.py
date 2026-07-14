@@ -88,10 +88,7 @@ class RecoveryTrendWidget(DashboardCard):
         for i, lbl in enumerate(self._week_labels):
             if i < len(weekly):
                 val = weekly[i]
-                if isinstance(val, dict):
-                    avg = val.get("average", 0)
-                else:
-                    avg = val
+                avg = val.get("average", 0) if isinstance(val, dict) else val
                 lbl.setText(f"W{i+1}: {avg:.0f}")
                 lbl.setStyleSheet("color: #94A3B8; font-size: 11px;")
             else:

@@ -74,7 +74,6 @@ class ObjectiveScorer:
             return 0.0
 
         rest_days = sum(1 for w in weeks for s in w.get("sessions", []) if s.get("day_type") == "rest")
-        total_sessions_count = sum(len(w.get("sessions", [])) for w in weeks)
         all_sessions = sum(len(w.get("sessions", [])) for w in weeks)
 
         if all_sessions == 0:
@@ -87,7 +86,6 @@ class ObjectiveScorer:
         total_weeks = max(len(weeks), 1)
         deload_score = min(1.0, (deload_weeks / total_weeks) * 15)
 
-        consecutive_train_days = 0
         max_consecutive = 0
         for w in weeks:
             current_run = 0
@@ -118,10 +116,7 @@ class ObjectiveScorer:
             if 3 <= weeks <= 6:
                 consistency_bonus += 0.05
 
-        if total_weeks > 16:
-            duration_penalty = min(0.3, (total_weeks - 16) * 0.02)
-        else:
-            duration_penalty = 0.0
+        duration_penalty = min(0.3, (total_weeks - 16) * 0.02) if total_weeks > 16 else 0.0
 
         score = frequency_score + consistency_bonus - duration_penalty
         return max(0.0, min(1.0, score))
@@ -162,10 +157,7 @@ class ObjectiveScorer:
             return 0.5
 
         avg_weekly_sets = total_sets / total_weeks
-        if avg_weekly_sets > 120:
-            volume_penalty = min(0.5, (avg_weekly_sets - 120) / 80)
-        else:
-            volume_penalty = 0.0
+        volume_penalty = min(0.5, (avg_weekly_sets - 120) / 80) if avg_weekly_sets > 120 else 0.0
 
         deload_weeks = sum(1 for w in weeks if w.get("is_deload_week", False))
         deload_ratio = deload_weeks / total_weeks

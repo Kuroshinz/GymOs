@@ -72,11 +72,13 @@ class EmptyState(QFrame):
 
         if action_text:
             btn = QPushButton(action_text)
+            btn.setAccessibleName(action_text)
+            btn.setToolTip(action_text)
             btn.setStyleSheet(f"""
                 QPushButton {{
                     background-color: {colors.primary};
                     color: {colors.text_inverse};
-                    border: none;
+                    border: 1px solid transparent;
                     border-radius: 6px;
                     padding: 8px 20px;
                     font-size: 13px;
@@ -84,6 +86,9 @@ class EmptyState(QFrame):
                 }}
                 QPushButton:hover {{
                     background-color: {colors.primary_hover};
+                }}
+                QPushButton:focus {{
+                    border-color: {colors.focus_ring};
                 }}
             """)
             btn.setCursor(Qt.PointingHandCursor)

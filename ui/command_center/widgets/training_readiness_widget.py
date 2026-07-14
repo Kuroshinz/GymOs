@@ -54,7 +54,7 @@ class TrainingReadinessWidget(DashboardCard):
             self._recs_list.addWidget(lbl)
 
     def _clear_recs(self) -> None:
-        for i in reversed(range(self._recs_list.count())):
+        for _i in reversed(range(self._recs_list.count())):
             item = self._recs_list.takeAt(0)
             if item and item.widget():
                 item.widget().deleteLater()

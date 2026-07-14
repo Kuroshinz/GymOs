@@ -18,7 +18,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from shared.capabilities import registry as _cap_registry
 from shared.evolution.capability_history import (
     compute_capability_velocities,
     compute_evolution_velocity,
@@ -62,7 +61,6 @@ from shared.evolution.timeline import (
     build_version_progress,
 )
 from shared.evolution.version_graph import build_version_readiness_trend
-from shared.kernel.kernel import KernelSnapshot
 from shared.kernel.kernel_runtime import KernelRuntimeOrchestrator
 from shared.kernel.kernel_state import create_default_state
 

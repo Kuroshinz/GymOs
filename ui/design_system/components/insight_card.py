@@ -86,6 +86,6 @@ class InsightCard(QFrame):
         layout.addLayout(text_area, 1)
         self.setCursor(Qt.PointingHandCursor)
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event):  # noqa: N802
         super().mousePressEvent(event)
         self.clicked.emit()

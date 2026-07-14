@@ -25,7 +25,7 @@ class RecoveryTimeline(BaseVisualization):
         self._points = list(points) if points else []
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()
@@ -56,7 +56,7 @@ class RecoveryTimeline(BaseVisualization):
             painter.setPen(pen)
             painter.drawLine(path[i][0], path[i][1], path[i + 1][0], path[i + 1][1])
 
-        for i, (date, val) in enumerate(self._points):
+        for i, (date, _val) in enumerate(self._points):
             x, y = path[i]
             painter.setBrush(QColor(colors.success))
             painter.setPen(Qt.NoPen)

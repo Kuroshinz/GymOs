@@ -13,7 +13,7 @@ from __future__ import annotations
 
 from dataclasses import replace
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
 
 from shared.knowledge_evolution.confidence import ConfidenceEngine
 from shared.knowledge_evolution.conflict import ConflictEngine
@@ -71,9 +71,9 @@ class KnowledgeEvolutionOrchestrator:
 
     def __init__(
         self,
-        config: EvolutionConfig = EvolutionConfig(),
+        config: EvolutionConfig | None = None,
     ) -> None:
-        self.config = config
+        self.config = config or EvolutionConfig()
         self.engine = EvolutionEngine(config)
         self.repository = KnowledgeEvolutionRepository()
         self.report_generator = EvolutionReportGenerator()
@@ -302,7 +302,7 @@ class KnowledgeEvolutionOrchestrator:
             orch.repository.store_conflict(KnowledgeConflictSerializer.deserialize(c_data))
         for s_data in data.get("snapshots", []):
             orch.repository.store_snapshot(KnowledgeSnapshotSerializer.deserialize(s_data))
-        for kid, revs_data in data.get("revisions", {}).items():
+        for _kid, revs_data in data.get("revisions", {}).items():
             for r_data in revs_data:
                 orch.repository.store_revision(KnowledgeRevisionSerializer.deserialize(r_data))
         return orch

@@ -32,7 +32,7 @@ class BarChart(BaseVisualization):
         self._bar_color = bar_color
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()

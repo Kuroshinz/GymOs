@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 import logging
 from typing import Any
 
@@ -14,10 +15,8 @@ def integrate_with_command_center(
     command_center_data_provider: Any = None,
 ) -> None:
     if command_center_data_provider:
-        try:
+        with contextlib.suppress(Exception):
             experience.propagate_data(command_center_data_provider)
-        except Exception:
-            pass
 
     experience.register_default_page_routes(PAGE_LABELS)
     experience.register_default_command_palette_pages(PAGE_LABELS)

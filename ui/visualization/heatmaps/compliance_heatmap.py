@@ -26,7 +26,7 @@ class ComplianceHeatmap(BaseVisualization):
         self._entries = list(entries) if entries else []
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()
@@ -37,7 +37,7 @@ class ComplianceHeatmap(BaseVisualization):
             return
 
         cell_w = max(28, (w - 10) // max(n, 1))
-        for i, (label, rate) in enumerate(self._entries):
+        for i, (_label, rate) in enumerate(self._entries):
             x = i * cell_w
             fraction = max(0.0, min(1.0, rate))
             c = interpolate_color(colors.error, colors.success, fraction)

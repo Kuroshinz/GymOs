@@ -225,7 +225,7 @@ class ResponsiveGrid(QWidget):
                 self._grid.addWidget(panel, state.row, state.column, state.height_span, state.width_span)
         self.layout_changed.emit()
 
-    def resizeEvent(self, event: Any) -> None:
+    def resizeEvent(self, event: Any) -> None:  # noqa: N802
         super().resizeEvent(event)
         if self._config.responsive:
             self._adjust_columns()

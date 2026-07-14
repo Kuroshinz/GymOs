@@ -35,7 +35,6 @@ class SystemCenterPage(QWidget):
         return color_from_scheme(ColorScheme.DARK)
 
     def _build_ui(self) -> None:
-        colors = self._colors()
         scroll = ScrollContainer()
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
@@ -231,8 +230,6 @@ class SystemCenterPage(QWidget):
     def update_data(self, data: Any) -> None:
         colors = self._colors()
         system = _dict_val(data, "system")
-        knowledge = _dict_val(data, "knowledge")
-
         health = system.get("system_health", {})
         overall = health.get("overall", 0.0) if health else 0.0
         rating = health.get("rating", "") if health else ""
@@ -259,8 +256,6 @@ class SystemCenterPage(QWidget):
         arch = health.get("architecture", 0.0) if health else 0.0
         tests = health.get("test_coverage", 0.0) if health else 0.0
         docs = health.get("documentation", 0.0) if health else 0.0
-        platform = health.get("platform", 0.0) if health else 0.0
-
         product = system.get("product_state", {})
         caps_active = product.get("capabilities_active", 0) if product else 0
         total_caps = product.get("total_capabilities", 15) if product else 15

@@ -3,14 +3,14 @@
 from __future__ import annotations
 
 import logging
-from collections.abc import Callable
+from collections.abc import Awaitable, Callable
 
 from core.event_bus import EventBus as CoreEventBus
 from shared.events.event import DomainEvent
 
 logger = logging.getLogger("nexus.events")
 
-EventHandler = Callable[[DomainEvent], None]
+EventHandler = Callable[[DomainEvent], Awaitable[None] | None]
 
 
 class EventBus:

@@ -29,7 +29,7 @@ class AnalyticsService:
                 vol = getattr(self._db, "get_volume_by_day", lambda d: [])(28)
                 data["volume_trend"] = vol
             if self._pr_engine:
-                prs = getattr(self._pr_engine, "get_latest_prs", lambda l: [])(5)
+                prs = getattr(self._pr_engine, "get_latest_prs", lambda _: [])(5)
                 data["prs"] = prs
             if self._nutrition_service:
                 summary = getattr(self._nutrition_service, "get_summary", lambda: None)()

@@ -39,9 +39,6 @@ from shared.kernel.kernel_context import (
 )
 from shared.kernel.kernel_health import compute_product_health
 from shared.kernel.kernel_history import (
-    CapabilityTrend as HistoryCapabilityTrend,
-)
-from shared.kernel.kernel_history import (
     HistoryStore,
     compute_all_trends,
     compute_platform_trend,

@@ -8,8 +8,7 @@ These analyzers produce structured, explainable results consumed by:
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta
-from typing import Any, Optional
+from datetime import datetime
 
 from modules.nutrition.domain import (
     DailyNutrition,
@@ -178,7 +177,6 @@ class LeanBulkAnalyzer:
         days_of_data = weeks * 7
         nutrition_days = self._provider.get_recent_days(days_of_data)
         bw_history = self._provider.get_body_weight_history(days=days_of_data + 14)
-        latest_bw = self._provider.get_latest_body_weight()
         target = self._provider.get_default_target()
 
         # Calculate weekly weight gain

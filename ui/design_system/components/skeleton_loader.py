@@ -30,13 +30,12 @@ class SkeletonLoader(QFrame):
     def _colors(self):
         return color_from_scheme(self._color_scheme)
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
 
         colors = self._colors()
         base = QColor(colors.scrollbar_handle)
-        highlight = QColor(colors.surface_hover)
         w = self.width()
 
         for i in range(self._lines):
@@ -75,7 +74,7 @@ class SkeletonBlock(QFrame):
     def _colors(self):
         return color_from_scheme(self._color_scheme)
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()

@@ -107,7 +107,7 @@ class CommandPalette(QDialog):
 
     def _filter(self, text: str) -> None:
         text = text.strip().lower()
-        filtered = [(l, c, d) for l, c, d in COMMANDS if text in l.lower() or text in d.lower()] if text else COMMANDS
+        filtered = [(_label, c, d) for _label, c, d in COMMANDS if text in _label.lower() or text in d.lower()] if text else COMMANDS
         self._populate(filtered)
 
     def _execute(self, item: QListWidgetItem) -> None:
@@ -116,7 +116,7 @@ class CommandPalette(QDialog):
             self.command_selected.emit(cmd)
             self.accept()
 
-    def keyPressEvent(self, event: QKeyEvent | None) -> None:
+    def keyPressEvent(self, event: QKeyEvent | None) -> None:  # noqa: N802
         if event and event.key() == Qt.Key_Escape:
             self.reject()
         elif event and event.key() == Qt.Key_Return and self._list.currentItem():
@@ -124,7 +124,7 @@ class CommandPalette(QDialog):
         else:
             super().keyPressEvent(event)
 
-    def showEvent(self, event) -> None:
+    def showEvent(self, event) -> None:  # noqa: N802
         super().showEvent(event)
         self._input.setFocus()
         self._input.selectAll()

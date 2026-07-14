@@ -2,22 +2,14 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
 
 from modules.prediction.domain import (
-    ConfidenceLevel,
-    Forecast,
-    ForecastPoint,
     Prediction,
-    PredictionConfidence,
-    PredictionEvidence,
-    PredictionExplanation,
     PredictionResult,
-    PredictionScenario,
     PredictionType,
     PredictionWindow,
 )
-from modules.prediction.infrastructure.repository import PredictionRepository
 
 
 class IPredictionProvider(ABC):

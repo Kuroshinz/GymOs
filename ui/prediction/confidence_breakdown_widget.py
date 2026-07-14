@@ -52,10 +52,15 @@ class ConfidenceBreakdownWidget(DashboardCard):
 
         if mr.confidence_breakdown:
             for factor, score in mr.confidence_breakdown.items():
-                color = PredictionFormatter.impact_level_color(
-                    "high" if score >= 0.7 else "moderate" if score >= 0.4 else "low"
-                )
-                row = DashboardCard.make_row(factor, f"{score:.0%}", value_color=color)
+                try:
+                    score_f = float(score)
+                    score_str = f"{score_f:.0%}"
+                    level = "high" if score_f >= 0.7 else "moderate" if score_f >= 0.4 else "low"
+                except ValueError:
+                    score_str = str(score)
+                    level = score.lower() if isinstance(score, str) else "moderate"
+                color = PredictionFormatter.impact_level_color(level)
+                row = DashboardCard.make_row(factor, score_str, value_color=color)
                 layout.addWidget(row)
 
         if mr.evidence_summary:

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import json
 import uuid
 from datetime import datetime, timedelta
@@ -71,7 +72,6 @@ class RecoveryRepository:
                 existing.deload_frequency_weeks = profile.deload_frequency_weeks
                 existing.updated_at = datetime.now()
             else:
-                now = datetime.now().isoformat()
                 model = RecoveryProfileModel(
                     id=profile_id,
                     hrv_baseline=profile.hrv_baseline,
@@ -446,7 +446,7 @@ class RecoveryRepository:
                 .order_by(desc(RecoveryRecommendationModel.priority))
             )
             if not include_dismissed:
-                stmt = stmt.where(RecoveryRecommendationModel.dismissed == False)
+                stmt = stmt.where(RecoveryRecommendationModel.dismissed.is_(False))
             models = session.execute(stmt).scalars().all()
             return [self._rec_model_to_domain(m) for m in models]
 
@@ -516,22 +516,16 @@ class RecoveryRepository:
     def _score_model_to_domain(m: RecoveryScoreModel) -> RecoveryScore:
         sleep_q = None
         if m.sleep_quality:
-            try:
+            with contextlib.suppress(KeyError, ValueError):
                 sleep_q = SleepQuality[m.sleep_quality]
-            except (KeyError, ValueError):
-                pass
         stress_l = None
         if m.stress_level:
-            try:
+            with contextlib.suppress(KeyError, ValueError):
                 stress_l = StressLevel[m.stress_level]
-            except (KeyError, ValueError):
-                pass
         soreness = None
         if m.soreness_level:
-            try:
+            with contextlib.suppress(KeyError, ValueError):
                 soreness = SorenessLevel[m.soreness_level]
-            except (KeyError, ValueError):
-                pass
         return RecoveryScore(
             id=m.id,
             date=m.date,
@@ -561,10 +555,8 @@ class RecoveryRepository:
     def _sleep_model_to_domain(m: SleepLogModel) -> SleepLog:
         quality = None
         if m.quality:
-            try:
+            with contextlib.suppress(KeyError, ValueError):
                 quality = SleepQuality[m.quality]
-            except (KeyError, ValueError):
-                pass
         return SleepLog(
             id=m.id,
             date=m.date,
@@ -580,10 +572,8 @@ class RecoveryRepository:
     @staticmethod
     def _stress_model_to_domain(m: StressLogModel) -> StressLog:
         level = StressLevel.MODERATE
-        try:
+        with contextlib.suppress(KeyError, ValueError):
             level = StressLevel[m.level]
-        except (KeyError, ValueError):
-            pass
         return StressLog(
             id=m.id,
             date=m.date,
@@ -597,10 +587,8 @@ class RecoveryRepository:
     def _readiness_model_to_domain(m: ReadinessAssessmentModel) -> ReadinessAssessment:
         flags = []
         if m.flags:
-            try:
+            with contextlib.suppress(json.JSONDecodeError, TypeError):
                 flags = json.loads(m.flags)
-            except (json.JSONDecodeError, TypeError):
-                pass
         return ReadinessAssessment(
             id=m.id,
             date=m.date,

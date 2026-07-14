@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 import logging
 from typing import Any
 
@@ -48,17 +49,13 @@ class ThemeTransitionManager(QObject):
             return
 
         for widget in self._widgets:
-            try:
+            with contextlib.suppress(Exception):
                 widget.setStyleSheet(self._theme_styleheet())
-            except Exception:
-                pass
 
         if self._animation:
             for widget in self._widgets:
-                try:
+                with contextlib.suppress(Exception):
                     self._animation.fade_out(widget, duration=actual_duration // 2, easing=QEasingCurve.Type.OutCubic)
-                except Exception:
-                    pass
 
         self.transition_completed.emit(prev_theme, theme_name)
 
@@ -90,10 +87,8 @@ class ThemeTransitionManager(QObject):
             logger.warning("Theme '%s' not found", theme_name)
 
         for widget in self._widgets:
-            try:
+            with contextlib.suppress(Exception):
                 widget.setStyleSheet(self._theme_styleheet())
-            except Exception:
-                pass
 
         if self._animation:
             for widget in self._widgets:

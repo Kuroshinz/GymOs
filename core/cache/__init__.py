@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 import time
-from collections import OrderedDict
 from threading import Lock
-from typing import Any, Optional
+from typing import Any
 
 
 class Cache:

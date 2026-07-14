@@ -330,8 +330,8 @@ class CommandCenter(QWidget):
             QMessageBox.information(self, "Knowledge Graph", "Knowledge graph is ready")
 
     def _on_search_knowledge(self) -> None:
-        from PySide6.QtWidgets import QInputDialog as QID
-        query, ok = QID.getText(self, "Search Knowledge", "Enter search term:")
+        from PySide6.QtWidgets import QInputDialog
+        query, ok = QInputDialog.getText(self, "Search Knowledge", "Enter search term:")
         if ok and query:
             try:
                 from shared.knowledge_evolution.query import KnowledgeQueryEngine

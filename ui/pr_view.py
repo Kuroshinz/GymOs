@@ -19,13 +19,28 @@ class PRCard(QFrame):
 
     def __init__(self, pr):
         super().__init__()
+        type_labels = {
+            "weight": "Weight PR",
+            "reps": "Rep PR",
+            "volume": "Volume PR",
+            "e1rm": "Est. 1RM",
+        }
+        pr_type_label = type_labels.get(pr.pr_type, pr.pr_type)
+        self.setAccessibleName(f"Personal Record: {pr.exercise_name} - {pr_type_label}")
+        if pr.display_value:
+            self.setAccessibleDescription(f"{pr.exercise_name}: {pr.display_value}")
         self.setStyleSheet("""
             PRCard {
                 background-color: #1E293B;
+                border: 1px solid transparent;
                 border-radius: 12px;
                 padding: 16px;
             }
+            PRCard:focus {
+                border-color: #818CF8;
+            }
         """)
+        self.setFocusPolicy(Qt.StrongFocus)
         layout = QVBoxLayout(self)
         layout.setContentsMargins(16, 12, 16, 12)
         layout.setSpacing(4)
@@ -37,22 +52,18 @@ class PRCard(QFrame):
             "volume": "#FBBF24",
             "e1rm": "#818CF8",
         }
-        type_labels = {
-            "weight": "Weight PR",
-            "reps": "Rep PR",
-            "volume": "Volume PR",
-            "e1rm": "Est. 1RM",
-        }
         color = type_colors.get(pr.pr_type, "#94A3B8")
 
         row1 = QHBoxLayout()
         row1.setSpacing(8)
 
         name_label = QLabel(pr.exercise_name)
+        name_label.setAccessibleName(f"{pr.exercise_name} exercise name")
         name_label.setStyleSheet("color: #F1F5F9; font-size: 15px; font-weight: 700;")
         row1.addWidget(name_label)
 
-        type_label = QLabel(type_labels.get(pr.pr_type, pr.pr_type))
+        type_label = QLabel(pr_type_label)
+        type_label.setAccessibleName(f"PR type: {pr_type_label}")
         type_label.setStyleSheet(f"color: {color}; font-size: 11px; font-weight: 600; "
                                  f"background-color: #0F172A; border-radius: 4px; "
                                  f"padding: 2px 8px;")
@@ -65,6 +76,7 @@ class PRCard(QFrame):
         if pr.improvement_text:
             value_text += f"  {pr.improvement_text}"
         value_label = QLabel(value_text)
+        value_label.setAccessibleName(f"{pr.exercise_name} PR value")
         value_label.setStyleSheet(f"color: {color}; font-size: 22px; font-weight: 700;")
         layout.addWidget(value_label)
 
@@ -99,10 +111,12 @@ class PRView(QWidget):
         layout.setSpacing(16)
 
         header = QLabel("Personal Records")
+        header.setAccessibleName("Personal Records heading")
         header.setStyleSheet("font-size: 24px; font-weight: 700; color: #F1F5F9;")
         layout.addWidget(header)
 
         sub = QLabel("Your best performances across all exercises")
+        sub.setAccessibleName("Personal Records description")
         sub.setStyleSheet("color: #94A3B8; font-size: 14px; margin-top: -12px;")
         layout.addWidget(sub)
 

@@ -76,7 +76,7 @@ class Orchestrator:
     async def subscribe_all(self) -> None:
         if self._subscribed:
             return
-        for event_name, bindings in self._bindings.items():
+        for event_name, _bindings in self._bindings.items():
             handler = self._create_handler(event_name)
             self._handlers[event_name] = handler
             self._event_bus.subscribe(event_name, handler)

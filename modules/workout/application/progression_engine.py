@@ -121,6 +121,7 @@ class ProgressionEngine:
         Returns:
             ProgressionRecommendation with suggestion
         """
+        target_reps = target_reps.replace("\u2013", "-").replace("\u2014", "-")
         parts = target_reps.split("-")
         target_low = int(parts[0]) if parts else 8
         target_high = int(parts[1]) if len(parts) > 1 else 12
@@ -149,10 +150,9 @@ class ProgressionEngine:
         # Check RIR is acceptable (if RIR is recorded)
         rir_acceptable = True
         for s in completed_sets:
-            if s.rir is not None:
-                if s.rir > acceptable_rir:
-                    rir_acceptable = False
-                    break
+            if s.rir is not None and s.rir > acceptable_rir:
+                rir_acceptable = False
+                break
 
         # Calculate progress percent through the rep range
         avg_reps = sum(current_reps) / len(current_reps)

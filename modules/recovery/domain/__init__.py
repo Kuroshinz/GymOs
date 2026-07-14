@@ -6,9 +6,8 @@ Every entity is strongly typed, deterministic, and directly modelable in SQLite.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import date, datetime, timedelta
+from datetime import datetime
 from enum import Enum, auto
-from typing import Optional
 
 # ─── Enums ──────────────────────────────────────────────────
 

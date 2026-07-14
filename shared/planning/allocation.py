@@ -73,7 +73,6 @@ class AllocationEngine:
         primary_ratio: float = 0.4,
     ) -> VolumeAllocation:
         primary_sets = int(target_sets * primary_ratio)
-        accessory_sets = target_sets - primary_sets
         return VolumeAllocation(
             sets_per_exercise=(3, 5),
             reps_per_set=session.volume_allocation.reps_per_set

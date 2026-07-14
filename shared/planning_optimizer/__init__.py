@@ -13,7 +13,7 @@ from __future__ import annotations
 import json
 import uuid
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
 
 from shared.planning_optimizer.constraints import ConstraintChecker
 from shared.planning_optimizer.domain import (
@@ -57,9 +57,9 @@ class PlanningOptimizerOrchestrator:
 
     def __init__(
         self,
-        config: OptimizerConfig = OptimizerConfig(),
+        config: OptimizerConfig | None = None,
     ) -> None:
-        self.config = config
+        self.config = config or OptimizerConfig()
         self.engine = OptimizationEngine(config)
         self.repository = PlanningOptimizerRepository()
         self.serializer = PlanningOptimizerSerializer()

@@ -77,7 +77,7 @@ class OptimizationInsightsWidget(DashboardCard):
             self._insights_list.addWidget(row)
 
     def _clear_insights(self) -> None:
-        for i in reversed(range(self._insights_list.count())):
+        for _i in reversed(range(self._insights_list.count())):
             item = self._insights_list.takeAt(0)
             if item and item.widget():
                 item.widget().deleteLater()

@@ -67,7 +67,7 @@ class WeeklyReviewWidget(DashboardCard):
             self._notes_list.addWidget(lbl)
 
     def _clear_notes(self) -> None:
-        for i in reversed(range(self._notes_list.count())):
+        for _i in reversed(range(self._notes_list.count())):
             item = self._notes_list.takeAt(0)
             if item and item.widget():
                 item.widget().deleteLater()

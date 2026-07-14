@@ -18,7 +18,6 @@ def achievement_feed(
 
     body_parts = []
     detail_parts = []
-    actions = []
 
     for i, ach in enumerate(achievements):
         name = ach.get("name", f"Achievement {i + 1}")

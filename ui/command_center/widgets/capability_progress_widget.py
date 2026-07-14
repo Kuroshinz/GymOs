@@ -101,7 +101,7 @@ class CapabilityProgressWidget(DashboardCard):
             self._cap_list.addWidget(row)
 
     def _clear_cap_list(self) -> None:
-        for i in reversed(range(self._cap_list.count())):
+        for _i in reversed(range(self._cap_list.count())):
             item = self._cap_list.takeAt(0)
             if item and item.widget():
                 item.widget().deleteLater()

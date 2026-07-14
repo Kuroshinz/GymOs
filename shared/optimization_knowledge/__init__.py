@@ -8,36 +8,21 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime
-from typing import Optional
 
 import shared.events as events_module
 from shared.optimization_knowledge.domain import (
-    INSIGHT_CATEGORY_LABELS,
-    KNOWLEDGE_SCOPE_LABELS,
-    OUTCOME_CLASS_LABELS,
-    PATTERN_TYPE_LABELS,
-    RULE_EFFECT_LABELS,
-    InsightCategory,
     KnowledgeConfig,
     KnowledgeScope,
     KnowledgeState,
-    OptimizationEvidence,
     OptimizationExperience,
     OptimizationInsight,
     OptimizationKnowledge,
-    OptimizationOutcome,
     OptimizationPattern,
-    OptimizationProfile,
-    OptimizationRecommendation,
     OptimizationRule,
     OptimizationStatistics,
-    OutcomeClass,
-    PatternType,
-    RuleEffect,
 )
 from shared.optimization_knowledge.engine import ExperienceEngine, KnowledgeExtractor
 from shared.optimization_knowledge.events import (
-    OPTIMIZATION_KNOWLEDGE_EVENT_REGISTRY,
     ExperienceRecorded,
     InsightGenerated,
     KnowledgeVersioned,
@@ -65,9 +50,9 @@ class OptimizationKnowledgeOrchestrator:
 
     def __init__(
         self,
-        config: KnowledgeConfig = KnowledgeConfig(),
+        config: KnowledgeConfig | None = None,
     ) -> None:
-        self.config = config
+        self.config = config or KnowledgeConfig()
         self.experience_engine = ExperienceEngine(config)
         self.pattern_miner = PatternMiningEngine(config)
         self.statistics_engine = StatisticsEngine(config)

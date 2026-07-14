@@ -57,7 +57,6 @@ class RecoveryTimelineWidget(DashboardCard):
 
     def update_data(self, data: Any) -> None:
         scores = getattr(data, "recovery_scores", []) or []
-        dates = getattr(data, "recovery_dates", []) or []
 
         for i, (dot, date_lbl) in enumerate(self._dots):
             if i < len(scores):

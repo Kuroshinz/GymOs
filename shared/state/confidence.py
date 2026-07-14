@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from shared.capabilities import compute_platform_state
 from shared.capabilities import registry as _cap_registry
 from shared.capabilities.enums import CapabilityStatus
 from shared.kernel.kernel_context import assess_release_readiness
@@ -37,7 +36,6 @@ class ConfidenceScorer:
     def score(self, indicators: IndicatorSet | None = None) -> ConfidenceResult:
         """Compute confidence scores for the current product state."""
         caps = _cap_registry.list_all()
-        state = compute_platform_state(_cap_registry)
 
         # Data quality: how many capabilities have complete health data
         complete_health = sum(1 for c in caps if c.health.overall > 0)

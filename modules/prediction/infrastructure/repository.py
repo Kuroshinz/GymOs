@@ -122,7 +122,7 @@ class PredictionRepository:
             today = datetime.now().strftime("%Y-%m-%d")
             models = session.execute(
                 select(PredictionModel)
-                .where(PredictionModel.is_active == True)
+                .where(PredictionModel.is_active.is_(True))
                 .where(
                     (PredictionModel.expires_at >= today) |
                     (PredictionModel.expires_at.is_(None)) |

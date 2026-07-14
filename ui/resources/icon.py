@@ -6,7 +6,7 @@ Provides QIcon at multiple sizes without requiring external files.
 from __future__ import annotations
 
 from PySide6.QtCore import QByteArray
-from PySide6.QtGui import QIcon, QPixmap
+from PySide6.QtGui import QIcon, QPainter, QPixmap
 from PySide6.QtSvg import QSvgRenderer
 
 _ICON_SVG = """<?xml version="1.0" encoding="UTF-8"?>
@@ -50,7 +50,9 @@ def create_app_icon() -> QIcon:
     for size in (16, 32, 48, 64, 96, 128, 256):
         pixmap = QPixmap(size, size)
         pixmap.fill(0)
-        renderer.render(pixmap)
+        painter = QPainter(pixmap)
+        renderer.render(painter)
+        painter.end()
         icon.addPixmap(pixmap)
 
     return icon

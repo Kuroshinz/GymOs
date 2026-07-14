@@ -10,7 +10,7 @@ from __future__ import annotations
 from typing import Any
 
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtWidgets import QLabel, QPushButton, QVBoxLayout
+from PySide6.QtWidgets import QFrame, QLabel, QPushButton, QVBoxLayout
 
 from .base_card import DashboardCard
 

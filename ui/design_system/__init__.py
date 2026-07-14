@@ -1,4 +1,4 @@
-from ui.design_system import components, layout, tokens, visualization
+from ui.design_system import components, tokens
 from ui.design_system.components import (
     ActivityFeed,
     ActivityItem,
@@ -31,6 +31,7 @@ from ui.design_system.tokens import (
     ColorTokens,
     DarkColorTokens,
     ElevationTokens,
+    GlowTokens,
     HighContrastColorTokens,
     IconTokens,
     LayoutBreakpoint,
@@ -40,15 +41,18 @@ from ui.design_system.tokens import (
     RadiusTokens,
     SemanticColorTokens,
     SpacingTokens,
+    TypeScale,
     TypographyTokens,
+    apply_elevation,
     breakpoint,
     color_from_scheme,
+    compute_shadow,
     easing_style,
     elevation_style,
     font_style,
+    glow_effect,
     resolve_alpha,
     spacing_step,
-    type_scale,
 )
 
 __all__ = [
@@ -63,11 +67,15 @@ __all__ = [
     "resolve_alpha",
     "TypographyTokens",
     "font_style",
-    "type_scale",
+    "TypeScale",
     "SpacingTokens",
     "spacing_step",
     "ElevationTokens",
     "elevation_style",
+    "apply_elevation",
+    "GlowTokens",
+    "glow_effect",
+    "compute_shadow",
     "RadiusTokens",
     "BorderTokens",
     "MotionTokens",
@@ -94,7 +102,6 @@ __all__ = [
     "SkeletonBlock",
     "EmptyState",
     "NotificationToast",
-    "ToastType",
     "DialogTemplate",
     "InsightCard",
     "WarningBanner",

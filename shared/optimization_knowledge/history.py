@@ -18,8 +18,8 @@ def _int_id(prefix: str = "hist") -> str:
 class KnowledgeHistory:
     """Maintains versioned knowledge history with snapshot capabilities."""
 
-    def __init__(self, config: KnowledgeConfig = KnowledgeConfig()) -> None:
-        self.config = config
+    def __init__(self, config: KnowledgeConfig | None = None) -> None:
+        self.config = config or KnowledgeConfig()
         self._entries: list[KnowledgeHistoryEntry] = []
         self._snapshots: dict[str, OptimizationKnowledge] = {}
 

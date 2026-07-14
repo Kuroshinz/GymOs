@@ -27,7 +27,7 @@ class TrendChart(BaseVisualization):
         self._line_color = line_color
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()

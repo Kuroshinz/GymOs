@@ -26,8 +26,8 @@ class DevToolsService:
     """
 
     def __init__(self, console: DeveloperConsole | None = None) -> None:
-        from shared.observability.devconsole import DeveloperConsole as DC
-        self._console = console or DC()
+        from shared.observability.devconsole import DeveloperConsole
+        self._console = console or DeveloperConsole()
         self._settings = DeveloperSettings()
 
     @property

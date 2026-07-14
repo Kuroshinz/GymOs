@@ -38,8 +38,6 @@ class ProgressionRule(BaseRule):
                 ex_data = provider.get_exercise_by_name(ex.name)
                 if not ex_data:
                     continue
-                target_reps = ex_data.get("hypertrophy_rep_range") if isinstance(ex_data, dict) else getattr(ex_data, "hypertrophy_rep_range", "8-12")
-
                 rec = provider.get_progression_recommendation(ex.name)
                 if rec and hasattr(rec, "should_increase") and rec.should_increase:
                     ready.append(f"{ex.name}: increase from {rec.current_weight}kg to {rec.suggested_weight}kg (reps: {rec.suggested_reps})")

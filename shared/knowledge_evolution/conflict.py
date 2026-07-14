@@ -38,7 +38,7 @@ class ConflictEngine:
             grouped.setdefault(r.domain, []).append(r)
 
         conflicts: list[KnowledgeConflict] = []
-        for domain, domain_records in grouped.items():
+        for _domain, domain_records in grouped.items():
             limit = self.config.min_evidence_for_confidence
             for i in range(len(domain_records)):
                 for j in range(i + 1, len(domain_records)):

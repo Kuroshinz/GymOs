@@ -1,7 +1,6 @@
 """Workout application service."""
 
 from datetime import datetime
-from typing import Optional
 
 from modules.workout.domain import WorkoutSession
 

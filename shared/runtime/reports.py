@@ -92,7 +92,6 @@ class ReportGenerator:
 
         total_pipelines = sum(r.pipelines_executed for r in recent)
         total_events = sum(r.events_processed for r in recent)
-        total_errors = sum(len(r.errors) for r in recent)
         avg_rate = (
             sum(r.success_rate for r in recent) / len(recent)
             if recent

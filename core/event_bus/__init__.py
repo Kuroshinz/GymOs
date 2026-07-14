@@ -5,9 +5,8 @@ import logging
 import uuid
 from collections import defaultdict
 from collections.abc import Awaitable, Callable
-from datetime import UTC, datetime, timezone
+from datetime import UTC, datetime
 from fnmatch import fnmatch
-from typing import Any
 
 logger = logging.getLogger("nexus.event_bus")
 

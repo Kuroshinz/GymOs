@@ -128,10 +128,7 @@ class RecoveryWidget(DashboardCard):
         # Determine level from status object or fallback
         if status and not level_str:
             level_obj = getattr(status, "level", "low")
-            if hasattr(level_obj, "value"):
-                level_str = level_obj.value
-            else:
-                level_str = str(level_obj).lower()
+            level_str = level_obj.value if hasattr(level_obj, "value") else str(level_obj).lower()
 
         level_key = level_str.lower() if level_str else "low"
         color = LEVEL_COLORS.get(level_key, "#4ADE80")

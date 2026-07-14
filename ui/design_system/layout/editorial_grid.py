@@ -60,7 +60,7 @@ class HeroPanel(QFrame):
         colors = self._colors()
         accent = self._accent or colors.primary
         self.setStyleSheet(f"""
-            HeroPanel#{{
+            HeroPanel {{
                 background-color: {colors.surface};
                 border-radius: {R.xl};
                 border: 1px solid {colors.border};
@@ -127,7 +127,6 @@ class MetricPanel(QFrame):
 
     def _build_ui(self, value: str, label: str, icon: str, trend: str, trend_color: str, accent_color: str) -> None:
         colors = self._colors()
-        accent = accent_color or colors.primary
         self.setStyleSheet(f"""
             MetricPanel {{
                 background-color: {colors.surface};
@@ -164,9 +163,9 @@ class MetricPanel(QFrame):
         layout.addWidget(v)
 
         if label:
-            l = QLabel(label)
-            l.setStyleSheet(f"color: {colors.text_disabled}; font-size: 12px; font-weight: 500; background: transparent; border: none;")
-            layout.addWidget(l)
+            _label = QLabel(label)
+            _label.setStyleSheet(f"color: {colors.text_disabled}; font-size: 12px; font-weight: 500; background: transparent; border: none;")
+            layout.addWidget(_label)
 
 
 class SectionPanel(QFrame):

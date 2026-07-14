@@ -14,9 +14,9 @@ from shared.optimization_knowledge.metrics import KnowledgeMetrics, KnowledgeMet
 class KnowledgeReportGenerator:
     """Generates human-readable reports from accumulated knowledge."""
 
-    def __init__(self, config: KnowledgeConfig = KnowledgeConfig()) -> None:
-        self.config = config
-        self.metrics = KnowledgeMetrics(config)
+    def __init__(self, config: KnowledgeConfig | None = None) -> None:
+        self.config = config or KnowledgeConfig()
+        self.metrics = KnowledgeMetrics(self.config)
 
     def generate_summary_report(
         self,

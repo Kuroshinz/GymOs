@@ -3,7 +3,7 @@
 from ui.recovery.deload_widget import DeloadWidget
 from ui.recovery.fatigue_widget import FatigueWidget
 from ui.recovery.readiness_widget import ReadinessWidget
-from ui.recovery.recovery_dashboard import RecoveryDashboard
+from ui.recovery.recovery_dashboard import RecoveryDashboard, RecoveryDashboardData
 from ui.recovery.recovery_score_widget import RecoveryScoreWidget
 from ui.recovery.recovery_trend_widget import RecoveryTrendWidget
 from ui.recovery.sleep_stress_widget import SleepStressWidget
@@ -20,4 +20,5 @@ __all__ = [
     "RecoveryTimelineWidget",
     "WeeklyRecoveryWidget",
     "RecoveryDashboard",
+    "RecoveryDashboardData",
 ]

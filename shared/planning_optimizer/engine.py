@@ -34,9 +34,9 @@ class OptimizationEngine:
 
     def __init__(
         self,
-        config: OptimizerConfig = OptimizerConfig(),
+        config: OptimizerConfig | None = None,
     ) -> None:
-        self.config = config
+        self.config = config or OptimizerConfig()
         self._simulation = SimulationPipeline()
         self._rng = random.Random(42)
 
@@ -58,8 +58,6 @@ class OptimizationEngine:
             evaluated = self._evaluate_population(population, request)
 
             ranked = self._rank_population(evaluated)
-
-            best_score = ranked[0].scores.overall if ranked else 0.0
 
             if self._check_convergence(ranked, generation):
                 population = [json.loads(c.macrocycle_json) for c in ranked if c.macrocycle_json] or population
@@ -90,7 +88,7 @@ class OptimizationEngine:
         size: int,
     ) -> list[dict[str, Any]]:
         population: list[dict[str, Any]] = []
-        for i in range(size):
+        for _i in range(size):
             candidate = copy.deepcopy(base_plan) if base_plan else self._create_base_plan(request)
             self._mutate_plan(candidate, request.mutation_rate)
             population.append(candidate)
@@ -199,10 +197,6 @@ class OptimizationEngine:
 
             if self._rng.random() < request.mutation_rate:
                 self._mutate_plan(child, request.mutation_rate)
-                child_mutations = parent_a.mutations + ["mutated"]
-            else:
-                child_mutations = parent_a.mutations
-
             if self.config.enable_diversity_maintenance and self._rng.random() < 0.1:
                 self._mutate_plan(child, 0.5)
 

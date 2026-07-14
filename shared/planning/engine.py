@@ -70,11 +70,11 @@ class PlanningEngine:
 
     def __init__(
         self,
-        config: PlanningConfig = PlanningConfig(),
-        validator: PlanningValidator = PlanningValidator(),
+        config: PlanningConfig | None = None,
+        validator: PlanningValidator | None = None,
     ) -> None:
-        self.config = config
-        self.validator = validator
+        self.config = config or PlanningConfig()
+        self.validator = validator or PlanningValidator()
         self.allocation = AllocationEngine()
 
     def generate_macrocycle(
@@ -247,8 +247,10 @@ class PlanningEngine:
         day_of_week: int,
         focus: TrainingFocus = TrainingFocus.HYPERTROPHY,
         is_deload: bool = False,
-        volume_allocation: VolumeAllocation = VolumeAllocation(),
+        volume_allocation: VolumeAllocation | None = None,
     ) -> SessionPlan:
+        if volume_allocation is None:
+            volume_allocation = VolumeAllocation()
         session_id = _generate_id("session")
         fatigue = FatigueBudget(
             total_fatigue_units=volume_allocation.total_sets_per_session * 1.5,

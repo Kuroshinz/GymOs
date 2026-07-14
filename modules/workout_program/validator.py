@@ -36,10 +36,7 @@ REP_RANGE_PATTERNS = (
 
 def _looks_like_rep_range(value: str) -> bool:
     import re
-    for pat in REP_RANGE_PATTERNS:
-        if re.match(pat, value.strip()):
-            return True
-    return False
+    return any(re.match(pat, value.strip()) for pat in REP_RANGE_PATTERNS)
 
 
 class ProgramValidator:

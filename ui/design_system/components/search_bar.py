@@ -54,6 +54,8 @@ class SearchBar(QFrame):
         layout.addWidget(icon_label)
 
         self._input = QLineEdit()
+        self._input.setAccessibleName("Search input")
+        self._input.setToolTip(placeholder)
         self._input.setPlaceholderText(placeholder)
         self._input.setStyleSheet(f"""
             QLineEdit {{

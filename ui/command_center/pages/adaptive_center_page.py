@@ -34,7 +34,6 @@ class AdaptiveCenterPage(QWidget):
         return color_from_scheme(ColorScheme.DARK)
 
     def _build_ui(self) -> None:
-        colors = self._colors()
         scroll = ScrollContainer()
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)

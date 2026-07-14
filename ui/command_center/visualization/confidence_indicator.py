@@ -85,7 +85,7 @@ class ConfidenceBar(QFrame):
         if fill_width > 0:
             self._bar_fill.setFixedWidth(fill_width)
 
-    def resizeEvent(self, event) -> None:
+    def resizeEvent(self, event) -> None:  # noqa: N802
         super().resizeEvent(event)
         fill_width = int(max(self._bar_bg.width() * self._score, 0))
         if fill_width > 0:

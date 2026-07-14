@@ -36,7 +36,7 @@ class WeeklyTimeline(BaseVisualization):
             self._values.extend([0.0] * (len(self._days) - len(self._values)))
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()

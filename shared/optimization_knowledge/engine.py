@@ -30,8 +30,8 @@ def _generate_id(prefix: str = "kno") -> str:
 class ExperienceEngine:
     """Collects and classifies optimization experiences."""
 
-    def __init__(self, config: KnowledgeConfig = KnowledgeConfig()) -> None:
-        self.config = config
+    def __init__(self, config: KnowledgeConfig | None = None) -> None:
+        self.config = config or KnowledgeConfig()
         self._experiences: list[OptimizationExperience] = []
 
     def record_experience(
@@ -99,10 +99,10 @@ class ExperienceEngine:
 class KnowledgeExtractor:
     """Extracts patterns, rules, insights, and recommendations from collected experiences."""
 
-    def __init__(self, config: KnowledgeConfig = KnowledgeConfig()) -> None:
-        self.config = config
-        self._pattern_miner = PatternMiningEngine(config)
-        self._statistics_engine = StatisticsEngine(config)
+    def __init__(self, config: KnowledgeConfig | None = None) -> None:
+        self.config = config or KnowledgeConfig()
+        self._pattern_miner = PatternMiningEngine(self.config)
+        self._statistics_engine = StatisticsEngine(self.config)
 
     def extract_knowledge(
         self,

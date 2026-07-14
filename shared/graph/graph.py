@@ -6,6 +6,7 @@ architectural elements (nodes) and their relationships (edges).
 
 from __future__ import annotations
 
+import contextlib
 from collections.abc import Iterator
 from dataclasses import dataclass, field
 
@@ -88,20 +89,18 @@ class KnowledgeGraph:
 
     def has_edge(self, source_id: str, target_id: str, edge_type: EdgeType | None = None) -> bool:
         for edge in self._edges:
-            if edge.source_id == source_id and edge.target_id == target_id:
-                if edge_type is None or edge.edge_type == edge_type:
-                    return True
+            if edge.source_id == source_id and edge.target_id == target_id and (edge_type is None or edge.edge_type == edge_type):
+                return True
         return False
 
     def remove_edge(self, source_id: str, target_id: str, edge_type: EdgeType | None = None) -> None:
         """Remove matching edges between source and target."""
         remaining: list[Edge] = []
         for edge in self._edges:
-            if edge.source_id == source_id and edge.target_id == target_id:
-                if edge_type is None or edge.edge_type == edge_type:
-                    self._remove_edge_from_list(edge, self._outgoing.get(source_id, []))
-                    self._remove_edge_from_list(edge, self._incoming.get(target_id, []))
-                    continue
+            if edge.source_id == source_id and edge.target_id == target_id and (edge_type is None or edge.edge_type == edge_type):
+                self._remove_edge_from_list(edge, self._outgoing.get(source_id, []))
+                self._remove_edge_from_list(edge, self._incoming.get(target_id, []))
+                continue
             remaining.append(edge)
         self._edges = remaining
 
@@ -161,10 +160,8 @@ class KnowledgeGraph:
     # ── Helpers ──────────────────────────────────────────────────────────────
 
     def _remove_edge_from_list(self, edge: Edge, lst: list[Edge]) -> None:
-        try:
+        with contextlib.suppress(ValueError):
             lst.remove(edge)
-        except ValueError:
-            pass
 
     def __contains__(self, node_id: str) -> bool:
         return node_id in self._nodes

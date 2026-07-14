@@ -153,9 +153,7 @@ class OptimizationConstraint:
     def is_satisfied(self, candidate_value: float) -> bool:
         if self.max_value is not None and candidate_value > self.max_value:
             return False
-        if self.min_value is not None and candidate_value < self.min_value:
-            return False
-        return True
+        return not (self.min_value is not None and candidate_value < self.min_value)
 
 
 @dataclass(frozen=True)

@@ -14,9 +14,7 @@ Engine architecture:
 
 from __future__ import annotations
 
-import math
 from datetime import datetime, timedelta
-from typing import Optional
 
 from modules.recovery.domain import (
     DeloadPlan,
@@ -34,7 +32,6 @@ from modules.recovery.domain import (
     SleepQuality,
     SorenessLevel,
     StressLevel,
-    StressLog,
 )
 
 # ═══════════════════════════════════════════════════════════════

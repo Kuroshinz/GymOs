@@ -9,10 +9,12 @@ Installs an excepthook that:
 
 from __future__ import annotations
 
+import contextlib
 import logging
 import os
 import sys
 import traceback
+import types
 from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
@@ -22,7 +24,7 @@ from shared.version import APP_VERSION, BUILD_NUMBER
 logger = logging.getLogger(__name__)
 
 _CRASH_DIR = Path(os.path.dirname(__file__)) / ".." / ".." / "data" / "crashes"
-_original_excepthook: object = sys.excepthook
+_original_excepthook: Callable[[type[BaseException], BaseException, types.TracebackType | None], None] = sys.excepthook
 _cleanup_callbacks: list[Callable[[], None]] = []
 
 
@@ -36,7 +38,7 @@ def _ensure_crash_dir() -> Path:
     return _CRASH_DIR
 
 
-def write_crash_report(exc_type: type, exc_value: BaseException, tb: object) -> str:
+def write_crash_report(exc_type: type[BaseException], exc_value: BaseException, tb: types.TracebackType | None) -> str:
     """Write a crash report file.
 
     Returns:
@@ -77,7 +79,7 @@ def safe_shutdown() -> None:
     _cleanup_callbacks.clear()
 
 
-def _global_excepthook(exc_type: type, exc_value: BaseException, tb: object) -> None:
+def _global_excepthook(exc_type: type[BaseException], exc_value: BaseException, tb: types.TracebackType | None) -> None:
     """Global exception handler installed as sys.excepthook.
 
     On PySide6 applications, also installs qInstallMessageHandler
@@ -99,17 +101,14 @@ def _global_excepthook(exc_type: type, exc_value: BaseException, tb: object) -> 
 
     safe_shutdown()
 
-    try:
+    with contextlib.suppress(Exception):
         _show_recovery_dialog(exc_type, exc_value, report_path)
-    except Exception:
-        pass
 
-    if _original_excepthook:
-        _original_excepthook(exc_type, exc_value, tb)
+    _original_excepthook(exc_type, exc_value, tb)
 
 
 def _show_recovery_dialog(
-    exc_type: type,
+    exc_type: type[BaseException],
     exc_value: BaseException,
     report_path: str,
 ) -> None:
@@ -160,7 +159,7 @@ def get_last_crash_report() -> str | None:
     """Get the path to the most recent crash report, if any."""
     if not _CRASH_DIR.exists():
         return None
-    crash_files = sorted(_CRASH_DIR.iterdir(), reverse=True)
+    crash_files = _list_crash_reports()
     return str(crash_files[0]) if crash_files else None
 
 
@@ -168,7 +167,12 @@ def get_all_crash_reports() -> list[str]:
     """Get paths to all crash reports, newest first."""
     if not _CRASH_DIR.exists():
         return []
+    return [str(p) for p in _list_crash_reports()]
+
+
+def _list_crash_reports() -> list[Path]:
+    """List crash report files (*.log) in the crash dir, newest first."""
     return sorted(
-        (str(p) for p in _CRASH_DIR.iterdir()),
+        (p for p in _CRASH_DIR.iterdir() if p.suffix == ".log"),
         reverse=True,
     )

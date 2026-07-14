@@ -43,4 +43,5 @@ __all__ = [
     "TagEngine",
     "KnowledgeValidator",
     "KnowledgeService",
+    "ValidationError",
 ]

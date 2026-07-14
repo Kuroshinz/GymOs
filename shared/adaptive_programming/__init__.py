@@ -138,8 +138,8 @@ class AdaptiveProgrammingOrchestrator:
     event bus for every lifecycle step.
     """
 
-    def __init__(self, config: AdaptiveConfig = AdaptiveConfig()) -> None:
-        self.config = config
+    def __init__(self, config: AdaptiveConfig | None = None) -> None:
+        self.config = config or AdaptiveConfig()
         self.monitor = AdaptiveMonitorEngine()
         self.strategy_engine = AdaptationStrategyEngine()
         self.decision_policy = AdaptiveDecisionPolicy()

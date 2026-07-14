@@ -26,7 +26,6 @@ def global_stylesheet(scheme: ColorScheme = ColorScheme.DARK) -> str:
     surface_hover = _cs(c, "surface_hover")
     surface_active = _cs(c, "surface_active")
     border = _cs(c, "border")
-    border_hover = _cs(c, "border_hover")
     primary = _cs(c, "primary")
     primary_hover = _cs(c, "primary_hover")
     primary_variant = _cs(c, "primary_variant")
@@ -38,9 +37,6 @@ def global_stylesheet(scheme: ColorScheme = ColorScheme.DARK) -> str:
     scrollbar_handle = _cs(c, "scrollbar_handle")
     scrollbar_hover = _cs(c, "scrollbar_hover")
     focus_ring = _cs(c, "focus_ring")
-    success = _cs(c, "success")
-    warning = _cs(c, "warning")
-    error = _cs(c, "error")
 
     return f"""
     QWidget {{
@@ -54,7 +50,15 @@ def global_stylesheet(scheme: ColorScheme = ColorScheme.DARK) -> str:
         color: {text_disabled};
     }}
 
-    /* Focus indicator handled by widget-specific :focus selectors */
+    /* Global focus indicators — widgets that don't override get visible outline */
+    *:focus {{
+        outline: none;
+    }}
+
+    QAbstractItemView:focus {{
+        border-color: {focus_ring};
+        border: 2px solid {focus_ring};
+    }}
 
     QScrollBar:vertical {{
         background: {scrollbar_bg};

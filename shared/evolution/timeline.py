@@ -200,7 +200,6 @@ def build_evolution_summary(
 ) -> EvolutionSummary:
     """Build a comprehensive summary of all evolution data."""
     state = create_default_state()
-    chain = build_evolution_chain(snapshots)
     velocities = compute_capability_velocities(snapshots)
     impacts = compute_rfc_contributions(snapshots)
 

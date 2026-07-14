@@ -8,22 +8,19 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
 
 from modules.recovery.domain import (
     DeloadPlan,
     DeloadStatus,
     FatigueFactors,
-    FatigueLevel,
     ReadinessAssessment,
-    ReadinessLevel,
     RecoveryProfile,
     RecoveryRecommendation,
     RecoveryScore,
     RecoverySession,
     RecoverySnapshot,
     RecoveryTrend,
-    RecoveryTrendAnalysis,
     SleepLog,
     SleepQuality,
     SorenessLevel,
@@ -447,7 +444,6 @@ class RecoveryService:
         recs: list[RecoveryRecommendation] = []
         today = datetime.now().strftime("%Y-%m-%d")
         score = self.get_today_score()
-        sleep_log = self._repo.get_sleep_by_date(today)
         stress_log = self._repo.get_stress_by_date(today)
 
         if score and score.overall_score < 40:
@@ -503,9 +499,6 @@ class RecoveryService:
         try:
             # Use the event bus directly
             import asyncio
-            from dataclasses import dataclass
-
-            from shared.events import DomainEvent
             try:
                 loop = asyncio.get_running_loop()
                 if loop.is_running():

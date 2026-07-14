@@ -59,7 +59,7 @@ class KnowledgeUpdatesWidget(DashboardCard):
             self._container.addWidget(row)
 
     def _clear(self) -> None:
-        for i in reversed(range(self._container.count())):
+        for _i in reversed(range(self._container.count())):
             item = self._container.takeAt(0)
             if item and item.widget():
                 item.widget().deleteLater()

@@ -19,7 +19,7 @@ class PredictionSummaryWidget(DashboardCard):
             card = PredictionCard()
             self._cards.append(card)
         positions = [(0, 0), (0, 1), (1, 0), (1, 1)]
-        for card, (r, c) in zip(self._cards, positions):
+        for card, (r, c) in zip(self._cards, positions, strict=True):
             self._grid.addWidget(card, r, c)
         self.add_layout(self._grid)
 

@@ -1,17 +1,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Optional
 
 from modules.prediction.domain import (
     ConfidenceLevel,
-    CounterfactualResult,
     Prediction,
     PredictionResult,
     PredictionType,
     PredictionWindow,
-    RiskMetrics,
-    ScenarioResult,
 )
 
 
@@ -83,6 +79,16 @@ class PredictionViewModel:
 
 
 class PredictionFormatter:
+    @staticmethod
+    def impact_level_color(impact: str) -> str:
+        colors = {"high": "#EF4444", "moderate": "#FBBF24", "low": "#4ADE80"}
+        return colors.get(impact, "#94A3B8")
+
+    @staticmethod
+    def risk_level_color(risk: str) -> str:
+        colors = {"high": "#EF4444", "moderate": "#FBBF24", "low": "#4ADE80"}
+        return colors.get(risk, "#94A3B8")
+
     @staticmethod
     def format_percentage(value: float) -> str:
         return f"{value:.0f}%"

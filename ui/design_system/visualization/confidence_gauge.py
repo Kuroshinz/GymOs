@@ -34,7 +34,7 @@ class ConfidenceGauge(QFrame):
         self._label = label
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
 

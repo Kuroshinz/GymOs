@@ -149,7 +149,7 @@ class CommandBar(QFrame):
         self.hide()
         self.dismissed.emit()
 
-    def keyPressEvent(self, event) -> None:
+    def keyPressEvent(self, event) -> None:  # noqa: N802
         if event.matches(QKeySequence(Qt.Key_Escape)):
             self.hide_command_bar()
         super().keyPressEvent(event)

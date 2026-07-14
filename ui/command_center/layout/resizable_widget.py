@@ -34,7 +34,7 @@ class ResizableWidget(QFrame):
         self._min_w = w
         self._min_h = h
 
-    def mousePressEvent(self, event: QMouseEvent | None) -> None:
+    def mousePressEvent(self, event: QMouseEvent | None) -> None:  # noqa: N802
         if event and event.button() == Qt.LeftButton:
             edge = self._hit_edge(event.position().toPoint())
             if edge:
@@ -44,7 +44,7 @@ class ResizableWidget(QFrame):
                 self._drag_start_size = (self.width(), self.height())
                 self.setCursor(self._edge_cursor(edge))
 
-    def mouseMoveEvent(self, event: QMouseEvent | None) -> None:
+    def mouseMoveEvent(self, event: QMouseEvent | None) -> None:  # noqa: N802
         if not event:
             return
         if self._resizing:
@@ -64,7 +64,7 @@ class ResizableWidget(QFrame):
             edge = self._hit_edge(event.position().toPoint())
             self.setCursor(self._edge_cursor(edge))
 
-    def mouseReleaseEvent(self, event: QMouseEvent | None) -> None:
+    def mouseReleaseEvent(self, event: QMouseEvent | None) -> None:  # noqa: N802
         self._resizing = False
         self._resize_edge = 0
         self.setCursor(Qt.ArrowCursor)

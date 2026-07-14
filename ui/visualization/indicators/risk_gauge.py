@@ -34,7 +34,7 @@ class RiskGauge(BaseVisualization):
             self.animate(target)
         self._label = label
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()

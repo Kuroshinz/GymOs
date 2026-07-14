@@ -1,5 +1,3 @@
-from shared.version import APP_DESCRIPTION, APP_NAME, APP_VERSION
-
 # Database
 DEFAULT_DB_PATH = "data/gymos.db"
 

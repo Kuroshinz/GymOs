@@ -32,10 +32,10 @@ def _load_yaml(path: Path) -> dict:
     """Load a YAML file, returning an empty dict on missing file."""
     try:
         import yaml
-    except ImportError:
+    except ImportError as e:
         raise KnowledgeLoadError(
             "PyYAML is required. Install with: pip install pyyaml"
-        )
+        ) from e
     if not path.exists():
         return {}
     with open(path, encoding="utf-8") as f:

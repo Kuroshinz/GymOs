@@ -226,10 +226,9 @@ def migrate_muscles() -> int:
             changed = True
 
         evidence = m.get("evidence_level")
-        if evidence == "":
-            if "evidence_level" in m:
-                del m["evidence_level"]
-                changed = True
+        if evidence == "" and "evidence_level" in m:
+            del m["evidence_level"]
+            changed = True
         if changed:
             _save_json(path, m)
             count += 1

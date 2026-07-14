@@ -45,14 +45,14 @@ class KnowledgeGraphView(BaseVisualization):
             a = -math.pi / 2 + i * 2 * math.pi / max(n, 1)
             self._positions.append((cx + r * math.cos(a), cy + r * math.sin(a)))
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()
         if not self._positions:
             self._layout_nodes()
 
-        for u, v, rel in self._edges:
+        for u, v, _rel in self._edges:
             if u < len(self._positions) and v < len(self._positions):
                 x1, y1 = self._positions[u]
                 x2, y2 = self._positions[v]
@@ -72,6 +72,6 @@ class KnowledgeGraphView(BaseVisualization):
 
         painter.end()
 
-    def resizeEvent(self, event) -> None:
+    def resizeEvent(self, event) -> None:  # noqa: N802
         self._layout_nodes()
         super().resizeEvent(event)

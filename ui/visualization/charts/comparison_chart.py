@@ -28,7 +28,7 @@ class ComparisonChart(BaseVisualization):
         self._max_val = max(max_val, 1.0)
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()
@@ -48,7 +48,7 @@ class ComparisonChart(BaseVisualization):
             bar_w = max(4, (group_w - 8) / max(ni, 1))
             base_x = 10 + gi * group_w
 
-            for ii, (ilabel, ival) in enumerate(items):
+            for ii, (_ilabel, ival) in enumerate(items):
                 x = base_x + ii * bar_w + 2
                 fraction = min(ival / self._max_val, 1.0)
                 bar_h = max(int(fraction * (h - 20)), 0)

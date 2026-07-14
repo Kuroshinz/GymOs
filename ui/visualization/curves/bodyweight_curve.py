@@ -29,7 +29,7 @@ class BodyweightCurve(BaseVisualization):
         self._goal_high = goal_high
         self.update()
 
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         colors = self._colors()

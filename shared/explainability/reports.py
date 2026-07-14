@@ -42,10 +42,7 @@ class ExplainabilityReportGenerator:
         graph: EvidenceGraph,
         fmt: ReportFormat = ReportFormat.MARKDOWN,
     ) -> ExplainabilityReport:
-        if fmt == ReportFormat.JSON:
-            content = graph.to_dict()
-        else:
-            content = self._evidence_to_markdown(graph)
+        content = graph.to_dict() if fmt == ReportFormat.JSON else self._evidence_to_markdown(graph)
         report = ExplainabilityReport(
             report_id=self._next_id(),
             report_type="evidence",
@@ -60,10 +57,7 @@ class ExplainabilityReportGenerator:
         tree: ReasonTree,
         fmt: ReportFormat = ReportFormat.MARKDOWN,
     ) -> ExplainabilityReport:
-        if fmt == ReportFormat.JSON:
-            content = tree.to_dict()
-        else:
-            content = self._reason_to_markdown(tree)
+        content = tree.to_dict() if fmt == ReportFormat.JSON else self._reason_to_markdown(tree)
         report = ExplainabilityReport(
             report_id=self._next_id(),
             report_type="reason",
@@ -78,10 +72,7 @@ class ExplainabilityReportGenerator:
         chain: ReasonChain,
         fmt: ReportFormat = ReportFormat.MARKDOWN,
     ) -> ExplainabilityReport:
-        if fmt == ReportFormat.JSON:
-            content = chain.to_dict()
-        else:
-            content = self._chain_to_markdown(chain)
+        content = chain.to_dict() if fmt == ReportFormat.JSON else self._chain_to_markdown(chain)
         report = ExplainabilityReport(
             report_id=self._next_id(),
             report_type="chain",

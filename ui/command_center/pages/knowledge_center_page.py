@@ -37,7 +37,6 @@ class KnowledgeCenterPage(QWidget):
         return color_from_scheme(ColorScheme.DARK)
 
     def _build_ui(self) -> None:
-        colors = self._colors()
         scroll = ScrollContainer()
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
@@ -231,7 +230,6 @@ class KnowledgeCenterPage(QWidget):
 
         kg = knowledge.get("knowledge_graph", {})
         nodes = kg.get("nodes", []) if kg else []
-        edges = kg.get("edges", []) if kg else []
         relationships = kg.get("total_relationships", 0) or 0
 
         self._nodes_label.setText(f"Nodes: {len(nodes)}")

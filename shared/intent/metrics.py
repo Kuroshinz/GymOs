@@ -67,7 +67,7 @@ class IntentMetrics:
         total_goals = sum(len(i.goals) for i in intents)
         total_constraints = sum(len(i.constraints) for i in intents)
 
-        avg = lambda vals: sum(vals) / len(vals) if vals else 0.0
+        def avg(vals): return sum(vals) / len(vals) if vals else 0.0
 
         health = IntentHealthScore(
             completeness=round(avg(completenesses), 2),

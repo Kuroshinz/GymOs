@@ -59,7 +59,7 @@ class VolumeWidget(DashboardCard):
 
         headers = ["Muscle", "Sets", "Target", "Freq", ""]
         widths = [100, 36, 44, 40, 20]
-        for h, w in zip(headers, widths):
+        for h, w in zip(headers, widths, strict=True):
             lbl = QLabel(h)
             lbl.setStyleSheet(self.HEADER_STYLE)
             lbl.setFixedWidth(w)

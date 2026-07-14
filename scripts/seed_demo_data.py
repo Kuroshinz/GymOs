@@ -49,7 +49,7 @@ def _seed_workouts(db) -> None:
         ("Lower Body", "2026-07-03", 58, 7),
     ]
 
-    for name, date_str, duration, rpe in workouts_data:
+    for name, date_str, duration, _rpe in workouts_data:
         try:
             date = datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=UTC)
             domain = WorkoutDomain(

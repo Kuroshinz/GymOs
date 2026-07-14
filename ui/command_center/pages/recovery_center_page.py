@@ -32,7 +32,6 @@ class RecoveryCenterPage(QWidget):
         return color_from_scheme(ColorScheme.DARK)
 
     def _build_ui(self) -> None:
-        colors = self._colors()
         scroll = ScrollContainer()
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
@@ -295,8 +294,6 @@ class RecoveryCenterPage(QWidget):
         recovery_data = recovery.get("recovery_overview", {})
         score = recovery_data.get("score", 0.0) or 0.0
         level = recovery_data.get("level", "") or ""
-        trend = recovery_data.get("trend", "stable") or ""
-
         self._score_value.setText(f"{score:.0f}")
         self._score_label.setText(f"{level.upper()} RECOVERY" if level else "RECOVERY SCORE")
         bar_width = max(4, int(self._score_bar.width() * min(score, 100) / 100))
@@ -309,7 +306,7 @@ class RecoveryCenterPage(QWidget):
         stress = recovery_data.get("stress_score", 0.0) or 0.0
         fatigue = recovery_data.get("fatigue_score", 0.0) or 0.0
 
-        for key, val, color in [("sleep", sleep, colors.info), ("stress", stress, colors.success), ("fatigue", fatigue, colors.warning)]:
+        for key, val, _color in [("sleep", sleep, colors.info), ("stress", stress, colors.success), ("fatigue", fatigue, colors.warning)]:
             fill = getattr(self, f"_vital_{key}_fill", None)
             val_label = getattr(self, f"_vital_{key}_value", None)
             if fill:

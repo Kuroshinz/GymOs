@@ -77,9 +77,8 @@ class ScientificValidator:
             result.add_error("macrocycle.mesocycles", "Macrocycle must have at least one mesocycle", "S001")
             return
         for i, m in enumerate(macrocycle.mesocycles):
-            if i > 0 and m.goal == macrocycle.mesocycles[i - 1].goal:
-                if m.goal != MesocycleGoal.MAINTENANCE:
-                    result.add_warning(
+            if i > 0 and m.goal == macrocycle.mesocycles[i - 1].goal and m.goal != MesocycleGoal.MAINTENANCE:
+                result.add_warning(
                         f"mesocycles[{i}].goal",
                         f"Consecutive mesocycles with same goal '{m.goal.label}'",
                         "S002",
@@ -389,9 +388,9 @@ class PlanningValidator:
 
     def __init__(
         self,
-        config: PlanningConfig = PlanningConfig(),
+        config: PlanningConfig | None = None,
     ) -> None:
-        self.config = config
+        self.config = config or PlanningConfig()
         self.scientific = ScientificValidator()
         self.volume = VolumeValidator()
         self.recovery = RecoveryValidator()
