@@ -58,9 +58,9 @@ class MetricCard(QFrame):
         value_row = QHBoxLayout()
         value_row.setSpacing(4)
 
-        value_label = QLabel(value)
-        value_label.setStyleSheet(f"color: {colors.text_primary}; font-size: 24px; font-weight: 700;")
-        value_row.addWidget(value_label)
+        self._value_label = QLabel(value)
+        self._value_label.setStyleSheet(f"color: {colors.text_primary}; font-size: 24px; font-weight: 700; background: transparent;")
+        value_row.addWidget(self._value_label)
 
         if unit:
             unit_label = QLabel(unit)
@@ -82,20 +82,21 @@ class MetricCard(QFrame):
                 trend_color = colors.warning
 
             if trend:
-                t = QLabel(trend)
-                t.setStyleSheet(f"color: {trend_color}; font-size: 13px; font-weight: 600;")
-                trend_row.addWidget(t)
+                self._trend_label = QLabel(trend)
+                self._trend_label.setStyleSheet(f"color: {trend_color}; font-size: 13px; font-weight: 600; background: transparent;")
+                trend_row.addWidget(self._trend_label)
 
             if trend_label:
                 tl = QLabel(trend_label)
-                tl.setStyleSheet(f"color: {colors.text_disabled}; font-size: 12px;")
+                tl.setStyleSheet(f"color: {colors.text_disabled}; font-size: 12px; background: transparent;")
                 trend_row.addWidget(tl)
 
             trend_row.addStretch()
             layout.addLayout(trend_row)
 
     def set_value(self, value: str) -> None:
-        pass
+        self._value_label.setText(value)
 
     def set_trend(self, trend: str, label: str = "") -> None:
-        pass
+        if trend:
+            self._trend_label.setText(trend)
