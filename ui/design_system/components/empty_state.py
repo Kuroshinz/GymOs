@@ -7,6 +7,7 @@ from PySide6.QtWidgets import QFrame, QLabel, QPushButton, QSizePolicy, QVBoxLay
 
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.design_system.tokens.spacing import SpacingTokens
+from ui.design_system.tokens.typography import font_style
 
 SPACE = SpacingTokens()
 
@@ -53,22 +54,22 @@ class EmptyState(QFrame):
         icon_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(icon_label)
 
-        title_label = QLabel(title)
-        title_label.setStyleSheet(
-            f"color: {colors.text_primary}; font-size: 16px; font-weight: 600; "
+        self._title_label = QLabel(title)
+        self._title_label.setStyleSheet(
+            f"color: {colors.text_primary}; {font_style('h3', weight='semibold')}; "
             f"background: transparent; border: none;"
         )
-        title_label.setAlignment(Qt.AlignCenter)
-        layout.addWidget(title_label)
+        self._title_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self._title_label)
 
-        msg_label = QLabel(message)
-        msg_label.setStyleSheet(
-            f"color: {colors.text_secondary}; font-size: 13px; "
+        self._msg_label = QLabel(message)
+        self._msg_label.setStyleSheet(
+            f"color: {colors.text_secondary}; {font_style('body')}; "
             f"background: transparent; border: none;"
         )
-        msg_label.setAlignment(Qt.AlignCenter)
-        msg_label.setWordWrap(True)
-        layout.addWidget(msg_label)
+        self._msg_label.setAlignment(Qt.AlignCenter)
+        self._msg_label.setWordWrap(True)
+        layout.addWidget(self._msg_label)
 
         if action_text:
             btn = QPushButton(action_text)
@@ -98,4 +99,7 @@ class EmptyState(QFrame):
             layout.addWidget(btn, 0, Qt.AlignCenter)
 
     def set_message(self, title: str, message: str) -> None:
-        pass
+        if hasattr(self, '_title_label'):
+            self._title_label.setText(title)
+        if hasattr(self, '_msg_label'):
+            self._msg_label.setText(message)

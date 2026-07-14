@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QVBoxLayout, QWidget
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.design_system.tokens.radius import RadiusTokens
 from ui.design_system.tokens.spacing import SpacingTokens
+from ui.design_system.tokens.typography import font_style
 
 RADIUS = RadiusTokens()
 SPACE = SpacingTokens()
@@ -20,6 +21,10 @@ class ChartContainer(QFrame):
     ) -> None:
         super().__init__(parent)
         self._color_scheme = color_scheme
+        if title:
+            self.setAccessibleName(f"Chart: {title}")
+        if subtitle:
+            self.setAccessibleDescription(subtitle)
         self._build_ui(title, subtitle)
 
     def _colors(self):
@@ -45,7 +50,7 @@ class ChartContainer(QFrame):
 
             title_label = QLabel(title)
             title_label.setStyleSheet(
-                f"color: {colors.text_primary}; font-size: 14px; font-weight: 600; "
+                f"color: {colors.text_primary}; {font_style('body', weight='semibold')}; "
                 f"background: transparent; border: none;"
             )
             header.addWidget(title_label)
@@ -53,7 +58,7 @@ class ChartContainer(QFrame):
             if subtitle:
                 sub = QLabel(subtitle)
                 sub.setStyleSheet(
-                    f"color: {colors.text_disabled}; font-size: 12px; "
+                    f"color: {colors.text_disabled}; {font_style('caption')}; "
                     f"background: transparent; border: none;"
                 )
                 header.addWidget(sub)

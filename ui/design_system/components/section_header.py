@@ -7,6 +7,7 @@ from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QPushButton, QVBoxLay
 
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.design_system.tokens.spacing import SpacingTokens
+from ui.design_system.tokens.typography import font_style
 
 SPACE = SpacingTokens()
 
@@ -39,20 +40,20 @@ class SectionHeader(QFrame):
         text_area = QVBoxLayout()
         text_area.setSpacing(2)
 
-        title_label = QLabel(title)
-        title_label.setStyleSheet(
-            f"color: {colors.text_primary}; font-size: 18px; font-weight: 700; "
-            f"letter-spacing: -0.02em; background: transparent; border: none;"
+        self._title_label = QLabel(title)
+        self._title_label.setStyleSheet(
+            f"color: {colors.text_primary}; {font_style('h2')}; "
+            f"background: transparent; border: none;"
         )
-        text_area.addWidget(title_label)
+        text_area.addWidget(self._title_label)
 
         if subtitle:
-            sub = QLabel(subtitle)
-            sub.setStyleSheet(
-                f"color: {colors.text_secondary}; font-size: 13px; "
+            self._subtitle_label = QLabel(subtitle)
+            self._subtitle_label.setStyleSheet(
+                f"color: {colors.text_secondary}; {font_style('body')}; "
                 f"background: transparent; border: none;"
             )
-            text_area.addWidget(sub)
+            text_area.addWidget(self._subtitle_label)
 
         layout.addLayout(text_area)
         layout.addStretch()
@@ -80,7 +81,9 @@ class SectionHeader(QFrame):
             layout.addWidget(btn)
 
     def set_title(self, title: str) -> None:
-        pass
+        if hasattr(self, '_title_label'):
+            self._title_label.setText(title)
 
     def set_subtitle(self, subtitle: str) -> None:
-        pass
+        if hasattr(self, '_subtitle_label'):
+            self._subtitle_label.setText(subtitle)

@@ -4,7 +4,7 @@ import enum
 from collections.abc import Callable
 
 from PySide6.QtCore import QEasingCurve, QObject, QPoint, QPropertyAnimation, QSize, Signal
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QGraphicsOpacityEffect, QWidget
 
 
 class AnimationType(enum.Enum):
@@ -72,12 +72,14 @@ class AnimationManager(QObject):
         duration: int = AnimationPreset.DURATION_NORMAL,
         easing: QEasingCurve.Type = AnimationPreset.EASE_IN_OUT,
     ) -> AnimationHandle:
-        widget.setGraphicsEffect(None)
-        anim = QPropertyAnimation(widget, b"windowOpacity")
+        effect = QGraphicsOpacityEffect(widget)
+        widget.setGraphicsEffect(effect)
+        anim = QPropertyAnimation(effect, b"opacity")
         anim.setDuration(duration)
         anim.setStartValue(0.0)
         anim.setEndValue(1.0)
         anim.setEasingCurve(easing)
+        anim.finished.connect(lambda: self._cleanup_fade(widget, effect))
         anim.start()
         handle = self._track("fade_in", anim)
         return handle
@@ -89,16 +91,30 @@ class AnimationManager(QObject):
         easing: QEasingCurve.Type = AnimationPreset.EASE_IN_OUT,
         on_finished: Callable[[], None] | None = None,
     ) -> AnimationHandle:
-        anim = QPropertyAnimation(widget, b"windowOpacity")
+        effect = QGraphicsOpacityEffect(widget)
+        widget.setGraphicsEffect(effect)
+        anim = QPropertyAnimation(effect, b"opacity")
         anim.setDuration(duration)
         anim.setStartValue(1.0)
         anim.setEndValue(0.0)
         anim.setEasingCurve(easing)
         if on_finished:
-            anim.finished.connect(on_finished)
+
+            def _done() -> None:
+                self._cleanup_fade(widget, effect)
+                on_finished()
+
+            anim.finished.connect(_done)
+        else:
+            anim.finished.connect(lambda: self._cleanup_fade(widget, effect))
         anim.start()
         handle = self._track("fade_out", anim)
         return handle
+
+    @staticmethod
+    def _cleanup_fade(widget: QWidget, effect: QGraphicsOpacityEffect) -> None:
+        if widget.graphicsEffect() is effect:
+            widget.setGraphicsEffect(None)
 
     def slide(
         self,

@@ -8,6 +8,7 @@ from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QPushButton, QVBoxLay
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.design_system.tokens.elevation import ElevationTokens
 from ui.design_system.tokens.radius import RadiusTokens
+from ui.design_system.tokens.typography import font_style
 
 RADIUS = RadiusTokens()
 ELEVATION = ElevationTokens()
@@ -81,24 +82,25 @@ class NotificationToast(QFrame):
         if title:
             t = QLabel(title)
             t.setStyleSheet(
-                f"color: {fg}; font-size: 13px; font-weight: 600; "
+                f"color: {fg}; {font_style('body', weight='semibold')}; "
                 f"background: transparent; border: none;"
             )
             text_layout.addWidget(t)
-
-        m = QLabel(message)
-        m.setStyleSheet(
-            f"color: {self._colors().text_secondary}; font-size: 12px; "
-            f"background: transparent; border: none;"
-        )
-        m.setWordWrap(True)
-        text_layout.addWidget(m)
+            m = QLabel(message)
+            m.setStyleSheet(
+                f"color: {self._colors().text_secondary}; {font_style('caption')}; "
+                f"background: transparent; border: none;"
+            )
+            m.setWordWrap(True)
+            text_layout.addWidget(m)
 
         layout.addLayout(text_layout, 1)
 
         if dismissable:
             close = QPushButton("\u00D7")
             close.setFixedSize(20, 20)
+            close.setAccessibleName("Close notification")
+            close.setToolTip("Dismiss notification")
             close.setStyleSheet(f"""
                 QPushButton {{
                     background-color: transparent;

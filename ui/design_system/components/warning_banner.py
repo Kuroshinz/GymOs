@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QPushButton, QWidget
 
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.design_system.tokens.radius import RadiusTokens
+from ui.design_system.tokens.typography import font_style
 
 R = RadiusTokens()
 
@@ -24,6 +25,7 @@ class WarningBanner(QFrame):
         super().__init__(parent)
         self._color_scheme = color_scheme
         self._level = level
+        self.setAccessibleName(f"Banner: {message}"[:64] if message else "Warning banner")
         self._build_ui(icon, message, action_text)
 
     def _colors(self):
@@ -64,7 +66,7 @@ class WarningBanner(QFrame):
 
         msg = QLabel(message)
         msg.setStyleSheet(
-            f"color: {text_c}; font-size: 13px; font-weight: 500; "
+            f"color: {text_c}; {font_style('body', weight=500)}; "
             f"background: transparent; border: none;"
         )
         msg.setWordWrap(True)

@@ -6,6 +6,7 @@ from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QVBoxLayout, QWidget
 
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.design_system.tokens.radius import RadiusTokens
+from ui.design_system.tokens.typography import font_style
 
 R = RadiusTokens()
 
@@ -31,6 +32,7 @@ class ActivityFeed(QFrame):
         self._color_scheme = color_scheme
         self._title = title
         self._items = items or []
+        self.setAccessibleName(f"Activity feed: {title}")
         self._build_ui()
 
     def _colors(self):
@@ -53,7 +55,7 @@ class ActivityFeed(QFrame):
         if self._title:
             t = QLabel(self._title)
             t.setStyleSheet(
-                f"color: {colors.text_primary}; font-size: 14px; font-weight: 700; "
+                f"color: {colors.text_primary}; {font_style('body', weight='bold')}; "
                 f"background: transparent; border: none;"
             )
             layout.addWidget(t)
@@ -87,7 +89,7 @@ class ActivityFeed(QFrame):
 
         text_lbl = QLabel(item.text)
         text_lbl.setStyleSheet(
-            f"color: {colors.text_primary}; font-size: 13px; font-weight: 500; "
+            f"color: {colors.text_primary}; {font_style('body', weight=500)}; "
             f"background: transparent; border: none;"
         )
         text_lbl.setWordWrap(True)
@@ -96,7 +98,7 @@ class ActivityFeed(QFrame):
         if item.timestamp:
             ts_lbl = QLabel(item.timestamp)
             ts_lbl.setStyleSheet(
-                f"color: {colors.text_disabled}; font-size: 11px; "
+                f"color: {colors.text_disabled}; {font_style('label')}; "
                 f"background: transparent; border: none;"
             )
             text_area.addWidget(ts_lbl)
@@ -107,7 +109,7 @@ class ActivityFeed(QFrame):
             sc = item.status_color or colors.text_disabled
             status_lbl = QLabel(item.status)
             status_lbl.setStyleSheet(
-                f"color: {sc}; font-size: 11px; font-weight: 600; "
+                f"color: {sc}; {font_style('label')}; "
                 f"background: transparent; border: none;"
             )
             layout.addWidget(status_lbl)

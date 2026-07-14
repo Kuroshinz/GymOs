@@ -39,6 +39,10 @@ class DialogTemplate(QDialog):
         self._color_scheme = color_scheme
         self._destructive = destructive
         self._result: bool = False
+        if title:
+            self.setAccessibleName(f"Dialog: {title}")
+        if message:
+            self.setAccessibleDescription(message)
         self._build_ui(title, message, confirm_text, cancel_text, show_cancel)
 
     def _colors(self):

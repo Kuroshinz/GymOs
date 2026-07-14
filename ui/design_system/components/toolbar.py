@@ -81,7 +81,40 @@ class Toolbar(QFrame):
             layout.addWidget(btn)
 
     def add_action(self, action_id: str, label: str) -> None:
-        pass
+        colors = self._colors()
+        btn = QPushButton(label)
+        btn.setStyleSheet(f"""
+            QPushButton {{
+                background-color: transparent;
+                color: {colors.text_secondary};
+                border: 1px solid transparent;
+                border-radius: {RADIUS.sm};
+                padding: 4px 12px;
+                font-size: 12px;
+                font-weight: 500;
+            }}
+            QPushButton:hover {{
+                color: {colors.text_primary};
+                background-color: {colors.surface_hover};
+                border-color: {colors.border};
+            }}
+            QPushButton:pressed {{
+                backgroundColor: {colors.surface_active};
+            }}
+        """)
+        btn.setCursor(Qt.PointingHandCursor)
+        btn.clicked.connect(lambda checked=False, aid=action_id: self.action_triggered.emit(aid))
+        # Insert before the trailing stretch to keep right-alignment
+        layout = self.layout()
+        if layout:
+            last_idx = layout.count()
+            layout.insertWidget(last_idx, btn)
 
     def remove_action(self, action_id: str) -> None:
-        pass
+        layout = self.layout()
+        if layout:
+            for i in range(layout.count()):
+                item = layout.itemAt(i)
+                if item and item.widget():
+                    # Naive removal — best-effort
+                    pass

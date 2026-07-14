@@ -68,6 +68,7 @@ class CoachCard(QFrame):
 
         self._toggle_btn = QPushButton("▸" if not self._expanded else "▾")
         self._toggle_btn.setFixedSize(28, 28)
+        self._toggle_btn.setAccessibleName("Expand card" if not self._expanded else "Collapse card")
         self._toggle_btn.setStyleSheet("border: none; font-size: 14px;")
         self._toggle_btn.clicked.connect(self._toggle)
         header.addWidget(self._toggle_btn)
@@ -114,6 +115,7 @@ class CoachCard(QFrame):
         self._expanded = not self._expanded
         self._body_widget.setVisible(self._expanded)
         self._toggle_btn.setText("\u25BE" if self._expanded else "\u25B8")
+        self._toggle_btn.setAccessibleName("Collapse card" if self._expanded else "Expand card")
         self.expand_clicked.emit()
 
     def narrative(self) -> Narrative:

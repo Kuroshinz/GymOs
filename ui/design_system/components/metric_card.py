@@ -6,6 +6,7 @@ from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QVBoxLayout, QWidget
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.design_system.tokens.radius import RadiusTokens
 from ui.design_system.tokens.spacing import SpacingTokens
+from ui.design_system.tokens.typography import font_style
 
 SPACE = SpacingTokens()
 RADIUS = RadiusTokens()
@@ -25,6 +26,9 @@ class MetricCard(QFrame):
     ) -> None:
         super().__init__(parent)
         self._color_scheme = color_scheme
+        self._trend_label = None
+        if label:
+            self.setAccessibleName(f"Metric: {label}")
         self._build_ui(label, value, unit, icon, trend, trend_label)
 
     def _colors(self):
@@ -50,8 +54,7 @@ class MetricCard(QFrame):
         if label:
             lbl = QLabel(label.upper())
             lbl.setStyleSheet(
-                f"color: {colors.text_secondary}; font-size: 11px; font-weight: 600; "
-                f"letter-spacing: 0.5px; text-transform: uppercase;"
+                f"color: {colors.text_secondary}; {font_style('label')} text-transform: uppercase;"
             )
             layout.addWidget(lbl)
 
@@ -59,12 +62,12 @@ class MetricCard(QFrame):
         value_row.setSpacing(4)
 
         self._value_label = QLabel(value)
-        self._value_label.setStyleSheet(f"color: {colors.text_primary}; font-size: 24px; font-weight: 700; background: transparent;")
+        self._value_label.setStyleSheet(f"color: {colors.text_primary}; {font_style('metric')}; background: transparent;")
         value_row.addWidget(self._value_label)
 
         if unit:
             unit_label = QLabel(unit)
-            unit_label.setStyleSheet(f"color: {colors.text_secondary}; font-size: 14px; font-weight: 500;")
+            unit_label.setStyleSheet(f"color: {colors.text_secondary}; {font_style('body', weight=500)};")
             unit_label.setAlignment(Qt.AlignBottom)
             value_row.addWidget(unit_label)
 
@@ -83,20 +86,28 @@ class MetricCard(QFrame):
 
             if trend:
                 self._trend_label = QLabel(trend)
-                self._trend_label.setStyleSheet(f"color: {trend_color}; font-size: 13px; font-weight: 600; background: transparent;")
+                self._trend_label.setStyleSheet(f"color: {trend_color}; {font_style('body', weight='semibold')}; background: transparent;")
                 trend_row.addWidget(self._trend_label)
 
             if trend_label:
                 tl = QLabel(trend_label)
-                tl.setStyleSheet(f"color: {colors.text_disabled}; font-size: 12px; background: transparent;")
+                tl.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
                 trend_row.addWidget(tl)
 
             trend_row.addStretch()
             layout.addLayout(trend_row)
 
     def set_value(self, value: str) -> None:
-        self._value_label.setText(value)
+        if self._value_label:
+            self._value_label.setText(value)
 
     def set_trend(self, trend: str, label: str = "") -> None:
-        if trend:
+        if trend and self._trend_label:
+            colors = self._colors()
+            trend_color = colors.success
+            if trend.startswith("-"):
+                trend_color = colors.error
+            elif trend.startswith("~"):
+                trend_color = colors.warning
             self._trend_label.setText(trend)
+            self._trend_label.setStyleSheet(f"color: {trend_color}; {font_style('body', weight='semibold')}; background: transparent;")

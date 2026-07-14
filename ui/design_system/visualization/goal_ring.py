@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from PySide6.QtCore import QRectF, Qt
+from PySide6.QtCore import QEasingCurve, QRectF, QTimer, Qt
 from PySide6.QtGui import QColor, QFont, QPainter, QPen
 from PySide6.QtWidgets import QFrame, QWidget
 
@@ -23,7 +23,18 @@ class GoalRing(QFrame):
         self._label = ""
         self._unit = ""
         self._color_scheme = color_scheme
+        self._anim_progress = 1.0
+        self._anim_target = 0.0
+        self._anim_display = 0.0
+        self._reduced_motion = False
         self.setFixedSize(size + 20, size)
+
+    def set_reduced_motion(self, enabled: bool) -> None:
+        self._reduced_motion = enabled
+        if enabled:
+            self._anim_progress = 1.0
+            self._anim_display = self._current
+            self.update()
 
     def _colors(self):
         return color_from_scheme(self._color_scheme)
@@ -33,7 +44,31 @@ class GoalRing(QFrame):
         self._target = max(target, 1.0)
         self._label = label
         self._unit = unit
-        self.update()
+        if self._reduced_motion:
+            self._anim_display = current
+            self.update()
+        else:
+            self._anim_target = current
+            self._anim_progress = 0.0
+            self._anim_display = 0.0
+            self._animate_ring()
+
+    def _animate_ring(self) -> None:
+        steps = max(10, 300 // 16)
+        step = 0
+
+        def _tick() -> None:
+            nonlocal step
+            step += 1
+            progress = min(step / steps, 1.0)
+            eased = 1.0 - (1.0 - progress) ** 3
+            self._anim_progress = eased
+            self._anim_display = self._anim_target * eased
+            self.update()
+            if step < steps:
+                QTimer.singleShot(16, _tick)
+
+        QTimer.singleShot(16, _tick)
 
     def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
@@ -42,7 +77,7 @@ class GoalRing(QFrame):
         colors = self._colors()
         center = self._ring_size / 2 + 10
         radius = self._ring_size / 2 - self._stroke
-        fraction = min(self._current / self._target, 1.0)
+        fraction = min(self._anim_display / self._target, 1.0)
 
         bg_pen = QPen(QColor(colors.scrollbar_handle), self._stroke)
         bg_pen.setCapStyle(Qt.RoundCap)
@@ -55,7 +90,8 @@ class GoalRing(QFrame):
         span = int(fraction * 360 * 16)
         painter.drawArc(QRectF(center - radius, center - radius, radius * 2, radius * 2), 90 * 16, -span)
 
-        current_str = f"{self._current:.1f}" if self._current != int(self._current) else str(int(self._current))
+        display_val = self._anim_display
+        current_str = f"{display_val:.1f}" if display_val != int(display_val) else str(int(display_val))
         font = QFont()
         font.setPixelSize(20)
         font.setBold(True)

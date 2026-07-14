@@ -1,11 +1,22 @@
+"""
+Progress Experience 2.0 — Your Training Story.
+
+Replaces data-dashboard layout with a narrative journey.
+Seven sections: Hero → Journey → Strength → Body → Consistency → Coach → Achievements.
+Every section answers "So what?" with narrative text.
+Charts support the story — they don't replace it.
+
+Preserves public API: refresh(), ProgressExperience(db)
+"""
+
 from __future__ import annotations
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from typing import Any
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QTimer
+from PySide6.QtGui import QColor, QFont, QPainter, QPen
 from PySide6.QtWidgets import (
-    QComboBox,
     QFrame,
     QGridLayout,
     QHBoxLayout,
@@ -14,37 +25,199 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from ui.design_system.components.chart_container import ChartContainer
+from ui.design_system.components.app_card import AppCard
 from ui.design_system.components.section_header import SectionHeader
 from ui.design_system.components.status_badge import StatusBadge, StatusLevel
-from ui.design_system.layout import PanelSpan, SectionPanel
+from ui.design_system.layout import PanelSpan
+from ui.design_system.layout.kpi_strip import KpiItem, KpiStrip
+from ui.design_system.components.chart_container import ChartContainer
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
-from ui.design_system.tokens.radius import RadiusTokens, px_from_token
+from ui.design_system.tokens.elevation import glow_effect
+from ui.design_system.tokens.radius import RadiusTokens, px_from_token, radius_to_px
 from ui.design_system.tokens.spacing import SpacingTokens
-from ui.design_system.tokens.typography import TypographyTokens, font_style
+from ui.design_system.tokens.typography import font_style
 from ui.design_system.visualization import WeeklyTimeline
-from ui.narrative import CoachCardStack
+from ui.narrative import CoachCard, CoachCardStack
 from ui.narrative.engine import Narrative
-from ui.visualization.charts import BarChart, RadarChart, TrendChart
+from ui.visualization.charts import TrendChart
 
 S = SpacingTokens()
 R = RadiusTokens()
-T = TypographyTokens()
 
 _px4 = px_from_token(S.s1)
 _px6 = px_from_token(S.s1_5)
 _px8 = px_from_token(S.s2)
 _px12 = px_from_token(S.s3)
 _px16 = px_from_token(S.s4)
+_px20 = px_from_token(S.s5)
 _px24 = px_from_token(S.s6)
+_px28 = px_from_token(S.s7)
 _px32 = px_from_token(S.s8)
+_px40 = px_from_token(S.s10)
+_px48 = px_from_token(S.s12)
+
+_DOT_R = 6
+
+
+# ── Journey Timeline ──────────────────────────────────────────────
+
+
+class _JourneyTimeline(QFrame):
+    """Horizontal milestone timeline with dots and labels.
+
+    Renders a sequence of milestones connected by lines, showing
+    the user's progression from starting GymOS to the present.
+    """
+
+    def __init__(self, parent: QWidget | None = None) -> None:
+        super().__init__(parent)
+        self._milestones: list[tuple[str, str, bool]] = []  # (label, date, achieved)
+        self.setFixedHeight(80)
+        self.setAccessibleName("Training journey timeline")
+
+    def set_milestones(self, milestones: list[tuple[str, str, bool]]) -> None:
+        self._milestones = milestones
+        self.update()
+
+    def paintEvent(self, event) -> None:  # noqa: N802
+        if not self._milestones:
+            return
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+
+        colors = color_from_scheme(ColorScheme.DARK)
+        w = self.width()
+        h = 70
+        n = len(self._milestones)
+        spacing = min(80, (w - 40) // max(n - 1, 1))
+        total_w = spacing * (n - 1)
+        start_x = (w - total_w) // 2
+
+        # Draw connecting line
+        line_y = 20
+        painter.setPen(QPen(QColor(colors.border), 2))
+        painter.drawLine(start_x, line_y, start_x + total_w, line_y)
+
+        for i, (label, date_str, achieved) in enumerate(self._milestones):
+            x = start_x + i * spacing
+
+            # Dot
+            if achieved:
+                painter.setBrush(QColor(colors.success))
+                painter.setPen(Qt.NoPen)
+            else:
+                painter.setBrush(QColor(colors.scrollbar_handle))
+                painter.setPen(QPen(QColor(colors.border), 1))
+
+            painter.drawEllipse(x - _DOT_R, line_y - _DOT_R, _DOT_R * 2, _DOT_R * 2)
+
+            # Label below dot
+            painter.setFont(QFont())
+            painter.setPen(QColor(colors.text_secondary))
+            painter.drawText(
+                x - spacing // 2, line_y + _DOT_R + 4,
+                spacing, 16, Qt.AlignCenter, label,
+            )
+
+            # Date above dot
+            painter.setPen(QColor(colors.text_disabled))
+            f2 = QFont()
+            f2.setPixelSize(9)
+            painter.setFont(f2)
+            painter.drawText(
+                x - spacing // 2, line_y - _DOT_R - 20,
+                spacing, 14, Qt.AlignCenter, date_str,
+            )
+
+        painter.end()
+
+
+# ── Achievement Card ──────────────────────────────────────────────
+
+
+class _AchievementCard(QFrame):
+    """A glowing achievement card with icon, title, date, and description."""
+
+    def __init__(
+        self,
+        icon: str,
+        title: str,
+        description: str,
+        date_earned: str = "",
+        parent: QWidget | None = None,
+    ) -> None:
+        super().__init__(parent)
+        self._build_ui(icon, title, description, date_earned)
+
+    def _build_ui(self, icon: str, title: str, description: str, date_earned: str) -> None:
+        colors = color_from_scheme(ColorScheme.DARK)
+        self.setStyleSheet(f"""
+            _AchievementCard {{
+                background-color: {colors.surface};
+                border: 1px solid {colors.border};
+                border-radius: {R.lg};
+            }}
+            _AchievementCard:hover {{
+                border-color: {colors.primary};
+            }}
+        """)
+        glow_effect(self, glow_rgba=f"rgba(124, 58, 237, 0.15)", blur=16, offset_y=0)
+        self.setAccessibleName(f"Achievement: {title}")
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(_px16, _px14, _px16, _px14)
+        layout.setSpacing(_px6)
+        layout.setAlignment(Qt.AlignCenter)
+
+        icon_lbl = QLabel(icon)
+        icon_lbl.setAlignment(Qt.AlignCenter)
+        icon_lbl.setStyleSheet("font-size: 32px; background: transparent; border: none;")
+        layout.addWidget(icon_lbl)
+
+        t = QLabel(title)
+        t.setAlignment(Qt.AlignCenter)
+        t.setWordWrap(True)
+        t.setStyleSheet(
+            f"color: {colors.text_primary}; {font_style('body', weight='bold')}; "
+            f"background: transparent; border: none;"
+        )
+        layout.addWidget(t)
+
+        if description:
+            d = QLabel(description)
+            d.setAlignment(Qt.AlignCenter)
+            d.setWordWrap(True)
+            d.setStyleSheet(
+                f"color: {colors.text_secondary}; {font_style('caption')}; "
+                f"background: transparent; border: none;"
+            )
+            layout.addWidget(d)
+
+        if date_earned:
+            dt = QLabel(date_earned)
+            dt.setAlignment(Qt.AlignCenter)
+            dt.setStyleSheet(
+                f"color: {colors.text_disabled}; {font_style('caption')}; "
+                f"background: transparent; border: none;"
+            )
+            layout.addWidget(dt)
+
+
+# ── Progress Experience (main) ────────────────────────────────────
 
 
 class ProgressExperience(QWidget):
+    """Narrative-first progress page with seven editorial sections.
+
+    Preserved public API:
+    - Constructor: ProgressExperience(db)
+    - Method: refresh()
+    - Data sources: PREngine, VolumeAnalytics, db (all unchanged)
+    """
+
     def __init__(self, db: Any, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self._db = db
-        self._period_days = 90
         self._build_ui()
 
     def _colors(self):
@@ -52,6 +225,7 @@ class ProgressExperience(QWidget):
 
     def _build_ui(self) -> None:
         from ui.design_system.layout.scroll_container import ScrollContainer
+
         scroll = ScrollContainer()
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
@@ -62,662 +236,877 @@ class ProgressExperience(QWidget):
         main.setSpacing(0)
         scroll.content_layout.insertLayout(0, main)
 
-        self._build_hero(main)
-        self._build_period_selector(main)
-        self._build_body_weight(main)
-        self._build_weekly_volume(main)
-        self._build_muscle_balance(main)
-        self._build_personal_records(main)
-        self._build_compliance(main)
-        self._build_next_milestone(main)
-        self._build_insights(main)
+        # Section 1: Hero
+        self._hero_card = AppCard(title="", elevated=True)
+        hc = QHBoxLayout()
+        hc.setContentsMargins(0, 0, 0, 0)
+        hc.setSpacing(_px16)
+        self._hero_text_col = QVBoxLayout()
+        self._hero_text_col.setSpacing(_px4)
+
+        self._hero_narrative = QLabel("")
+        self._hero_narrative.setWordWrap(True)
+        self._hero_narrative.setStyleSheet(
+            f"background: transparent; border: none;"
+        )
+        self._hero_text_col.addWidget(self._hero_narrative)
+
+        self._hero_subtitle = QLabel("")
+        self._hero_subtitle.setWordWrap(True)
+        self._hero_subtitle.setStyleSheet(
+            f"background: transparent; border: none;"
+        )
+        self._hero_text_col.addWidget(self._hero_subtitle)
+        self._hero_text_col.addStretch()
+        hc.addLayout(self._hero_text_col, 1)
+
+        self._hero_kpi = KpiStrip([], color_scheme=ColorScheme.DARK)
+        hc.addWidget(self._hero_kpi)
+
+        hero_outer = QFrame()
+        hero_outer.setLayout(hc)
+        self._hero_card.add_content(hero_outer)
+        main.addWidget(self._hero_card)
+
+        main.addSpacing(_px24)
+
+        # Section 2: Your Journey
+        self._build_section_header(main, "Your Journey", "From first workout to today")
+        self._journey = _JourneyTimeline()
+        main.addWidget(self._journey)
+
+        main.addSpacing(_px24)
+
+        # Section 3: Strength
+        self._build_section_header(main, "Strength", "Your best performances")
+        self._strength_header = QLabel("")
+        self._strength_header.setWordWrap(True)
+        self._strength_header.setStyleSheet(
+            f"background: transparent; border: none;"
+        )
+        main.addWidget(self._strength_header)
+
+        self._pr_grid = QGridLayout()
+        self._pr_grid.setContentsMargins(0, 0, 0, 0)
+        self._pr_grid.setSpacing(_px12)
+        main.addLayout(self._pr_grid)
+
+        self._strength_empty = QLabel("")
+        self._strength_empty.setAlignment(Qt.AlignCenter)
+        self._strength_empty.setWordWrap(True)
+        self._strength_empty.setStyleSheet(
+            f"background: transparent; border: none;"
+        )
+
+        main.addSpacing(_px20)
+
+        # Section 4: Body
+        self._build_section_header(main, "Body", "Weight trend and composition")
+        self._body_chart_container = ChartContainer(title="Body Weight", subtitle="Trend over time")
+        self._body_chart = TrendChart()
+        self._body_chart_container.set_chart(self._body_chart)
+        main.addWidget(self._body_chart_container)
+
+        self._body_narrative_widget = QFrame()
+        self._body_narrative_widget.setStyleSheet("background: transparent; border: none;")
+        self._body_narrative_widget.hide()
+        nwl = QVBoxLayout(self._body_narrative_widget)
+        nwl.setContentsMargins(0, _px8, 0, 0)
+
+        self._body_narrative = QLabel("")
+        self._body_narrative.setWordWrap(True)
+        self._body_narrative.setStyleSheet(
+            f"background: transparent; border: none;"
+        )
+        nwl.addWidget(self._body_narrative)
+        main.addWidget(self._body_narrative_widget)
+
+        self._body_empty = QLabel("")
+        self._body_empty.setAlignment(Qt.AlignCenter)
+        self._body_empty.setWordWrap(True)
+        self._body_empty.setStyleSheet(
+            f"background: transparent; border: none;"
+        )
+        main.addWidget(self._body_empty)
+        self._body_empty.hide()
+
+        main.addSpacing(_px20)
+
+        # Section 5: Consistency
+        self._build_section_header(main, "Consistency", "Your training rhythm")
+        self._consistency_view = QFrame()
+        self._consistency_view.setStyleSheet("background: transparent; border: none;")
+        cvl = QVBoxLayout(self._consistency_view)
+        cvl.setContentsMargins(0, 0, 0, 0)
+        cvl.setSpacing(_px8)
+
+        self._consistency_timeline = WeeklyTimeline()
+        cvl.addWidget(self._consistency_timeline)
+
+        self._adherence_label = QLabel("")
+        self._adherence_label.setStyleSheet(
+            f"background: transparent; border: none;"
+        )
+        self._adherence_label.setAlignment(Qt.AlignCenter)
+        cvl.addWidget(self._adherence_label)
+
+        self._consistency_summary = QLabel("")
+        self._consistency_summary.setWordWrap(True)
+        self._consistency_summary.setStyleSheet(
+            f"background: transparent; border: none;"
+        )
+        cvl.addWidget(self._consistency_summary)
+
+        self._consistency_empty = QLabel("")
+        self._consistency_empty.setAlignment(Qt.AlignCenter)
+        self._consistency_empty.setWordWrap(True)
+        self._consistency_empty.setStyleSheet(
+            f"background: transparent; border: none;"
+        )
+        self._consistency_empty.hide()
+
+        main.addWidget(self._consistency_view)
+        main.addWidget(self._consistency_empty)
+
+        main.addSpacing(_px20)
+
+        # Section 6: Coach
+        self._build_section_header(main, "Coach", "Personalised insights")
+        self._coach_stack = CoachCardStack()
+        main.addWidget(self._coach_stack)
+
+        main.addSpacing(_px20)
+
+        # Section 7: Achievements
+        self._build_section_header(main, "Achievements", "Celebrate your wins")
+        self._achievement_grid = QGridLayout()
+        self._achievement_grid.setContentsMargins(0, 0, 0, 0)
+        self._achievement_grid.setSpacing(_px12)
+        main.addLayout(self._achievement_grid)
+
+        self._achievement_empty = QLabel("")
+        self._achievement_empty.setAlignment(Qt.AlignCenter)
+        self._achievement_empty.setWordWrap(True)
+        self._achievement_empty.setStyleSheet(
+            f"background: transparent; border: none;"
+        )
 
         main.addStretch()
 
     def _build_section_header(self, parent: QVBoxLayout, title: str, subtitle: str) -> None:
         header = SectionHeader(title=title, subtitle=subtitle)
         hbox = QHBoxLayout()
-        hbox.setContentsMargins(0, _px24, 0, _px8)
+        hbox.setContentsMargins(0, 0, 0, _px8)
         hbox.addWidget(header)
         parent.addLayout(hbox)
 
-    def _build_hero(self, parent: QVBoxLayout) -> None:
-        colors = self._colors()
-        hero = QFrame()
-        hero.setStyleSheet(f"""
-            QFrame {{
-                background-color: {colors.surface};
-                border-radius: {R.xl};
-                border: 1px solid {colors.border};
-            }}
-        """)
-        hero_layout = QHBoxLayout(hero)
-        hero_layout.setContentsMargins(24, 20, 24, 20)
-        hero_layout.setSpacing(16)
-
-        accent = QFrame()
-        accent.setFixedWidth(4)
-        accent.setStyleSheet(f"background-color: {colors.accent}; border-radius: {R.sm}; border: none;")
-        hero_layout.addWidget(accent)
-
-        text_area = QVBoxLayout()
-        text_area.setSpacing(6)
-
-        hour = datetime.now().hour
-        greeting = "Good Morning" if hour < 12 else "Good Afternoon" if hour < 18 else "Good Evening"
-        self._hero_greeting = QLabel(f"{greeting}")
-        self._hero_greeting.setStyleSheet(f"color: {colors.text_primary}; {font_style('h4')}")
-        text_area.addWidget(self._hero_greeting)
-
-        self._hero_subtitle = QLabel("Here's how your training is progressing")
-        self._hero_subtitle.setStyleSheet(f"color: {colors.text_secondary}; {font_style('body_small')}")
-        self._hero_subtitle.setWordWrap(True)
-        text_area.addWidget(self._hero_subtitle)
-
-        text_area.addStretch()
-        hero_layout.addLayout(text_area, 1)
-
-        self._kpi_layout = QHBoxLayout()
-        self._kpi_layout.setSpacing(_px16)
-        self._kpi_labels: dict[str, QLabel] = {}
-        kpi_items = [
-            ("workouts", "Workouts", "--"),
-            ("prs", "PRs", "--"),
-            ("streak", "Streak", "--"),
-            ("volume", "Volume", "--"),
-        ]
-        for key, label, default in kpi_items:
-            kpi = QFrame()
-            kpi.setStyleSheet(f"QFrame {{ background: transparent; border: none; }}")
-            kpi_layout = QVBoxLayout(kpi)
-            kpi_layout.setContentsMargins(0, 0, 0, 0)
-            kpi_layout.setSpacing(2)
-
-            val = QLabel(default)
-            val.setStyleSheet(f"color: {colors.text_primary}; {font_style('h2')}; background: transparent;")
-            val.setAlignment(Qt.AlignCenter)
-            kpi_layout.addWidget(val)
-            self._kpi_labels[key] = val
-
-            lbl = QLabel(label)
-            lbl.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
-            lbl.setAlignment(Qt.AlignCenter)
-            kpi_layout.addWidget(lbl)
-
-            self._kpi_layout.addWidget(kpi)
-
-        hero_layout.addLayout(self._kpi_layout)
-        parent.addWidget(hero)
-
-    def _build_period_selector(self, parent: QVBoxLayout) -> None:
-        colors = self._colors()
-        row = QHBoxLayout()
-        row.setContentsMargins(0, _px16, 0, 0)
-        row.setSpacing(8)
-
-        lbl = QLabel("Period:")
-        lbl.setStyleSheet(f"color: {colors.text_secondary}; {font_style('body_small')}; background: transparent;")
-        row.addWidget(lbl)
-
-        self._period_combo = QComboBox()
-        self._period_combo.addItems(["Last 30 days", "Last 90 days", "All time"])
-        self._period_combo.setStyleSheet(f"""
-            QComboBox {{
-                background-color: {colors.surface};
-                color: {colors.text_primary};
-                border: 1px solid {colors.border};
-                border-radius: {R.md};
-                padding: 0 12px;
-                {font_style('body_small')}
-                min-width: 140px;
-            }}
-            QComboBox:focus {{ border-color: {colors.focus_ring}; }}
-            QComboBox::drop-down {{ border: none; }}
-        """)
-        self._period_combo.currentIndexChanged.connect(self._on_period_changed)
-        row.addWidget(self._period_combo)
-        row.addStretch()
-
-        parent.addLayout(row)
-
-    def _on_period_changed(self, index: int) -> None:
-        period_map = {0: 30, 1: 90, 2: 365}
-        self._period_days = period_map.get(index, 90)
-        self.refresh()
-
-    def _build_body_weight(self, parent: QVBoxLayout) -> None:
-        self._build_section_header(parent, "Body Weight", "Track your weight trend over time")
-        self._weight_chart_container = ChartContainer(title="Body Weight", subtitle="")
-        self._weight_chart = TrendChart()
-        self._weight_chart_container.set_chart(self._weight_chart)
-        self._weight_empty = QLabel("No body weight data logged yet")
-        self._weight_empty.setStyleSheet(f"color: {self._colors().text_disabled}; {font_style('body_small')}")
-        self._weight_empty.setAlignment(Qt.AlignCenter)
-        parent.addWidget(self._weight_chart_container)
-
-    def _build_weekly_volume(self, parent: QVBoxLayout) -> None:
-        self._build_section_header(parent, "Weekly Volume", "Total training volume per week")
-        self._volume_chart_container = ChartContainer(title="Volume (kg)", subtitle="")
-        self._volume_chart = BarChart(orientation="vertical")
-        self._volume_chart_container.set_chart(self._volume_chart)
-        self._volume_empty = QLabel("No volume data yet. Complete a workout to see your progress.")
-        self._volume_empty.setStyleSheet(f"color: {self._colors().text_disabled}; {font_style('body_small')}")
-        self._volume_empty.setAlignment(Qt.AlignCenter)
-        parent.addWidget(self._volume_chart_container)
-
-    def _build_muscle_balance(self, parent: QVBoxLayout) -> None:
-        self._build_section_header(parent, "Muscle Balance", "Volume distribution by muscle group")
-        self._muscle_layout = QHBoxLayout()
-        self._muscle_layout.setSpacing(_px16)
-
-        self._radar_chart = RadarChart()
-        self._muscle_layout.addWidget(self._radar_chart)
-
-        self._muscle_detail = QVBoxLayout()
-        self._muscle_detail.setSpacing(_px4)
-        self._muscle_detail_widget = QWidget()
-        self._muscle_detail_widget.setLayout(self._muscle_detail)
-
-        self._muscle_empty = QLabel("Complete a workout to see muscle balance.")
-        self._muscle_empty.setStyleSheet(f"color: {self._colors().text_disabled}; {font_style('body_small')}")
-        self._muscle_empty.setAlignment(Qt.AlignCenter)
-
-        self._muscle_empty_widget = QWidget()
-        mel = QVBoxLayout(self._muscle_empty_widget)
-        mel.addWidget(self._muscle_empty)
-
-        self._muscle_layout.addWidget(self._muscle_detail_widget, 1)
-        self._muscle_layout.addWidget(self._muscle_empty_widget, 1)
-        self._muscle_detail_widget.hide()
-        parent.addLayout(self._muscle_layout)
-
-    def _build_personal_records(self, parent: QVBoxLayout) -> None:
-        self._build_section_header(parent, "Personal Records", "Your best performances")
-        self._pr_grid = QGridLayout()
-        self._pr_grid.setContentsMargins(0, 0, 0, 0)
-        self._pr_grid.setSpacing(_px12)
-
-        self._pr_empty = QLabel("No PRs yet. Push yourself in your next workout!")
-        self._pr_empty.setStyleSheet(f"color: {self._colors().text_disabled}; {font_style('body_small')}")
-        self._pr_empty.setAlignment(Qt.AlignCenter)
-        self._pr_empty.setWordWrap(True)
-
-        self._pr_empty_widget = QWidget()
-        pr_el = QVBoxLayout(self._pr_empty_widget)
-        pr_el.addWidget(self._pr_empty)
-
-        parent.addLayout(self._pr_grid)
-        self._pr_grid.addWidget(self._pr_empty_widget, 0, 0)
-        self._pr_empty_widget.hide()
-
-    def _build_compliance(self, parent: QVBoxLayout) -> None:
-        self._build_section_header(parent, "Compliance & Consistency", "Session adherence and recovery trend")
-        self._compliance_layout = QVBoxLayout()
-        self._compliance_layout.setContentsMargins(0, 0, 0, 0)
-        self._compliance_layout.setSpacing(_px8)
-        self._compliance_timeline = WeeklyTimeline()
-        self._compliance_label = QLabel("")
-        self._compliance_label.setStyleSheet(f"color: {self._colors().text_disabled}; {font_style('caption')}")
-        self._compliance_label.setAlignment(Qt.AlignCenter)
-
-        self._compliance_empty = QLabel("Compliance data will appear after completing workouts.")
-        self._compliance_empty.setStyleSheet(f"color: {self._colors().text_disabled}; {font_style('body_small')}")
-        self._compliance_empty.setAlignment(Qt.AlignCenter)
-
-        self._compliance_layout.addWidget(self._compliance_empty)
-        parent.addLayout(self._compliance_layout)
-
-    def _build_next_milestone(self, parent: QVBoxLayout) -> None:
-        self._build_section_header(parent, "Next Milestone", "Your closest achievement target")
-        self._milestone_panel = SectionPanel(title="", subtitle="", span=PanelSpan.FULL)
-        self._milestone_icon = QLabel("")
-        self._milestone_title = QLabel("No milestone set")
-        self._milestone_desc = QLabel("Complete workouts and log body weight to track progress toward your goals.")
-        self._milestone_eta = QLabel("")
-        self._milestone_empty = QLabel("Set a body weight or strength goal to see your next milestone.")
-        parent.addWidget(self._milestone_panel)
-
-    def _build_insights(self, parent: QVBoxLayout) -> None:
-        self._build_section_header(parent, "Insights", "Personalised coaching notes")
-        self._insights_stack = CoachCardStack()
-        parent.addWidget(self._insights_stack)
-
-    # ── Refresh ──────────────────────────────────────────────
+    # ── Refresh (unchanged public API) ──────────────────────────────
 
     def refresh(self) -> None:
         self._update_hero()
-        self._update_body_weight()
-        self._update_weekly_volume()
-        self._update_muscle_balance()
-        self._update_personal_records()
-        self._update_compliance()
-        self._update_next_milestone()
-        self._update_insights()
+        self._update_journey()
+        self._update_strength()
+        self._update_body()
+        self._update_consistency()
+        self._update_coach()
+        self._update_achievements()
+
+    # ── Section 1: Hero ─────────────────────────────────────────────
 
     def _update_hero(self) -> None:
         colors = self._colors()
-        days = self._period_days
+        sessions = self._safe_list_sessions(limit=200)
+        completed = [s for s in sessions if getattr(s, "completed_at", None)]
 
-        sessions = self._db.list_sessions(limit=200) if hasattr(self._db, "list_sessions") else []
-        sessions_in_period = [
-            s for s in sessions
-            if s.started_at and hasattr(s, "started_at")
-        ]
+        n_workouts = len(completed)
+        streak_days = self._calc_streak(completed)
 
-        recent_workouts = sum(
-            1 for s in sessions_in_period
-            if s.completed_at
+        from modules.workout.application.pr_engine import PREngine
+        prs = []
+        try:
+            prs = PREngine(self._db).get_best_prs()
+        except Exception:
+            pass
+
+        n_prs = len(prs)
+
+        # Today's achievement
+        today_achievement = ""
+        if n_prs > 0:
+            top_pr = prs[0]
+            pct = getattr(top_pr, "improvement", 0) or 0
+            if pct >= 5:
+                today_achievement = f"{top_pr.exercise_name} +{pct:.0f}%"
+        if not today_achievement and streak_days >= 7:
+            today_achievement = f"{streak_days}-day streak 🔥"
+        if not today_achievement and n_workouts >= 10:
+            today_achievement = f"{n_workouts} workouts completed"
+
+        # Primary narrative message
+        if n_workouts >= 10:
+            narrative = f"You've completed {n_workouts} workouts."
+            if n_prs > 0:
+                narrative += f"\nYou've set {n_prs} personal record{'s' if n_prs != 1 else ''}."
+            if streak_days >= 5:
+                narrative += f"\nYour {streak_days}-day streak shows incredible dedication."
+            else:
+                narrative += "\nYou're building real momentum."
+        elif n_workouts >= 3:
+            narrative = f"You've completed {n_workouts} workouts."
+            narrative += "\nEvery workout builds a stronger you."
+        elif n_workouts > 0:
+            narrative = f"Welcome back! You've completed {n_workouts} workout{'s' if n_workouts != 1 else ''}."
+            narrative += "\nConsistency is the key to progress."
+        else:
+            narrative = "Welcome to GymOS!\nComplete your first workout to start tracking your progress."
+
+        self._hero_narrative.setText(narrative)
+        self._hero_narrative.setStyleSheet(
+            f"color: {colors.text_primary}; {font_style('h2')}; "
+            f"background: transparent; border: none;"
         )
 
-        pr_count = "--"
-        streak = "--"
-        total_vol = "--"
+        # Today's achievement badge (replace any existing one)
+        if hasattr(self, '_hero_achievement_badge') and self._hero_achievement_badge:
+            self._hero_achievement_badge.deleteLater()
+            self._hero_achievement_badge = None
+        if today_achievement:
+            self._hero_achievement_badge = StatusBadge(
+                text=f"Today: {today_achievement}",
+                level=StatusLevel.SUCCESS,
+                outlined=True,
+            )
+            self._hero_text_col.insertWidget(1, self._hero_achievement_badge)
+
+        # Subtitle
+        now = datetime.now()
+        hour = now.hour
+        greeting = "Good morning" if hour < 12 else "good afternoon" if hour < 18 else "good evening"
+        subtitle = f"{greeting.capitalize()}, here's your progress overview."
+        self._hero_subtitle.setText(subtitle)
+        self._hero_subtitle.setStyleSheet(
+            f"color: {colors.text_secondary}; {font_style('body')}; "
+            f"background: transparent; border: none;"
+        )
+
+        # KPI strip
+        vol_text = "--"
+        try:
+            vol_data = self._db.get_volume_by_day(days=90)
+            total_vol_kg = sum(v["volume"] for v in vol_data)
+            vol_text = f"{total_vol_kg / 1000:.1f}k" if total_vol_kg >= 1000 else f"{int(total_vol_kg)}"
+        except Exception:
+            pass
+
+        current_phase = "Building"
+        if n_workouts >= 20:
+            current_phase = "Growing"
+        if n_workouts >= 50:
+            current_phase = "Strong"
+
+        self._hero_kpi.set_items([
+            KpiItem(label="Workouts", value=str(n_workouts)),
+            KpiItem(label="PRs", value=str(n_prs)),
+            KpiItem(label="Streak", value=f"{streak_days}d"),
+            KpiItem(label=f"Phase", value=current_phase),
+            KpiItem(label="Volume", value=vol_text),
+        ])
+
+    # ── Section 2: Your Journey ─────────────────────────────────────
+
+    def _update_journey(self) -> None:
+        milestones: list[tuple[str, str, bool]] = []
+        milestones.append(("Started", "", True))
+
+        from modules.workout.application.pr_engine import PREngine
+        try:
+            prs = PREngine(self._db).get_best_prs()
+        except Exception:
+            prs = []
+
+        # First PR milestone
+        for pr in prs[:2]:
+            short = pr.exercise_name[:12]
+            date_str = self._format_date_short(getattr(pr, "achieved_at", ""))
+            milestones.append((short, date_str, True))
+
+        # Body weight milestone
+        try:
+            bw_data = self._db.get_body_weight_history(days=180)
+            if len(bw_data) >= 2:
+                delta = bw_data[-1].weight_kg - bw_data[0].weight_kg
+                if abs(delta) >= 1.0:
+                    direction = "↓" if delta < 0 else "↑"
+                    milestones.append((
+                        f"{direction}{abs(delta):.1f}kg",
+                        bw_data[-1].date[-5:] if hasattr(bw_data[-1], "date") else "",
+                        True,
+                    ))
+        except Exception:
+            pass
+
+        # Current
+        milestones.append(("Now", "", False))
+        self._journey.set_milestones(milestones)
+
+    # ── Section 3: Strength ─────────────────────────────────────────
+
+    def _update_strength(self) -> None:
+        colors = self._colors()
+        self._clear_grid(self._pr_grid)
 
         from modules.workout.application.pr_engine import PREngine
         try:
             engine = PREngine(self._db)
             prs = engine.get_best_prs()
-            pr_count = str(len(prs))
-        except Exception:
-            pass
-
-        sessions_7d = [s for s in sessions if s.started_at]
-        try:
-            from datetime import timedelta
-            week_ago = datetime.now() - timedelta(days=7)
-            streak_count = 0
-            for s in sorted(sessions_7d, key=lambda x: x.started_at or "", reverse=True):
-                if s.completed_at:
-                    s_date = datetime.fromisoformat(s.started_at) if isinstance(s.started_at, str) else s.started_at
-                    if s_date >= week_ago:
-                        streak_count += 1
-                    else:
-                        break
-            streak = f"{streak_count}/7"
-        except Exception:
-            pass
-
-        try:
-            vol_data = self._db.get_volume_by_day(days=days)
-            total_vol = f"{sum(v['volume'] for v in vol_data) / 1000:.0f}k"
-        except Exception:
-            pass
-
-        self._kpi_labels["workouts"].setText(str(recent_workouts))
-        self._kpi_labels["prs"].setText(pr_count)
-        self._kpi_labels["streak"].setText(streak)
-        self._kpi_labels["volume"].setText(total_vol)
-
-    def _update_body_weight(self) -> None:
-        colors = self._colors()
-        try:
-            bw_data = self._db.get_body_weight_history(days=self._period_days)
-        except Exception:
-            bw_data = []
-
-        if bw_data:
-            series = [(w.date[-5:], w.weight_kg) for w in bw_data]
-            self._weight_chart.set_data(series, colors.success)
-            self._weight_chart.show()
-            self._weight_empty.hide() if hasattr(self, '_weight_empty') else None
-        else:
-            self._weight_chart.hide()
-
-    def _update_weekly_volume(self) -> None:
-        colors = self._colors()
-        try:
-            vol_data = self._db.get_volume_by_day(days=self._period_days)
-        except Exception:
-            vol_data = []
-
-        if vol_data:
-            bars = [(v["week"][-5:], v["volume"] / 1000) for v in vol_data]
-            max_val = max(v[1] for v in bars) if bars else 100.0
-            self._volume_chart.set_data(bars, max_val * 1.2, colors.primary)
-            self._volume_chart.show()
-        else:
-            self._volume_chart.hide()
-
-    def _update_muscle_balance(self) -> None:
-        colors = self._colors()
-        try:
-            from modules.workout.application.volume_analytics import VolumeAnalytics
-            va = VolumeAnalytics(self._db)
-            weekly = va.get_weekly_volume(weeks=1)
-        except Exception:
-            weekly = []
-
-        if weekly and weekly[0].muscles:
-            muscles = weekly[0].muscles
-
-            axes = [(m.muscle_group.capitalize()[:4], m.total_sets) for m in muscles]
-            max_sets = max(m.total_sets for m in muscles) if muscles else 1
-            self._radar_chart.set_data(axes, max_sets * 1.3)
-
-            for i in reversed(range(self._muscle_detail.count())):
-                item = self._muscle_detail.takeAt(0)
-                if item.widget():
-                    item.widget().deleteLater()
-
-            for m in muscles:
-                row = QHBoxLayout()
-                row.setContentsMargins(0, _px4, 0, _px4)
-                row.setSpacing(_px8)
-
-                name_lbl = QLabel(m.muscle_group.capitalize())
-                name_lbl.setStyleSheet(f"color: {colors.text_primary}; {font_style('body_small', 'bold')}; background: transparent;")
-                name_lbl.setFixedWidth(80)
-                row.addWidget(name_lbl)
-
-                sets_lbl = QLabel(f"{m.total_sets} sets")
-                sets_lbl.setStyleSheet(f"color: {colors.text_secondary}; {font_style('caption')}; background: transparent;")
-                row.addWidget(sets_lbl)
-                row.addStretch()
-
-                status_color = colors.success if m.status == "optimal" else colors.warning if m.status in ("building", "maintenance") else colors.error
-                badge = StatusBadge(text=m.status_label, level=StatusLevel.SUCCESS if m.status == "optimal" else StatusLevel.WARNING if m.status in ("building", "maintenance") else StatusLevel.ERROR, outlined=True)
-                row.addWidget(badge)
-
-                container = QWidget()
-                container.setLayout(row)
-                self._muscle_detail.addWidget(container)
-
-            self._radar_chart.show()
-            self._muscle_detail_widget.show()
-            self._muscle_empty_widget.hide()
-        else:
-            self._radar_chart.hide()
-            self._muscle_detail_widget.hide()
-            self._muscle_empty_widget.show()
-
-    def _update_personal_records(self) -> None:
-        for i in reversed(range(self._pr_grid.count())):
-            item = self._pr_grid.takeAt(0)
-            if item.widget() and item.widget() is not self._pr_empty_widget:
-                item.widget().deleteLater()
-
-        colors = self._colors()
-        try:
-            from modules.workout.application.pr_engine import PREngine
-            engine = PREngine(self._db)
-            prs = engine.get_best_prs()
         except Exception:
             prs = []
 
-        if prs:
-            row_i, col_i = 0, 0
-            for pr in prs[:6]:
-                card = QFrame()
-                card.setStyleSheet(f"""
-                    QFrame {{
-                        background-color: {colors.surface};
-                        border-radius: {R.lg};
-                        border: 1px solid {colors.border};
-                    }}
-                    QFrame:hover {{ border-color: {colors.border_hover}; }}
-                """)
-                layout = QVBoxLayout(card)
-                layout.setContentsMargins(16, 12, 16, 12)
-                layout.setSpacing(4)
+        if not prs:
+            self._strength_empty.setText(
+                "No PRs yet. Push yourself in your next workout!\n"
+                "Every rep is a step toward a new personal record."
+            )
+            self._strength_empty.setStyleSheet(
+                f"color: {colors.text_disabled}; {font_style('body')}; "
+                f"background: transparent; border: none; padding: {S.s8};"
+            )
+            self._pr_grid.addWidget(self._strength_empty, 0, 0)
+            self._strength_header.setText("")
+            return
 
-                type_colors_map = {
-                    "weight": colors.success,
-                    "reps": colors.info,
-                    "volume": colors.warning,
-                    "e1rm": colors.primary,
-                }
-                pr_color = type_colors_map.get(pr.pr_type, colors.text_secondary)
+        # Strength narrative
+        has_impressive = 0
+        for pr in prs[:3]:
+            if getattr(pr, "improvement", 0) and pr.improvement > 10:
+                has_impressive += 1
 
-                header = QHBoxLayout()
-                header.setSpacing(8)
-                name = QLabel(pr.exercise_name)
-                name.setStyleSheet(f"color: {colors.text_primary}; {font_style('body_small', 'bold')}; background: transparent;")
-                header.addWidget(name, 1)
+        if has_impressive >= 2:
+            narrative = f"You're on fire! {has_impressive} exercises improved by over 10%."
+        elif has_impressive >= 1:
+            top = prs[0]
+            narrative = f"{top.exercise_name} improved by {top.improvement:.0f}%. Outstanding progress."
+        elif prs:
+            narrative = f"Your {len(prs)} best lifts are trending up. Keep pushing."
+        else:
+            narrative = ""
+        self._strength_header.setText(narrative)
+        self._strength_header.setStyleSheet(
+            f"color: {colors.primary}; {font_style('body', weight=500)}; "
+            f"background: transparent; border: none; padding-bottom: {S.s2};"
+        )
 
-                type_badge = QLabel(pr.pr_type.upper())
-                type_badge.setStyleSheet(
-                    f"color: {pr_color}; {font_style('caption', 'bold')}; "
-                    f"background: transparent; border: 1px solid {pr_color}; "
-                    f"border-radius: {R.sm}; padding: 1px 6px;"
+        # PR cards
+        row_i, col_i = 0, 0
+        type_colors_map = {
+            "weight": colors.success,
+            "reps": colors.info,
+            "volume": colors.warning,
+            "e1rm": colors.primary,
+        }
+
+        for pr in prs[:6]:
+            pr_color = type_colors_map.get(getattr(pr, "pr_type", ""), colors.text_secondary)
+            improvement = getattr(pr, "improvement", 0) or 0
+            improvement_text = getattr(pr, "improvement_text", "") or ""
+
+            card = AppCard(title="", elevated=False, interactive=False)
+            card.setStyleSheet(f"""
+                AppCard {{
+                    background-color: {colors.surface};
+                    border: 1px solid {colors.border};
+                    border-radius: {R.lg};
+                }}
+                AppCard:hover {{
+                    border-color: {colors.primary};
+                }}
+            """)
+
+            inner = QVBoxLayout()
+            inner.setSpacing(_px4)
+            inner.setContentsMargins(0, 0, 0, 0)
+
+            # Exercise name
+            name_lbl = QLabel(pr.exercise_name)
+            name_lbl.setStyleSheet(
+                f"color: {colors.text_primary}; {font_style('body', weight='bold')}; "
+                f"background: transparent; border: none;"
+            )
+            inner.addWidget(name_lbl)
+
+            # Value (large)
+            val_lbl = QLabel(pr.display_value)
+            val_lbl.setStyleSheet(
+                f"color: {pr_color}; {font_style('h3')}; "
+                f"background: transparent; border: none;"
+            )
+            inner.addWidget(val_lbl)
+
+            # Improvement with arrow
+            if improvement > 0:
+                arrow = "▲"
+                pct = f"{improvement:.0f}%"
+                imp_lbl = QLabel(f"{arrow} +{improvement_text}" if improvement_text else f"{arrow} +{int(improvement)} ({pct})")
+                imp_lbl.setStyleSheet(
+                    f"color: {colors.success}; {font_style('caption', weight='bold')}; "
+                    f"background: transparent; border: none;"
                 )
-                header.addWidget(type_badge)
-                layout.addLayout(header)
+                inner.addWidget(imp_lbl)
+            elif improvement == 0:
+                imp_lbl = QLabel("— No change")
+                imp_lbl.setStyleSheet(
+                    f"color: {colors.text_disabled}; {font_style('caption')}; "
+                    f"background: transparent; border: none;"
+                )
+                inner.addWidget(imp_lbl)
 
-                val = QLabel(pr.display_value)
-                val.setStyleSheet(f"color: {pr_color}; {font_style('h3')}; background: transparent;")
-                layout.addWidget(val)
+            # Improvement narrative
+            if improvement >= 10:
+                narrative_text = "Excellent progress!"
+            elif improvement >= 5:
+                narrative_text = "Solid gains."
+            elif improvement > 0:
+                narrative_text = "Trending up."
+            else:
+                narrative_text = "Keep pushing."
 
-                if pr.improvement_text:
-                    imp = QLabel(pr.improvement_text)
-                    imp.setStyleSheet(f"color: {colors.success}; {font_style('caption', 'bold')}; background: transparent;")
-                    layout.addWidget(imp)
+            nar_lbl = QLabel(narrative_text)
+            nar_lbl.setStyleSheet(
+                f"color: {colors.text_secondary}; {font_style('caption')}; "
+                f"background: transparent; border: none;"
+            )
+            inner.addWidget(nar_lbl)
 
-                if pr.achieved_at:
-                    try:
-                        pr_date = datetime.fromisoformat(pr.achieved_at).date()
-                        days_since = (date.today() - pr_date).days
-                        date_text = f"{days_since}d ago"
-                    except (ValueError, TypeError):
-                        date_text = pr.achieved_at
-                    dt = QLabel(date_text)
-                    dt.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
-                    layout.addWidget(dt)
+            # Date
+            date_str = self._format_date_short(getattr(pr, "achieved_at", ""))
+            if date_str:
+                dt_lbl = QLabel(date_str)
+                dt_lbl.setStyleSheet(
+                    f"color: {colors.text_disabled}; {font_style('caption')}; "
+                    f"background: transparent; border: none;"
+                )
+                inner.addWidget(dt_lbl)
 
-                self._pr_grid.addWidget(card, row_i, col_i)
-                col_i += 1
-                if col_i >= 3:
-                    col_i = 0
-                    row_i += 1
+            inner.addStretch()
+            wrapper = QFrame()
+            wrapper.setLayout(inner)
+            wrapper.setStyleSheet("background: transparent; border: none;")
+            card.add_content(wrapper)
 
-            self._pr_empty_widget.hide()
-        else:
-            self._pr_empty_widget.show()
+            self._pr_grid.addWidget(card, row_i, col_i)
+            col_i += 1
+            if col_i >= 3:
+                col_i = 0
+                row_i += 1
 
-    def _update_compliance(self) -> None:
-        for i in reversed(range(self._compliance_layout.count())):
-            item = self._compliance_layout.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
+    # ── Section 4: Body ─────────────────────────────────────────────
 
+    def _update_body(self) -> None:
         colors = self._colors()
-        try:
-            sessions = self._db.list_sessions(limit=100)
-        except Exception:
-            sessions = []
-
-        if sessions:
-            from datetime import timedelta
-            day_map = {0: "M", 1: "T", 2: "W", 3: "T", 4: "F", 5: "S", 6: "S"}
-            week_values = [0.0] * 7
-
-            today = datetime.now()
-            for s in sessions:
-                if s.started_at:
-                    try:
-                        s_date = datetime.fromisoformat(s.started_at) if isinstance(s.started_at, str) else s.started_at
-                        delta = (today - s_date).days
-                        if 0 <= delta < 7 and s.completed_at:
-                            week_values[delta] = 1.0
-                    except (ValueError, TypeError):
-                        pass
-
-            week_values.reverse()
-            self._compliance_timeline.set_data(week_values)
-            self._compliance_layout.addWidget(self._compliance_timeline)
-
-            total = sum(week_values)
-            pct = total / 7 * 100
-            label = QLabel(f"{pct:.0f}% adherence this week ({int(total)}/7 sessions)")
-            label.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}")
-            label.setAlignment(Qt.AlignCenter)
-            self._compliance_layout.addWidget(label)
-        else:
-            empty = QLabel("Compliance data will appear after completing workouts.")
-            empty.setStyleSheet(f"color: {colors.text_disabled}; {font_style('body_small')}")
-            empty.setAlignment(Qt.AlignCenter)
-            self._compliance_layout.addWidget(empty)
-
-    def _update_next_milestone(self) -> None:
-        colors = self._colors()
-        for i in reversed(range(self._milestone_panel.layout().count())):
-            item = self._milestone_panel.layout().takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
-
         try:
             bw_data = self._db.get_body_weight_history(days=90)
         except Exception:
             bw_data = []
 
-        try:
-            from modules.workout.application.pr_engine import PREngine
-            prs = PREngine(self._db).get_best_prs()
-        except Exception:
-            prs = []
-
         if bw_data and len(bw_data) >= 2:
+            series = [(w.date[-5:], w.weight_kg) for w in bw_data]
+            self._body_chart.set_data(series, colors.success)
+            self._body_chart.show()
+
             latest = bw_data[-1].weight_kg
             earliest = bw_data[0].weight_kg
             delta = latest - earliest
-            if abs(delta) >= 0.5:
-                target = latest + (5.0 if delta > 0 else -5.0)
-                remaining = abs(target - latest)
-                direction = "gain" if delta > 0 else "lose"
-                pct = min(abs(delta) / 5.0 * 100, 100)
+            weeks = max(len(bw_data) // 3, 1)
 
-                icon = QLabel("\u2696")
-                icon.setStyleSheet(f"font-size: 28px; background: transparent; border: none;")
-                self._milestone_panel.add_content(icon)
+            if delta < -1.0:
+                trend = f"Down {abs(delta):.1f}kg in ~{weeks} weeks. Consistent progress."
+                if abs(delta) >= 3:
+                    trend += " On track for your goal."
+            elif delta < 0:
+                trend = f"Down {abs(delta):.1f}kg. Gradual, sustainable progress."
+            elif delta > 1.0:
+                trend = f"Up {delta:.1f}kg in ~{weeks} weeks. Strong gains."
+            else:
+                trend = "Weight is stable. Perfect environment for strength gains."
 
-                title = QLabel(f"Next Weight Milestone: {target:.1f} kg")
-                title.setStyleSheet(f"color: {colors.text_primary}; {font_style('h4')}; background: transparent;")
-                self._milestone_panel.add_content(title)
+            goal_hint = ""
+            try:
+                from modules.workout.application.pr_engine import PREngine
+                if PREngine(self._db).get_best_prs():
+                    goal_hint = " Your training is building strength and discipline."
+            except Exception:
+                pass
 
-                desc = QLabel(
-                    f"{remaining:.1f} kg to {direction} \u00b7 "
-                    f"Current: {latest:.1f} kg \u00b7 "
-                    f"{'Gaining' if delta > 0 else 'Losing'} {abs(delta):.1f} kg over {len(bw_data)} entries"
-                )
-                desc.setStyleSheet(f"color: {colors.text_secondary}; {font_style('body_small')}; background: transparent;")
-                desc.setWordWrap(True)
-                self._milestone_panel.add_content(desc)
-
-                eta_label = QLabel(f"{pct:.0f}% toward milestone")
-                eta_color = colors.success if pct >= 50 else colors.warning if pct >= 25 else colors.text_disabled
-                eta_label.setStyleSheet(f"color: {eta_color}; {font_style('caption', 'bold')}; background: transparent;")
-                self._milestone_panel.add_content(eta_label)
-                return
-
-        if prs:
-            top = prs[0]
-            icon = QLabel("\ud83c\udfc6")
-            icon.setStyleSheet(f"font-size: 28px; background: transparent; border: none;")
-            self._milestone_panel.add_content(icon)
-
-            title = QLabel(f"Beat Your {top.exercise_name} {top.pr_type.upper()} PR")
-            title.setStyleSheet(f"color: {colors.text_primary}; {font_style('h4')}; background: transparent;")
-            self._milestone_panel.add_content(title)
-
-            desc = QLabel(
-                f"Current best: {top.display_value} \u00b7 "
-                f"+{top.improvement or 0:.0f}% over previous"
+            self._body_narrative.setText(trend + goal_hint)
+            self._body_narrative.setStyleSheet(
+                f"color: {colors.text_secondary}; {font_style('body')}; "
+                f"background: transparent; border: none;"
             )
-            desc.setStyleSheet(f"color: {colors.text_secondary}; {font_style('body_small')}; background: transparent;")
-            desc.setWordWrap(True)
-            self._milestone_panel.add_content(desc)
+            self._body_narrative.show()
+            self._body_empty.hide()
+        else:
+            self._body_chart.hide()
+            self._body_narrative.hide()
+            self._body_empty.setText(
+                "No weight data logged yet.\n"
+                "Log your body weight in Settings to track changes and see your progress."
+            )
+            self._body_empty.setStyleSheet(
+                f"color: {colors.text_disabled}; {font_style('body')}; "
+                f"background: transparent; border: none; padding: {S.s8};"
+            )
+            self._body_empty.show()
 
-            eta = QLabel("Next session is your chance to set a new PR!")
-            eta.setStyleSheet(f"color: {colors.info}; {font_style('caption', 'bold')}; background: transparent;")
-            self._milestone_panel.add_content(eta)
+    # ── Section 5: Consistency ──────────────────────────────────────
+
+    def _update_consistency(self) -> None:
+        colors = self._colors()
+        # Clear all widgets from consistency layout
+        layout = self._consistency_view.layout()
+        if layout:
+            while layout.count():
+                item = layout.takeAt(0)
+                if item and item.widget():
+                    item.widget().deleteLater()
+
+        sessions = self._safe_list_sessions(limit=100)
+
+        if not sessions:
+            self._consistency_empty.setText(
+                "Complete workouts regularly to build your consistency streak\n"
+                "and see your training rhythm."
+            )
+            self._consistency_empty.setStyleSheet(
+                f"color: {colors.text_disabled}; {font_style('body')}; "
+                f"background: transparent; border: none; padding: {S.s8};"
+            )
+            self._consistency_empty.show()
+            self._consistency_view.hide()
             return
+        else:
+            self._consistency_empty.hide()
+            self._consistency_view.show()
 
+        # Weekly timeline bar chart
+        day_map = {0: "M", 1: "T", 2: "W", 3: "T", 4: "F", 5: "S", 6: "S"}
+        week_values = [0.0] * 7
+        today = datetime.now()
+        for s in sessions:
+            if getattr(s, "started_at", None) and getattr(s, "completed_at", None):
+                try:
+                    s_date = datetime.fromisoformat(s.started_at) if isinstance(s.started_at, str) else s.started_at
+                    delta_days = (today - s_date).days
+                    if 0 <= delta_days < 7:
+                        week_values[delta_days] = 1.0
+                except (ValueError, TypeError):
+                    pass
+
+        week_values.reverse()
+        self._consistency_timeline.set_data(week_values)
+        self._consistency_view.layout().addWidget(self._consistency_timeline)
+
+        total = int(sum(week_values))
+        pct = total / 7 * 100
+
+        # Adherence badge
+        if pct >= 80:
+            badge_level = StatusLevel.SUCCESS
+            summary = "Excellent consistency!"
+        elif pct >= 60:
+            badge_level = StatusLevel.WARNING
+            summary = "Good consistency. Try to add one more session."
+        else:
+            badge_level = StatusLevel.ERROR
+            summary = "Building consistency. Every session counts."
+
+        badge = StatusBadge(
+            text=f"{pct:.0f}% adherence this week",
+            level=badge_level,
+            outlined=True,
+        )
+        self._consistency_view.layout().addWidget(badge)
+
+        # Summary
+        summary_text = f"{summary} {total}/7 sessions completed."
+        if total >= 5:
+            summary_text += " Outstanding week."
+        elif total >= 3:
+            summary_text += " Solid foundation."
+
+        self._consistency_summary.setText(summary_text)
+        self._consistency_summary.setStyleSheet(
+            f"color: {colors.text_secondary}; {font_style('caption')}; "
+            f"background: transparent; border: none;"
+        )
+        self._consistency_view.layout().addWidget(self._consistency_summary)
+
+        # Monthly context
         try:
-            sessions = self._db.list_sessions(limit=10)
-        except Exception:
-            sessions = []
-
-        if sessions:
-            completed = sum(1 for s in sessions if s.completed_at)
-            target_count = ((completed // 5) + 1) * 5
-            remaining = target_count - completed
-            icon = QLabel("\ud83d\udcc8")
-            icon.setStyleSheet(f"font-size: 28px; background: transparent; border: none;")
-            self._milestone_panel.add_content(icon)
-
-            title = QLabel(f"Complete {target_count} Workouts")
-            title.setStyleSheet(f"color: {colors.text_primary}; {font_style('h4')}; background: transparent;")
-            self._milestone_panel.add_content(title)
-
-            desc = QLabel(f"{remaining} more to go \u00b7 {completed} completed so far")
-            desc.setStyleSheet(f"color: {colors.text_secondary}; {font_style('body_small')}; background: transparent;")
-            self._milestone_panel.add_content(desc)
-
-            pct = (completed / target_count) * 100
-            pct_label = QLabel(f"{pct:.0f}% complete")
-            pct_color = colors.success if pct >= 50 else colors.warning
-            pct_label.setStyleSheet(f"color: {pct_color}; {font_style('caption', 'bold')}; background: transparent;")
-            self._milestone_panel.add_content(pct_label)
-            return
-
-        icon = QLabel("\ud83c\udfaf")
-        icon.setStyleSheet(f"font-size: 28px; background: transparent; border: none;")
-        self._milestone_panel.add_content(icon)
-
-        title = QLabel("No milestone set")
-        title.setStyleSheet(f"color: {colors.text_primary}; {font_style('h4')}; background: transparent;")
-        self._milestone_panel.add_content(title)
-
-        desc = QLabel("Complete workouts and log body weight to track progress toward your goals.")
-        desc.setStyleSheet(f"color: {colors.text_secondary}; {font_style('body_small')}; background: transparent;")
-        desc.setWordWrap(True)
-        self._milestone_panel.add_content(desc)
-
-    def _update_insights(self) -> None:
-        self._insights_stack.clear()
-
-        try:
-            from modules.workout.application.pr_engine import PREngine
-            engine = PREngine(self._db)
-            prs = engine.get_best_prs()
-        except Exception:
-            prs = []
-
-        if prs:
-            recent = prs[0]
-            n = Narrative(
-                title="Latest Achievement",
-                summary=f"New {recent.pr_type} PR in {recent.exercise_name}: {recent.display_value}",
-                body=f"You're making progress! This is {recent.improvement or 'a new'} improvement over your previous best.",
-                action_items=["Keep pushing your limits", "Focus on form", "Celebrate the win"],
-                source_keys=["pr_type", "exercise_name", "display_value"],
-                metadata={"severity": "success"},
+            sessions_30d = [s for s in sessions if getattr(s, "completed_at", None)]
+            total_30d = len(sessions_30d)
+            avg_week = total_30d / 4.3
+            monthly = f"Monthly average: {avg_week:.1f} sessions/week"
+            monthly_lbl = QLabel(monthly)
+            monthly_lbl.setStyleSheet(
+                f"color: {colors.text_disabled}; {font_style('caption')}; "
+                f"background: transparent; border: none;"
             )
-            self._insights_stack.add_card(n)
-
-        try:
-            rec_scores = self._db.get_body_weight_history(days=14)
+            monthly_lbl.setAlignment(Qt.AlignCenter)
+            self._consistency_view.layout().addWidget(monthly_lbl)
         except Exception:
-            rec_scores = []
+            pass
 
-        if rec_scores:
-            bw = rec_scores[-1]
-            n2 = Narrative(
-                title="Body Weight Update",
-                summary=f"Current weight: {bw.weight_kg:.1f} kg",
-                body="Consistent tracking helps you stay on target with your goals.",
-                action_items=["Log weight daily", "Track nutrition", "Stay hydrated"],
-                source_keys=["weight_kg"],
-                metadata={"severity": "info"},
-            )
-            self._insights_stack.add_card(n2)
+    # ── Section 6: Coach ────────────────────────────────────────────
 
-        if not prs and not rec_scores:
-            n0 = Narrative(
+    def _update_coach(self) -> None:
+        self._coach_stack.clear()
+        insights: list[Narrative] = []
+
+        # Insight 1: Performance narrative
+        from modules.workout.application.pr_engine import PREngine
+        try:
+            prs = PREngine(self._db).get_best_prs()
+            if prs:
+                top = prs[0]
+                pct = getattr(top, "improvement", 0) or 0
+                if pct >= 10:
+                    summary = f"{top.exercise_name} improved by {pct:.0f}%. Outstanding!"
+                elif pct >= 5:
+                    summary = f"{top.exercise_name} improved by {pct:.0f}%. Solid gains."
+                else:
+                    summary = f"{top.exercise_name} — trending up."
+                insights.append(Narrative(
+                    title="Strength Progress",
+                    summary=summary,
+                    body="Keep pushing your limits. Consistency drives improvement.",
+                    action_items=["Track your next session", "Focus on progressive overload"],
+                    source_keys=["pr_type", "exercise_name", "display_value"],
+                    metadata={"severity": "success"},
+                ))
+        except Exception:
+            pass
+
+        # Insight 2: Volume trend
+        try:
+            from modules.workout.application.volume_analytics import VolumeAnalytics
+            va = VolumeAnalytics(self._db)
+            weekly = va.get_weekly_volume(weeks=4)
+            if len(weekly) >= 2:
+                recent = weekly[0].total_sets
+                previous = weekly[1].total_sets
+                if recent > previous:
+                    pct_up = ((recent - previous) / max(previous, 1)) * 100
+                    insights.append(Narrative(
+                        title="Volume Increasing",
+                        summary=f"Training volume up {pct_up:.0f}% this week.",
+                        body="Increasing volume is a strong signal of adaptive progress. Maintain this trajectory.",
+                        action_items=["Monitor recovery", "Ensure nutrition supports volume"],
+                        source_keys=["total_sets", "week_label"],
+                        metadata={"severity": "info"},
+                    ))
+                elif recent < previous and previous > 0:
+                    pct_down = ((previous - recent) / max(previous, 1)) * 100
+                    insights.append(Narrative(
+                        title="Volume Dropped",
+                        summary=f"Training volume dropped {pct_down:.0f}% this week.",
+                        body="A volume drop can indicate fatigue or schedule changes. Consider adjusting your plan.",
+                        action_items=["Check recovery status", "Plan next week's sessions"],
+                        source_keys=["total_sets", "week_label"],
+                        metadata={"severity": "warning"},
+                    ))
+        except Exception:
+            pass
+
+        # Insight 3: Consistency
+        sessions = self._safe_list_sessions(limit=60)
+        completed_sessions = [s for s in sessions if getattr(s, "completed_at", None)]
+        if completed_sessions:
+            n = len(completed_sessions)
+            weeks_period = max(n / 3, 1)
+            avg_per_week = n / weeks_period
+
+            if avg_per_week >= 4:
+                insights.append(Narrative(
+                    title="Excellent Consistency",
+                    summary=f"Training {avg_per_week:.1f}x/week on average.",
+                    body="High training frequency correlates with better strength gains and habit formation.",
+                    action_items=["Keep this pace for 2 more weeks", "Recovery becomes critical"],
+                    source_keys=["completed_at"],
+                    metadata={"severity": "success"},
+                ))
+            elif avg_per_week >= 3:
+                insights.append(Narrative(
+                    title="Good Consistency",
+                    summary=f"Training {avg_per_week:.1f}x/week. Solid foundation.",
+                    body="Adding one more session per week could accelerate your progress significantly.",
+                    action_items=["Try adding one more session", "Review your weekly schedule"],
+                    source_keys=["completed_at"],
+                    metadata={"severity": "info"},
+                ))
+            elif avg_per_week >= 1:
+                insights.append(Narrative(
+                    title="Building Consistency",
+                    summary=f"Training {avg_per_week:.1f}x/week. Every session counts.",
+                    body="Consistency is the single most important factor in long-term progress.",
+                    action_items=["Aim for 3 sessions next week", "Schedule your workouts"],
+                    source_keys=["completed_at"],
+                    metadata={"severity": "info"},
+                ))
+
+        # Add top 3 insights
+        for insight in insights[:3]:
+            self._coach_stack.add_card(insight)
+
+        if not insights:
+            welcome = Narrative(
                 title="Welcome to Progress",
-                summary="Complete your first workout to unlock progress tracking, PR detection, and personalised insights.",
-                body="Your progress data will appear here after you log sessions and body weight entries.",
+                summary="Complete your first workout to unlock personalised coaching insights.",
+                body="Your coach will analyse your training, volume, and consistency to provide actionable recommendations.",
                 action_items=["Start a workout", "Log your body weight"],
                 source_keys=[],
                 metadata={"severity": "info"},
             )
-            self._insights_stack.add_card(n0)
+            self._coach_stack.add_card(welcome)
+
+    # ── Section 7: Achievements ─────────────────────────────────────
+
+    def _update_achievements(self) -> None:
+        colors = self._colors()
+        self._clear_grid(self._achievement_grid)
+        achievements: list[tuple[str, str, str, str]] = []  # (icon, title, desc, date)
+
+        sessions = self._safe_list_sessions(limit=200)
+        completed = [s for s in sessions if getattr(s, "completed_at", None)]
+        n_workouts = len(completed)
+
+        # Workout milestones — find the highest reached and add date
+        max_reached = 0
+        for count in sorted(milestones_map.keys()):
+            if n_workouts >= count:
+                max_reached = count
+        if max_reached > 0:
+            label = milestones_map[max_reached]
+            last_date = ""
+            if completed:
+                last = completed[-1]
+                if getattr(last, "completed_at", None):
+                    last_date = self._format_date_short(last.completed_at)
+            achievements.append(("💪", label, f"Completed {max_reached} workouts", last_date))
+
+        # Streak milestones — find the highest reached
+        streak = self._calc_streak(completed)
+        max_streak_reached = 0
+        for days in sorted(streak_map.keys()):
+            if streak >= days:
+                max_streak_reached = days
+        if max_streak_reached > 0:
+            label = streak_map[max_streak_reached]
+            achievements.append(("🔥", label, f"{max_streak_reached}-day consistency streak", "Active"))
+
+        # PR milestones — find the highest reached with date
+        pr_milestones = {1: "First PR", 5: "PR Collector", 10: "PR Machine", 25: "Legend"}
+        try:
+            prs = PREngine(self._db).get_best_prs()
+            pr_count = len(prs)
+            max_pr_reached = 0
+            for count in sorted(pr_milestones.keys()):
+                if pr_count >= count:
+                    max_pr_reached = count
+            if max_pr_reached > 0:
+                label = pr_milestones[max_pr_reached]
+                # Use the date of the most recent PR
+                pr_date = ""
+                if prs and max_pr_reached <= len(prs):
+                    latest_pr = prs[min(max_pr_reached, len(prs)) - 1]
+                    pr_date = self._format_date_short(getattr(latest_pr, "achieved_at", ""))
+                achievements.append(("🏆", label, f"Set {max_pr_reached} personal records", pr_date))
+        except Exception:
+            pass
+
+        # Volume milestones — find the highest reached
+        vol_milestones = {10000: "10k Volume", 50000: "50k Volume", 100000: "100k Volume"}
+        try:
+            vol_data = self._db.get_volume_by_day(days=365)
+            total_vol = sum(v["volume"] for v in vol_data)
+            max_vol_reached = 0
+            for threshold in sorted(vol_milestones.keys()):
+                if total_vol >= threshold:
+                    max_vol_reached = threshold
+            if max_vol_reached > 0:
+                label = vol_milestones[max_vol_reached]
+                achievements.append(("📊", label, f"Total volume: {int(total_vol):,} kg", "Lifetime"))
+        except Exception:
+            pass
+
+        if not achievements:
+            self._achievement_empty.setText(
+                "Complete workouts and set PRs to unlock achievements.\n"
+                "Every milestone is a celebration of your dedication."
+            )
+            self._achievement_empty.setStyleSheet(
+                f"color: {colors.text_disabled}; {font_style('body')}; "
+                f"background: transparent; border: none; padding: {S.s8};"
+            )
+            self._achievement_grid.addWidget(self._achievement_empty, 0, 0)
+            return
+
+        row_i, col_i = 0, 0
+        for icon, title, desc, date_str in achievements[:6]:
+            card = _AchievementCard(icon=icon, title=title, description=desc, date_earned=date_str)
+            self._achievement_grid.addWidget(card, row_i, col_i)
+            col_i += 1
+            if col_i >= 3:
+                col_i = 0
+                row_i += 1
+
+    # ── Helpers ─────────────────────────────────────────────────────
+
+    def _safe_list_sessions(self, limit: int = 100):
+        try:
+            return self._db.list_sessions(limit=limit)
+        except Exception:
+            return []
+
+    def _calc_streak(self, completed: list) -> int:
+        """Calculate consecutive workout streak in days."""
+        if not completed:
+            return 0
+        dates = set()
+        for s in completed:
+            if getattr(s, "completed_at", None):
+                try:
+                    d = datetime.fromisoformat(s.completed_at) if isinstance(s.completed_at, str) else s.completed_at
+                    dates.add(d.date())
+                except (ValueError, TypeError):
+                    pass
+
+        if not dates:
+            return 0
+
+        today = date.today()
+        streak = 0
+        current = today
+        while current in dates:
+            streak += 1
+            current -= timedelta(days=1)
+        return streak
+
+    def _format_date_short(self, date_str: str) -> str:
+        if not date_str:
+            return ""
+        try:
+            d = datetime.fromisoformat(date_str).date()
+            days_since = (date.today() - d).days
+            if days_since == 0:
+                return "Today"
+            if days_since == 1:
+                return "Yesterday"
+            return f"{days_since}d ago"
+        except (ValueError, TypeError):
+            return date_str
+
+    def _clear_grid(self, grid: QGridLayout) -> None:
+        while grid.count():
+            item = grid.takeAt(0)
+            if item.widget():
+                item.widget().deleteLater()

@@ -1,39 +1,9 @@
-"""Dashboard Experience 3.0 — editorial magazine layout.
-
-Layout hierarchy (top-to-bottom, weighted by visual mass):
-
-  ┌──────────────────────────────────────────────────────────┐
-  │  HERO (45% viewport)                                     │
-  │  Identity · Phase · Prediction · Metrics · Primary CTA   │
-  │  "You're on track for a squat PR this week."            │
-  └──────────────────────────────────────────────────────────┘
-  ┌──────────────────────────────────────────────────────────┐
-  │  TODAY'S MISSION                                         │
-  │  Largest card · Workout hero · Muscles · CTA             │
-  └──────────────────────────────────────────────────────────┘
-  ┌──────────────┐  ┌──────────────────────────────────────┐
-  │  RECOVERY    │  │  COACH                               │
-  │  Narrative   │  │  "Your bench press is ready for..."  │
-  │  38% width   │  │  62% width · Actionable              │
-  └──────────────┘  └──────────────────────────────────────┘
-  ┌──────────────────────────────────────┐  ┌──────────────┐
-  │  PROGRESS                            │  │  PREDICTIONS │
-  │  Journey · Timeline · Streak · PRs   │  │  Coaching    │
-  │  62% width                           │  │  38% width   │
-  └──────────────────────────────────────┘  └──────────────┘
-  ┌──────────────────────────────────────────────────────────┐
-  │  QUICK ACTIONS (5 interactive cards in a row)            │
-  └──────────────────────────────────────────────────────────┘
-
-Preserved: all 6 signals, controller interface, data contract.
-"""
-
 from __future__ import annotations
 
 from datetime import datetime
 from typing import Any
 
-from PySide6.QtCore import QEasingCurve, QPropertyAnimation, Qt, Signal
+from PySide6.QtCore import QEasingCurve, QPropertyAnimation, Qt, QTimer, Signal
 from PySide6.QtWidgets import QGraphicsOpacityEffect
 from PySide6.QtWidgets import (
     QFrame,
@@ -48,9 +18,7 @@ from PySide6.QtWidgets import (
 
 from ui.dashboard.dashboard_controller import DashboardController
 from ui.dashboard.dashboard_models import DashboardData
-from ui.design_system.components.app_card import AppCard
 from ui.design_system.components.empty_state import EmptyState
-from ui.design_system.components.insight_card import InsightCard
 from ui.design_system.components.section_header import SectionHeader
 from ui.design_system.components.status_badge import StatusBadge, StatusLevel
 from ui.design_system.layout import EditorialGrid, PanelSpan, ScrollContainer
@@ -60,31 +28,33 @@ from ui.design_system.tokens.motion import MotionTokens
 from ui.design_system.tokens.radius import RadiusTokens, px_from_token
 from ui.design_system.tokens.spacing import SpacingTokens
 from ui.design_system.tokens.typography import TypographyTokens, font_style
+from ui.experience.motion_service import MotionService
 from ui.design_system.visualization import GoalRing, RecoveryRing, WeeklyTimeline
-
-
-_GLOW = lambda c: resolve_alpha(c, 0.35)
+from ui.narrative.cards import CoachCardStack
+from ui.narrative.engine import Narrative
 
 M = MotionTokens()
 S = SpacingTokens()
 R = RadiusTokens()
 T = TypographyTokens()
 
-_px2 = px_from_token(S.half)
-_px4 = px_from_token(S.s1)
-_px6 = px_from_token(S.s1_5)
-_px8 = px_from_token(S.s2)
-_px10 = px_from_token(S.s2_5)
-_px12 = px_from_token(S.s3)
-_px16 = px_from_token(S.s4)
-_px20 = px_from_token(S.s5)
-_px24 = px_from_token(S.s6)
-_px28 = px_from_token(S.s7)
-_px32 = px_from_token(S.s8)
-_px40 = px_from_token(S.s10)
-_px48 = px_from_token(S.s12)
+_pxf = px_from_token
+_px2 = _pxf(S.half)
+_px4 = _pxf(S.s1)
+_px6 = _pxf(S.s1_5)
+_px8 = _pxf(S.s2)
+_px10 = _pxf(S.s2_5)
+_px12 = _pxf(S.s3)
+_px16 = _pxf(S.s4)
+_px20 = _pxf(S.s5)
+_px24 = _pxf(S.s6)
+_px28 = _pxf(S.s7)
+_px32 = _pxf(S.s8)
+_px40 = _pxf(S.s10)
+_px48 = _pxf(S.s12)
 
 _ANI_DURATION = 200
+_ANI_STAGGER = 80
 
 
 class _CommandCard(QFrame):
@@ -109,11 +79,13 @@ class DashboardView(QWidget):
         prog_mgr: Any = None,
         nutrition_service: Any = None,
         controller: DashboardController | None = None,
+        motion: MotionService | None = None,
     ) -> None:
         super().__init__()
         self._db = db
         self._prog_mgr = prog_mgr
         self._nutrition_service = nutrition_service
+        self._motion = motion
 
         if controller:
             self._controller = controller
@@ -123,7 +95,11 @@ class DashboardView(QWidget):
         self._last_data: DashboardData | None = None
         self._animations: list[QPropertyAnimation] = []
         self._build_ui()
+        self._bind_motion()
         self._connect_signals()
+
+    def set_motion_service(self, motion: MotionService) -> None:
+        self._motion = motion
 
     def _build_default_controller(self, db: Any, prog_mgr: Any) -> None:
         from modules.gymbrain.services.decision_engine import DecisionEngine
@@ -151,15 +127,8 @@ class DashboardView(QWidget):
     def _colors(self):
         return color_from_scheme(ColorScheme.DARK)
 
-    # ── Build UI ─────────────────────────────────────────────────
-
     def _build_ui(self) -> None:
-        self.setStyleSheet("""
-            DashboardView {
-                background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                    stop:0 #050816, stop:0.5 #080C24, stop:1 #0A0E28);
-            }
-        """)
+        self.setStyleSheet("DashboardView { background: transparent; }")
         self._scroll = ScrollContainer()
         outer = QVBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
@@ -170,62 +139,53 @@ class DashboardView(QWidget):
         layout.setSpacing(0)
 
         main = QVBoxLayout()
-        main.setContentsMargins(0, 0, 0, 0)
+        main.setContentsMargins(0, 0, 32, 40)
         main.setSpacing(0)
         layout.insertLayout(0, main)
 
-        # 1. Hero — occupies roughly the first screen
         self._build_hero(main)
 
-        # 2. Today's Mission — dominant editorial card
+        main.addSpacing(_px32)
         self._build_section_header(main, "Today's Mission", "Your next training session")
-        self._build_todays_mission(main)
+        self._build_todays_mission_and_recovery(main)
 
-        # 3. Asymmetric two-column: Recovery (38%) + Coach (62%)
-        self._build_section_header(main, "Recovery & Coach", "Readiness & personalized guidance")
-        self._middle_grid = EditorialGrid()
-        self._middle_grid.set_spacing(_px16)
-        main.addWidget(self._middle_grid)
-        self._build_recovery_and_coach()
+        main.addSpacing(_px24)
+        self._build_section_header(main, "Coach", "Personalized guidance")
+        self._build_coach_and_predictions(main)
 
-        # 4. Asymmetric two-column: Progress (62%) + Predictions (38%)
-        self._build_section_header(main, "Progress & Predictions", "Your training journey")
-        self._bottom_grid = EditorialGrid()
-        self._bottom_grid.set_spacing(_px16)
-        main.addWidget(self._bottom_grid)
-        self._build_progress_and_predictions()
+        main.addSpacing(_px24)
+        self._build_section_header(main, "Progress", "Your training journey")
+        self._build_progress(main)
 
-        # 5. Quick Actions
-        self._build_section_header(main, "Quick Actions", "Common tasks")
-        self._build_quick_actions(main)
+        main.addSpacing(_px24)
+        self._build_section_header(main, "Records & Actions", "Achievements & quick tasks")
+        self._build_records_and_actions(main)
 
         main.addStretch()
 
     @staticmethod
-    def _build_section_header(
-        parent: QVBoxLayout, title: str, subtitle: str
-    ) -> None:
+    def _build_section_header(parent: QVBoxLayout, title: str, subtitle: str) -> None:
         header = SectionHeader(title=title, subtitle=subtitle)
         hbox = QHBoxLayout()
-        hbox.setContentsMargins(0, _px28, 0, _px8)
+        hbox.setContentsMargins(0, 0, 0, _px8)
         hbox.addWidget(header)
         parent.addLayout(hbox)
-
-    # ── Hero ────────────────────────────────────────────────────
 
     def _build_hero(self, parent: QVBoxLayout) -> None:
         colors = self._colors()
 
         self._hero_frame = QFrame()
-        self._hero_frame.setObjectName("HeroFrame")
-        self._hero_frame.setMinimumHeight(320)
+        self._hero_frame.setObjectName("DashboardHero")
+        self._hero_frame.setMinimumHeight(300)
         self._hero_frame.setStyleSheet(f"""
-            QFrame#HeroFrame {{
+            QFrame#DashboardHero {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(12,16,51,0.85), stop:0.35 rgba(20,16,74,0.7),
-                    stop:0.7 rgba(26,13,68,0.6), stop:1 rgba(10,14,40,0.5));
+                    stop:0 rgba({','.join(str(c) for c in (12,16,51,200))}),
+                    stop:0.35 rgba({','.join(str(c) for c in (20,16,74,180))}),
+                    stop:0.7 rgba({','.join(str(c) for c in (26,13,68,160))}),
+                    stop:1 rgba({','.join(str(c) for c in (10,14,40,120))}));
                 border-radius: {R.xl};
-                border: 1px solid rgba(139, 92, 246, 0.10);
+                border: 1px solid {resolve_alpha(colors.primary, 0.10)};
             }}
         """)
         apply_elevation(self._hero_frame, 3, is_dark=True, bg_color=colors.surface)
@@ -234,7 +194,6 @@ class DashboardView(QWidget):
         hero_layout.setContentsMargins(_px32, _px28, _px32, _px24)
         hero_layout.setSpacing(0)
 
-        # Top section: greeting + rings
         top_row = QHBoxLayout()
         top_row.setContentsMargins(0, 0, 0, 0)
 
@@ -258,7 +217,6 @@ class DashboardView(QWidget):
         left_area.addStretch()
         top_row.addLayout(left_area, 1)
 
-        # Rings area
         rings_area = QHBoxLayout()
         rings_area.setSpacing(_px16)
         rings_area.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
@@ -274,7 +232,6 @@ class DashboardView(QWidget):
 
         hero_layout.addSpacing(_px16)
 
-        # Motivational prediction sentence
         self._hero_prediction = QLabel("")
         self._hero_prediction.setStyleSheet(
             f"color: {colors.primary}; {font_style('body', 'bold')}; "
@@ -286,7 +243,6 @@ class DashboardView(QWidget):
 
         hero_layout.addSpacing(_px8)
 
-        # Metric clusters row
         metrics_row = QHBoxLayout()
         metrics_row.setContentsMargins(0, 0, 0, 0)
         metrics_row.setSpacing(_px24)
@@ -295,10 +251,9 @@ class DashboardView(QWidget):
             ("_hero_metric_ready", "Readiness", "success"),
             ("_hero_metric_weight", "Current", "text_primary"),
             ("_hero_metric_goal", "To Goal", "warning"),
-            ("_hero_metric_streak", "Streak", "pr"),
+            ("_hero_metric_streak", "Streak", "text_primary"),
         ]
 
-        metric_widgets = []
         for attr_prefix, label, color_key in metric_defs:
             block = QFrame()
             block.setStyleSheet("background: transparent; border: none;")
@@ -328,7 +283,6 @@ class DashboardView(QWidget):
 
         hero_layout.addSpacing(_px16)
 
-        # CTA row
         cta_row = QHBoxLayout()
         cta_row.setContentsMargins(0, 0, 0, 0)
         cta_row.setSpacing(_px12)
@@ -356,12 +310,12 @@ class DashboardView(QWidget):
                     stop:0 rgba(124,58,237,0.95), stop:0.5 rgba(147,51,234,0.9), stop:1 rgba(192,38,211,0.85));
             }}
             QPushButton:focus {{
-                border: 2px solid #A78BFA;
+                border: 2px solid {colors.focus_ring};
             }}
         """)
         self._hero_start_btn.clicked.connect(self.start_workout_clicked.emit)
         self._hero_start_btn.setAccessibleName("Start Workout")
-        glow_effect(self._hero_start_btn, glow_rgba=_GLOW(colors.primary), blur=20, offset_y=0)
+        glow_effect(self._hero_start_btn, glow_rgba=resolve_alpha(colors.primary, 0.35), blur=20, offset_y=0)
         cta_row.addWidget(self._hero_start_btn)
 
         self._hero_review_btn = QPushButton("  \u270F  Review Week")
@@ -371,17 +325,17 @@ class DashboardView(QWidget):
             QPushButton {{
                 background-color: transparent;
                 color: {colors.text_primary};
-                border: 1px solid rgba(139, 92, 246, 0.12);
+                border: 1px solid {resolve_alpha(colors.primary, 0.12)};
                 border-radius: {R.size_2xl};
                 padding: 0 {S.s7};
                 {font_style('body', 'bold')}
             }}
             QPushButton:hover {{
-                background-color: rgba(139, 92, 246, 0.10);
-                border-color: rgba(139, 92, 246, 0.25);
+                background-color: {resolve_alpha(colors.primary, 0.10)};
+                border-color: {resolve_alpha(colors.primary, 0.25)};
             }}
             QPushButton:focus {{
-                border: 2px solid #A78BFA;
+                border: 2px solid {colors.focus_ring};
             }}
         """)
         self._hero_review_btn.clicked.connect(self.weekly_review_clicked.emit)
@@ -393,30 +347,33 @@ class DashboardView(QWidget):
 
         parent.addWidget(self._hero_frame)
 
-    # ── Today's Mission ─────────────────────────────────────────
+    def _build_todays_mission_and_recovery(self, parent: QVBoxLayout) -> None:
+        grid = EditorialGrid()
+        grid.set_spacing(_px16)
+        parent.addWidget(grid)
 
-    def _build_todays_mission(self, parent: QVBoxLayout) -> None:
+        self._build_mission_panel(grid)
+        self._build_recovery_panel(grid)
+
+    def _build_mission_panel(self, grid: EditorialGrid) -> None:
         colors = self._colors()
 
-        self._mission_card = AppCard(title="", elevated=True)
+        self._mission_card = QFrame()
+        self._mission_card.setObjectName("MissionCard")
         self._mission_card.setStyleSheet(f"""
-            AppCard {{
+            QFrame#MissionCard {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(12,16,51,0.85), stop:0.4 rgba(17,13,61,0.7),
-                    stop:0.75 rgba(22,10,56,0.6), stop:1 rgba(10,14,40,0.5));
+                    stop:0 rgba(12,16,51,220), stop:0.4 rgba(17,13,61,180),
+                    stop:0.75 rgba(22,10,56,160), stop:1 rgba(10,14,40,120));
                 border-radius: {R.xl};
-                border: 1px solid rgba(139, 92, 246, 0.10);
+                border: 1px solid {resolve_alpha(colors.primary, 0.10)};
             }}
         """)
+        apply_elevation(self._mission_card, 2, is_dark=True, bg_color=colors.surface)
 
-        # Accent bar using CardHeader-style left border
-        mission_layout = QVBoxLayout()
-        mission_layout.setContentsMargins(0, 0, 0, 0)
-        mission_layout.setSpacing(_px12)
-
-        # Workout identity
-        workout_top = QHBoxLayout()
-        workout_top.setContentsMargins(0, 0, 0, 0)
+        ml = QVBoxLayout(self._mission_card)
+        ml.setContentsMargins(_px24, _px20, _px24, _px20)
+        ml.setSpacing(_px12)
 
         self._workout_name = QLabel("")
         self._workout_name.setStyleSheet(
@@ -424,24 +381,22 @@ class DashboardView(QWidget):
             f"letter-spacing: -0.02em; background: transparent;"
         )
         self._workout_name.setWordWrap(True)
-        workout_top.addWidget(self._workout_name, 1)
-
-        mission_layout.addLayout(workout_top)
+        ml.addWidget(self._workout_name)
 
         self._workout_meta = QLabel("")
         self._workout_meta.setStyleSheet(
             f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
         )
         self._workout_meta.setWordWrap(True)
-        mission_layout.addWidget(self._workout_meta)
+        ml.addWidget(self._workout_meta)
 
-        self._workout_muscle_row = QHBoxLayout()
-        self._workout_muscle_row.setContentsMargins(0, 0, 0, 0)
-        self._workout_muscle_row.setSpacing(_px6)
+        muscle_row = QHBoxLayout()
+        muscle_row.setContentsMargins(0, 0, 0, 0)
+        muscle_row.setSpacing(_px6)
         self._workout_muscle_container = QWidget()
-        self._workout_muscle_container.setLayout(self._workout_muscle_row)
+        self._workout_muscle_container.setLayout(muscle_row)
         self._workout_muscle_container.setStyleSheet("background: transparent;")
-        mission_layout.addWidget(self._workout_muscle_container)
+        ml.addWidget(self._workout_muscle_container)
 
         self._mission_start_btn = QPushButton("  \u25B6  Start Workout")
         self._mission_start_btn.setCursor(Qt.PointingHandCursor)
@@ -462,27 +417,13 @@ class DashboardView(QWidget):
                     stop:0 rgba(167,139,250,0.9), stop:0.5 rgba(192,132,252,0.85), stop:1 rgba(232,121,249,0.8));
             }}
             QPushButton:focus {{
-                border: 2px solid #A78BFA;
+                border: 2px solid {colors.focus_ring};
             }}
         """)
         self._mission_start_btn.clicked.connect(self.start_workout_clicked.emit)
         self._mission_start_btn.setAccessibleName("Start Workout")
-        glow_effect(self._mission_start_btn, glow_rgba=_GLOW(colors.primary), blur=16, offset_y=0)
-
-        btn_row = QHBoxLayout()
-        btn_row.setContentsMargins(0, _px4, 0, 0)
-        btn_row.addWidget(self._mission_start_btn)
-        btn_row.addStretch()
-        mission_layout.addLayout(btn_row)
-
-        self._mission_card.add_content(self._workout_name)
-        self._mission_card.add_content(self._workout_meta)
-        self._mission_card.add_content(self._workout_muscle_container)
-        self._mission_card.add_content(self._mission_start_btn)
-        self._workout_name.hide()
-        self._workout_meta.hide()
-        self._workout_muscle_container.hide()
-        self._mission_start_btn.hide()
+        glow_effect(self._mission_start_btn, glow_rgba=resolve_alpha(colors.primary, 0.35), blur=16, offset_y=0)
+        ml.addWidget(self._mission_start_btn)
 
         self._workout_empty = EmptyState(
             icon="\U0001F3CB",
@@ -491,38 +432,46 @@ class DashboardView(QWidget):
             action_text="Import Program",
             on_action=self.import_program_clicked.emit,
         )
-        self._mission_card.add_content(self._workout_empty)
+        ml.addWidget(self._workout_empty)
 
-        parent.addWidget(self._mission_card)
+        self._workout_name.hide()
+        self._workout_meta.hide()
+        self._workout_muscle_container.hide()
+        self._mission_start_btn.hide()
 
-    # ── Recovery + Coach (asymmetric: 38% / 62%) ───────────────
+        grid.add_panel(self._mission_card, span=PanelSpan.TWO_THIRDS)
 
-    def _build_recovery_and_coach(self) -> None:
+    def _build_recovery_panel(self, grid: EditorialGrid) -> None:
         colors = self._colors()
 
-        # ── Left: Recovery (38%) ─────────────────────────────────
-        self._recovery_card = AppCard(title="Recovery", elevated=False)
+        self._recovery_card = QFrame()
+        self._recovery_card.setObjectName("RecoveryCard")
         self._recovery_card.setStyleSheet(f"""
-            AppCard {{
+            QFrame#RecoveryCard {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(12,16,51,0.8), stop:1 rgba(8,12,36,0.5));
+                    stop:0 rgba(12,16,51,200), stop:1 rgba(8,12,36,120));
                 border-radius: {R.lg};
-                border: 1px solid rgba(139, 92, 246, 0.08);
+                border: 1px solid {resolve_alpha(colors.primary, 0.08)};
             }}
         """)
+        apply_elevation(self._recovery_card, 1, is_dark=True, bg_color=colors.surface)
 
-        self._recovery_level_label = QLabel("--")
-        self._recovery_level_label.setStyleSheet(
+        rl = QVBoxLayout(self._recovery_card)
+        rl.setContentsMargins(_px20, _px16, _px20, _px16)
+        rl.setSpacing(_px8)
+
+        self._recovery_narrative = QLabel("--")
+        self._recovery_narrative.setStyleSheet(
             f"color: {colors.text_primary}; {font_style('h3')}; "
             f"letter-spacing: -0.02em; background: transparent;"
         )
-        self._recovery_card.add_content(self._recovery_level_label)
+        rl.addWidget(self._recovery_narrative)
 
-        self._recovery_score_label = QLabel("")
-        self._recovery_score_label.setStyleSheet(
+        self._recovery_score_text = QLabel("")
+        self._recovery_score_text.setStyleSheet(
             f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
         )
-        self._recovery_card.add_content(self._recovery_score_label)
+        rl.addWidget(self._recovery_score_text)
 
         self._recovery_suggested = QLabel("")
         self._recovery_suggested.setWordWrap(True)
@@ -530,276 +479,356 @@ class DashboardView(QWidget):
             f"color: {colors.primary}; {font_style('body')}; "
             f"padding-top: {S.s1}; background: transparent;"
         )
-        self._recovery_card.add_content(self._recovery_suggested)
+        rl.addWidget(self._recovery_suggested)
 
         self._recovery_empty = EmptyState(
             icon="\U0001FA9D",
             title="No Recovery Data",
             message="Complete a workout to unlock recovery insights.",
         )
-        self._recovery_card.add_content(self._recovery_empty)
+        rl.addWidget(self._recovery_empty)
         self._recovery_empty.hide()
 
         self._recovery_content = QWidget()
-        self._recovery_content_layout = QVBoxLayout(self._recovery_content)
-        self._recovery_content_layout.setContentsMargins(0, 0, 0, 0)
-        self._recovery_content_layout.addWidget(self._recovery_level_label)
-        self._recovery_content_layout.addWidget(self._recovery_score_label)
-        self._recovery_content_layout.addWidget(self._recovery_suggested)
+        self._recovery_content.setStyleSheet("background: transparent;")
+        recovery_cl = QVBoxLayout(self._recovery_content)
+        recovery_cl.setContentsMargins(0, 0, 0, 0)
+        recovery_cl.addWidget(self._recovery_narrative)
+        recovery_cl.addWidget(self._recovery_score_text)
+        recovery_cl.addWidget(self._recovery_suggested)
 
-        self._middle_grid.add_panel(self._recovery_card, span=PanelSpan.QUARTER)
+        grid.add_panel(self._recovery_card, span=PanelSpan.QUARTER)
 
-        # ── Right: Coach (62% = 8/12 columns) ────────────────────
-        self._coach_card = AppCard(title="Coach", elevated=False)
+    def _build_coach_and_predictions(self, parent: QVBoxLayout) -> None:
+        grid = EditorialGrid()
+        grid.set_spacing(_px16)
+        parent.addWidget(grid)
+
+        self._build_coach_panel(grid)
+        self._build_predictions_panel(grid)
+
+    def _build_coach_panel(self, grid: EditorialGrid) -> None:
+        colors = self._colors()
+
+        self._coach_card = QFrame()
+        self._coach_card.setObjectName("CoachCard")
         self._coach_card.setStyleSheet(f"""
-            AppCard {{
+            QFrame#CoachCard {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(17,13,61,0.85), stop:0.5 rgba(20,16,74,0.7),
-                    stop:0.8 rgba(22,10,56,0.6), stop:1 rgba(12,16,51,0.5));
+                    stop:0 rgba(17,13,61,220), stop:0.5 rgba(20,16,74,180),
+                    stop:0.8 rgba(22,10,56,160), stop:1 rgba(12,16,51,120));
                 border-radius: {R.lg};
-                border: 1px solid rgba(139, 92, 246, 0.12);
+                border: 1px solid {resolve_alpha(colors.primary, 0.12)};
             }}
         """)
-        glow_effect(self._coach_card, glow_rgba=_GLOW(colors.primary), blur=20, offset_y=1)
+        glow_effect(self._coach_card, glow_rgba=resolve_alpha(colors.primary, 0.35), blur=20, offset_y=1)
 
-        self._coach_container = QVBoxLayout()
-        self._coach_container.setContentsMargins(0, 0, 0, 0)
-        self._coach_container.setSpacing(_px8)
-        self._coach_widget = QWidget()
-        self._coach_widget.setLayout(self._coach_container)
-        self._coach_card.add_content(self._coach_widget)
+        cl = QVBoxLayout(self._coach_card)
+        cl.setContentsMargins(_px20, _px16, _px20, _px16)
+        cl.setSpacing(_px8)
+
+        self._coach_stack = CoachCardStack()
+        cl.addWidget(self._coach_stack, 1)
 
         self._coach_empty = EmptyState(
             icon="\U0001F9D1\u200D\U0001F3EB",
             title="Coach Is Ready",
             message="Recommendations will appear after completing workouts.",
         )
-        self._coach_card.add_content(self._coach_empty)
+        cl.addWidget(self._coach_empty)
 
-        self._middle_grid.add_panel(self._coach_card, span=PanelSpan.TWO_THIRDS)
+        grid.add_panel(self._coach_card, span=PanelSpan.TWO_THIRDS)
 
-    # ── Progress + Predictions (asymmetric: 62% / 38%) ─────────
-
-    def _build_progress_and_predictions(self) -> None:
+    def _build_predictions_panel(self, grid: EditorialGrid) -> None:
         colors = self._colors()
 
-        # ── Left: Progress (62%) ─────────────────────────────────
-        self._progress_card = AppCard(title="Progress", elevated=False)
-        self._progress_card.setStyleSheet(f"""
-            AppCard {{
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(12,16,51,0.8), stop:1 rgba(8,12,36,0.5));
-                border-radius: {R.lg};
-                border: 1px solid rgba(139, 92, 246, 0.08);
-            }}
-        """)
-
-        # Goal section
-        goal_top = QHBoxLayout()
-        goal_top.setContentsMargins(0, 0, 0, 0)
-
-        self._goal_weight_label = QLabel("--")
-        self._goal_weight_label.setStyleSheet(
-            f"color: {colors.text_primary}; {font_style('metric')}; "
-            f"letter-spacing: -0.03em; background: transparent;"
-        )
-        goal_top.addWidget(self._goal_weight_label)
-
-        self._goal_detail_label = QLabel("")
-        self._goal_detail_label.setStyleSheet(
-            f"color: {colors.text_disabled}; {font_style('body')}; background: transparent;"
-        )
-        self._goal_detail_label.setWordWrap(True)
-        goal_top.addWidget(self._goal_detail_label, 1)
-
-        self._goal_empty = QLabel("No goal data yet.")
-        self._goal_empty.setStyleSheet(
-            f"color: {colors.text_disabled}; {font_style('body')}; background: transparent;"
-        )
-        self._goal_empty.setAlignment(Qt.AlignCenter)
-        goal_top.addWidget(self._goal_empty)
-        self._goal_empty.hide()
-
-        self._progress_card.add_layout(goal_top)
-
-        # Volume bar
-        self._weekly_timeline = WeeklyTimeline()
-        self._weekly_timeline.setFixedHeight(40)
-        self._progress_card.add_content(self._weekly_timeline)
-
-        self._weekly_total = QLabel("")
-        self._weekly_total.setStyleSheet(
-            f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;"
-        )
-        self._progress_card.add_content(self._weekly_total)
-
-        self._volume_empty = QLabel("No volume data yet.")
-        self._volume_empty.setStyleSheet(
-            f"color: {colors.text_disabled}; {font_style('body')}; background: transparent;"
-        )
-        self._volume_empty.setAlignment(Qt.AlignCenter)
-        self._progress_card.add_content(self._volume_empty)
-        self._volume_empty.show()
-
-        self._volume_content = QWidget()
-        self._volume_content_layout = QVBoxLayout(self._volume_content)
-        self._volume_content_layout.setContentsMargins(0, 0, 0, 0)
-        self._volume_content_layout.addWidget(self._weekly_timeline)
-        self._volume_content_layout.addWidget(self._weekly_total)
-        self._volume_content.hide()
-
-        # PRs
-        self._prs_container = QVBoxLayout()
-        self._prs_container.setContentsMargins(0, _px6, 0, 0)
-        self._prs_container.setSpacing(_px4)
-
-        self._prs_widget = QWidget()
-        self._prs_widget.setLayout(self._prs_container)
-        self._prs_widget.setStyleSheet("background: transparent;")
-
-        self._prs_empty = QLabel("No PRs yet. Push yourself!")
-        self._prs_empty.setStyleSheet(
-            f"color: {colors.text_disabled}; {font_style('body')}; background: transparent;"
-        )
-        self._prs_empty.setAlignment(Qt.AlignCenter)
-        self._prs_empty.setWordWrap(True)
-
-        self._progress_card.add_content(self._prs_widget)
-        self._progress_card.add_content(self._prs_empty)
-        self._prs_widget.hide()
-        self._prs_empty.show()
-
-        self._goal_content = QWidget()
-        self._goal_content_layout = QVBoxLayout(self._goal_content)
-        self._goal_content_layout.setContentsMargins(0, 0, 0, 0)
-        self._goal_content_layout.addWidget(self._goal_weight_label)
-        self._goal_content_layout.addWidget(self._goal_detail_label)
-        self._goal_content.hide()
-
-        self._bottom_grid.add_panel(self._progress_card, span=PanelSpan.TWO_THIRDS)
-
-        # ── Right: Predictions (38%) ─────────────────────────────
-        self._predictions_card = AppCard(title="Predictions", elevated=False)
+        self._predictions_card = QFrame()
+        self._predictions_card.setObjectName("PredictionsCard")
         self._predictions_card.setStyleSheet(f"""
-            AppCard {{
+            QFrame#PredictionsCard {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(12,16,51,0.8), stop:1 rgba(8,12,36,0.5));
+                    stop:0 rgba(12,16,51,200), stop:1 rgba(8,12,36,120));
                 border-radius: {R.lg};
-                border: 1px solid rgba(139, 92, 246, 0.08);
+                border: 1px solid {resolve_alpha(colors.primary, 0.08)};
             }}
         """)
+        apply_elevation(self._predictions_card, 1, is_dark=True, bg_color=colors.surface)
 
-        self._predictions_container = QVBoxLayout()
-        self._predictions_container.setContentsMargins(0, 0, 0, 0)
-        self._predictions_container.setSpacing(_px8)
-        self._predictions_widget = QWidget()
-        self._predictions_widget.setLayout(self._predictions_container)
-        self._predictions_widget.setStyleSheet("background: transparent;")
-        self._predictions_card.add_content(self._predictions_widget)
+        pl = QVBoxLayout(self._predictions_card)
+        pl.setContentsMargins(_px20, _px16, _px20, _px16)
+        pl.setSpacing(_px8)
+
+        self._prediction_headline = QLabel("")
+        self._prediction_headline.setStyleSheet(
+            f"color: {colors.text_primary}; {font_style('h3')}; "
+            f"letter-spacing: -0.02em; background: transparent;"
+        )
+        self._prediction_headline.setWordWrap(True)
+        pl.addWidget(self._prediction_headline)
+
+        self._prediction_detail = QLabel("")
+        self._prediction_detail.setStyleSheet(
+            f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+        )
+        self._prediction_detail.setWordWrap(True)
+        pl.addWidget(self._prediction_detail)
+
+        self._prediction_confidence = QLabel("")
+        self._prediction_confidence.setStyleSheet(
+            f"color: {colors.success}; {font_style('caption', 'bold')}; "
+            f"padding-top: {S.s1}; background: transparent;"
+        )
+        pl.addWidget(self._prediction_confidence)
+
+        self._prediction_container = QWidget()
+        self._prediction_container.setLayout(pl)
+        self._prediction_container.setStyleSheet("background: transparent;")
 
         self._predictions_empty = EmptyState(
             icon="\U0001F52E",
             title="No Predictions Yet",
             message="AI predictions will appear after a few workouts.",
         )
-        self._predictions_card.add_content(self._predictions_empty)
+        pl.addWidget(self._predictions_empty)
 
-        self._bottom_grid.add_panel(self._predictions_card, span=PanelSpan.QUARTER)
+        self._prediction_container.hide()
+        self._predictions_empty.show()
 
-    # ── Quick Actions ──────────────────────────────────────────
+        grid.add_panel(self._predictions_card, span=PanelSpan.QUARTER)
 
-    def _build_quick_actions(self, parent: QVBoxLayout) -> None:
+    def _build_progress(self, parent: QVBoxLayout) -> None:
         colors = self._colors()
 
-        grid = QGridLayout()
-        grid.setContentsMargins(0, 0, 0, 0)
-        grid.setSpacing(_px10)
+        self._progress_card = QFrame()
+        self._progress_card.setObjectName("ProgressCard")
+        self._progress_card.setStyleSheet(f"""
+            QFrame#ProgressCard {{
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                    stop:0 rgba(12,16,51,200), stop:1 rgba(8,12,36,120));
+                border-radius: {R.lg};
+                border: 1px solid {resolve_alpha(colors.primary, 0.08)};
+            }}
+        """)
+        apply_elevation(self._progress_card, 1, is_dark=True, bg_color=colors.surface)
+
+        progress_layout = QVBoxLayout(self._progress_card)
+        progress_layout.setContentsMargins(_px24, _px20, _px24, _px20)
+        progress_layout.setSpacing(_px12)
+
+        goal_row = QHBoxLayout()
+        goal_row.setContentsMargins(0, 0, 0, 0)
+
+        self._goal_weight_label = QLabel("--")
+        self._goal_weight_label.setStyleSheet(
+            f"color: {colors.text_primary}; {font_style('metric')}; "
+            f"letter-spacing: -0.03em; background: transparent;"
+        )
+        goal_row.addWidget(self._goal_weight_label)
+
+        self._goal_detail_label = QLabel("")
+        self._goal_detail_label.setStyleSheet(
+            f"color: {colors.text_disabled}; {font_style('body')}; background: transparent;"
+        )
+        self._goal_detail_label.setWordWrap(True)
+        goal_row.addWidget(self._goal_detail_label, 1)
+
+        self._goal_empty = QLabel("No goal data yet.")
+        self._goal_empty.setStyleSheet(
+            f"color: {colors.text_disabled}; {font_style('body')}; background: transparent;"
+        )
+        self._goal_empty.setAlignment(Qt.AlignCenter)
+        goal_row.addWidget(self._goal_empty)
+        self._goal_empty.hide()
+
+        progress_layout.addLayout(goal_row)
+
+        self._weekly_timeline = WeeklyTimeline()
+        self._weekly_timeline.setFixedHeight(40)
+        progress_layout.addWidget(self._weekly_timeline)
+
+        self._weekly_total = QLabel("")
+        self._weekly_total.setStyleSheet(
+            f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;"
+        )
+        progress_layout.addWidget(self._weekly_total)
+
+        self._volume_empty = QLabel("No volume data yet.")
+        self._volume_empty.setStyleSheet(
+            f"color: {colors.text_disabled}; {font_style('body')}; background: transparent;"
+        )
+        self._volume_empty.setAlignment(Qt.AlignCenter)
+        progress_layout.addWidget(self._volume_empty)
+
+        self._volume_content = QWidget()
+        self._volume_content.setStyleSheet("background: transparent;")
+        vcl = QVBoxLayout(self._volume_content)
+        vcl.setContentsMargins(0, 0, 0, 0)
+        vcl.addWidget(self._weekly_timeline)
+        vcl.addWidget(self._weekly_total)
+        self._volume_content.hide()
+        self._volume_empty.show()
+
+        self._goal_content = QWidget()
+        self._goal_content.setStyleSheet("background: transparent;")
+        gcl = QVBoxLayout(self._goal_content)
+        gcl.setContentsMargins(0, 0, 0, 0)
+        gcl.addWidget(self._goal_weight_label)
+        gcl.addWidget(self._goal_detail_label)
+        self._goal_content.hide()
+
+        parent.addWidget(self._progress_card)
+
+    def _build_records_and_actions(self, parent: QVBoxLayout) -> None:
+        grid = EditorialGrid()
+        grid.set_spacing(_px16)
+        parent.addWidget(grid)
+
+        self._build_records_panel(grid)
+        self._build_actions_panel(grid)
+
+    def _build_records_panel(self, grid: EditorialGrid) -> None:
+        colors = self._colors()
+
+        self._records_card = QFrame()
+        self._records_card.setObjectName("RecordsCard")
+        self._records_card.setStyleSheet(f"""
+            QFrame#RecordsCard {{
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                    stop:0 rgba(12,16,51,200), stop:1 rgba(8,12,36,120));
+                border-radius: {R.lg};
+                border: 1px solid {resolve_alpha(colors.primary, 0.08)};
+            }}
+        """)
+        apply_elevation(self._records_card, 1, is_dark=True, bg_color=colors.surface)
+
+        rl = QVBoxLayout(self._records_card)
+        rl.setContentsMargins(_px20, _px16, _px20, _px16)
+        rl.setSpacing(_px8)
+
+        self._prs_container = QVBoxLayout()
+        self._prs_container.setContentsMargins(0, 0, 0, 0)
+        self._prs_container.setSpacing(_px6)
+        self._prs_widget = QWidget()
+        self._prs_widget.setLayout(self._prs_container)
+        self._prs_widget.setStyleSheet("background: transparent;")
+        rl.addWidget(self._prs_widget)
+
+        self._prs_empty = EmptyState(
+            icon="\U0001F31F",
+            title="No Records Yet",
+            message="Push yourself! PRs will appear here after great workouts.",
+        )
+        rl.addWidget(self._prs_empty)
+
+        self._prs_widget.hide()
+
+        grid.add_panel(self._records_card, span=PanelSpan.TWO_THIRDS)
+
+    def _build_actions_panel(self, grid: EditorialGrid) -> None:
+        colors = self._colors()
+
+        actions_card = QFrame()
+        actions_card.setObjectName("ActionsCard")
+        actions_card.setStyleSheet(f"""
+            QFrame#ActionsCard {{
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                    stop:0 rgba(12,16,51,200), stop:1 rgba(8,12,36,120));
+                border-radius: {R.lg};
+                border: 1px solid {resolve_alpha(colors.primary, 0.08)};
+            }}
+        """)
+
+        al = QVBoxLayout(actions_card)
+        al.setContentsMargins(_px12, _px12, _px12, _px12)
+        al.setSpacing(_px8)
 
         actions = [
-            ("\u25B6", "Start Workout", "Begin a new session",
-             self.start_workout_clicked.emit, True),
-            ("\u2696", "Log Weight", "Record body weight",
-             self.log_weight_clicked.emit, False),
-            ("\u2B07", "Import Program", "Import from file",
-             self.import_program_clicked.emit, False),
-            ("\u2728", "View PRs", "Personal records",
-             self.view_all_prs_clicked.emit, False),
-            ("\u270F", "Review Week", "Training summary",
-             self.weekly_review_clicked.emit, False),
+            ("\u25B6", "Start Workout", "Begin a new session", self.start_workout_clicked.emit, True),
+            ("\u2696", "Log Weight", "Record body weight", self.log_weight_clicked.emit, False),
+            ("\u2B07", "Import Program", "Import from file", self.import_program_clicked.emit, False),
+            ("\u2728", "View PRs", "Personal records", self.view_all_prs_clicked.emit, False),
+            ("\u270F", "Review Week", "Training summary", self.weekly_review_clicked.emit, False),
         ]
 
-        for i, (icon, label, tip, handler, primary) in enumerate(actions):
+        for icon, label, tip, handler, primary in actions:
             card = _CommandCard()
             card.setCursor(Qt.PointingHandCursor)
-            card.setFixedHeight(96)
-            card.setMinimumWidth(140)
+            card.setFixedHeight(88)
             card.setToolTip(tip)
-            card.setAccessibleName(f"{label} command card")
+            card.setAccessibleName(f"{label} action card")
             card.clicked.connect(handler)
 
             if primary:
-                bg_grad = "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(139,92,246,0.9), stop:0.6 rgba(168,85,247,0.85), stop:1 rgba(217,70,239,0.8))"
-                bg_hover_grad = "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(167,139,250,0.9), stop:0.6 rgba(192,132,252,0.85), stop:1 rgba(232,121,249,0.8))"
+                bg = f"qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(139,92,246,0.9), stop:0.6 rgba(168,85,247,0.85), stop:1 rgba(217,70,239,0.8))"
+                bg_hover = f"qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(167,139,250,0.9), stop:0.6 rgba(192,132,252,0.85), stop:1 rgba(232,121,249,0.8))"
                 bdr = "none"
                 txt = "#FFFFFF"
                 txt_desc = "rgba(255,255,255,0.7)"
             else:
-                bg_grad = "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(12,16,51,0.8), stop:1 rgba(8,12,36,0.5))"
-                bg_hover_grad = "qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(20,24,74,0.8), stop:1 rgba(12,16,51,0.6))"
-                bdr = "1px solid rgba(139, 92, 246, 0.10)"
-                txt = "#F1F5F9"
-                txt_desc = "#64748B"
+                bg = f"qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(12,16,51,200), stop:1 rgba(8,12,36,120))"
+                bg_hover = f"qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 rgba(20,24,74,200), stop:1 rgba(12,16,51,160))"
+                bdr = f"1px solid {resolve_alpha(colors.primary, 0.10)}"
+                txt = colors.text_primary
+                txt_desc = colors.text_disabled
 
             card.setStyleSheet(f"""
                 _CommandCard {{
-                    background: {bg_grad};
+                    background: {bg};
                     border: {bdr};
                     border-radius: {R.lg};
                 }}
                 _CommandCard:hover {{
-                    background: {bg_hover_grad};
+                    background: {bg_hover};
                 }}
             """)
 
             if primary:
-                glow_effect(card, glow_rgba=_GLOW(colors.primary), blur=16, offset_y=0)
+                glow_effect(card, glow_rgba=resolve_alpha(colors.primary, 0.35), blur=16, offset_y=0)
 
             card_layout = QVBoxLayout(card)
-            card_layout.setContentsMargins(_px12, _px12, _px12, _px10)
-            card_layout.setSpacing(_px4)
+            card_layout.setContentsMargins(_px12, _px10, _px12, _px10)
+            card_layout.setSpacing(_px2)
 
             icon_lbl = QLabel(icon)
-            icon_lbl.setStyleSheet(
-                f"font-size: 22px; color: {txt}; background: transparent;"
-            )
+            icon_lbl.setStyleSheet(f"font-size: 20px; color: {txt}; background: transparent;")
             card_layout.addWidget(icon_lbl)
 
             name_lbl = QLabel(label)
-            name_lbl.setStyleSheet(
-                f"color: {txt}; {font_style('body', 'bold')}; background: transparent;"
-            )
+            name_lbl.setStyleSheet(f"color: {txt}; {font_style('body', 'bold')}; background: transparent;")
             card_layout.addWidget(name_lbl)
 
             desc_lbl = QLabel(tip)
-            desc_lbl.setStyleSheet(
-                f"color: {txt_desc}; {font_style('caption')}; background: transparent;"
-            )
-            desc_lbl.setWordWrap(True)
+            desc_lbl.setStyleSheet(f"color: {txt_desc}; {font_style('caption')}; background: transparent;")
             card_layout.addWidget(desc_lbl)
 
             card_layout.addStretch()
+            al.addWidget(card)
 
-            col = i % 5
-            grid.addWidget(card, 0, col)
+        al.addStretch()
+        grid.add_panel(actions_card, span=PanelSpan.QUARTER)
 
-        parent.addLayout(grid)
-
-    # ── Connect ────────────────────────────────────────────────
+    def _bind_motion(self) -> None:
+        if not self._motion:
+            return
+        for card in (
+            self._hero_frame,
+            self._mission_card,
+            self._recovery_card,
+            self._coach_card,
+            self._progress_card,
+            self._predictions_card,
+            self._records_card,
+        ):
+            self._motion.bind_hover_elevation(card)
+        for btn in (
+            self._hero_start_btn,
+            self._hero_review_btn,
+            self._mission_start_btn,
+        ):
+            self._motion.bind_press_scale(btn)
 
     def _connect_signals(self) -> None:
         self._controller.data_updated.connect(self._on_data_updated)
-
-    # ── Data Update ────────────────────────────────────────────
 
     def _on_data_updated(self, data: DashboardData) -> None:
         self._last_data = data
@@ -810,20 +839,28 @@ class DashboardView(QWidget):
         self._update_progress(data)
         self._update_predictions(data)
 
-    # ── Animation helpers ──────────────────────────────────────
-
-    def _fade_in(self, widget: QWidget, duration: int = _ANI_DURATION) -> None:
+    def _fade_in(self, widget: QWidget, duration: int = _ANI_DURATION, delay: int = 0) -> None:
         if not widget.isVisible():
             return
-        opacity = QGraphicsOpacityEffect(widget)
-        widget.setGraphicsEffect(opacity)
-        anim = QPropertyAnimation(opacity, b"opacity")
-        anim.setDuration(duration)
-        anim.setStartValue(0.0)
-        anim.setEndValue(1.0)
-        anim.setEasingCurve(QEasingCurve.OutCubic)
-        anim.start(QPropertyAnimation.DeleteWhenStopped)
-        self._animations.append(anim)
+
+        def _do_fade():
+            if self._motion:
+                self._motion.fade_slide_in(widget, duration=duration)
+            else:
+                opacity = QGraphicsOpacityEffect(widget)
+                widget.setGraphicsEffect(opacity)
+                anim = QPropertyAnimation(opacity, b"opacity")
+                anim.setDuration(duration)
+                anim.setStartValue(0.0)
+                anim.setEndValue(1.0)
+                anim.setEasingCurve(QEasingCurve.OutCubic)
+                anim.start(QPropertyAnimation.DeleteWhenStopped)
+                self._animations.append(anim)
+
+        if delay:
+            QTimer.singleShot(delay, _do_fade)
+        else:
+            _do_fade()
 
     @staticmethod
     def _greeting() -> str:
@@ -834,18 +871,14 @@ class DashboardView(QWidget):
             return "Good Afternoon"
         return "Good Evening"
 
-    # ── Update Hero ────────────────────────────────────────────
-
     def _update_hero(self, data: DashboardData) -> None:
         colors = self._colors()
 
-        # Greeting
         greeting = self._greeting()
         user_name = getattr(data, "user_name", "") or ""
         title = f"{greeting}" + (f", {user_name}" if user_name else "")
         self._hero_greeting.setText(title)
 
-        # Subtitle
         prog = getattr(data, "current_program", "") or "No Active Program"
         week = getattr(data, "mesocycle_week", 0) or 0
         split_day = getattr(data, "current_split_day", "") or ""
@@ -856,7 +889,6 @@ class DashboardView(QWidget):
             parts.append(split_day)
         self._hero_subtitle.setText(" \u00b7 ".join(parts) if parts else "")
 
-        # Rings
         rec_score = getattr(data, "recovery_score", 0.0) or 0.0
         self._recovery_ring.set_value(rec_score, 100.0, "Recovery")
 
@@ -867,7 +899,6 @@ class DashboardView(QWidget):
         else:
             self._goal_ring.set_goal(0, 100, "Goal", "")
 
-        # Motivational prediction
         recs = getattr(data, "recommendations", [])
         prediction_text = ""
         if recs:
@@ -890,7 +921,6 @@ class DashboardView(QWidget):
         else:
             self._hero_prediction.hide()
 
-        # Metrics
         rec_pct = int(rec_score)
         self._hero_metric_ready_val.setText(f"{rec_pct}")
         self._hero_metric_ready_lbl.setText("Readiness")
@@ -909,14 +939,12 @@ class DashboardView(QWidget):
         streak = getattr(data, "current_streak", 0) or 0
         if streak:
             self._hero_metric_streak_val.setText(f"{streak}")
-            self._hero_metric_streak_lbl.setText(f"Streak (days)")
+            self._hero_metric_streak_lbl.setText("Streak (days)")
         else:
             self._hero_metric_streak_val.setText("0")
             self._hero_metric_streak_lbl.setText("Streak")
 
-        # — No fade-in on hero to avoid flash on first render —
-
-    # ── Update Today's Mission ──────────────────────────────────
+        self._fade_in(self._hero_frame, delay=_ANI_STAGGER)
 
     def _update_todays_mission(self, data: DashboardData) -> None:
         workout_name = getattr(data, "today_workout_name", "") or ""
@@ -944,8 +972,8 @@ class DashboardView(QWidget):
             meta += recovery_hint
             self._workout_meta.setText(meta)
 
-            for i in reversed(range(self._workout_muscle_row.count())):
-                item = self._workout_muscle_row.takeAt(0)
+            for i in reversed(range(self._workout_muscle_container.layout().count())):
+                item = self._workout_muscle_container.layout().takeAt(0)
                 if item.widget():
                     item.widget().deleteLater()
 
@@ -956,17 +984,15 @@ class DashboardView(QWidget):
                     level=StatusLevel.INFO,
                     outlined=True,
                 )
-                self._workout_muscle_row.addWidget(badge)
+                self._workout_muscle_container.layout().addWidget(badge)
 
-            self._fade_in(self._mission_card)
+            self._fade_in(self._mission_card, delay=_ANI_STAGGER * 1)
         else:
             self._workout_name.hide()
             self._workout_meta.hide()
             self._workout_muscle_container.hide()
             self._mission_start_btn.hide()
             self._workout_empty.show()
-
-    # ── Update Recovery ────────────────────────────────────────
 
     def _update_recovery(self, data: DashboardData) -> None:
         colors = self._colors()
@@ -1006,18 +1032,18 @@ class DashboardView(QWidget):
         elif level_key in ("moderate", "warning"):
             score_color = colors.warning
 
-        self._recovery_level_label.setStyleSheet(
+        self._recovery_narrative.setStyleSheet(
             f"color: {score_color}; {font_style('h3')}; "
             f"letter-spacing: -0.02em; background: transparent;"
         )
-        self._recovery_level_label.setText(narrative_label)
+        self._recovery_narrative.setText(narrative_label)
 
         score_text = f"Score: {rec_score:.0f}/100"
         if status:
             expl = getattr(status, "explanation", "") or ""
             if expl:
                 score_text += f" \u00b7 {expl}"
-        self._recovery_score_label.setText(score_text)
+        self._recovery_score_text.setText(score_text)
 
         if suggested:
             self._recovery_suggested.setText(f"\u2192 {suggested}")
@@ -1026,15 +1052,10 @@ class DashboardView(QWidget):
         else:
             self._recovery_suggested.setText("\u2192 Continue your current training plan")
 
-        self._fade_in(self._recovery_card)
-
-    # ── Update Coach ──────────────────────────────────────────
+        self._fade_in(self._recovery_card, delay=_ANI_STAGGER * 2)
 
     def _update_coach(self, data: DashboardData) -> None:
-        for i in reversed(range(self._coach_container.count())):
-            item = self._coach_container.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
+        self._coach_stack.clear()
 
         recs = getattr(data, "recommendations", [])
 
@@ -1044,40 +1065,31 @@ class DashboardView(QWidget):
 
         self._coach_empty.hide()
 
-        for i, rec in enumerate(recs[:2]):
+        for rec in recs[:2]:
             title = (
                 getattr(rec, "title", "")
-                or getattr(rec, "description", f"Insight {i + 1}")
+                or getattr(rec, "description", "Coach Insight")
             )
             reason = getattr(rec, "reason", "") or ""
             priority = getattr(rec, "priority", 50) or 50
 
-            badge = "Info"
-            badge_level = StatusLevel.INFO
+            sev = "info"
             if priority >= 70:
-                badge = "High"
-                badge_level = StatusLevel.WARNING
+                sev = "warning"
             elif priority >= 50:
-                badge = "Medium"
-                badge_level = StatusLevel.INFO
+                sev = "info"
             else:
-                badge = "Low"
-                badge_level = StatusLevel.NEUTRAL
+                sev = "success"
 
-            icon = "\U0001F4E3" if i == 0 else "\U0001F4A1"
-            card = InsightCard(
-                icon=icon,
+            n = Narrative(
                 title=title,
-                description=reason[:200] if reason else "",
-                badge_text=badge,
-                badge_level=badge_level,
+                summary=reason or title,
+                body=reason,
+                metadata={"severity": sev},
             )
-            card.setAccessibleName(f"Coach insight {i + 1}")
-            self._coach_container.addWidget(card)
+            self._coach_stack.add_card(n)
 
-        self._fade_in(self._coach_card)
-
-    # ── Update Progress ────────────────────────────────────────
+        self._fade_in(self._coach_card, delay=_ANI_STAGGER * 3)
 
     def _update_progress(self, data: DashboardData) -> None:
         colors = self._colors()
@@ -1117,7 +1129,6 @@ class DashboardView(QWidget):
             self._goal_empty.show()
             self._goal_content.hide()
 
-        # Volume
         vol_data = getattr(data, "weekly_volume_data", [])
         weekly_vol = getattr(data, "weekly_volume_kg", 0.0) or 0.0
 
@@ -1137,7 +1148,6 @@ class DashboardView(QWidget):
             self._volume_empty.show()
             self._volume_content.hide()
 
-        # PRs
         prs = getattr(data, "recent_prs", [])
         for i in reversed(range(self._prs_container.count())):
             item = self._prs_container.takeAt(0)
@@ -1193,74 +1203,73 @@ class DashboardView(QWidget):
             self._prs_empty.show()
             self._prs_widget.hide()
 
-        self._fade_in(self._progress_card)
-
-    # ── Update Predictions ─────────────────────────────────────
+        self._fade_in(self._progress_card, delay=_ANI_STAGGER * 4)
 
     def _update_predictions(self, data: DashboardData) -> None:
         colors = self._colors()
-        for i in reversed(range(self._predictions_container.count())):
-            item = self._predictions_container.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
 
         recs = getattr(data, "recommendations", [])
         rec_score = getattr(data, "recovery_score", 0.0) or 0.0
         level_str = getattr(data, "recovery_level", "") or ""
-        predictions = []
 
-        if recs and len(recs) > 0:
+        headline = ""
+        detail = ""
+        confidence = ""
+
+        predictions_data = getattr(data, "predictions_data", None)
+        if predictions_data:
+            vm = getattr(predictions_data, "view_model", None)
+            if vm:
+                headlines = getattr(vm, "headlines", None) or getattr(vm, "summary", None)
+                if headlines:
+                    headline = str(headlines)
+                    if hasattr(vm, "confidence"):
+                        confidence = f"Confidence: {vm.confidence:.0f}%"
+        else:
+            has_pr = any(
+                getattr(r, "title", "") or getattr(r, "reason", "")
+                for r in recs[:2]
+            )
+            if recs and not has_pr:
+                pass
+
+        if not headline and recs:
             for rec in recs[:2]:
                 title = getattr(rec, "title", "") or ""
                 reason = getattr(rec, "reason", "") or ""
-                coach_line = title or reason or ""
-                if coach_line:
-                    predictions.append(coach_line)
+                combined = title or reason
+                if combined:
+                    headline = f"You are on track for {combined}"
+                    break
 
-        if not predictions:
+        if not headline:
             if level_str:
                 level_lower = level_str.lower()
                 if level_lower == "low":
-                    predictions.append("Low fatigue suggests you can push intensity today.")
+                    headline = "Ready to push intensity today."
+                    detail = "Low fatigue suggests optimal training conditions."
                 elif level_lower == "moderate":
-                    predictions.append("Moderate fatigue — maintain current volume.")
+                    headline = "Maintain current volume."
+                    detail = "Moderate fatigue — stay the course."
                 elif level_lower in ("high", "very_high"):
-                    predictions.append("High fatigue detected. Consider a deload or rest day.")
+                    headline = "Consider a deload or rest day."
+                    detail = "High fatigue detected."
             else:
-                predictions.append("Prediction data will appear after completing workouts.")
+                headline = "Complete workouts to unlock predictions."
+                detail = "AI will analyze your trends after a few sessions."
 
-        for pred in predictions[:2]:
-            frame = QFrame()
-            frame.setStyleSheet("background: transparent; border: none;")
-            fl = QHBoxLayout(frame)
-            fl.setContentsMargins(0, _px6, 0, _px6)
-            fl.setSpacing(_px8)
+        self._prediction_headline.setText(headline)
+        self._prediction_detail.setText(detail)
+        if confidence:
+            self._prediction_confidence.setText(confidence)
+            self._prediction_confidence.show()
+        else:
+            self._prediction_confidence.hide()
 
-            bullet = QLabel("\u25CF")
-            bullet.setStyleSheet(
-                f"color: {colors.primary}; "
-                f"font-size: 10px; background: transparent;"
-            )
-            bullet.setFixedWidth(_px12)
-            bullet.setAlignment(Qt.AlignTop)
-            fl.addWidget(bullet)
-
-            text = QLabel(pred)
-            text.setStyleSheet(
-                f"color: {colors.text_primary}; "
-                f"{font_style('body')}; background: transparent;"
-            )
-            text.setWordWrap(True)
-            fl.addWidget(text, 1)
-
-            self._predictions_container.addWidget(frame)
-
-        has_content = bool(predictions)
-        self._predictions_widget.setVisible(has_content)
+        has_content = bool(headline) and "Complete workouts" not in headline
+        self._prediction_container.setVisible(has_content)
         self._predictions_empty.setVisible(not has_content)
-        self._fade_in(self._predictions_card)
-
-    # ── Public API ────────────────────────────────────────────
+        self._fade_in(self._predictions_card, delay=_ANI_STAGGER * 5)
 
     def refresh(self) -> None:
         self._controller.refresh()

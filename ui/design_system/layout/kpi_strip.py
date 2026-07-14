@@ -8,6 +8,7 @@ from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QVBoxLayout, QWidget
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.design_system.tokens.radius import RadiusTokens
 from ui.design_system.tokens.spacing import SpacingTokens
+from ui.design_system.tokens.typography import font_style
 
 S = SpacingTokens()
 R = RadiusTokens()
@@ -72,6 +73,8 @@ class KpiStrip(QFrame):
             }}
         """)
         frame.setCursor(Qt.PointingHandCursor)
+        frame.setFocusPolicy(Qt.StrongFocus)
+        frame.setAccessibleName(f"KPI: {item.label}" if item.label else "KPI item")
         frame._kpi_index = len(self._kpi_widgets)
 
         layout = QVBoxLayout(frame)
@@ -85,7 +88,7 @@ class KpiStrip(QFrame):
 
         v = QLabel(item.value)
         v.setStyleSheet(
-            f"color: {accent}; font-size: 20px; font-weight: 800; "
+            f"color: {accent}; {font_style('metric')}; "
             f"background: transparent; border: none;"
         )
         top.addWidget(v)
@@ -93,7 +96,7 @@ class KpiStrip(QFrame):
         if item.unit:
             u = QLabel(item.unit)
             u.setStyleSheet(
-                f"color: {colors.text_disabled}; font-size: 11px; font-weight: 500; "
+                f"color: {colors.text_disabled}; {font_style('label', weight=500)}; "
                 f"background: transparent; border: none;"
             )
             top.addWidget(u)
@@ -102,7 +105,7 @@ class KpiStrip(QFrame):
             tc = item.trend_color or colors.text_disabled
             t = QLabel(item.trend)
             t.setStyleSheet(
-                f"color: {tc}; font-size: 12px; font-weight: 700; "
+                f"color: {tc}; {font_style('caption', weight='bold')}; "
                 f"background: transparent; border: none;"
             )
             top.addWidget(t)
@@ -112,7 +115,7 @@ class KpiStrip(QFrame):
         if item.label:
             _label = QLabel(item.label)
             _label.setStyleSheet(
-                f"color: {colors.text_disabled}; font-size: 10px; font-weight: 500; "
+                f"color: {colors.text_disabled}; {font_style('caption', weight=500)}; "
                 f"background: transparent; border: none;"
             )
             _label.setAlignment(Qt.AlignCenter)

@@ -1,3 +1,9 @@
+"""InsightCard — compact clickable insight card.
+
+DEPRECATED: Superseded by AppCard + StatusBadge composition.
+New code should use AppCard with a StatusBadge instead of InsightCard.
+"""
+
 from __future__ import annotations
 
 from PySide6.QtCore import Qt, Signal
@@ -6,6 +12,7 @@ from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QVBoxLayout, QWidget
 from ui.design_system.components.status_badge import StatusBadge, StatusLevel
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.design_system.tokens.radius import RadiusTokens
+from ui.design_system.tokens.typography import font_style
 
 R = RadiusTokens()
 
@@ -26,6 +33,9 @@ class InsightCard(QFrame):
         super().__init__(parent)
         self._color_scheme = color_scheme
         self.setObjectName("InsightCard")
+        self.setAccessibleName(f"Insight: {title}" if title else "Insight card")
+        if description:
+            self.setAccessibleDescription(description)
         self._build_ui(icon, title, description, badge_text, badge_level)
 
     def _colors(self):
@@ -60,13 +70,14 @@ class InsightCard(QFrame):
         top = QHBoxLayout()
         top.setSpacing(8)
 
-        t = QLabel(title)
-        t.setStyleSheet(
-            f"color: {colors.text_primary}; font-size: 13px; font-weight: 600; "
-            f"background: transparent; border: none;"
-        )
-        t.setWordWrap(True)
-        top.addWidget(t, 1)
+        if title:
+            t = QLabel(title)
+            t.setStyleSheet(
+                f"color: {colors.text_primary}; {font_style('body', weight='semibold')}; "
+                f"background: transparent; border: none;"
+            )
+            t.setWordWrap(True)
+            top.addWidget(t, 1)
 
         if badge_text:
             badge = StatusBadge(text=badge_text, level=badge_level, outlined=True)
@@ -77,7 +88,7 @@ class InsightCard(QFrame):
         if description:
             d = QLabel(description)
             d.setStyleSheet(
-                f"color: {colors.text_secondary}; font-size: 12px; "
+                f"color: {colors.text_secondary}; {font_style('caption')}; "
                 f"background: transparent; border: none;"
             )
             d.setWordWrap(True)

@@ -85,6 +85,9 @@ class CelebrationOverlay(QFrame):
     ) -> None:
         super().__init__(parent)
         self._milestone_type = milestone_type
+        self.setAccessibleName(f"Celebration: {title}")
+        if subtitle:
+            self.setAccessibleDescription(subtitle)
         self._build_ui(title, subtitle)
 
     def _build_ui(self, title: str, subtitle: str) -> None:
@@ -173,6 +176,10 @@ class AchievementBadge(QFrame):
     ) -> None:
         super().__init__(parent)
         self._name = name
+        self.setAccessibleName(f"Achievement: {name}")
+        if description:
+            self.setAccessibleDescription(description)
+        self.setFocusPolicy(Qt.StrongFocus)
         self._build_ui(description, points)
 
     def _build_ui(self, description: str, points: int) -> None:

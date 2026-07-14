@@ -1,3 +1,11 @@
+"""ProgressRing — basic Doughnut-shaped ring widget.
+
+DEPRECATED: Superseded by ui/visualization/rings/ProgressRingV2
+and other specialized ring components (GoalRing, RecoveryRing).
+New code should prefer ui/visualization/rings for richer animation
+and reduced-motion support.
+"""
+
 from __future__ import annotations
 
 from PySide6.QtCore import QRectF, Qt

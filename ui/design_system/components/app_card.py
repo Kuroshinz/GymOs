@@ -9,6 +9,7 @@ from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.design_system.tokens.elevation import ElevationTokens, apply_elevation
 from ui.design_system.tokens.radius import RadiusTokens
 from ui.design_system.tokens.spacing import SpacingTokens
+from ui.design_system.tokens.typography import font_style
 
 RADIUS = RadiusTokens()
 SPACE = SpacingTokens()
@@ -79,8 +80,8 @@ class AppCard(QFrame):
 
             title_label = QLabel(title.upper())
             title_label.setStyleSheet(
-                f"color: {colors.text_secondary}; font-size: 11px; font-weight: 600; "
-                f"letter-spacing: 0.5px; text-transform: uppercase;"
+                f"color: {colors.text_secondary}; {font_style('label')} "
+                f"text-transform: uppercase;"
             )
             header.addWidget(title_label)
 
@@ -88,7 +89,7 @@ class AppCard(QFrame):
                 badge_label = QLabel(badge)
                 badge_label.setStyleSheet(
                     f"background-color: {colors.border}; color: {colors.text_secondary}; "
-                    f"border-radius: 8px; padding: 2px 8px; font-size: 11px;"
+                    f"border-radius: 8px; padding: 2px 8px; {font_style('label')}"
                 )
                 badge_label.setFixedHeight(20)
                 header.addWidget(badge_label)
@@ -98,7 +99,7 @@ class AppCard(QFrame):
 
         if subtitle:
             sub = QLabel(subtitle)
-            sub.setStyleSheet(f"color: {colors.text_primary}; font-size: 13px; font-weight: 500;")
+            sub.setStyleSheet(f"color: {colors.text_primary}; {font_style('body', weight=500)}")
             sub.setWordWrap(True)
             layout.addWidget(sub)
 
@@ -129,15 +130,14 @@ class AppCard(QFrame):
         row_layout = QHBoxLayout(row)
         row_layout.setContentsMargins(0, 2, 0, 2)
         row_layout.setSpacing(8)
-
         lbl = QLabel(label)
-        lbl.setStyleSheet(f"color: {colors.text_secondary}; font-size: 13px;")
+        lbl.setStyleSheet(f"color: {colors.text_secondary}; {font_style('body')}")
         lbl.setFixedWidth(140)
         row_layout.addWidget(lbl)
 
         val = QLabel(value)
         vc = value_color or colors.text_primary
-        val.setStyleSheet(f"color: {vc}; font-size: 13px; font-weight: 600;")
+        val.setStyleSheet(f"color: {vc}; {font_style('body', weight='semibold')}")
         val.setWordWrap(True)
         row_layout.addWidget(val, 1)
 

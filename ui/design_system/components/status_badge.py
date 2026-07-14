@@ -40,6 +40,7 @@ class StatusBadge(QLabel):
         self._level = level
         self._outlined = outlined
         self._color_scheme = color_scheme
+        self.setAccessibleName(f"Status: {text}" if text else "Status badge")
         self._update_style()
 
     def _colors(self):
@@ -73,3 +74,4 @@ class StatusBadge(QLabel):
 
     def set_text(self, text: str) -> None:
         self.setText(text)
+        self.setAccessibleName(f"Status: {text}")

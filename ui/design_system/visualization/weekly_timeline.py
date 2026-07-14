@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
-from PySide6.QtCore import QRectF, Qt
+from PySide6.QtCore import QEasingCurve, QPropertyAnimation, QRectF, QTimer, Qt
 from PySide6.QtGui import QColor, QFont, QPainter
 from PySide6.QtWidgets import QFrame, QWidget
 
@@ -25,7 +25,15 @@ class WeeklyTimeline(QFrame):
         self._values: list[float] = [0.0] * len(self._days)
         self._labels: list[str] = [""] * len(self._days)
         self._max_value = 100.0
+        self._anim_progress = 1.0
+        self._anim_target_values: list[float] = []
+        self._reduced_motion = False
         self.setFixedHeight(80)
+
+    def set_reduced_motion(self, enabled: bool) -> None:
+        self._reduced_motion = enabled
+        if enabled:
+            self._anim_progress = 1.0
 
     def _colors(self):
         return color_from_scheme(self._color_scheme)
@@ -37,7 +45,33 @@ class WeeklyTimeline(QFrame):
             self._labels = list(labels)
         if len(self._values) < len(self._days):
             self._values.extend([0.0] * (len(self._days) - len(self._values)))
-        self.update()
+        if self._reduced_motion:
+            self._anim_progress = 1.0
+            self.update()
+        else:
+            self._anim_progress = 0.0
+            self._anim_target_values = list(self._values)
+            self._values = [0.0] * len(self._days)
+            self._animate_bars()
+
+    def _animate_bars(self) -> None:
+        steps = max(10, 250 // 16)
+        step = 0
+
+        def _tick() -> None:
+            nonlocal step
+            step += 1
+            progress = min(step / steps, 1.0)
+            eased = 1.0 - (1.0 - progress) ** 3
+            self._anim_progress = eased
+            for i in range(len(self._days)):
+                target = self._anim_target_values[i] if i < len(self._anim_target_values) else 0.0
+                self._values[i] = round(target * eased, 1)
+            self.update()
+            if step < steps:
+                QTimer.singleShot(16, _tick)
+
+        QTimer.singleShot(16, _tick)
 
     def paintEvent(self, event) -> None:  # noqa: N802
         painter = QPainter(self)
@@ -47,7 +81,7 @@ class WeeklyTimeline(QFrame):
         w = self.width()
         h = 60
         n = len(self._days)
-        if n == 0:
+        if n == 0 or self._anim_progress <= 0.0:
             return
 
         bar_w = min(32, (w - 20) // n - 6)
