@@ -247,6 +247,8 @@ class ProgressExperience(QWidget):
         pr_el.addWidget(self._pr_empty)
 
         parent.addLayout(self._pr_grid)
+        self._pr_grid.addWidget(self._pr_empty_widget, 0, 0)
+        self._pr_empty_widget.hide()
 
     def _build_compliance(self, parent: QVBoxLayout) -> None:
         self._build_section_header(parent, "Compliance & Consistency", "Session adherence and recovery trend")
@@ -431,7 +433,7 @@ class ProgressExperience(QWidget):
     def _update_personal_records(self) -> None:
         for i in reversed(range(self._pr_grid.count())):
             item = self._pr_grid.takeAt(0)
-            if item.widget():
+            if item.widget() and item.widget() is not self._pr_empty_widget:
                 item.widget().deleteLater()
 
         colors = self._colors()
@@ -510,7 +512,6 @@ class ProgressExperience(QWidget):
             self._pr_empty_widget.hide()
         else:
             self._pr_empty_widget.show()
-            self._pr_grid.addWidget(self._pr_empty_widget, 0, 0)
 
     def _update_compliance(self) -> None:
         for i in reversed(range(self._compliance_layout.count())):
