@@ -13,12 +13,16 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from ui.design_system.tokens.color import ColorScheme, color_from_scheme
+from ui.design_system.tokens.typography import font_style
+
 
 class PRCard(QFrame):
     """A card showing a personal record for an exercise."""
 
     def __init__(self, pr):
         super().__init__()
+        c = color_from_scheme(ColorScheme.DARK)
         type_labels = {
             "weight": "Weight PR",
             "reps": "Rep PR",
@@ -29,16 +33,16 @@ class PRCard(QFrame):
         self.setAccessibleName(f"Personal Record: {pr.exercise_name} - {pr_type_label}")
         if pr.display_value:
             self.setAccessibleDescription(f"{pr.exercise_name}: {pr.display_value}")
-        self.setStyleSheet("""
-            PRCard {
-                background-color: #1E293B;
-                border: 1px solid transparent;
+        self.setStyleSheet(f"""
+            PRCard {{
+                background-color: {c.surface_elevated};
+                border: 1px solid {c.border};
                 border-radius: 12px;
                 padding: 16px;
-            }
-            PRCard:focus {
-                border-color: #818CF8;
-            }
+            }}
+            PRCard:focus {{
+                border-color: {c.primary};
+            }}
         """)
         self.setFocusPolicy(Qt.StrongFocus)
         layout = QVBoxLayout(self)
@@ -47,25 +51,25 @@ class PRCard(QFrame):
 
         # Exercise name and type
         type_colors = {
-            "weight": "#4ADE80",
-            "reps": "#60A5FA",
-            "volume": "#FBBF24",
-            "e1rm": "#818CF8",
+            "weight": c.success,
+            "reps": c.info,
+            "volume": c.warning,
+            "e1rm": c.primary,
         }
-        color = type_colors.get(pr.pr_type, "#94A3B8")
+        color = type_colors.get(pr.pr_type, c.text_secondary)
 
         row1 = QHBoxLayout()
         row1.setSpacing(8)
 
         name_label = QLabel(pr.exercise_name)
         name_label.setAccessibleName(f"{pr.exercise_name} exercise name")
-        name_label.setStyleSheet("color: #F1F5F9; font-size: 15px; font-weight: 700;")
+        name_label.setStyleSheet(f"color: {c.text_primary}; font-size: 15px; font-weight: 700;")
         row1.addWidget(name_label)
 
         type_label = QLabel(pr_type_label)
         type_label.setAccessibleName(f"PR type: {pr_type_label}")
         type_label.setStyleSheet(f"color: {color}; font-size: 11px; font-weight: 600; "
-                                 f"background-color: #0F172A; border-radius: 4px; "
+                                 f"background-color: {c.surface}; border-radius: 4px; "
                                  f"padding: 2px 8px;")
         row1.addWidget(type_label)
         row1.addStretch()
@@ -93,7 +97,7 @@ class PRCard(QFrame):
 
         if date_text:
             date_label = QLabel(date_text)
-            date_label.setStyleSheet("color: #64748B; font-size: 11px;")
+            date_label.setStyleSheet(f"color: {c.text_disabled}; font-size: 11px;")
             layout.addWidget(date_label)
 
 
@@ -105,19 +109,23 @@ class PRView(QWidget):
         self._db = db
         self._build_ui()
 
+    def _colors(self):
+        return color_from_scheme(ColorScheme.DARK)
+
     def _build_ui(self):
+        c = self._colors()
         layout = QVBoxLayout(self)
         layout.setContentsMargins(32, 32, 32, 32)
         layout.setSpacing(16)
 
         header = QLabel("Personal Records")
         header.setAccessibleName("Personal Records heading")
-        header.setStyleSheet("font-size: 24px; font-weight: 700; color: #F1F5F9;")
+        header.setStyleSheet(f"color: {c.text_primary}; {font_style('h2')}; background: transparent;")
         layout.addWidget(header)
 
         sub = QLabel("Your best performances across all exercises")
         sub.setAccessibleName("Personal Records description")
-        sub.setStyleSheet("color: #94A3B8; font-size: 14px; margin-top: -12px;")
+        sub.setStyleSheet(f"color: {c.text_secondary}; font-size: 14px; margin-top: -8px; background: transparent;")
         layout.addWidget(sub)
 
         scroll = QScrollArea()
@@ -133,6 +141,7 @@ class PRView(QWidget):
 
     def refresh(self):
         """Reload PR data from the database."""
+        c = self._colors()
         self._clear_grid()
         from modules.workout.application.pr_engine import PREngine
 
@@ -141,7 +150,7 @@ class PRView(QWidget):
 
         if not prs:
             placeholder = QLabel("No PRs yet. Complete a workout to start tracking!")
-            placeholder.setStyleSheet("color: #64748B; font-size: 14px; padding: 40px;")
+            placeholder.setStyleSheet(f"color: {c.text_disabled}; font-size: 14px; padding: 40px; background: transparent;")
             placeholder.setAlignment(Qt.AlignmentFlag.AlignCenter)
             self._grid.addWidget(placeholder, 0, 0)
             return

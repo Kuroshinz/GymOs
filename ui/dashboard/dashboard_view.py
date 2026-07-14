@@ -46,8 +46,6 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from dataclasses import dataclass
-
 from ui.dashboard.dashboard_controller import DashboardController
 from ui.dashboard.dashboard_models import DashboardData
 from ui.design_system.components.app_card import AppCard
@@ -56,6 +54,7 @@ from ui.design_system.components.insight_card import InsightCard
 from ui.design_system.components.section_header import SectionHeader
 from ui.design_system.components.status_badge import StatusBadge, StatusLevel
 from ui.design_system.layout import EditorialGrid, PanelSpan, ScrollContainer
+from ui.design_system.tokens.color import ColorScheme, color_from_scheme, resolve_alpha
 from ui.design_system.tokens.elevation import apply_elevation, glow_effect
 from ui.design_system.tokens.motion import MotionTokens
 from ui.design_system.tokens.radius import RadiusTokens, px_from_token
@@ -64,34 +63,7 @@ from ui.design_system.tokens.typography import TypographyTokens, font_style
 from ui.design_system.visualization import GoalRing, RecoveryRing, WeeklyTimeline
 
 
-@dataclass(frozen=True)
-class _Galaxy:
-    background: str = "#030510"           # Deepest space
-    background_alt: str = "#06091E"       # Night sky
-    surface: str = "#090D2E"             # Midnight nebula
-    surface_hover: str = "#0F1447"       # Nebula glow hover
-    primary: str = "#7C3AED"             # Rich amethyst
-    primary_hover: str = "#8B5CF6"       # Violet nebula
-    primary_variant: str = "#5B21B6"     # Deep amethyst
-    success: str = "#34D399"             # Aurora emerald
-    warning: str = "#FBBF24"             # Starlight gold
-    error: str = "#FB7185"               # Cosmic rose
-    info: str = "#60A5FA"                # Star blue
-    pr: str = "#C084FC"                  # Nebula pink-violet
-    text_primary: str = "#F1F5F9"        # Star white
-    text_secondary: str = "#94A3B8"      # Distant star
-    text_disabled: str = "#475569"       # Deep space
-    text_inverse: str = "#FFFFFF"        # Pure white
-    border: str = "rgba(124, 58, 237, 0.10)"
-    border_hover: str = "rgba(124, 58, 237, 0.22)"
-    focus_ring: str = "rgba(124, 58, 237, 0.5)"
-    scrollbar_handle: str = "rgba(124, 58, 237, 0.25)"
-
-
-_GALAXY = _Galaxy()
-_GALAXY_GLOW_PRIMARY = "rgba(124, 58, 237, 0.35)"
-_GALAXY_GLOW_SUCCESS = "rgba(52, 211, 153, 0.25)"
-_GALAXY_GLOW_WARNING = "rgba(251, 191, 36, 0.2)"
+_GLOW = lambda c: resolve_alpha(c, 0.35)
 
 M = MotionTokens()
 S = SpacingTokens()
@@ -177,7 +149,7 @@ class DashboardView(QWidget):
         )
 
     def _colors(self):
-        return _GALAXY
+        return color_from_scheme(ColorScheme.DARK)
 
     # ── Build UI ─────────────────────────────────────────────────
 
@@ -389,7 +361,7 @@ class DashboardView(QWidget):
         """)
         self._hero_start_btn.clicked.connect(self.start_workout_clicked.emit)
         self._hero_start_btn.setAccessibleName("Start Workout")
-        glow_effect(self._hero_start_btn, glow_rgba=_GALAXY_GLOW_PRIMARY, blur=20, offset_y=0)
+        glow_effect(self._hero_start_btn, glow_rgba=_GLOW(colors.primary), blur=20, offset_y=0)
         cta_row.addWidget(self._hero_start_btn)
 
         self._hero_review_btn = QPushButton("  \u270F  Review Week")
@@ -495,7 +467,7 @@ class DashboardView(QWidget):
         """)
         self._mission_start_btn.clicked.connect(self.start_workout_clicked.emit)
         self._mission_start_btn.setAccessibleName("Start Workout")
-        glow_effect(self._mission_start_btn, glow_rgba=_GALAXY_GLOW_PRIMARY, blur=16, offset_y=0)
+        glow_effect(self._mission_start_btn, glow_rgba=_GLOW(colors.primary), blur=16, offset_y=0)
 
         btn_row = QHBoxLayout()
         btn_row.setContentsMargins(0, _px4, 0, 0)
@@ -588,7 +560,7 @@ class DashboardView(QWidget):
                 border: 1px solid rgba(139, 92, 246, 0.12);
             }}
         """)
-        glow_effect(self._coach_card, glow_rgba=_GALAXY_GLOW_PRIMARY, blur=20, offset_y=1)
+        glow_effect(self._coach_card, glow_rgba=_GLOW(colors.primary), blur=20, offset_y=1)
 
         self._coach_container = QVBoxLayout()
         self._coach_container.setContentsMargins(0, 0, 0, 0)
@@ -790,7 +762,7 @@ class DashboardView(QWidget):
             """)
 
             if primary:
-                glow_effect(card, glow_rgba=_GALAXY_GLOW_PRIMARY, blur=16, offset_y=0)
+                glow_effect(card, glow_rgba=_GLOW(colors.primary), blur=16, offset_y=0)
 
             card_layout = QVBoxLayout(card)
             card_layout.setContentsMargins(_px12, _px12, _px12, _px10)
@@ -997,6 +969,7 @@ class DashboardView(QWidget):
     # ── Update Recovery ────────────────────────────────────────
 
     def _update_recovery(self, data: DashboardData) -> None:
+        colors = self._colors()
         rec_score = getattr(data, "recovery_score", 0.0) or 0.0
         level_str = getattr(data, "recovery_level", "") or ""
         suggested = getattr(data, "recovery_suggested_action", "") or ""
@@ -1027,11 +1000,11 @@ class DashboardView(QWidget):
             "critical": "Prioritize recovery",
         }.get(level_key, level_key.upper().replace("_", " "))
 
-        score_color = _GALAXY.success
+        score_color = colors.success
         if level_key in ("high", "very_high", "critical"):
-            score_color = _GALAXY.error
+            score_color = colors.error
         elif level_key in ("moderate", "warning"):
-            score_color = _GALAXY.warning
+            score_color = colors.warning
 
         self._recovery_level_label.setStyleSheet(
             f"color: {score_color}; {font_style('h3')}; "
@@ -1107,6 +1080,7 @@ class DashboardView(QWidget):
     # ── Update Progress ────────────────────────────────────────
 
     def _update_progress(self, data: DashboardData) -> None:
+        colors = self._colors()
         weight = getattr(data, "goal_progress_weight", 0.0) or 0.0
         target = getattr(data, "goal_progress_target", 0.0) or 0.0
         remaining = getattr(data, "goal_progress_remaining", 0.0) or 0.0
@@ -1199,7 +1173,7 @@ class DashboardView(QWidget):
 
                 name_lbl = QLabel(ex_name)
                 name_lbl.setStyleSheet(
-                    f"color: {_GALAXY.text_primary}; "
+                    f"color: {colors.text_primary}; "
                     f"{font_style('caption', 'bold')}"
                 )
                 row_layout.addWidget(name_lbl, 1)
@@ -1209,7 +1183,7 @@ class DashboardView(QWidget):
                         f"{pr_type.upper() if pr_type else ''} {display_val}"
                     )
                     val_lbl.setStyleSheet(
-                        f"color: {_GALAXY.warning}; "
+                        f"color: {colors.warning}; "
                         f"{font_style('caption', 'bold')}"
                     )
                     row_layout.addWidget(val_lbl)
@@ -1224,6 +1198,7 @@ class DashboardView(QWidget):
     # ── Update Predictions ─────────────────────────────────────
 
     def _update_predictions(self, data: DashboardData) -> None:
+        colors = self._colors()
         for i in reversed(range(self._predictions_container.count())):
             item = self._predictions_container.takeAt(0)
             if item.widget():
@@ -1263,7 +1238,7 @@ class DashboardView(QWidget):
 
             bullet = QLabel("\u25CF")
             bullet.setStyleSheet(
-                f"color: {_GALAXY.primary}; "
+                f"color: {colors.primary}; "
                 f"font-size: 10px; background: transparent;"
             )
             bullet.setFixedWidth(_px12)
@@ -1272,7 +1247,7 @@ class DashboardView(QWidget):
 
             text = QLabel(pred)
             text.setStyleSheet(
-                f"color: {_GALAXY.text_primary}; "
+                f"color: {colors.text_primary}; "
                 f"{font_style('body')}; background: transparent;"
             )
             text.setWordWrap(True)

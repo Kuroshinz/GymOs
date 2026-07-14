@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (
 
 from ui.dashboard import DashboardView
 from ui.design_system.theme import global_stylesheet
-from ui.design_system.tokens.color import ColorScheme
+from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.experience import ExperienceManager
 from ui.experience.integration import integrate_with_command_center
 from ui.import_wizard import ImportWizard
@@ -26,6 +26,8 @@ from ui.recovery import RecoveryDashboard
 from ui.settings import SettingsExperience
 from ui.workout_selection_view import WorkoutSelectionView
 from ui.workout_view import WorkoutView
+
+_c = color_from_scheme(ColorScheme.DARK)
 
 PAGE_INDEX = {
     "dashboard": 0,
@@ -49,33 +51,33 @@ class SidebarButton(QPushButton):
         self._update_style()
 
     def _update_style(self) -> None:
-        self.setStyleSheet("""
-            QPushButton {
+        self.setStyleSheet(f"""
+            QPushButton {{
                 background-color: transparent;
-                color: #94A3B8;
+                color: {_c.text_secondary};
                 border: 1px solid transparent;
                 border-radius: 8px;
                 padding: 8px 16px;
                 text-align: left;
                 font-size: 14px;
                 font-weight: 500;
-            }
-            QPushButton:hover {
-                background-color: #1E293B;
-                color: #F1F5F9;
-            }
-            QPushButton:focus {
-                border-color: #818CF8;
-                background-color: #1E293B;
-            }
-            QPushButton[active="true"] {
-                background-color: #1E293B;
-                color: #818CF8;
+            }}
+            QPushButton:hover {{
+                background-color: {_c.surface_hover};
+                color: {_c.text_primary};
+            }}
+            QPushButton:focus {{
+                border-color: {_c.primary};
+                background-color: {_c.surface_hover};
+            }}
+            QPushButton[active="true"] {{
+                background-color: {_c.surface_hover};
+                color: {_c.primary};
                 font-weight: 600;
-            }
-            QPushButton[active="true"]:focus {
-                border-color: #A5B4FC;
-            }
+            }}
+            QPushButton[active="true"]:focus {{
+                border-color: {_c.primary_hover};
+            }}
         """)
 
     def set_active(self, active: bool) -> None:
@@ -101,9 +103,9 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("GymOS")
         self.setAccessibleName("GymOS Main Window")
         self.setMinimumSize(1024, 768)
-        self.setStyleSheet("""
-            QMainWindow { background-color: #0F172A; }
-            QLabel { color: #F1F5F9; }
+        self.setStyleSheet(f"""
+            QMainWindow {{ background-color: {_c.background}; }}
+            QLabel {{ color: {_c.text_primary}; }}
         """)
 
         central = QWidget()
@@ -119,7 +121,7 @@ class MainWindow(QMainWindow):
 
         self._content = QStackedWidget()
         self._content.setAccessibleName("Content area")
-        self._content.setStyleSheet("background-color: #0F172A;")
+        self._content.setStyleSheet(f"background-color: {_c.background};")
         main_layout.addWidget(self._content, 1)
 
         self._dashboard_view = DashboardView(db=db, prog_mgr=prog_mgr, nutrition_service=nutrition_service)
@@ -182,7 +184,7 @@ class MainWindow(QMainWindow):
         sidebar = QFrame()
         sidebar.setFixedWidth(220)
         sidebar.setStyleSheet(
-            "background-color: #0F172A; border-right: 1px solid #1E293B;"
+            f"background-color: {_c.surface}; border-right: 1px solid {_c.border};"
         )
 
         layout = QVBoxLayout(sidebar)
@@ -192,7 +194,7 @@ class MainWindow(QMainWindow):
         logo = QLabel("GymOS")
         logo.setAccessibleName("Application logo")
         logo.setStyleSheet(
-            "font-size: 20px; font-weight: 700; color: #818CF8; padding: 8px 12px 20px 12px;"
+            f"font-size: 20px; font-weight: 700; color: {_c.primary}; padding: 8px 12px 20px 12px;"
         )
         layout.addWidget(logo)
 
@@ -221,9 +223,9 @@ class MainWindow(QMainWindow):
         if self._prog_mgr:
             import_btn = SidebarButton("Import Program", tooltip="Import a workout program from a JSON file")
             import_btn.setAccessibleName("Import workout program")
-            import_btn.setStyleSheet(import_btn.styleSheet() + """
-                QPushButton { color: #818CF8; font-size: 12px; border-top: 1px solid #1E293B; margin-top: 8px; padding-top: 12px; }
-                QPushButton:hover { color: #6366F1; }
+            import_btn.setStyleSheet(import_btn.styleSheet() + f"""
+                QPushButton {{ color: {_c.primary}; font-size: 12px; border-top: 1px solid {_c.border}; margin-top: 8px; padding-top: 12px; }}
+                QPushButton:hover {{ color: {_c.primary_hover}; }}
             """)
             import_btn.clicked.connect(self._open_import_wizard)
             layout.addWidget(import_btn)
@@ -236,7 +238,7 @@ class MainWindow(QMainWindow):
         from shared.version import APP_VERSION
         version = QLabel(f"v{APP_VERSION}")
         version.setAccessibleName(f"GymOS version {APP_VERSION}")
-        version.setStyleSheet("color: #475569; font-size: 11px; padding: 8px 12px;")
+        version.setStyleSheet(f"color: {_c.text_disabled}; font-size: 11px; padding: 8px 12px;")
         layout.addWidget(version)
 
         return sidebar
@@ -250,7 +252,8 @@ class MainWindow(QMainWindow):
             self._workout_selection_view.refresh()
 
     def _on_high_contrast_changed(self, enabled: bool) -> None:
-        colors = global_stylesheet(ColorScheme.HIGH_CONTRAST if enabled else ColorScheme.DARK)
+        scheme = ColorScheme.HIGH_CONTRAST if enabled else ColorScheme.DARK
+        colors = global_stylesheet(scheme)
         self.setStyleSheet(colors)
 
     def _switch_to(self, index: int):

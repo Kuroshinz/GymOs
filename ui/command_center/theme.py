@@ -28,11 +28,11 @@ class C:
 
     BG: str = DarkColorTokens.background
     CARD_BG: str = DarkColorTokens.surface
-    CARD_HOVER: str = "#1E2D4B"
+    CARD_HOVER: str = DarkColorTokens.surface_hover
     BORDER: str = DarkColorTokens.border
     BORDER_HOVER: str = DarkColorTokens.border_hover
     ACCENT: str = DarkColorTokens.primary
-    ACCENT_HOVER: str = "#A5B4FC"
+    ACCENT_HOVER: str = DarkColorTokens.primary_hover
     TEXT_PRIMARY: str = DarkColorTokens.text_primary
     TEXT_SECONDARY: str = DarkColorTokens.text_secondary
     TEXT_MUTED: str = DarkColorTokens.text_disabled
