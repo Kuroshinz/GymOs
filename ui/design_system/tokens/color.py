@@ -70,17 +70,17 @@ class ColorTokens:
 
 @dataclass(frozen=True)
 class DarkColorTokens:
-    primary: str = "#7C3AED"
-    primary_hover: str = "#8B5CF6"
-    primary_variant: str = "#2D1070"
+    primary: str = "#6366F1"
+    primary_hover: str = "#818CF8"
+    primary_variant: str = "#1E1B4B"
 
-    secondary: str = "#A78BFA"
-    secondary_hover: str = "#8B5CF6"
-    secondary_variant: str = "#1A0D3D"
+    secondary: str = "#38BDF8"
+    secondary_hover: str = "#0EA5E9"
+    secondary_variant: str = "#082F49"
 
     accent: str = "#D946EF"
-    accent_hover: str = "#C026D3"
-    accent_variant: str = "#2D0A38"
+    accent_hover: str = "#F43F5E"
+    accent_variant: str = "#4C0519"
 
     success: str = "#34D399"
     success_hover: str = "#2BBF7D"
@@ -102,28 +102,28 @@ class DarkColorTokens:
     info_surface: str = "#0F1D40"
     info_border: str = "#1A3060"
 
-    background: str = "#060818"
-    background_alt: str = "#0C0F2E"
-    surface: str = "#111644"
-    surface_hover: str = "#181E58"
-    surface_active: str = "#1E2570"
-    surface_raised: str = "#181E58"
-    surface_elevated: str = "#141950"
-    border: str = "rgba(124, 58, 237, 0.10)"
-    border_light: str = "rgba(124, 58, 237, 0.05)"
-    border_hover: str = "rgba(124, 58, 237, 0.22)"
+    background: str = "#070814"
+    background_alt: str = "#0B0C1E"
+    surface: str = "#121324"
+    surface_hover: str = "#181932"
+    surface_active: str = "#202144"
+    surface_raised: str = "#181932"
+    surface_elevated: str = "#15162D"
+    border: str = "rgba(99, 102, 241, 0.12)"
+    border_light: str = "rgba(99, 102, 241, 0.06)"
+    border_hover: str = "rgba(99, 102, 241, 0.25)"
 
-    text_primary: str = "#F1F5F9"
+    text_primary: str = "#F8FAFC"
     text_secondary: str = "#94A3B8"
     text_disabled: str = "#475569"
     text_inverse: str = "#FFFFFF"
-    text_link: str = "#A78BFA"
+    text_link: str = "#818CF8"
 
     overlay: str = "rgba(0, 0, 0, 0.6)"
-    focus_ring: str = "rgba(124, 58, 237, 0.5)"
+    focus_ring: str = "rgba(99, 102, 241, 0.5)"
     scrollbar_bg: str = "transparent"
-    scrollbar_handle: str = "rgba(124, 58, 237, 0.25)"
-    scrollbar_hover: str = "rgba(124, 58, 237, 0.4)"
+    scrollbar_handle: str = "rgba(99, 102, 241, 0.25)"
+    scrollbar_hover: str = "rgba(99, 102, 241, 0.4)"
 
 
 @dataclass(frozen=True)

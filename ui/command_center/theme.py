@@ -70,19 +70,23 @@ class Font:
 class Style:
     CARD = f"""
         CommandCenterCard {{
-            background-color: {_c.surface};
+            background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                stop:0 rgba(18, 19, 36, 0.85),
+                stop:1 rgba(10, 11, 22, 0.85)); /* {_c.surface} */
             border-radius: 12px;
-            border: 1px solid {_c.border};
+            border: 1px solid rgba(99, 102, 241, 0.15); /* {_c.border} */
         }}
         CommandCenterCard:hover {{
-            border-color: {_c.border_hover};
+            border-color: rgba(99, 102, 241, 0.35);
         }}
     """
     WIDGET = CARD_BASE = f"""
         QWidget {{
-            background-color: {_c.surface};
+            background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                stop:0 rgba(18, 19, 36, 0.85),
+                stop:1 rgba(10, 11, 22, 0.85)); /* {_c.surface} */
             border-radius: 12px;
-            border: 1px solid {_c.border};
+            border: 1px solid rgba(99, 102, 241, 0.15); /* {_c.border} */
         }}
     """
     SCROLL = f"""

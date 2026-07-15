@@ -73,13 +73,11 @@ class HeroWidget(QFrame):
         self.setStyleSheet(
             f"""
             QFrame#DashboardHero {{
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(15, 18, 55, 230),
-                    stop:0.3 rgba(22, 18, 78, 200),
-                    stop:0.6 rgba(28, 14, 70, 170),
-                    stop:1 rgba(10, 14, 42, 130));
+                background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                    stop:0 rgba(18, 19, 36, 0.90),
+                    stop:1 rgba(10, 11, 22, 0.90));
                 border-radius: {R.xl};
-                border: 1px solid {resolve_alpha(colors.primary, 0.10)};
+                border: 1px solid rgba(99, 102, 241, 0.20);
             }}
         """
         )
@@ -143,34 +141,41 @@ class HeroWidget(QFrame):
         # Metrics row
         metrics_row = QHBoxLayout()
         metrics_row.setContentsMargins(0, 0, 0, 0)
-        metrics_row.setSpacing(_px32)
+        metrics_row.setSpacing(_px16)
 
         metric_defs = [
             ("_metric_ready", "Readiness", "success"),
-            ("_metric_weight", "Current", "text_primary"),
-            ("_metric_goal", "To Goal", "warning"),
-            ("_metric_streak", "Streak", "text_primary"),
+            ("_metric_weight", "Current (kg)", "text_primary"),
+            ("_metric_goal", "To Goal (kg)", "warning"),
+            ("_metric_streak", "Streak (days)", "text_primary"),
         ]
 
         for attr_prefix, label, color_key in metric_defs:
             block = QFrame()
-            block.setStyleSheet("background: transparent; border: none;")
+            block.setObjectName("MetricBlock")
+            block.setStyleSheet(f"""
+                QFrame#MetricBlock {{
+                    background-color: rgba(255, 255, 255, 0.02);
+                    border: 1px solid rgba(255, 255, 255, 0.05);
+                    border-radius: 12px;
+                }}
+            """)
             bl = QVBoxLayout(block)
-            bl.setContentsMargins(0, 0, 0, 0)
+            bl.setContentsMargins(18, 14, 18, 14)
             bl.setSpacing(_px4)
 
             val = QLabel("--")
             val.setStyleSheet(
                 f"color: {getattr(colors, color_key, colors.text_primary)}; "
-                f"font-size: 28px; font-weight: 800; "
+                f"font-size: 26px; font-weight: 800; "
                 f"letter-spacing: -0.03em; background: transparent;"
             )
             bl.addWidget(val)
 
             name = QLabel(label)
             name.setStyleSheet(
-                f"color: {colors.text_disabled}; font-size: 12px; font-weight: 500; "
-                f"letter-spacing: 0.03em; background: transparent;"
+                f"color: {colors.text_disabled}; font-size: 11px; font-weight: 600; "
+                f"letter-spacing: 0.05em; text-transform: uppercase; background: transparent;"
             )
             bl.addWidget(name)
 

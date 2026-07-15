@@ -112,20 +112,20 @@ def global_stylesheet(scheme: ColorScheme = ColorScheme.DARK) -> str:
     }}
 
     QPushButton {{
-        border: 1px solid {border};
+        border: 1px solid rgba(99, 102, 241, 0.25);
         border-radius: 8px;
         padding: 8px 20px;
-        background-color: transparent;
+        background-color: rgba(99, 102, 241, 0.04);
         color: {text_primary};
         font-size: 13px;
-        font-weight: 500;
+        font-weight: 600;
     }}
     QPushButton:hover {{
-        background-color: {surface_hover};
+        background-color: rgba(99, 102, 241, 0.12);
         border-color: {primary};
     }}
     QPushButton:pressed {{
-        background-color: {surface_active};
+        background-color: rgba(99, 102, 241, 0.25);
         border-color: {primary};
     }}
     QPushButton:focus {{
@@ -146,9 +146,9 @@ def global_stylesheet(scheme: ColorScheme = ColorScheme.DARK) -> str:
     }}
 
     QLineEdit, QTextEdit, QPlainTextEdit {{
-        background-color: {bg};
+        background-color: rgba(18, 19, 36, 0.5);
         color: {text_primary};
-        border: 1px solid {border};
+        border: 1px solid rgba(99, 102, 241, 0.2);
         border-radius: 6px;
         padding: 8px 12px;
         font-size: 13px;
@@ -156,10 +156,10 @@ def global_stylesheet(scheme: ColorScheme = ColorScheme.DARK) -> str:
         selection-color: {text_inverse};
     }}
     QLineEdit:focus, QTextEdit:focus, QPlainTextEdit:focus {{
-        border-color: {focus_ring};
+        border-color: {primary};
     }}
     QLineEdit:hover, QTextEdit:hover, QPlainTextEdit:hover {{
-        border-color: {primary};
+        border-color: {primary_hover};
     }}
     QLineEdit:disabled, QTextEdit:disabled, QPlainTextEdit:disabled {{
         background-color: transparent;
@@ -172,9 +172,9 @@ def global_stylesheet(scheme: ColorScheme = ColorScheme.DARK) -> str:
     }}
 
     QComboBox {{
-        background-color: {bg};
+        background-color: rgba(18, 19, 36, 0.5);
         color: {text_primary};
-        border: 1px solid {border};
+        border: 1px solid rgba(99, 102, 241, 0.2);
         border-radius: 6px;
         padding: 8px 12px;
         font-size: 13px;

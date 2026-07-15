@@ -80,11 +80,11 @@ class CoachPredictionsWidget(QFrame):
         self._coach_card.setStyleSheet(
             f"""
             QFrame#CoachCard {{
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(17,15,63,230), stop:0.5 rgba(22,18,76,195),
-                    stop:0.8 rgba(25,12,60,175), stop:1 rgba(12,16,51,135));
+                background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                    stop:0 rgba(18, 19, 36, 0.85),
+                    stop:1 rgba(10, 11, 22, 0.85));
                 border-radius: {R.xl};
-                border: 1px solid {resolve_alpha(colors.primary, 0.10)};
+                border: 1px solid rgba(99, 102, 241, 0.15);
             }}
         """
         )
@@ -118,10 +118,11 @@ class CoachPredictionsWidget(QFrame):
         self._pred_card.setStyleSheet(
             f"""
             QFrame#PredictionsCard {{
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(15,18,55,220), stop:1 rgba(8,12,36,140));
+                background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                    stop:0 rgba(18, 19, 36, 0.85),
+                    stop:1 rgba(10, 11, 22, 0.85));
                 border-radius: {R.xl};
-                border: 1px solid {resolve_alpha(colors.primary, 0.08)};
+                border: 1px solid rgba(99, 102, 241, 0.15);
             }}
         """
         )

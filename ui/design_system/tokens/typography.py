@@ -116,6 +116,13 @@ def font_style(
     lh_key = f"{size}_line_height" if line_height is None else None
 
     resolved_size = getattr(tok, size_key, tok.body_size)
+    if isinstance(resolved_size, str) and resolved_size.endswith("rem"):
+        try:
+            rem_val = float(resolved_size.replace("rem", "").strip())
+            resolved_size = f"{int(rem_val * 16)}px"
+        except ValueError:
+            pass
+
     resolved_weight = _WEIGHT_MAP.get(weight_str, getattr(tok, weight_key, tok.weight_normal))
     resolved_family = getattr(tok, family, tok.font_family)
     resolved_lh = getattr(tok, lh_key, tok.line_height_normal) if lh_key else line_height

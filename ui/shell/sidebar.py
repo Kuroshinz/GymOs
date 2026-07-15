@@ -10,7 +10,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from ui.design_system.tokens.color import ColorScheme, color_from_scheme
+from ui.design_system.tokens.color import ColorScheme, color_from_scheme, resolve_alpha
 from ui.design_system.tokens.layout import LayoutTokens
 from ui.design_system.tokens.radius import RadiusTokens, px_from_token
 from ui.design_system.tokens.spacing import SpacingTokens
@@ -71,7 +71,7 @@ class ShellSidebarButton(QPushButton):
 
     def _update_content(self) -> None:
         if self._expanded:
-            self.setText(f"{self._icon}  {self._label}")
+            self.setText(f"{self._icon}   {self._label}")
             self.setToolTip("")
         else:
             self.setText(self._icon)
@@ -146,8 +146,8 @@ class ShellSidebar(QFrame):
         c = self._get_colors()
 
         self._layout = QVBoxLayout(self)
-        self._layout.setContentsMargins(10, 16, 10, 16)
-        self._layout.setSpacing(2)
+        self._layout.setContentsMargins(12, 20, 12, 20)
+        self._layout.setSpacing(6)  # Tăng lên 6px giúp khoảng cách các nút thở tốt hơn
 
         logo = QLabel("N")
         logo.setAccessibleName("GymOS logo")
@@ -156,41 +156,132 @@ class ShellSidebar(QFrame):
         self._logo_label.setAccessibleName("GymOS logo")
         self._logo_label.setAlignment(Qt.AlignLeft)
         self._logo_label.setStyleSheet(
-            f"color: {c.primary}; font-size: 18px; font-weight: 800; background: transparent; border: none; padding: 4px 14px;"
+            f"color: {c.primary}; font-size: 20px; font-weight: 800; background: transparent; border: none; padding: 4px 14px;"
         )
         self._layout.addWidget(self._logo_label)
-        self._layout.addSpacing(12)
+        self._layout.addSpacing(16)
+
+        prev_btn: QPushButton | None = None
 
         for section_name, items in NAV_SECTIONS:
+            # Sửa triệt để lỗi mất chữ/vỡ chữ danh mục ở đây
+            self._layout.addSpacing(12)  # Dùng spacing của layout thay vì padding CSS gò bó
             sec = QLabel(section_name.upper())
             sec.setStyleSheet(
-                f"color: {c.text_disabled}; font-size: 10px; font-weight: 600; "
-                f"letter-spacing: 1px; background: transparent; border: none; padding: 8px 14px 4px 14px;"
+                f"color: #565f73; font-size: 11px; font-weight: 700; "
+                f"letter-spacing: 1px; background: transparent; border: none; padding: 0px 14px;"
             )
             self._section_labels.append(sec)
             self._layout.addWidget(sec)
+            self._layout.addSpacing(4)
 
-            prev_btn: QPushButton | None = None
             for page_id, label, icon in items:
                 btn = ShellSidebarButton(page_id, label, icon, expanded=self._expanded)
                 btn.setAccessibleName(f"Navigate to {label}")
                 btn.clicked.connect(lambda checked=False, pid=page_id: self._on_page_clicked(pid))
                 self._buttons[page_id] = btn
                 self._layout.addWidget(btn)
+                
                 if prev_btn:
                     self.setTabOrder(prev_btn, btn)
                 prev_btn = btn
 
         self._layout.addStretch()
 
+        from PySide6.QtWidgets import QProgressBar
+
+        # User Profile Card
+        self._profile_card = QFrame()
+        self._profile_card.setObjectName("ProfileCard")
+        self._profile_card.setStyleSheet(f"""
+            QFrame#ProfileCard {{
+                background-color: {resolve_alpha(c.primary, 0.04)};
+                border: 1px solid {c.border};
+                border-radius: {RADIUS.md};
+                padding: 10px;
+            }}
+        """)
+        
+        profile_layout = QVBoxLayout(self._profile_card)
+        profile_layout.setContentsMargins(8, 8, 8, 8)
+        profile_layout.setSpacing(8)
+
+        # Upper row: Avatar + Details
+        upper_row = QHBoxLayout()
+        upper_row.setContentsMargins(0, 0, 0, 0)
+        upper_row.setSpacing(10)
+
+        # Avatar placeholder with a nice gradient
+        avatar = QFrame()
+        avatar.setFixedSize(36, 36)
+        avatar.setStyleSheet(f"""
+            QFrame {{
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                    stop:0 {c.primary}, stop:1 {c.secondary});
+                border-radius: 18px;
+                border: 2px solid {c.border};
+            }}
+        """)
+        upper_row.addWidget(avatar)
+
+        # Name and Level
+        details = QVBoxLayout()
+        details.setContentsMargins(0, 0, 0, 0)
+        details.setSpacing(2)
+        
+        name_lbl = QLabel("Nguyễn Thiện Nhân")
+        name_lbl.setStyleSheet(f"color: {c.text_primary}; font-weight: 700; font-size: 13px; background: transparent;")
+        
+        level_lbl = QLabel("Level 28 • Elite")
+        level_lbl.setStyleSheet(f"color: {c.text_disabled}; font-size: 10px; background: transparent;")
+        
+        details.addWidget(name_lbl)
+        details.addWidget(level_lbl)
+        upper_row.addLayout(details)
+        upper_row.addStretch()
+        profile_layout.addLayout(upper_row)
+
+        # XP Progress Bar and Label
+        xp_row = QHBoxLayout()
+        xp_row.setContentsMargins(0, 0, 0, 0)
+        
+        xp_lbl = QLabel("8,450 / 10,000 XP")
+        xp_lbl.setStyleSheet(f"color: {c.text_secondary}; font-size: 9px; font-weight: 600; background: transparent;")
+        xp_row.addWidget(xp_lbl)
+        xp_row.addStretch()
+        profile_layout.addLayout(xp_row)
+
+        xp_bar = QProgressBar()
+        xp_bar.setFixedHeight(6)
+        xp_bar.setRange(0, 10000)
+        xp_bar.setValue(8450)
+        xp_bar.setTextVisible(False)
+        xp_bar.setStyleSheet(f"""
+            QProgressBar {{
+                background-color: {c.background};
+                border: none;
+                border-radius: 3px;
+            }}
+            QProgressBar::chunk {{
+                background-color: {c.primary};
+                border-radius: 3px;
+            }}
+        """)
+        profile_layout.addWidget(xp_bar)
+
+        self._layout.addWidget(self._profile_card)
+        self._layout.addSpacing(4)
+
+        # Settings and Version footer row
         bottom_container = QFrame()
         bottom_container.setStyleSheet("background: transparent; border: none;")
+        bottom_container.setFixedHeight(36)
         bottom_layout = QHBoxLayout(bottom_container)
         bottom_layout.setContentsMargins(0, 0, 0, 0)
-        bottom_layout.setSpacing(4)
+        bottom_layout.setSpacing(8)
 
         settings_btn = QPushButton("\u2699")
-        settings_btn.setFixedSize(36, 36)
+        settings_btn.setFixedSize(32, 32)
         settings_btn.setCursor(Qt.PointingHandCursor)
         settings_btn.setStyleSheet(f"""
             QPushButton {{
@@ -205,7 +296,7 @@ class ShellSidebar(QFrame):
 
         self._version_label = QLabel("v0.5.0")
         self._version_label.setStyleSheet(
-            f"color: {c.text_disabled}; font-size: 10px; background: transparent; border: none;"
+            f"color: {c.text_disabled}; font-size: 11px; background: transparent; border: none;"
         )
         bottom_layout.addWidget(self._version_label, 1)
 
@@ -224,6 +315,7 @@ class ShellSidebar(QFrame):
             label.setVisible(self._expanded)
         self._logo_label.setText("GymOS" if self._expanded else "N")
         self._version_label.setVisible(self._expanded)
+        self._profile_card.setVisible(self._expanded)
 
     def set_expanded(self, expanded: bool) -> None:
         if expanded != self._expanded:
@@ -233,7 +325,7 @@ class ShellSidebar(QFrame):
     def is_expanded(self) -> bool:
         return self._expanded
 
-    def _update_dimensions(self) -> None:
+    def _update_dimensions(self) -> None:  
         w = EXPANDED_WIDTH if self._expanded else COLLAPSED_WIDTH
         self.setFixedWidth(w)
         self.setStyleSheet(f"""

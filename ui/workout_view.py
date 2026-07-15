@@ -71,13 +71,13 @@ class SetRow(QFrame):
         """)
 
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(8, 4, 8, 4)
         layout.setSpacing(_px8)
 
         num_label = QLabel(f"#{set_number}")
         num_label.setFixedWidth(_px28)
         num_label.setStyleSheet(
-            f"color: {_c.text_disabled}; {font_style('caption', 'bold')}"
+            f"color: {_c.text_disabled}; font-size: 11px; font-weight: bold;"
         )
         layout.addWidget(num_label)
 
@@ -92,10 +92,11 @@ class SetRow(QFrame):
             QLineEdit {{
                 background-color: {_c.background};
                 border: 1px solid {_c.border};
-                border-radius: {R.md};
+                border-radius: 6px;
                 color: {_c.text_primary};
-                {font_style('body', 'bold')}
-                padding: {S.s1} {S.s2};
+                font-size: 13px;
+                font-weight: bold;
+                padding: 4px 8px;
             }}
             QLineEdit:focus {{ border-color: {_c.primary}; }}
         """)
@@ -106,7 +107,7 @@ class SetRow(QFrame):
         x_label = QLabel("×")
         x_label.setAccessibleName("times")
         x_label.setStyleSheet(
-            f"color: {_c.text_disabled}; {font_style('body', 'bold')}"
+            f"color: {_c.text_disabled}; font-size: 13px; font-weight: bold;"
         )
         layout.addWidget(x_label)
 
@@ -125,7 +126,7 @@ class SetRow(QFrame):
         rir_label = QLabel("RIR")
         rir_label.setAccessibleName(f"Set {set_number} RIR label")
         rir_label.setStyleSheet(
-            f"color: {_c.text_disabled}; {font_style('caption', 'medium')}"
+            f"color: {_c.text_disabled}; font-size: 11px; font-weight: 500;"
         )
         layout.addWidget(rir_label)
 
@@ -140,10 +141,11 @@ class SetRow(QFrame):
             QLineEdit {{
                 background-color: {_c.background};
                 border: 1px solid {_c.border};
-                border-radius: {R.md};
+                border-radius: 6px;
                 color: {_c.warning};
-                {font_style('body', 'bold')}
-                padding: {S.s1} {S.s1_5};
+                font-size: 13px;
+                font-weight: bold;
+                padding: 4px 6px;
             }}
             QLineEdit:focus {{ border-color: {_c.primary}; }}
         """)
@@ -157,7 +159,7 @@ class SetRow(QFrame):
                 prev_text += f" RIR {prev_rir}"
             prev_label = QLabel(prev_text)
             prev_label.setStyleSheet(
-                f"color: {_c.text_disabled}; {font_style('caption')}"
+                f"color: {_c.text_disabled}; font-size: 11px;"
             )
             layout.addWidget(prev_label)
 
@@ -189,9 +191,6 @@ class ExerciseCard(QFrame):
                 background-color: {_c.surface};
                 border-radius: {R.lg};
                 border: 1px solid {_c.border};
-            }}
-            ExerciseCard:focus-within {{
-                border-color: {_c.primary};
             }}
         """)
 
@@ -237,9 +236,14 @@ class ExerciseCard(QFrame):
             prev_rir = 0
             if prev_data and i < len(prev_data):
                 ps = prev_data[i]
-                prev_w = ps.get("weight", 0) or 0
-                prev_r = ps.get("reps", 0) or 0
-                prev_rir = ps.get("rir", 0) or 0
+                if isinstance(ps, dict):
+                    prev_w = ps.get("weight", 0.0) or ps.get("weight_kg", 0.0) or 0.0
+                    prev_r = ps.get("reps", 0) or 0
+                    prev_rir = ps.get("rir", 0) or 0
+                else:
+                    prev_w = getattr(ps, "weight_kg", 0.0) or getattr(ps, "weight", 0.0) or 0.0
+                    prev_r = getattr(ps, "reps", 0) or 0
+                    prev_rir = getattr(ps, "rir", 0) or 0
             row = SetRow(i + 1, prev_w, prev_r, prev_rir)
             self._set_rows.append(row)
             layout.addWidget(row)
@@ -432,7 +436,7 @@ class WorkoutView(QWidget):
         self._progress_ring = ProgressRing(size=_px36, stroke_width=3)
         header.addWidget(self._progress_ring)
 
-        finish_btn = QPushButton("Save & Finish")
+        finish_btn = QPushButton("Save && Finish")
         finish_btn.setFixedHeight(_px36)
         finish_btn.setCursor(Qt.PointingHandCursor)
         finish_btn.setStyleSheet(f"""
@@ -517,8 +521,10 @@ class WorkoutView(QWidget):
 
         while self._scroll_layout.count():
             item = self._scroll_layout.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
+            w = item.widget()
+            if w:
+                w.setParent(None)
+                w.deleteLater()
 
         program_days = []
         if self._prog_mgr:

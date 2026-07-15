@@ -29,15 +29,17 @@ class DashboardCard(QFrame):
         colors = self._colors()
         self.setStyleSheet(f"""
             DashboardCard {{
-                background-color: {colors.surface};
-                border-radius: {R.lg};
-                border: 1px solid {colors.border};
+                background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                    stop:0 rgba(20, 21, 38, 0.75),
+                    stop:1 rgba(10, 11, 22, 0.75));
+                border-radius: 16px;
+                border: 1px solid rgba(255, 255, 255, 0.05);
             }}
         """)
 
         self._layout = QVBoxLayout(self)
-        self._layout.setContentsMargins(20, 16, 20, 16)
-        self._layout.setSpacing(12)
+        self._layout.setContentsMargins(24, 20, 24, 20)
+        self._layout.setSpacing(16)
 
         if title:
             header = QHBoxLayout()

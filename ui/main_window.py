@@ -62,6 +62,9 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self._shell)
         self._sidebar = self._shell.sidebar
 
+        from ui.desktop_integration import DesktopIntegrationManager
+        self._desktop_integration = DesktopIntegrationManager(self)
+
         self._dashboard_view = DashboardView(db=db, prog_mgr=prog_mgr, nutrition_service=nutrition_service)
         self._workout_selection_view = WorkoutSelectionView(db, prog_mgr)
         self._workout_view = WorkoutView(db, prog_mgr)
@@ -245,3 +248,18 @@ class MainWindow(QMainWindow):
         self._prediction_cache = None
         self._dashboard_cache_time = 0.0
         self._shell.switch_to("dashboard", "page")
+
+    def closeEvent(self, event) -> None:
+        """Handle application close event by hiding to tray instead of quitting."""
+        if hasattr(self, "_desktop_integration") and self._desktop_integration._tray_icon is not None and self._desktop_integration._tray_icon.isVisible():
+            self.hide()
+            event.ignore()
+            # Send a notification on first hide
+            from PySide6.QtWidgets import QSystemTrayIcon
+            self._desktop_integration.send_notification(
+                "GymOS",
+                "GymOS is still running in the system tray.",
+                icon_type=QSystemTrayIcon.MessageIcon.Information
+            )
+        else:
+            event.accept()
