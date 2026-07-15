@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from PySide6.QtCore import QEasingCurve, QPropertyAnimation, Qt, Signal, QTimer
+from PySide6.QtCore import QEasingCurve, QPropertyAnimation, Qt, QTimer, Signal
 from PySide6.QtGui import QIntValidator
 from PySide6.QtWidgets import (
     QDialog,
@@ -24,7 +24,6 @@ from modules.workout.application.pr_engine import PREngine
 from modules.workout.application.progression_engine import ProgressionEngine
 from modules.workout.application.recovery_engine import RecoveryEngine
 from modules.workout.domain import SessionExercise, SessionSet, WorkoutSession
-
 from ui.design_system.components.progress_ring import ProgressRing
 from ui.design_system.components.section_header import SectionHeader
 from ui.design_system.components.status_badge import StatusBadge, StatusLevel
@@ -222,7 +221,6 @@ class ExerciseCard(QFrame):
 
         # Recommendation
         if recommendation:
-            level = StatusLevel.SUCCESS if recommendation.should_increase else StatusLevel.WARNING
             rec_label = QLabel(recommendation.reason[:80])
             rec_label.setStyleSheet(f"""
                 color: {_c.success if recommendation.should_increase else _c.warning};

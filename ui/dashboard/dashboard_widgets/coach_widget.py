@@ -4,11 +4,10 @@ from __future__ import annotations
 
 from typing import Any
 
-from PySide6.QtCore import QEasingCurve, QPropertyAnimation, Qt, QTimer
+from PySide6.QtCore import QEasingCurve, QPropertyAnimation, QTimer
 from PySide6.QtWidgets import (
     QFrame,
     QGraphicsOpacityEffect,
-    QHBoxLayout,
     QLabel,
     QVBoxLayout,
     QWidget,
@@ -16,11 +15,9 @@ from PySide6.QtWidgets import (
 
 from ui.dashboard.dashboard_models import DashboardData
 from ui.design_system.components.empty_state import EmptyState
-from ui.design_system.components.status_badge import StatusBadge, StatusLevel
 from ui.design_system.layout import EditorialGrid, PanelSpan
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme, resolve_alpha
 from ui.design_system.tokens.elevation import apply_elevation, glow_effect
-from ui.design_system.tokens.motion import MotionTokens
 from ui.design_system.tokens.radius import RadiusTokens, px_from_token
 from ui.design_system.tokens.spacing import SpacingTokens
 from ui.design_system.tokens.typography import TypographyTokens, font_style
@@ -216,7 +213,7 @@ class CoachPredictionsWidget(QFrame):
         self._fade_in(self._coach_card, delay=_ANI_STAGGER * 3)
 
     def _update_predictions(self, data: DashboardData) -> None:
-        colors = self._colors()
+        self._colors()
 
         recs = getattr(data, "recommendations", [])
         level_str = getattr(data, "recovery_level", "") or ""

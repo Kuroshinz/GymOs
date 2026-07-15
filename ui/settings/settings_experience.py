@@ -18,12 +18,6 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from ui.design_system.components.section_header import SectionHeader
-from ui.design_system.layout import SectionPanel
-from ui.design_system.tokens.color import ColorScheme, color_from_scheme
-from ui.design_system.tokens.radius import RadiusTokens, px_from_token
-from ui.design_system.tokens.spacing import SpacingTokens
-from ui.design_system.tokens.typography import TypographyTokens, font_style
 from shared.version import (
     APP_DESCRIPTION,
     APP_NAME,
@@ -31,11 +25,16 @@ from shared.version import (
     BUILD_DATE,
     BUILD_NUMBER,
     COPYRIGHT,
-    RELEASE_CHANNEL,
-    SCHEMA_VERSION,
     DATABASE_VERSION,
     PROTOCOL_VERSION,
+    RELEASE_CHANNEL,
+    SCHEMA_VERSION,
 )
+from ui.design_system.components.section_header import SectionHeader
+from ui.design_system.tokens.color import ColorScheme, color_from_scheme
+from ui.design_system.tokens.radius import RadiusTokens, px_from_token
+from ui.design_system.tokens.spacing import SpacingTokens
+from ui.design_system.tokens.typography import TypographyTokens, font_style
 
 S = SpacingTokens()
 R = RadiusTokens()
@@ -582,7 +581,6 @@ class SettingsExperience(QWidget):
 
     def _refresh_goals(self) -> None:
         try:
-            from shared.intent.domain import GoalIntent
             goals = getattr(self._prog_mgr, "get_active_goals", lambda: [])()
             if goals:
                 g = goals[0]
@@ -599,7 +597,7 @@ class SettingsExperience(QWidget):
             try:
                 program = self._prog_mgr.get_active_program()
                 if program:
-                    day_names = " / ".join(d.name for d in program.days)
+                    " / ".join(d.name for d in program.days)
             except Exception:
                 pass
 

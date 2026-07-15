@@ -1,13 +1,12 @@
 from __future__ import annotations
 
-from PySide6.QtCore import Qt, QTimer, Signal
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QFrame,
     QHBoxLayout,
     QStackedWidget,
     QVBoxLayout,
     QWidget,
-    QApplication,
 )
 
 from ui.design_system.components.command_bar import CommandBar
@@ -17,7 +16,7 @@ from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.design_system.tokens.spacing import SpacingTokens
 from ui.experience.motion_service import MotionService
 from ui.shell.header import ShellHeader
-from ui.shell.sidebar import ShellSidebar, COLLAPSED_WIDTH, EXPANDED_WIDTH
+from ui.shell.sidebar import COLLAPSED_WIDTH, EXPANDED_WIDTH, ShellSidebar
 
 SPACE = SpacingTokens()
 
@@ -218,16 +217,16 @@ class AppShell(QFrame):
 
         self._show_backdrop()
 
-        result = dlg.exec()
+        dlg.exec()
 
         self._hide_backdrop()
         return dlg.result()
 
     def _show_backdrop(self) -> None:
         backdrop = QFrame(self)
-        c = self._get_colors()
+        self._get_colors()
         backdrop.setStyleSheet(
-            f"background-color: rgba(0, 0, 0, 140); border: none;"
+            "background-color: rgba(0, 0, 0, 140); border: none;"
         )
         backdrop.setGeometry(self.rect())
         backdrop.raise_()

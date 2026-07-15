@@ -17,7 +17,6 @@ from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.design_system.tokens.radius import RadiusTokens
 from ui.design_system.tokens.typography import font_style
 
-
 R = RadiusTokens()
 
 

@@ -49,7 +49,7 @@ class RecoveryEngine:
     def __init__(self, db) -> None:
         self._db = db
 
-    def analyse_session(self, session) -> RecoveryReport:
+    def analyse_session(self, session, recent_sessions: list | None = None) -> RecoveryReport:
         """Analyse a completed session for recovery flags."""
         # Import here to avoid circular imports
         from modules.workout.domain import WorkoutSession
@@ -101,8 +101,11 @@ class RecoveryEngine:
                 report.has_warnings = True
 
         # Flag 3: Consecutive performance decline
+        if recent_sessions is None:
+            recent_sessions = self._db.list_sessions(limit=20) if self._db else []
+
         for ex in session.exercises:
-            decline = self._check_performance_decline(ex.name, 3)
+            decline = self._check_performance_decline(ex.name, 3, recent_sessions)
             if decline:
                 report.flags.append(RecoveryFlag(
                     flag_type="decline",
@@ -141,13 +144,14 @@ class RecoveryEngine:
         return report
 
     def _check_performance_decline(
-        self, exercise_name: str, max_sessions: int = 3
+        self, exercise_name: str, max_sessions: int = 3, sessions: list | None = None
     ) -> int:
         """Check if performance is declining across recent sessions.
 
         Returns the number of consecutive declining sessions (0 = no decline).
         """
-        sessions = self._db.list_sessions(limit=20)
+        if sessions is None:
+            sessions = self._db.list_sessions(limit=20) if self._db else []
         relevant_sessions = []
 
         for s in sessions:
@@ -185,6 +189,6 @@ class RecoveryEngine:
         if sessions:
             last_session = sessions[0]
             if last_session.completed_at:
-                report = self.analyse_session(last_session)
+                report = self.analyse_session(last_session, recent_sessions=sessions)
 
         return report

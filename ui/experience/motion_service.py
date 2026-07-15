@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Sequence
-from functools import partial
 
 from PySide6.QtCore import QEasingCurve, QEvent, QObject, QPoint, QPropertyAnimation, QRect, QTimer
 from PySide6.QtWidgets import QFrame, QGraphicsOpacityEffect, QLabel, QPushButton, QWidget
@@ -308,7 +307,7 @@ class MotionService(QObject):
     def _animate_count(self, label: QLabel, start: float, end: float, fmt: str, duration: int) -> None:
         steps = max(10, duration // 16)
         step = 0
-        delta = (end - start) / steps
+        (end - start) / steps
 
         def _tick() -> None:
             nonlocal step

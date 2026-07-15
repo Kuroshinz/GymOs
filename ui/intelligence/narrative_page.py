@@ -15,6 +15,7 @@ from ui.design_system.layout import (
 )
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.design_system.tokens.radius import RadiusTokens
+from ui.design_system.tokens.spacing import SpacingTokens
 from ui.narrative import (
     CoachCardStack,
     Narrative,
@@ -29,8 +30,6 @@ from ui.narrative import (
     risk_alerts,
     today_focus,
 )
-
-from ui.design_system.tokens.spacing import SpacingTokens
 
 S = SpacingTokens()
 R = RadiusTokens()

@@ -193,9 +193,11 @@ class GymDatabase:
 
     def list_sessions(self, limit: int = 20, offset: int = 0) -> list[WorkoutSession]:
         """List workout sessions most recent first."""
+        from sqlalchemy.orm import selectinload
         with self._get_session() as session:
             stmt = (
                 select(WorkoutSessionModel)
+                .options(selectinload(WorkoutSessionModel.exercises).selectinload(SessionExerciseModel.sets))
                 .order_by(WorkoutSessionModel.started_at.desc())
                 .offset(offset)
                 .limit(limit)
@@ -242,9 +244,11 @@ class GymDatabase:
 
     def get_last_session_for_exercise(self, exercise_name: str) -> PreviousSessionData | None:
         """Get the most recent session data for a given exercise."""
+        from sqlalchemy.orm import selectinload
         with self._get_session() as db_session:
             stmt = (
                 select(SessionExerciseModel)
+                .options(selectinload(SessionExerciseModel.sets), selectinload(SessionExerciseModel.session))
                 .join(WorkoutSessionModel, SessionExerciseModel.session_id == WorkoutSessionModel.id)
                 .where(SessionExerciseModel.name == exercise_name)
                 .where(WorkoutSessionModel.completed_at.isnot(None))
@@ -255,7 +259,7 @@ class GymDatabase:
             if result is None:
                 return None
 
-            session = db_session.get(WorkoutSessionModel, result.session_id)
+            session = result.session
             date_str = ""
             if session and session.started_at:
                 date_str = session.started_at.strftime("%Y-%m-%d")
@@ -309,10 +313,12 @@ class GymDatabase:
 
     def get_recent_volume(self, days: int = 7) -> float:
         """Get total training volume for the last N days."""
+        from sqlalchemy.orm import selectinload
         with self._get_session() as session:
             cutoff = datetime.now() - timedelta(days=days)
             stmt = (
                 select(WorkoutSessionModel)
+                .options(selectinload(WorkoutSessionModel.exercises).selectinload(SessionExerciseModel.sets))
                 .where(WorkoutSessionModel.completed_at.isnot(None))
                 .where(WorkoutSessionModel.started_at >= cutoff)
             )
@@ -327,10 +333,12 @@ class GymDatabase:
 
     def get_volume_by_day(self, days: int = 90) -> list[dict]:
         """Get weekly volume data for charting."""
+        from sqlalchemy.orm import selectinload
         with self._get_session() as session:
             cutoff = datetime.now() - timedelta(days=days)
             stmt = (
                 select(WorkoutSessionModel)
+                .options(selectinload(WorkoutSessionModel.exercises).selectinload(SessionExerciseModel.sets))
                 .where(WorkoutSessionModel.completed_at.isnot(None))
                 .where(WorkoutSessionModel.started_at >= cutoff)
                 .order_by(WorkoutSessionModel.started_at)

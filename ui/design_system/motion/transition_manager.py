@@ -11,7 +11,6 @@ from collections.abc import Callable
 from PySide6.QtCore import QObject
 from PySide6.QtWidgets import QWidget
 
-from ui.design_system.motion.motion_accessibility import MotionAccessibility
 from ui.design_system.motion.motion_manager import MotionManager
 from ui.design_system.motion.motion_tokens import MotionTokens
 

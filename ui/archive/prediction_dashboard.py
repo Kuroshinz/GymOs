@@ -38,7 +38,6 @@ Preserved: PredictionDashboardData dataclass, refresh(data) API, same business l
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
@@ -47,14 +46,14 @@ from PySide6.QtWidgets import (
     QLabel,
     QProgressBar,
     QPushButton,
-    QSizePolicy,
     QVBoxLayout,
     QWidget,
 )
 
 from modules.prediction.domain import PredictionResult
-from modules.prediction.presentation import PredictionFormatter, PredictionViewModel
+from modules.prediction.presentation import PredictionViewModel
 from ui.design_system.components.app_card import AppCard
+from ui.design_system.components.chart_container import ChartContainer
 from ui.design_system.components.section_header import SectionHeader
 from ui.design_system.components.status_badge import StatusBadge, StatusLevel
 from ui.design_system.layout import EditorialGrid, PanelSpan, ScrollContainer
@@ -65,7 +64,6 @@ from ui.design_system.tokens.radius import RadiusTokens, px_from_token
 from ui.design_system.tokens.spacing import SpacingTokens
 from ui.design_system.tokens.typography import TypographyTokens, font_style
 from ui.design_system.visualization import ConfidenceGauge, PredictionTimeline
-from ui.design_system.components.chart_container import ChartContainer
 from ui.narrative.cards import CoachCardStack
 from ui.narrative.engine import Narrative
 
@@ -755,7 +753,6 @@ class PredictionDashboard(QWidget):
     def _update_evidence(self, data: PredictionDashboardData) -> None:
         colors = self._colors()
         vm = data.view_model
-        result = data.result
 
         # Clear existing evidence cards
         for card in self._evidence_cards:
@@ -833,7 +830,6 @@ class PredictionDashboard(QWidget):
     def _update_reasoning(self, data: PredictionDashboardData) -> None:
         colors = self._colors()
         vm = data.view_model
-        result = data.result
 
         if not data.has_data or not vm.has_data:
             empty = QLabel("Complete workouts to unlock the reasoning chain behind your predictions.")
@@ -901,7 +897,7 @@ class PredictionDashboard(QWidget):
 
     def _update_counterfactuals(self, data: PredictionDashboardData) -> None:
         self._counterfactual_grid.clear()
-        colors = self._colors()
+        self._colors()
         result = data.result
 
         if not data.has_data:
@@ -939,9 +935,6 @@ class PredictionDashboard(QWidget):
 
         if cards_added == 0:
             # Fall back to default scenarios based on prediction state
-            vm = data.view_model
-            has_sleep_data = vm.recovery_forecast and vm.recovery_forecast.has_data
-            has_consistency = vm.consistency_forecast and vm.consistency_forecast.has_data
 
             defaults = [
                 ("\U0001F634", "Sleep +1 hour", "Confidence +6%", 0.85, "Impact: High"),
@@ -1002,7 +995,6 @@ class PredictionDashboard(QWidget):
     def _update_coach(self, data: PredictionDashboardData) -> None:
         self._coach_stack.clear()
         vm = data.view_model
-        result = data.result
 
         if not data.has_data or not vm.has_data:
             self._coach_stack.add_card(Narrative(
@@ -1043,8 +1035,8 @@ class PredictionDashboard(QWidget):
         recovery = vm.recovery_forecast
         if recovery and recovery.has_data and cards_added < 3:
             rec_msg = (
-                f"Prioritise recovery this week. "
-                f"Aim for 8 hours of sleep \u2014 each hour correlates with improved readiness."
+                "Prioritise recovery this week. "
+                "Aim for 8 hours of sleep \u2014 each hour correlates with improved readiness."
             )
             self._coach_stack.add_card(Narrative(
                 title="Recovery Focus",

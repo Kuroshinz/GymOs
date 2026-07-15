@@ -18,7 +18,6 @@ from ui.design_system.components.empty_state import EmptyState
 from ui.design_system.layout import EditorialGrid, PanelSpan
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme, resolve_alpha
 from ui.design_system.tokens.elevation import apply_elevation, glow_effect
-from ui.design_system.tokens.motion import MotionTokens
 from ui.design_system.tokens.radius import RadiusTokens, px_from_token
 from ui.design_system.tokens.spacing import SpacingTokens
 from ui.design_system.tokens.typography import TypographyTokens, font_style
@@ -166,24 +165,24 @@ class ActionsWidget(QFrame):
 
             if primary:
                 bg = (
-                    f"qlineargradient(x1:0, y1:0, x2:1, y2:1, "
-                    f"stop:0 rgba(139,92,246,0.9), stop:0.6 rgba(168,85,247,0.85), stop:1 rgba(217,70,239,0.8))"
+                    "qlineargradient(x1:0, y1:0, x2:1, y2:1, "
+                    "stop:0 rgba(139,92,246,0.9), stop:0.6 rgba(168,85,247,0.85), stop:1 rgba(217,70,239,0.8))"
                 )
                 bg_hover = (
-                    f"qlineargradient(x1:0, y1:0, x2:1, y2:1, "
-                    f"stop:0 rgba(167,139,250,0.9), stop:0.6 rgba(192,132,252,0.85), stop:1 rgba(232,121,249,0.8))"
+                    "qlineargradient(x1:0, y1:0, x2:1, y2:1, "
+                    "stop:0 rgba(167,139,250,0.9), stop:0.6 rgba(192,132,252,0.85), stop:1 rgba(232,121,249,0.8))"
                 )
                 bdr = "none"
                 txt = "#FFFFFF"
                 txt_desc = "rgba(255,255,255,0.7)"
             else:
                 bg = (
-                    f"qlineargradient(x1:0, y1:0, x2:1, y2:1, "
-                    f"stop:0 rgba(12,16,51,200), stop:1 rgba(8,12,36,120))"
+                    "qlineargradient(x1:0, y1:0, x2:1, y2:1, "
+                    "stop:0 rgba(12,16,51,200), stop:1 rgba(8,12,36,120))"
                 )
                 bg_hover = (
-                    f"qlineargradient(x1:0, y1:0, x2:1, y2:1, "
-                    f"stop:0 rgba(20,24,74,200), stop:1 rgba(12,16,51,160))"
+                    "qlineargradient(x1:0, y1:0, x2:1, y2:1, "
+                    "stop:0 rgba(20,24,74,200), stop:1 rgba(12,16,51,160))"
                 )
                 bdr = f"1px solid {resolve_alpha(colors.primary, 0.10)}"
                 txt = colors.text_primary
@@ -237,7 +236,7 @@ class ActionsWidget(QFrame):
         colors = self._colors()
         prs = getattr(data, "recent_prs", [])
 
-        for i in reversed(range(self._prs_container.count())):
+        for _ in reversed(range(self._prs_container.count())):
             item = self._prs_container.takeAt(0)
             if item.widget():
                 item.widget().deleteLater()

@@ -14,7 +14,7 @@ from __future__ import annotations
 from datetime import date, datetime, timedelta
 from typing import Any
 
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QFont, QPainter, QPen
 from PySide6.QtWidgets import (
     QFrame,
@@ -25,19 +25,19 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from modules.workout.application.pr_engine import PREngine
 from ui.design_system.components.app_card import AppCard
+from ui.design_system.components.chart_container import ChartContainer
 from ui.design_system.components.section_header import SectionHeader
 from ui.design_system.components.status_badge import StatusBadge, StatusLevel
-from ui.design_system.layout import PanelSpan
 from ui.design_system.layout.kpi_strip import KpiItem, KpiStrip
-from ui.design_system.components.chart_container import ChartContainer
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.design_system.tokens.elevation import glow_effect
-from ui.design_system.tokens.radius import RadiusTokens, px_from_token, radius_to_px
+from ui.design_system.tokens.radius import RadiusTokens, px_from_token
 from ui.design_system.tokens.spacing import SpacingTokens
 from ui.design_system.tokens.typography import font_style
 from ui.design_system.visualization import WeeklyTimeline
-from ui.narrative import CoachCard, CoachCardStack
+from ui.narrative import CoachCardStack
 from ui.narrative.engine import Narrative
 from ui.visualization.charts import TrendChart
 
@@ -48,6 +48,7 @@ _px4 = px_from_token(S.s1)
 _px6 = px_from_token(S.s1_5)
 _px8 = px_from_token(S.s2)
 _px12 = px_from_token(S.s3)
+_px14 = 14  # 0.875rem — between s3 (12px) and s4 (16px)
 _px16 = px_from_token(S.s4)
 _px20 = px_from_token(S.s5)
 _px24 = px_from_token(S.s6)
@@ -57,6 +58,9 @@ _px40 = px_from_token(S.s10)
 _px48 = px_from_token(S.s12)
 
 _DOT_R = 6
+
+milestones_map = {10: "Getting Started", 25: "Consistent Athlete", 50: "Dedicated", 100: "Century Club", 250: "Elite", 500: "Legend"}
+streak_map = {7: "Week Warrior", 14: "Two-Week Grind", 30: "Monthly Devotion", 60: "Iron Will", 90: "Quarter Champion", 180: "Half-Year Hero", 365: "Year of the Beast"}
 
 
 # ── Journey Timeline ──────────────────────────────────────────────
@@ -87,7 +91,6 @@ class _JourneyTimeline(QFrame):
 
         colors = color_from_scheme(ColorScheme.DARK)
         w = self.width()
-        h = 70
         n = len(self._milestones)
         spacing = min(80, (w - 40) // max(n - 1, 1))
         total_w = spacing * (n - 1)
@@ -161,7 +164,7 @@ class _AchievementCard(QFrame):
                 border-color: {colors.primary};
             }}
         """)
-        glow_effect(self, glow_rgba=f"rgba(124, 58, 237, 0.15)", blur=16, offset_y=0)
+        glow_effect(self, glow_rgba="rgba(124, 58, 237, 0.15)", blur=16, offset_y=0)
         self.setAccessibleName(f"Achievement: {title}")
 
         layout = QVBoxLayout(self)
@@ -247,14 +250,14 @@ class ProgressExperience(QWidget):
         self._hero_narrative = QLabel("")
         self._hero_narrative.setWordWrap(True)
         self._hero_narrative.setStyleSheet(
-            f"background: transparent; border: none;"
+            "background: transparent; border: none;"
         )
         self._hero_text_col.addWidget(self._hero_narrative)
 
         self._hero_subtitle = QLabel("")
         self._hero_subtitle.setWordWrap(True)
         self._hero_subtitle.setStyleSheet(
-            f"background: transparent; border: none;"
+            "background: transparent; border: none;"
         )
         self._hero_text_col.addWidget(self._hero_subtitle)
         self._hero_text_col.addStretch()
@@ -282,7 +285,7 @@ class ProgressExperience(QWidget):
         self._strength_header = QLabel("")
         self._strength_header.setWordWrap(True)
         self._strength_header.setStyleSheet(
-            f"background: transparent; border: none;"
+            "background: transparent; border: none;"
         )
         main.addWidget(self._strength_header)
 
@@ -295,7 +298,7 @@ class ProgressExperience(QWidget):
         self._strength_empty.setAlignment(Qt.AlignCenter)
         self._strength_empty.setWordWrap(True)
         self._strength_empty.setStyleSheet(
-            f"background: transparent; border: none;"
+            "background: transparent; border: none;"
         )
 
         main.addSpacing(_px20)
@@ -316,7 +319,7 @@ class ProgressExperience(QWidget):
         self._body_narrative = QLabel("")
         self._body_narrative.setWordWrap(True)
         self._body_narrative.setStyleSheet(
-            f"background: transparent; border: none;"
+            "background: transparent; border: none;"
         )
         nwl.addWidget(self._body_narrative)
         main.addWidget(self._body_narrative_widget)
@@ -325,7 +328,7 @@ class ProgressExperience(QWidget):
         self._body_empty.setAlignment(Qt.AlignCenter)
         self._body_empty.setWordWrap(True)
         self._body_empty.setStyleSheet(
-            f"background: transparent; border: none;"
+            "background: transparent; border: none;"
         )
         main.addWidget(self._body_empty)
         self._body_empty.hide()
@@ -345,7 +348,7 @@ class ProgressExperience(QWidget):
 
         self._adherence_label = QLabel("")
         self._adherence_label.setStyleSheet(
-            f"background: transparent; border: none;"
+            "background: transparent; border: none;"
         )
         self._adherence_label.setAlignment(Qt.AlignCenter)
         cvl.addWidget(self._adherence_label)
@@ -353,7 +356,7 @@ class ProgressExperience(QWidget):
         self._consistency_summary = QLabel("")
         self._consistency_summary.setWordWrap(True)
         self._consistency_summary.setStyleSheet(
-            f"background: transparent; border: none;"
+            "background: transparent; border: none;"
         )
         cvl.addWidget(self._consistency_summary)
 
@@ -361,7 +364,7 @@ class ProgressExperience(QWidget):
         self._consistency_empty.setAlignment(Qt.AlignCenter)
         self._consistency_empty.setWordWrap(True)
         self._consistency_empty.setStyleSheet(
-            f"background: transparent; border: none;"
+            "background: transparent; border: none;"
         )
         self._consistency_empty.hide()
 
@@ -388,7 +391,7 @@ class ProgressExperience(QWidget):
         self._achievement_empty.setAlignment(Qt.AlignCenter)
         self._achievement_empty.setWordWrap(True)
         self._achievement_empty.setStyleSheet(
-            f"background: transparent; border: none;"
+            "background: transparent; border: none;"
         )
 
         main.addStretch()
@@ -421,12 +424,10 @@ class ProgressExperience(QWidget):
         n_workouts = len(completed)
         streak_days = self._calc_streak(completed)
 
-        from modules.workout.application.pr_engine import PREngine
+        import contextlib
         prs = []
-        try:
+        with contextlib.suppress(Exception):
             prs = PREngine(self._db).get_best_prs()
-        except Exception:
-            pass
 
         n_prs = len(prs)
 
@@ -508,7 +509,7 @@ class ProgressExperience(QWidget):
             KpiItem(label="Workouts", value=str(n_workouts)),
             KpiItem(label="PRs", value=str(n_prs)),
             KpiItem(label="Streak", value=f"{streak_days}d"),
-            KpiItem(label=f"Phase", value=current_phase),
+            KpiItem(label="Phase", value=current_phase),
             KpiItem(label="Volume", value=vol_text),
         ])
 
@@ -788,7 +789,6 @@ class ProgressExperience(QWidget):
             self._consistency_view.show()
 
         # Weekly timeline bar chart
-        day_map = {0: "M", 1: "T", 2: "W", 3: "T", 4: "F", 5: "S", 6: "S"}
         week_values = [0.0] * 7
         today = datetime.now()
         for s in sessions:

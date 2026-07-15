@@ -126,7 +126,7 @@ class MotionManager(QObject):
 
         steps = max(10, duration // 16)
         step = [0]
-        delta = target_value / steps
+        target_value / steps
 
         def _tick() -> None:
             step[0] += 1

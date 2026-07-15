@@ -6,7 +6,6 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QPushButton,
-    QSizePolicy,
     QWidget,
 )
 
@@ -35,11 +34,11 @@ class ShellHeader(QFrame):
     def _build_ui(self) -> None:
         c = self._get_colors()
 
-        self.setStyleSheet(f"""
-            ShellHeader {{
+        self.setStyleSheet("""
+            ShellHeader {
                 background-color: transparent;
                 border: none;
-            }}
+            }
         """)
 
         layout = QHBoxLayout(self)

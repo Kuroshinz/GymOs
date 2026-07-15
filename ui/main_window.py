@@ -1,29 +1,22 @@
 from __future__ import annotations
 
-from PySide6.QtCore import QTimer, Qt
+from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import (
-    QFrame,
-    QHBoxLayout,
-    QLabel,
     QMainWindow,
-    QPushButton,
-    QStackedWidget,
-    QVBoxLayout,
-    QWidget,
     QWizard,
 )
 
+from ui.archive.prediction_dashboard import PredictionDashboard, PredictionDashboardData
+from ui.archive.recovery_dashboard import RecoveryDashboard
 from ui.dashboard import DashboardView
 from ui.design_system.theme import global_stylesheet
-from ui.dialogs.set_goal_dialog import SetGoalDialog
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
+from ui.dialogs.set_goal_dialog import SetGoalDialog
 from ui.experience import ExperienceManager, MotionService
 from ui.experience.integration import integrate_with_command_center
 from ui.import_wizard import ImportWizard
-from ui.archive.prediction_dashboard import PredictionDashboard, PredictionDashboardData
-from ui.progress import ProgressExperience
 from ui.pr_view import PRView
-from ui.archive.recovery_dashboard import RecoveryDashboard
+from ui.progress import ProgressExperience
 from ui.settings import SettingsExperience
 from ui.shell import AppShell
 from ui.workout_selection_view import WorkoutSelectionView
@@ -203,6 +196,7 @@ class MainWindow(QMainWindow):
         if not self._prediction_service or not self._prediction_dashboard:
             return
         import time
+
         from modules.prediction.presentation import PredictionFormatter
         result = self._prediction_service.generate_all_predictions()
         vm = PredictionFormatter.prediction_result_to_view_model(result)

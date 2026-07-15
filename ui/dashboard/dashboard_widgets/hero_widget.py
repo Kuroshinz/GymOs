@@ -11,17 +11,14 @@ from PySide6.QtWidgets import (
     QGraphicsOpacityEffect,
     QHBoxLayout,
     QLabel,
-    QProgressBar,
     QPushButton,
     QVBoxLayout,
     QWidget,
 )
 
 from ui.dashboard.dashboard_models import DashboardData
-from ui.design_system.components.status_badge import StatusBadge, StatusLevel
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme, resolve_alpha
 from ui.design_system.tokens.elevation import apply_elevation, glow_effect
-from ui.design_system.tokens.motion import MotionTokens
 from ui.design_system.tokens.radius import RadiusTokens, px_from_token
 from ui.design_system.tokens.spacing import SpacingTokens
 from ui.design_system.tokens.typography import TypographyTokens, font_style
@@ -256,7 +253,7 @@ class HeroWidget(QFrame):
 
     def update_data(self, data: DashboardData) -> None:
         """Update all hero content from dashboard data."""
-        colors = self._colors()
+        self._colors()
 
         greeting = self._greeting_text()
         user_name = getattr(data, "user_name", "") or ""

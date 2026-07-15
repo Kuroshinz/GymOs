@@ -1,9 +1,5 @@
 from __future__ import annotations
 
-from typing import Literal
-
-from PySide6.QtWidgets import QWidget
-
 from ui.design_system.tokens.shadow import (
     ElevationTokens,
     GlowTokens,

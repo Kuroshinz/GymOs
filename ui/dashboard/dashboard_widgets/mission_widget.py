@@ -21,7 +21,6 @@ from ui.design_system.components.status_badge import StatusBadge, StatusLevel
 from ui.design_system.layout import EditorialGrid, PanelSpan
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme, resolve_alpha
 from ui.design_system.tokens.elevation import apply_elevation, glow_effect
-from ui.design_system.tokens.motion import MotionTokens
 from ui.design_system.tokens.radius import RadiusTokens, px_from_token
 from ui.design_system.tokens.spacing import SpacingTokens
 from ui.design_system.tokens.typography import TypographyTokens, font_style
@@ -268,7 +267,7 @@ class MissionRecoveryWidget(QFrame):
             meta += recovery_hint
             self._workout_meta.setText(meta)
 
-            for i in reversed(range(self._muscle_container.layout().count())):
+            for _ in reversed(range(self._muscle_container.layout().count())):
                 item = self._muscle_container.layout().takeAt(0)
                 if item.widget():
                     item.widget().deleteLater()
@@ -295,7 +294,7 @@ class MissionRecoveryWidget(QFrame):
         rec_score = getattr(data, "recovery_score", 0.0) or 0.0
         level_str = getattr(data, "recovery_level", "") or ""
         suggested = getattr(data, "recovery_suggested_action", "") or ""
-        flags = getattr(data, "recovery_flags", []) or []
+        getattr(data, "recovery_flags", []) or []
         status = getattr(data, "recovery_status", None)
 
         if status is None and not level_str:

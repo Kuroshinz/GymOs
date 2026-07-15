@@ -7,7 +7,6 @@ onboarding experience for new users.
 from __future__ import annotations
 
 from PySide6.QtCore import QEasingCurve, QPropertyAnimation, Qt, Signal
-from PySide6.QtGui import QFont
 from PySide6.QtWidgets import (
     QCheckBox,
     QDialog,
@@ -374,13 +373,13 @@ class WelcomeWizard(QDialog):
             e.setAlignment(Qt.AlignCenter)
             e.setStyleSheet("font-size: 28px; background: transparent;")
             cell.addWidget(e)
-            l = QLabel(label)
-            l.setAlignment(Qt.AlignCenter)
-            l.setStyleSheet(
+            lbl = QLabel(label)
+            lbl.setAlignment(Qt.AlignCenter)
+            lbl.setStyleSheet(
                 f"color: {c.text_primary}; font-size: 13px; font-weight: 600; "
                 f"background: transparent;"
             )
-            cell.addWidget(l)
+            cell.addWidget(lbl)
             feat_grid.addLayout(cell)
 
         self._step_layout.addLayout(feat_grid)

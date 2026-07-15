@@ -18,15 +18,15 @@ from ui.design_system.components.metric_card import MetricCard
 from ui.design_system.components.section_header import SectionHeader
 from ui.design_system.components.status_badge import StatusBadge, StatusLevel
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
+from ui.design_system.tokens.icon import IconTokens
 from ui.design_system.tokens.radius import RadiusTokens, px_from_token
 from ui.design_system.tokens.spacing import SpacingTokens
-from ui.design_system.tokens.icon import IconTokens
 from ui.design_system.tokens.typography import TypographyTokens
 
 S = SpacingTokens()
 R = RadiusTokens()
 T = TypographyTokens()
-I = IconTokens()
+Icons = IconTokens()
 
 _r8 = px_from_token(S.s2)
 _r12 = px_from_token(S.s3)
@@ -35,7 +35,7 @@ _r24 = px_from_token(S.s6)
 _r32 = px_from_token(S.s8)
 _r40 = px_from_token(S.s10)
 
-_fs_icon = px_from_token(I.size_2xl)
+_fs_icon = px_from_token(Icons.size_2xl)
 _fs_h4 = px_from_token(T.h4_size)
 _fs_body = px_from_token(T.body_size)
 _fs_body_sm = px_from_token(T.body_small_size)

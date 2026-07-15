@@ -8,8 +8,8 @@ from __future__ import annotations
 
 from collections.abc import Callable, Sequence
 
-from PySide6.QtCore import QEasingCurve, QPropertyAnimation, QRect, QTimer
-from PySide6.QtWidgets import QGraphicsOpacityEffect, QPushButton, QWidget
+from PySide6.QtCore import QEasingCurve, QObject, QPropertyAnimation, QRect, QTimer
+from PySide6.QtWidgets import QPushButton, QWidget
 
 from ui.design_system.motion.animation_factory import AnimationFactory
 from ui.design_system.motion.motion_accessibility import MotionAccessibility

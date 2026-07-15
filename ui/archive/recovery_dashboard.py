@@ -40,19 +40,19 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QFrame,
     QHBoxLayout,
     QLabel,
     QProgressBar,
     QPushButton,
-    QSizePolicy,
     QVBoxLayout,
     QWidget,
 )
 
 from ui.design_system.components.app_card import AppCard
+from ui.design_system.components.chart_container import ChartContainer
 from ui.design_system.components.section_header import SectionHeader
 from ui.design_system.components.status_badge import StatusBadge, StatusLevel
 from ui.design_system.layout import EditorialGrid, PanelSpan, ScrollContainer
@@ -63,9 +63,8 @@ from ui.design_system.tokens.radius import RadiusTokens, px_from_token
 from ui.design_system.tokens.spacing import SpacingTokens
 from ui.design_system.tokens.typography import TypographyTokens, font_style
 from ui.design_system.visualization import RecoveryRing, TrendChart, WeeklyTimeline
-from ui.design_system.components.chart_container import ChartContainer
 from ui.narrative.cards import CoachCardStack
-from ui.narrative.engine import Narrative, Tone
+from ui.narrative.engine import Narrative
 
 M = MotionTokens()
 S = SpacingTokens()
@@ -829,14 +828,14 @@ class RecoveryDashboard(QWidget):
 
     def _update_coach(self, data: Any) -> None:
         self._coach_stack.clear()
-        colors = self._colors()
+        self._colors()
         score = getattr(data, "recovery_score", 0.0) or 0.0
         sleep_score = getattr(data, "recovery_sleep_score", 0.0) or 0.0
         sleep_hours = getattr(data, "recovery_sleep_hours", 0.0) or 0.0
         fatigue_score = getattr(data, "recovery_fatigue_score", 0.0) or 0.0
         stress_score = getattr(data, "recovery_stress_score", 0.0) or 0.0
         flags = getattr(data, "recovery_flags", []) or []
-        level_str = getattr(data, "recovery_level", "") or ""
+        getattr(data, "recovery_level", "") or ""
 
         cards_added = 0
 
@@ -975,7 +974,7 @@ class RecoveryDashboard(QWidget):
         colors = self._colors()
         score = getattr(data, "recovery_score", 0.0) or 0.0
         action = getattr(data, "recovery_action", "") or ""
-        level = getattr(data, "recovery_level", "") or ""
+        getattr(data, "recovery_level", "") or ""
         flags = getattr(data, "recovery_flags", []) or []
 
         if score > 0:

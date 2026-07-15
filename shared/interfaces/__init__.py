@@ -18,14 +18,12 @@ Usage::
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Protocol, runtime_checkable
 
 # ─── TYPE_CHECKING imports (never evaluated at runtime) ───────────
 # These are needed only for the type-checker (mypy, pyright) to resolve
 # concrete return/parameter types. Runtime uses the string annotations
 # provided by ``from __future__ import annotations``.
-
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Protocol, runtime_checkable
 
 if TYPE_CHECKING:
     from modules.gymbrain.models.analysis import WeeklyReview
@@ -39,7 +37,7 @@ if TYPE_CHECKING:
         RecoveryRecommendation,
         RecoveryScore,
         RecoverySnapshot,
-        RecoveryTrend,
+        RecoveryTrend,  # noqa: F401
         RecoveryTrendAnalysis,
         SleepLog,
         StressLog,

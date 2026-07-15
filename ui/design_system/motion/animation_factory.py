@@ -9,7 +9,7 @@ from __future__ import annotations
 from PySide6.QtCore import QEasingCurve, QPoint, QPropertyAnimation, QRect, QSize
 from PySide6.QtWidgets import QGraphicsOpacityEffect, QWidget
 
-from ui.design_system.motion.motion_tokens import CurveTokens, DurationTokens, MotionTokens
+from ui.design_system.motion.motion_tokens import MotionTokens
 
 MT = MotionTokens()
 

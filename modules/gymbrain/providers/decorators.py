@@ -17,7 +17,8 @@ from __future__ import annotations
 
 import functools
 import logging
-from typing import Any, Callable, ParamSpec, TypeVar
+from collections.abc import Callable
+from typing import Any, ParamSpec, TypeVar
 
 logger = logging.getLogger(__name__)
 

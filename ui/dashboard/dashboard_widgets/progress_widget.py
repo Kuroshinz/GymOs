@@ -15,10 +15,8 @@ from PySide6.QtWidgets import (
 )
 
 from ui.dashboard.dashboard_models import DashboardData
-from ui.design_system.components.status_badge import StatusBadge, StatusLevel
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme, resolve_alpha
 from ui.design_system.tokens.elevation import apply_elevation
-from ui.design_system.tokens.motion import MotionTokens
 from ui.design_system.tokens.radius import RadiusTokens, px_from_token
 from ui.design_system.tokens.spacing import SpacingTokens
 from ui.design_system.tokens.typography import TypographyTokens, font_style

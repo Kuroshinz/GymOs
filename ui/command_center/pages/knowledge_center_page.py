@@ -17,8 +17,8 @@ from ui.design_system.layout import (
     SectionPanel,
 )
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
-from ui.design_system.visualization import ConfidenceGauge
 from ui.design_system.tokens.radius import RadiusTokens
+from ui.design_system.visualization import ConfidenceGauge
 
 R = RadiusTokens()
 

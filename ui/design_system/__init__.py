@@ -20,7 +20,7 @@ from ui.design_system.components import (
     SkeletonLoader,
     StatusBadge,
     StatusLevel,
-    ToastType,
+    ToastType,  # noqa: F401
     Toolbar,
     WarningBanner,
 )
