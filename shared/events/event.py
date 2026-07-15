@@ -47,15 +47,16 @@ class DomainEvent:
         return result
 
     @classmethod
-    def from_dict(cls, data: dict) -> DomainEvent:
-        payload = data.get("payload", {})
+    def from_dict(cls, data: dict[str, Any]) -> DomainEvent:
+        payload = dict(data.get("payload", {}))
         payload["event_id"] = data.get("event_id", "")
         payload["event_name"] = data.get("event_name", cls.__name__)
         payload["event_version"] = data.get("event_version", "1.0")
         payload["source"] = data.get("source", "")
         payload["correlation_id"] = data.get("correlation_id", "")
         ts = data.get("timestamp")
-        if ts:
+        if isinstance(ts, str):
             payload["timestamp"] = datetime.fromisoformat(ts)
-        instance = cls(**{k: v for k, v in payload.items() if k in cls.__dataclass_fields__})
+        filtered = {k: v for k, v in payload.items() if k in cls.__dataclass_fields__}
+        instance = cls(**filtered)
         return instance

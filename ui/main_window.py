@@ -15,14 +15,15 @@ from PySide6.QtWidgets import (
 
 from ui.dashboard import DashboardView
 from ui.design_system.theme import global_stylesheet
+from ui.dialogs.set_goal_dialog import SetGoalDialog
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.experience import ExperienceManager, MotionService
 from ui.experience.integration import integrate_with_command_center
 from ui.import_wizard import ImportWizard
-from ui.prediction import PredictionDashboard, PredictionDashboardData
+from ui.archive.prediction_dashboard import PredictionDashboard, PredictionDashboardData
 from ui.progress import ProgressExperience
 from ui.pr_view import PRView
-from ui.recovery import RecoveryDashboard
+from ui.archive.recovery_dashboard import RecoveryDashboard
 from ui.settings import SettingsExperience
 from ui.shell import AppShell
 from ui.workout_selection_view import WorkoutSelectionView
@@ -105,6 +106,9 @@ class MainWindow(QMainWindow):
         self._dashboard_view.log_weight_clicked.connect(
             lambda: self._shell.switch_to("settings", "page")
         )
+        self._dashboard_view.set_goal_clicked.connect(
+            lambda: self._open_set_goal_dialog()
+        )
         self._dashboard_view.import_program_clicked.connect(
             lambda: self._open_import_wizard()
         )
@@ -142,6 +146,31 @@ class MainWindow(QMainWindow):
             self._pr_view.refresh()
         elif page_id == "settings":
             self._settings_view.refresh()
+
+    def _open_set_goal_dialog(self) -> None:
+        """Open the Set Goal dialog and persist the user's target."""
+        # Pre-fill with current weight from dashboard data
+        current_weight = 70.0
+        try:
+            last_data = self._dashboard_view.controller().last_data
+            current_weight = getattr(last_data, "goal_progress_weight", 70.0) or 70.0
+        except Exception:
+            pass
+
+        dialog = SetGoalDialog(current_weight=current_weight, parent=self)
+        dialog.goal_set.connect(self._on_goal_set)
+        dialog.exec()
+
+    def _on_goal_set(self, target_weight_kg: float, target_calorie_surplus: int) -> None:
+        """Handle goal being set: persist via controller and refresh."""
+        try:
+            self._dashboard_view.controller().set_goal(
+                target_weight_kg=target_weight_kg,
+                target_calorie_surplus=target_calorie_surplus,
+            )
+            self._dashboard_cache_time = 0.0
+        except Exception:
+            pass
 
     def _open_import_wizard(self):
         dialog = ImportWizard(self._prog_mgr, self)
@@ -201,7 +230,7 @@ class MainWindow(QMainWindow):
                 lvl = snapshot.readiness_level
                 level_str = lvl.value if hasattr(lvl, "value") else str(lvl)
 
-            from ui.recovery.recovery_dashboard import RecoveryDashboardData
+            from ui.archive.recovery_dashboard import RecoveryDashboardData
             data = RecoveryDashboardData(
                 recovery_score=snapshot.recovery_score if hasattr(snapshot, "recovery_score") else 0.0,
                 recovery_level=level_str,

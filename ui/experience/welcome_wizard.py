@@ -68,6 +68,7 @@ class WelcomeWizard(QDialog):
         self._goal = "Build Muscle"
         self._experience = "Intermediate"
         self._load_demo = True
+        self._active_anims: list[QPropertyAnimation] = []
 
         self._build_ui()
         self._show_step(0)
@@ -278,6 +279,8 @@ class WelcomeWizard(QDialog):
         anim.setStartValue(0.0)
         anim.setEndValue(1.0)
         anim.setEasingCurve(QEasingCurve.OutCubic)
+        self._active_anims.append(anim)
+        anim.finished.connect(lambda: self._active_anims.remove(anim) if anim in self._active_anims else None)
         anim.start()
 
     # ── Step navigation ───────────────────────────────────────

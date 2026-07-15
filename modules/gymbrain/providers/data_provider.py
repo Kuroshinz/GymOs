@@ -223,3 +223,23 @@ class DataProvider:
         if self._progression_engine:
             return self._progression_engine.get_recommendation(exercise_name)
         return None
+
+    # ── Goal Config ─────────────────────────────────────────────────────
+
+    def get_goal_config(self) -> tuple[float, int]:
+        """Get the stored goal configuration.
+
+        Returns:
+            Tuple of (target_weight_kg, target_calorie_surplus).
+        """
+        if self._db:
+            return self._db.get_goal_config()
+        return (72.0, 300)
+
+    def save_goal_config(self, target_weight_kg: float, target_calorie_surplus: int = 300) -> None:
+        """Persist the user's goal configuration."""
+        if self._db:
+            self._db.save_goal_config(
+                target_weight_kg=target_weight_kg,
+                target_calorie_surplus=target_calorie_surplus,
+            )

@@ -125,9 +125,9 @@ class MuscleAnalyzer:
             recovery_status=recovery_status,
         )
 
-    def _get_weekly_exercises(self) -> list[tuple[Any, list[Any]]]:
+    def _get_weekly_exercises(self) -> list[tuple[dict[str, Any], list[Any]]]:
         sessions = self._provider.get_recent_sessions(days=7)
-        result = []
+        result: list[tuple[dict[str, Any], list[Any]]] = []
         for s in sessions:
             if hasattr(s, "exercises"):
                 for ex in s.exercises:
@@ -197,7 +197,7 @@ class MuscleAnalyzer:
         return len(days_trained)
 
     def _estimate_recovery(self, muscle_id: str, current_sets: float, max_sets: float) -> str:
-        if max_sets == 0:
+        if max_sets == 0.0:
             return "Unknown"
         ratio = current_sets / max_sets
         if ratio > 1.0:

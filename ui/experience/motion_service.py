@@ -66,6 +66,7 @@ class MotionService(QObject):
         self._anim = animation_manager
         self._access = accessibility
         self._active_hover: dict[int, bool] = {}
+        self._active_anims: list[QPropertyAnimation] = []
         accessibility.reduced_motion_changed.connect(self._on_reduced_motion_changed)
 
     @property
@@ -79,6 +80,10 @@ class MotionService(QObject):
         self._anim.stop_all()
 
     # --- Fade in / out ---
+
+    def _track(self, anim: QPropertyAnimation) -> None:
+        self._active_anims.append(anim)
+        anim.finished.connect(lambda: self._active_anims.remove(anim) if anim in self._active_anims else None)
 
     def _fade_in_widget(
         self,
@@ -94,6 +99,7 @@ class MotionService(QObject):
         anim.setEndValue(1.0)
         anim.setEasingCurve(easing)
         anim.finished.connect(lambda: self._cleanup_opacity(widget, effect))
+        self._track(anim)
         anim.start(QPropertyAnimation.DeleteWhenStopped)
 
     def _slide_up_widget(
@@ -109,6 +115,7 @@ class MotionService(QObject):
         anim.setStartValue(QPoint(widget.pos().x(), start_y))
         anim.setEndValue(QPoint(widget.pos().x(), start_y - distance))
         anim.setEasingCurve(easing)
+        self._track(anim)
         anim.start(QPropertyAnimation.DeleteWhenStopped)
 
     def _cleanup_opacity(self, widget: QWidget, effect: QGraphicsOpacityEffect) -> None:
@@ -155,6 +162,7 @@ class MotionService(QObject):
             anim.finished.connect(_done)
         else:
             anim.finished.connect(lambda: self._cleanup_opacity(widget, effect))
+        self._track(anim)
         anim.start(QPropertyAnimation.DeleteWhenStopped)
 
     def fade_slide_in(
@@ -195,6 +203,7 @@ class MotionService(QObject):
         anim.setStartValue(widget.width())
         anim.setEndValue(target_width)
         anim.setEasingCurve(QEasingCurve.Type.OutCubic)
+        self._track(anim)
         anim.start(QPropertyAnimation.DeleteWhenStopped)
 
     # --- Page transition ---
@@ -267,6 +276,7 @@ class MotionService(QObject):
             anim.setStartValue(geo)
             anim.setEndValue(target)
             anim.setEasingCurve(QEasingCurve.Type.OutCubic)
+            self._track(anim)
             anim.start(QPropertyAnimation.DeleteWhenStopped)
         else:
             geo = button.geometry()
@@ -278,6 +288,7 @@ class MotionService(QObject):
             anim.setStartValue(start)
             anim.setEndValue(geo)
             anim.setEasingCurve(QEasingCurve.Type.OutCubic)
+            self._track(anim)
             anim.start(QPropertyAnimation.DeleteWhenStopped)
 
     # --- Count-up ---
@@ -322,6 +333,7 @@ class MotionService(QObject):
         anim.setStartValue(0)
         anim.setEndValue(target_width)
         anim.setEasingCurve(QEasingCurve.Type.OutCubic)
+        self._track(anim)
         anim.start(QPropertyAnimation.DeleteWhenStopped)
 
     def animate_chart_draw(self, canvas: QWidget, duration: int = 300) -> None:
@@ -335,4 +347,5 @@ class MotionService(QObject):
         anim.setEndValue(1.0)
         anim.setEasingCurve(QEasingCurve.Type.OutQuart)
         anim.finished.connect(lambda: self._cleanup_opacity(canvas, effect))
+        self._track(anim)
         anim.start(QPropertyAnimation.DeleteWhenStopped)

@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import logging
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from enum import Enum
 from typing import Any, TypeVar
+
+logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
 
@@ -93,6 +96,6 @@ class Container:
                         if hasattr(result, "__await__"):
                             await result
                     except Exception:
-                        pass
+                        logger.warning("Dispose failed for %s", type(instance).__name__, exc_info=True)
         self._services.clear()
         self._aliases.clear()

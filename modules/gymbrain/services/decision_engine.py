@@ -154,7 +154,34 @@ class DecisionEngine:
         return generator.generate()
 
     def get_goal_progress(self, goal_weight: float | None = None) -> GoalProgress:
+        # Auto-read stored goal config when caller doesn't provide a weight
+        if goal_weight is None:
+            stored_weight, stored_surplus = self._provider.get_goal_config()
+            return self._goal_tracker.get_progress(
+                goal_weight_kg=stored_weight,
+                target_calorie_surplus=stored_surplus,
+            )
         return self._goal_tracker.get_progress(goal_weight_kg=goal_weight)
+
+    def set_goal_progress(
+        self, target_weight_kg: float, target_calorie_surplus: int = 300
+    ) -> GoalProgress:
+        """Set a new goal target and return computed progress.
+
+        Persists the goal configuration via the provider and computes
+        a fresh ``GoalProgress`` snapshot toward the new goal.
+
+        Args:
+            target_weight_kg: Desired body weight in kg.
+            target_calorie_surplus: Daily calorie surplus target.
+
+        Returns:
+            ``GoalProgress`` snapshot toward the new goal.
+        """
+        return self._goal_tracker.set_goal_progress(
+            target_weight_kg=target_weight_kg,
+            target_calorie_surplus=target_calorie_surplus,
+        )
 
     def get_priority_muscles(self) -> list[MuscleAnalysisResult]:
         if self._cache:

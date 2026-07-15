@@ -13,6 +13,7 @@ Usage:
 
 import json
 from pathlib import Path
+from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
@@ -43,22 +44,25 @@ def _load_yaml(path: Path) -> dict:
     return data if isinstance(data, dict) else {}
 
 
-def _load_json(path: Path) -> dict | list:
-    """Load a JSON file."""
+def _load_json(path: Path) -> dict[str, Any]:
+    """Load a JSON file, returning a dict."""
     if not path.exists():
         raise KnowledgeLoadError(f"File not found: {path}")
     with open(path, encoding="utf-8") as f:
-        return json.load(f)
+        data = json.load(f)
+    if not isinstance(data, dict):
+        raise KnowledgeLoadError(f"Expected dict in {path}, got {type(data).__name__}")
+    return data
 
 
 class KnowledgeLoader:
     """Singleton-ish loader that caches all knowledge data on first access."""
 
-    def __init__(self):
-        self._exercises: dict[str, dict] = {}
-        self._muscles: dict[str, dict] = {}
+    def __init__(self) -> None:
+        self._exercises: dict[str, dict[str, Any]] = {}
+        self._muscles: dict[str, dict[str, Any]] = {}
         self._aliases: dict[str, str] = {}
-        self._program: dict | None = None
+        self._program: dict[str, Any] | None = None
         self._loaded = False
 
     # ─── Load All ────────────────────────────────────────────
@@ -96,12 +100,12 @@ class KnowledgeLoader:
             except (json.JSONDecodeError, KnowledgeLoadError) as e:
                 raise KnowledgeLoadError(f"Failed to load {path.name}: {e}") from e
 
-    def get_exercise(self, exercise_id: str) -> dict | None:
+    def get_exercise(self, exercise_id: str) -> dict[str, Any] | None:
         """Get an exercise definition by its stable ID."""
         self.load_all()
         return self._exercises.get(exercise_id)
 
-    def get_exercise_by_name(self, name: str) -> dict | None:
+    def get_exercise_by_name(self, name: str) -> dict[str, Any] | None:
         """Find an exercise by its display name (case-insensitive)."""
         self.load_all()
         name_lower = name.strip().lower()
@@ -110,20 +114,20 @@ class KnowledgeLoader:
                 return ex
         return None
 
-    def get_all_exercises(self) -> dict[str, dict]:
+    def get_all_exercises(self) -> dict[str, dict[str, Any]]:
         """Get all exercises keyed by ID."""
         self.load_all()
         return dict(self._exercises)
 
-    def get_exercises_by_category(self, category: str) -> list[dict]:
+    def get_exercises_by_category(self, category: str) -> list[dict[str, Any]]:
         """Get all exercises in a given category."""
         self.load_all()
         return [ex for ex in self._exercises.values() if ex.get("category") == category]
 
-    def get_exercises_by_muscle(self, muscle_id: str) -> list[dict]:
+    def get_exercises_by_muscle(self, muscle_id: str) -> list[dict[str, Any]]:
         """Get all exercises that target a specific muscle (primary or secondary)."""
         self.load_all()
-        results = []
+        results: list[dict[str, Any]] = []
         for ex in self._exercises.values():
             primary = [m.lower() for m in ex.get("primary_muscles", [])]
             secondary = [m.lower() for m in ex.get("secondary_muscles", [])]
@@ -146,17 +150,17 @@ class KnowledgeLoader:
             except (json.JSONDecodeError, KnowledgeLoadError) as e:
                 raise KnowledgeLoadError(f"Failed to load {path.name}: {e}") from e
 
-    def get_muscle(self, muscle_id: str) -> dict | None:
+    def get_muscle(self, muscle_id: str) -> dict[str, Any] | None:
         """Get a muscle definition by its stable ID."""
         self.load_all()
         return self._muscles.get(muscle_id)
 
-    def get_all_muscles(self) -> dict[str, dict]:
+    def get_all_muscles(self) -> dict[str, dict[str, Any]]:
         """Get all muscles keyed by ID."""
         self.load_all()
         return dict(self._muscles)
 
-    def get_muscles_by_group(self, group: str) -> list[dict]:
+    def get_muscles_by_group(self, group: str) -> list[dict[str, Any]]:
         """Get all muscles in a given anatomical group."""
         self.load_all()
         return [m for m in self._muscles.values() if m.get("group") == group]
@@ -219,13 +223,14 @@ class KnowledgeLoader:
 
     # ─── Program ─────────────────────────────────────────────
 
-    def load_program(self, path: str | None = None) -> dict:
+    def load_program(self, path: str | None = None) -> dict[str, Any]:
         """Load and cache a workout program JSON file."""
         if self._program is not None and path is None:
             return self._program
 
         program_path = Path(path) if path else DATA_DIR / "program.json"
-        self._program = _load_json(program_path)
+        data = _load_json(program_path)
+        self._program = data if isinstance(data, dict) else {}
         return self._program
 
     def get_program_exercise_ids(self) -> list[str]:
@@ -293,7 +298,7 @@ def get_loader() -> KnowledgeLoader:
     return _global_loader
 
 
-def get_exercise(exercise_id: str) -> dict | None:
+def get_exercise(exercise_id: str) -> dict[str, Any] | None:
     return get_loader().get_exercise(exercise_id)
 
 

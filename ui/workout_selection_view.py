@@ -65,6 +65,7 @@ class WorkoutSelectionView(QWidget):
         super().__init__()
         self._db = db
         self._prog_mgr = prog_mgr
+        self._active_anims: list[QPropertyAnimation] = []
         self._build_ui()
 
     def _build_ui(self):
@@ -281,4 +282,6 @@ class WorkoutSelectionView(QWidget):
         anim.setStartValue(0.0)
         anim.setEndValue(1.0)
         anim.setEasingCurve(QEasingCurve.OutCubic)
+        self._active_anims.append(anim)
+        anim.finished.connect(lambda: self._active_anims.remove(anim) if anim in self._active_anims else None)
         anim.start()

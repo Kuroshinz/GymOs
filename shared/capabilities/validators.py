@@ -5,10 +5,13 @@ Stateless validation functions.
 
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass, field
 
 from shared.capabilities.enums import CapabilityMaturity, CapabilityStatus
 from shared.capabilities.registry import CapabilityRegistry
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -90,7 +93,11 @@ def validate_invalid_maturity(registry: CapabilityRegistry) -> list[ValidationEr
                     severity="warning",
                 ))
         except ValueError:
-            pass
+            logger.warning(
+                "Invalid maturity level in capability '%s': current=%s, target=%s",
+                cap.name, cap.current_maturity, cap.target_maturity,
+                exc_info=True,
+            )
     return errors
 
 

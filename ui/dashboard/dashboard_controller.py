@@ -167,6 +167,30 @@ class DashboardController(QObject):
         except Exception:
             self.refresh()
 
+    # ─── Goal Management ─────────────────────────────────────────
+
+    def set_goal(
+        self, target_weight_kg: float, target_calorie_surplus: int = 300
+    ) -> None:
+        """Set a new goal target via the DecisionEngine and refresh the dashboard.
+
+        Args:
+            target_weight_kg: Desired body weight in kg.
+            target_calorie_surplus: Daily calorie surplus target.
+        """
+        if self._engine and hasattr(self._engine, "set_goal_progress"):
+            try:
+                self._engine.set_goal_progress(
+                    target_weight_kg=target_weight_kg,
+                    target_calorie_surplus=target_calorie_surplus,
+                )
+            except Exception:
+                logger.warning("Failed to set goal progress", exc_info=True)
+        # Refresh goal progress section and full data
+        data = self._last_data
+        self._data_service.refresh_section(data, "goal_progress")
+        self.data_updated.emit(data)
+
     # ─── Data Flow ────────────────────────────────────────────
 
     def refresh(self) -> DashboardData:

@@ -1,3 +1,5 @@
+"""GoalTracker — bodyweight goal tracking and lean bulk progress analysis."""
+
 from __future__ import annotations
 
 from datetime import datetime, timedelta
@@ -8,16 +10,58 @@ from modules.gymbrain.providers.data_provider import DataProvider
 
 
 class GoalTracker:
-    """Tracks bodyweight goals and bulking/cutting progress."""
+    """Tracks bodyweight goals and bulking/cutting progress.
+
+    Provides both read (``get_progress``) and write (``set_goal_progress``)
+    access to goal tracking data. Goals are persisted through the DataProvider
+    into the GymDatabase ``goal_config`` table.
+    """
 
     def __init__(self, provider: DataProvider) -> None:
         self._provider = provider
+
+    def set_goal_progress(
+        self,
+        target_weight_kg: float,
+        target_calorie_surplus: int = 300,
+    ) -> GoalProgress:
+        """Set a new goal target and return the computed progress toward it.
+
+        Persists the goal configuration (target weight + surplus) to the
+        database via the DataProvider, then computes and returns the
+        ``GoalProgress`` snapshot toward that goal.
+
+        Args:
+            target_weight_kg: Desired body weight in kg.
+            target_calorie_surplus: Daily calorie surplus target.
+
+        Returns:
+            ``GoalProgress`` computed from body weight history toward the goal.
+        """
+        self._provider.save_goal_config(
+            target_weight_kg=target_weight_kg,
+            target_calorie_surplus=target_calorie_surplus,
+        )
+        return self.get_progress(
+            goal_weight_kg=target_weight_kg,
+            target_calorie_surplus=target_calorie_surplus,
+        )
 
     def get_progress(
         self,
         goal_weight_kg: float | None = None,
         target_calorie_surplus: int = 300,
     ) -> GoalProgress:
+        """Compute goal progress from body weight history.
+
+        Args:
+            goal_weight_kg: Target body weight in kg. If ``None``, defaults
+                to the current body weight (no progress toward a future goal).
+            target_calorie_surplus: Daily calorie surplus target.
+
+        Returns:
+            A ``GoalProgress`` dataclass with all computed fields.
+        """
         bw_history = self._provider.get_body_weight_history(days=90)
         latest_bw = self._provider.get_latest_body_weight()
 

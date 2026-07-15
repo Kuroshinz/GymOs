@@ -135,6 +135,20 @@ class BodyWeightModel(Base):
     created_at: Mapped[datetime | None] = mapped_column(DateTime(), default=datetime.now)
 
 
+class GoalConfigModel(Base):
+    """Persistent goal configuration — single row (id='default').
+
+    Stores the user's target body weight and calorie surplus for
+    lean bulk / goal tracking.
+    """
+    __tablename__ = "goal_config"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    target_weight_kg: Mapped[float] = mapped_column(Float(), default=72.0)
+    target_calorie_surplus: Mapped[int] = mapped_column(Integer(), default=300)
+    updated_at: Mapped[datetime | None] = mapped_column(DateTime(), default=datetime.now)
+
+
 def init_db(db_path: str = "data/gymos.db") -> str:
     """Initialize the database and create all tables."""
     os.makedirs(os.path.dirname(db_path) or ".", exist_ok=True)

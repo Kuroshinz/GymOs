@@ -130,7 +130,7 @@ class ProductionRecoveryProvider(IRecoveryProvider):
         return self._repo.list_scores(days=days)
 
     def get_latest_sleep(self) -> SleepLog | None:
-        logs = self._repo.list_sleep_logs(days=7)
+        logs = self._repo.list_sleep_logs(days=365)
         return logs[0] if logs else None
 
     def get_sleep_by_date(self, date: str) -> SleepLog | None:
@@ -140,7 +140,7 @@ class ProductionRecoveryProvider(IRecoveryProvider):
         return self._repo.list_sleep_logs(days=days)
 
     def get_latest_stress(self) -> StressLog | None:
-        logs = self._repo.list_stress_logs(days=7)
+        logs = self._repo.list_stress_logs(days=365)
         return logs[0] if logs else None
 
     def get_recent_stress(self, days: int = 7) -> list[StressLog]:

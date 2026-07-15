@@ -66,9 +66,20 @@ Single navigation page linking every architecture document, ADR, RFC, roadmap, a
 | ADR-007 | Product Knowledge Graph | Accepted | `docs/adr/ADR-007-product-knowledge-graph.md` |
 | ADR-008 | Product State Engine | Accepted | `docs/adr/ADR-008-product-state-engine.md` |
 | ADR-009 | Recovery Intelligence | Accepted | `docs/adr/ADR-009-recovery-intelligence.md` |
-| ADR-010 | Predictive Intelligence (RFC-020) | Accepted | `docs/architecture/ADR-010-predictive-intelligence.md` |
+| ADR-010 | Predictive Intelligence (RFC-020) | Accepted | `docs/ADR-010-predictive-intelligence.md` |
 | ADR-010.5 | Prediction Intelligence Upgrade (RFC-020.5) | Accepted | `docs/architecture/ADR-010.5-prediction-upgrade.md` |
-| ADR-011 | Core Architecture Decisions | Accepted | `docs/adr/001-core-architecture-decisions.md` |
+| ADR-011 | Intent Platform (RFC-020.9) | Accepted | `docs/architecture/ADR-011-intent-platform.md` |
+| ADR-012 | Planning Engine | Accepted | `docs/architecture/ADR-012-planning-engine.md` |
+| ADR-013 | Planning Optimizer | Accepted | `docs/architecture/ADR-013-planning-optimizer.md` |
+| ADR-014 | Optimization Knowledge | Accepted | `docs/architecture/ADR-014-optimization-knowledge.md` |
+| ADR-015 | Knowledge Evolution | Accepted | `docs/architecture/ADR-015-knowledge-evolution.md` |
+| ADR-016 | Adaptive Programming | Accepted | `docs/architecture/ADR-016-adaptive-programming.md` |
+| ADR-017 | Command Center | Accepted | `docs/architecture/ADR-017-command-center.md` |
+| ADR-018 | Experience Platform | Accepted | `docs/architecture/ADR-018-experience-platform.md` |
+| ADR-019 | Runtime Orchestration | Accepted | `docs/architecture/ADR-019-runtime-orchestration.md` |
+| ADR-020 | Explainability Platform | Accepted | `docs/architecture/ADR-020-explainability-platform.md` |
+| ADR-029 | Cognitive Layer & Attention Engine | Accepted | `docs/adr/ADR-029-cognitive-layer.md` |
+| — | Core Architecture Decisions (historical) | Superseded | `docs/adr/001-core-architecture-decisions.md` |
 
 ---
 
@@ -81,6 +92,9 @@ Single navigation page linking every architecture document, ADR, RFC, roadmap, a
 | RFC-019 | Recovery Intelligence | DRAFT | ADR-009 |
 | RFC-020 | Prediction Intelligence | COMPLETE | ADR-010 |
 | RFC-020.5 | Prediction Intelligence Upgrade | COMPLETE | ADR-010.5 |
+| RFC-020.9 | Intent Platform | COMPLETE | ADR-011 |
+| RFC-021 | Planning Engine | COMPLETE | ADR-012 |
+| RFC-021.5 | Planning Optimizer | COMPLETE | ADR-013 |
 
 ---
 
@@ -97,6 +111,14 @@ Single navigation page linking every architecture document, ADR, RFC, roadmap, a
 | Counterfactual Engine | `docs/prediction/COUNTERFACTUALS.md` | 36 |
 | Explainability Engine | `docs/prediction/PREDICTION_EXPLAINABILITY.md` | 44 |
 | Risk Engine | `docs/prediction/PREDICTION_EXPLAINABILITY.md` | 26 |
+| Explainability Platform | `shared/explainability/` | 474 |
+| Intent Platform | `docs/architecture/ADR-011-intent-platform.md` | 183 |
+| Planning Engine | `shared/planning/` | 379 |
+| Planning Optimizer | `shared/planning_optimizer/` | 299 |
+| Optimization Knowledge | `shared/optimization_knowledge/` | 400+ |
+| Knowledge Evolution | `shared/knowledge_evolution/` | 450+ |
+| Adaptive Programming | `shared/adaptive_programming/` | 518+ |
+| Runtime Orchestration | `shared/runtime/` | 152 |
 | AI Coach Engine | — (not started) | 0 |
 | Automation Engine | — (not started) | 0 |
 | Knowledge Engine | `docs/architecture/KNOWLEDGE_PLATFORM.md` | 0 |
@@ -178,7 +200,18 @@ docs/
 │   ├── MODULE_AUDIT.md
 │   ├── event-bus.md
 │   ├── plugin-sdk.md
+│   ├── ADR-010-predictive-intelligence.md
 │   ├── ADR-010.5-prediction-upgrade.md
+│   ├── ADR-011-intent-platform.md
+│   ├── ADR-012-planning-engine.md
+│   ├── ADR-013-planning-optimizer.md
+│   ├── ADR-014-optimization-knowledge.md
+│   ├── ADR-015-knowledge-evolution.md
+│   ├── ADR-016-adaptive-programming.md
+│   ├── ADR-017-command-center.md
+│   ├── ADR-018-experience-platform.md
+│   ├── ADR-019-runtime-orchestration.md
+│   ├── ADR-020-explainability-platform.md
 │   └── ADR/
 │       ├── ADR-001-event-architecture.md
 │       ├── ADR-002-knowledge-system.md
@@ -191,7 +224,7 @@ docs/
 │   ├── ADR-007-product-knowledge-graph.md
 │   ├── ADR-008-product-state-engine.md
 │   ├── ADR-009-recovery-intelligence.md
-│   └── ADR-010-predictive-intelligence.md
+│   └── ADR-029-cognitive-layer.md
 ├── prediction/
 │   ├── PREDICTION_EXPLAINABILITY.md
 │   ├── SCENARIO_ENGINE.md

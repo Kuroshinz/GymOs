@@ -17,6 +17,7 @@ from modules.workout.domain import (
 from .models import (
     BodyWeightModel,
     DayExerciseModel,
+    GoalConfigModel,
     SessionExerciseModel,
     SessionSetModel,
     WorkoutDayModel,
@@ -423,6 +424,40 @@ class GymDatabase:
                 weight_kg=model.weight_kg,
                 notes=model.notes or "",
             )
+
+    # ─── Goal Config ─────────────────────────────────────────
+
+    def get_goal_config(self) -> tuple[float, int]:
+        """Get the stored goal configuration.
+
+        Returns:
+            Tuple of (target_weight_kg, target_calorie_surplus).
+            Defaults to (72.0, 300) if no config exists.
+        """
+        with self._get_session() as session:
+            model = session.get(GoalConfigModel, "default")
+            if model is None:
+                return (72.0, 300)
+            return (model.target_weight_kg, model.target_calorie_surplus)
+
+    def save_goal_config(
+        self, target_weight_kg: float, target_calorie_surplus: int = 300
+    ) -> None:
+        """Save or update the goal configuration (upsert single row)."""
+        with self._get_session() as session:
+            model = session.get(GoalConfigModel, "default")
+            if model is None:
+                model = GoalConfigModel(
+                    id="default",
+                    target_weight_kg=target_weight_kg,
+                    target_calorie_surplus=target_calorie_surplus,
+                )
+                session.add(model)
+            else:
+                model.target_weight_kg = target_weight_kg
+                model.target_calorie_surplus = target_calorie_surplus
+                model.updated_at = datetime.now()
+            session.commit()
 
     # ─── Cleanup ────────────────────────────────────────────
 

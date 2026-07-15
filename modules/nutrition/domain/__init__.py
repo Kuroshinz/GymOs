@@ -306,8 +306,8 @@ class NutritionSummary:
     configured: bool = True
     lean_bulk: LeanBulkAnalysis | None = None
 
-    def to_dict(self) -> dict:
-        result = {
+    def to_dict(self) -> dict[str, Any]:
+        result: dict[str, Any] = {
             "calories": {"current": self.calories_current, "target": self.calories_target},
             "protein": {"current": self.protein_current, "target": self.protein_target},
             "carbs": {"current": self.carbs_current, "target": self.carbs_target},

@@ -8,6 +8,7 @@ Knowledge source: knowledge/progression/rm_estimator.json
 """
 
 from dataclasses import dataclass
+from typing import Any
 
 from modules.workout.domain import WorkoutSession
 
@@ -60,7 +61,7 @@ def _estimate_1rm(weight_kg: float, reps: int) -> float:
 class PREngine:
     """Detects personal records by comparing against historical data."""
 
-    def __init__(self, db) -> None:
+    def __init__(self, db: Any) -> None:
         self._db = db
 
     def detect_prs(self, session: WorkoutSession) -> list[PersonalRecord]:

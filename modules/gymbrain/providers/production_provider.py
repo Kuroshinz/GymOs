@@ -2,26 +2,28 @@
 
 Wires GymDatabase, knowledge repositories, and workout engines
 into the DataProvider interface consumed by GymBrain.
+
+All error handling is inherited from TrainingDataProvider via the
+``@safe`` decorator — no manual try/except blocks.
 """
 
 from __future__ import annotations
 
-import logging
-from datetime import datetime, timedelta
 from typing import Any
 
-from modules.gymbrain.providers.data_provider import DataProvider
+from modules.gymbrain.providers.training_provider import TrainingDataProvider
 from modules.workout.infrastructure.repository import GymDatabase
 
-logger = logging.getLogger(__name__)
 
-
-class ProductionDataProvider(DataProvider):
+class ProductionDataProvider(TrainingDataProvider):
     """DataProvider backed by a real GymDatabase and knowledge repositories.
 
     All exercise/muscle lookups go through ExerciseRepository/MuscleRepository
     (loaded from knowledge YAML files). All session data goes through GymDatabase
     (the SQLite training log). Rule evaluation never touches infrastructure directly.
+
+    Error handling is standardized via the ``@safe`` decorator inherited from
+    TrainingDataProvider — no manual try/except anywhere in this class.
     """
 
     def __init__(
@@ -51,267 +53,54 @@ class ProductionDataProvider(DataProvider):
         )
         self._db = db
 
-    # ─── Exercises ────────────────────────────────────────────────
+    @classmethod
+    def from_production(
+        cls,
+        db: GymDatabase,
+        knowledge_service: Any = None,
+        volume_engine: Any = None,
+        pr_engine: Any = None,
+        recovery_engine: Any = None,
+        progression_engine: Any = None,
+        exercise_repo: Any = None,
+        muscle_repo: Any = None,
+        program_repo: Any = None,
+        nutrition_provider: Any = None,
+        recovery_provider: Any = None,
+        cache: Any = None,
+    ) -> ProductionDataProvider:
+        """Build a fully-wired ProductionDataProvider for production use.
 
-    def get_exercise(self, exercise_id: str) -> dict[str, Any] | None:
-        if not self._exercise_repo:
-            return None
-        try:
-            ex = self._exercise_repo.get_by_id(exercise_id)
-            return getattr(ex, "raw", ex) if ex else None
-        except Exception:
-            logger.warning("get_exercise(%s) failed", exercise_id, exc_info=True)
-            return None
+        Accepts a ``GymDatabase`` instance and optional engine/repository overrides.
+        When engines are omitted they are auto-created from the db.
 
-    def get_exercise_by_name(self, name: str) -> dict[str, Any] | None:
-        if not self._exercise_repo:
-            return None
-        try:
-            ex = self._exercise_repo.get_by_name(name)
-            return getattr(ex, "raw", ex) if ex else None
-        except Exception:
-            logger.warning("get_exercise_by_name(%s) failed", name, exc_info=True)
-            return None
+        Usage::
 
-    def get_all_exercises(self) -> list[dict[str, Any]]:
-        if not self._exercise_repo:
-            return []
-        try:
-            exercises = self._exercise_repo.get_all()
-            if isinstance(exercises, dict):
-                return [getattr(v, "raw", v) for v in exercises.values()]
-            return [getattr(e, "raw", e) for e in exercises]
-        except Exception:
-            logger.warning("get_all_exercises failed", exc_info=True)
-            return []
+            from modules.workout.infrastructure.repository import GymDatabase
+            provider = ProductionDataProvider.from_production(
+                db=GymDatabase("data/gymos.db")
+            )
+        """
+        from modules.workout.application.pr_engine import PREngine
+        from modules.workout.application.progression_engine import ProgressionEngine
+        from modules.workout.application.recovery_engine import RecoveryEngine
 
-    def get_exercises_by_muscle(self, muscle_id: str) -> list[dict[str, Any]]:
-        if not self._exercise_repo:
-            return []
-        try:
-            exercises = self._exercise_repo.get_by_muscle(muscle_id)
-            if isinstance(exercises, dict):
-                return [getattr(v, "raw", v) for v in exercises.values()]
-            return [getattr(e, "raw", e) for e in exercises]
-        except Exception:
-            logger.warning("get_exercises_by_muscle(%s) failed", muscle_id, exc_info=True)
-            return []
+        pr_engine = pr_engine or PREngine(db)
+        recovery_engine = recovery_engine or RecoveryEngine(db)
+        progression_engine = progression_engine or ProgressionEngine(db)
 
-    def get_exercises_by_category(self, category: str) -> list[dict[str, Any]]:
-        if not self._exercise_repo:
-            return []
-        try:
-            exercises = self._exercise_repo.get_by_category(category)
-            if isinstance(exercises, dict):
-                return [getattr(v, "raw", v) for v in exercises.values()]
-            return [getattr(e, "raw", e) for e in exercises]
-        except Exception:
-            logger.warning("get_exercises_by_category(%s) failed", category, exc_info=True)
-            return []
-
-    # ─── Muscles ──────────────────────────────────────────────────
-
-    def get_muscle(self, muscle_id: str) -> dict[str, Any] | None:
-        if not self._muscle_repo:
-            return None
-        try:
-            m = self._muscle_repo.get_by_id(muscle_id)
-            return getattr(m, "raw", m) if m else None
-        except Exception:
-            logger.warning("get_muscle(%s) failed", muscle_id, exc_info=True)
-            return None
-
-    def get_all_muscles(self) -> list[dict[str, Any]]:
-        if not self._muscle_repo:
-            return []
-        try:
-            muscles = self._muscle_repo.get_all()
-            if isinstance(muscles, dict):
-                return [getattr(v, "raw", v) for v in muscles.values()]
-            return [getattr(m, "raw", m) for m in muscles]
-        except Exception:
-            logger.warning("get_all_muscles failed", exc_info=True)
-            return []
-
-    def get_muscles_by_group(self, group: str) -> list[dict[str, Any]]:
-        if not self._muscle_repo:
-            return []
-        try:
-            muscles = self._muscle_repo.get_by_group(group)
-            if isinstance(muscles, dict):
-                return [getattr(v, "raw", v) for v in muscles.values()]
-            return [getattr(m, "raw", m) for m in muscles]
-        except Exception:
-            logger.warning("get_muscles_by_group(%s) failed", group, exc_info=True)
-            return []
-
-    # ─── Program ──────────────────────────────────────────────────
-
-    def get_program(self) -> dict[str, Any] | None:
-        if not self._program_repo:
-            return None
-        try:
-            p = self._program_repo.get_program()
-            return getattr(p, "raw", p) if p else None
-        except Exception:
-            logger.warning("get_program failed", exc_info=True)
-            return None
-
-    def get_program_exercise_ids(self) -> list[str]:
-        if not self._program_repo:
-            return []
-        try:
-            return list(self._program_repo.get_exercise_ids())
-        except Exception:
-            logger.warning("get_program_exercise_ids failed", exc_info=True)
-            return []
-
-    def get_priority_muscles(self) -> list[str]:
-        prog = self.get_program()
-        if prog is None:
-            return []
-        if isinstance(prog, dict):
-            return prog.get("priority_muscles", [])
-        return list(getattr(prog, "priority_muscles", []))
-
-    # ─── Sessions / DB ────────────────────────────────────────────
-
-    def list_sessions(self, limit: int = 50, offset: int = 0) -> list[Any]:
-        try:
-            return self._db.list_sessions(limit=limit, offset=offset)
-        except Exception:
-            logger.warning("list_sessions failed", exc_info=True)
-            return []
-
-    def get_session(self, session_id: int) -> Any | None:
-        try:
-            return self._db.get_session(session_id)
-        except Exception:
-            logger.warning("get_session(%s) failed", session_id, exc_info=True)
-            return None
-
-    def get_last_session_for_exercise(self, exercise_name: str) -> Any | None:
-        try:
-            return self._db.get_last_session_for_exercise(exercise_name)
-        except Exception:
-            logger.warning("get_last_session_for_exercise(%s) failed", exercise_name, exc_info=True)
-            return None
-
-    def get_recent_sessions(self, days: int = 14) -> list[Any]:
-        try:
-            sessions = self._db.list_sessions(limit=100)
-            cutoff = datetime.now() - timedelta(days=days)
-            return [s for s in sessions if hasattr(s, "started_at") and s.started_at and s.started_at >= cutoff]
-        except Exception:
-            logger.warning("get_recent_sessions failed", exc_info=True)
-            return []
-
-    def get_body_weight(self, date: datetime | None = None) -> Any | None:
-        try:
-            return self._db.get_body_weight(date)
-        except Exception:
-            logger.warning("get_body_weight failed", exc_info=True)
-            return None
-
-    def get_latest_body_weight(self) -> Any | None:
-        try:
-            return self._db.get_latest_body_weight()
-        except Exception:
-            logger.warning("get_latest_body_weight failed", exc_info=True)
-            return None
-
-    def get_body_weight_history(self, days: int = 90) -> list[Any]:
-        try:
-            return self._db.get_body_weight_history(days=days)
-        except Exception:
-            logger.warning("get_body_weight_history failed", exc_info=True)
-            return []
-
-    def get_recent_volume(self, days: int = 7) -> float:
-        try:
-            return self._db.get_recent_volume(days=days)
-        except Exception:
-            logger.warning("get_recent_volume failed", exc_info=True)
-            return 0.0
-
-    def get_volume_by_day(self, days: int = 90) -> list[dict[str, Any]]:
-        try:
-            return self._db.get_volume_by_day(days=days)
-        except Exception:
-            logger.warning("get_volume_by_day failed", exc_info=True)
-            return []
-
-    def get_streak(self) -> int:
-        try:
-            return self._db.get_streak()
-        except Exception:
-            logger.warning("get_streak failed", exc_info=True)
-            return 0
-
-    def get_total_workouts(self) -> int:
-        try:
-            return self._db.get_total_workouts()
-        except Exception:
-            logger.warning("get_total_workouts failed", exc_info=True)
-            return 0
-
-    # ─── Volume Engine ────────────────────────────────────────────
-
-    def calculate_effective_volume(self, exercise: Any, sets: list[Any]) -> list[Any]:
-        if not self._volume_engine:
-            return []
-        try:
-            return self._volume_engine.calculate_effective_volume(exercise, len(sets))
-        except Exception:
-            logger.warning("calculate_effective_volume failed", exc_info=True)
-            return []
-
-    def calculate_total_weekly_volume(self, weekly_exercises: list[tuple[Any, list[Any]]]) -> dict[str, float]:
-        if not self._volume_engine:
-            return {}
-        try:
-            converted = [(ex, len(sets)) for ex, sets in weekly_exercises]
-            return self._volume_engine.calculate_total_weekly_volume(converted)
-        except Exception:
-            logger.warning("calculate_total_weekly_volume failed", exc_info=True)
-            return {}
-
-    # ─── Engines ──────────────────────────────────────────────────
-
-    def detect_prs(self, session: Any) -> list[Any]:
-        if not self._pr_engine:
-            return []
-        try:
-            return self._pr_engine.detect_prs(session)
-        except Exception:
-            logger.warning("detect_prs failed", exc_info=True)
-            return []
-
-    def analyse_session(self, session: Any) -> Any | None:
-        if not self._recovery_engine:
-            return None
-        try:
-            return self._recovery_engine.analyse_session(session)
-        except Exception:
-            logger.warning("analyse_session failed", exc_info=True)
-            return None
-
-    def analyse_exercise(
-        self, exercise_name: str, sets: list[Any], target_reps: str, acceptable_rir: int = 2
-    ) -> Any | None:
-        if not self._progression_engine:
-            return None
-        try:
-            return self._progression_engine.analyse_exercise(exercise_name, sets, target_reps, acceptable_rir)
-        except Exception:
-            logger.warning("analyse_exercise(%s) failed", exercise_name, exc_info=True)
-            return None
-
-    def get_progression_recommendation(self, exercise_name: str) -> Any | None:
-        if not self._progression_engine:
-            return None
-        try:
-            return self._progression_engine.get_recommendation(exercise_name)
-        except Exception:
-            logger.warning("get_progression_recommendation(%s) failed", exercise_name, exc_info=True)
-            return None
+        provider = cls(
+            db=db,
+            exercise_repo=exercise_repo,
+            muscle_repo=muscle_repo,
+            program_repo=program_repo,
+            knowledge_service=knowledge_service,
+            volume_engine=volume_engine,
+            pr_engine=pr_engine,
+            recovery_engine=recovery_engine,
+            progression_engine=progression_engine,
+            nutrition_provider=nutrition_provider,
+        )
+        if recovery_provider:
+            provider.recovery_provider = recovery_provider
+        return provider
