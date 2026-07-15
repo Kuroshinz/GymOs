@@ -35,6 +35,7 @@ _px12 = _pxf(S.s3)
 _px16 = _pxf(S.s4)
 _px20 = _pxf(S.s5)
 _px24 = _pxf(S.s6)
+_px28 = _pxf(S.s7) if hasattr(S, 's7') else 28
 
 _ANI_DURATION = 200
 _ANI_STAGGER = 80
@@ -80,18 +81,19 @@ class CoachPredictionsWidget(QFrame):
             f"""
             QFrame#CoachCard {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(17,13,61,220), stop:0.5 rgba(20,16,74,180),
-                    stop:0.8 rgba(22,10,56,160), stop:1 rgba(12,16,51,120));
-                border-radius: {R.lg};
-                border: 1px solid {resolve_alpha(colors.primary, 0.12)};
+                    stop:0 rgba(17,15,63,230), stop:0.5 rgba(22,18,76,195),
+                    stop:0.8 rgba(25,12,60,175), stop:1 rgba(12,16,51,135));
+                border-radius: {R.xl};
+                border: 1px solid {resolve_alpha(colors.primary, 0.10)};
             }}
         """
         )
+        apply_elevation(self._coach_card, 2, is_dark=True, bg_color=colors.surface)
         glow_effect(self._coach_card, glow_rgba=resolve_alpha(colors.primary, 0.35), blur=20, offset_y=1)
 
         cl = QVBoxLayout(self._coach_card)
-        cl.setContentsMargins(_px20, _px16, _px20, _px16)
-        cl.setSpacing(_px8)
+        cl.setContentsMargins(_px24, _px20, _px24, _px20)
+        cl.setSpacing(_px12)
 
         self._coach_stack = CoachCardStack()
         cl.addWidget(self._coach_stack, 1)
@@ -117,8 +119,8 @@ class CoachPredictionsWidget(QFrame):
             f"""
             QFrame#PredictionsCard {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(12,16,51,200), stop:1 rgba(8,12,36,120));
-                border-radius: {R.lg};
+                    stop:0 rgba(15,18,55,220), stop:1 rgba(8,12,36,140));
+                border-radius: {R.xl};
                 border: 1px solid {resolve_alpha(colors.primary, 0.08)};
             }}
         """
@@ -126,12 +128,12 @@ class CoachPredictionsWidget(QFrame):
         apply_elevation(self._pred_card, 1, is_dark=True, bg_color=colors.surface)
 
         pl = QVBoxLayout(self._pred_card)
-        pl.setContentsMargins(_px20, _px16, _px20, _px16)
-        pl.setSpacing(_px8)
+        pl.setContentsMargins(_px24, _px20, _px24, _px20)
+        pl.setSpacing(_px12)
 
         self._pred_headline = QLabel("")
         self._pred_headline.setStyleSheet(
-            f"color: {colors.text_primary}; {font_style('h3')}; "
+            f"color: {colors.text_primary}; font-size: 18px; font-weight: 700; "
             f"letter-spacing: -0.02em; background: transparent;"
         )
         self._pred_headline.setWordWrap(True)
@@ -139,15 +141,16 @@ class CoachPredictionsWidget(QFrame):
 
         self._pred_detail = QLabel("")
         self._pred_detail.setStyleSheet(
-            f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+            f"color: {colors.text_secondary}; font-size: 14px; font-weight: 400; "
+            f"background: transparent;"
         )
         self._pred_detail.setWordWrap(True)
         pl.addWidget(self._pred_detail)
 
         self._pred_confidence = QLabel("")
         self._pred_confidence.setStyleSheet(
-            f"color: {colors.success}; {font_style('caption', 'bold')}; "
-            f"padding-top: {S.s1}; background: transparent;"
+            f"color: {colors.success}; font-size: 13px; font-weight: 700; "
+            f"padding-top: {_px4}; background: transparent;"
         )
         pl.addWidget(self._pred_confidence)
 

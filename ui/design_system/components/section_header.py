@@ -5,11 +5,14 @@ from collections.abc import Callable
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
 
-from ui.design_system.tokens.color import ColorScheme, color_from_scheme
+from ui.design_system.tokens.color import ColorScheme, color_from_scheme, resolve_alpha
+from ui.design_system.tokens.radius import RadiusTokens
 from ui.design_system.tokens.spacing import SpacingTokens
-from ui.design_system.tokens.typography import font_style
+from ui.design_system.tokens.typography import TypographyTokens, font_style
 
 SPACE = SpacingTokens()
+R = RadiusTokens()
+T = TypographyTokens()
 
 
 class SectionHeader(QFrame):
@@ -38,19 +41,21 @@ class SectionHeader(QFrame):
         layout.setSpacing(8)
 
         text_area = QVBoxLayout()
-        text_area.setSpacing(2)
+        text_area.setSpacing(4)
 
         self._title_label = QLabel(title)
         self._title_label.setStyleSheet(
             f"color: {colors.text_primary}; {font_style('h2')}; "
-            f"background: transparent; border: none;"
+            f"font-size: 22px; "
+            f"letter-spacing: -0.03em; background: transparent; border: none;"
         )
         text_area.addWidget(self._title_label)
 
         if subtitle:
             self._subtitle_label = QLabel(subtitle)
             self._subtitle_label.setStyleSheet(
-                f"color: {colors.text_secondary}; {font_style('body')}; "
+                f"color: {colors.text_secondary}; font-size: 14px; "
+                f"font-weight: 400; letter-spacing: 0em; "
                 f"background: transparent; border: none;"
             )
             text_area.addWidget(self._subtitle_label)
@@ -64,15 +69,16 @@ class SectionHeader(QFrame):
                 f"QPushButton {{"
                 f"  background-color: transparent;"
                 f"  color: {colors.primary};"
-                f"  border: 1px solid {colors.border};"
-                f"  border-radius: 6px;"
-                f"  padding: 6px 14px;"
+                f"  border: 1px solid {resolve_alpha(colors.primary, 0.15)};"
+                f"  border-radius: {R.lg};"
+                f"  padding: 8px 18px;"
                 f"  font-size: 13px;"
-                f"  font-weight: 500;"
+                f"  font-weight: 600;"
+                f"  letter-spacing: 0.01em;"
                 f"}}"
                 f"QPushButton:hover {{"
-                f"  background-color: {colors.surface_hover};"
-                f"  border-color: {colors.primary};"
+                f"  background-color: {resolve_alpha(colors.primary, 0.08)};"
+                f"  border-color: {resolve_alpha(colors.primary, 0.3)};"
                 f"}}"
             )
             btn.setCursor(Qt.PointingHandCursor)

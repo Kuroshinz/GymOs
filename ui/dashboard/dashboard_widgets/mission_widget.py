@@ -37,7 +37,9 @@ _px12 = _pxf(S.s3)
 _px16 = _pxf(S.s4)
 _px20 = _pxf(S.s5)
 _px24 = _pxf(S.s6)
+_px28 = _pxf(S.s7) if hasattr(S, 's7') else 28
 _px32 = _pxf(S.s8)
+_px36 = _pxf(S.s9) if hasattr(S, 's9') else 36
 
 _ANI_DURATION = 200
 _ANI_STAGGER = 80
@@ -86,8 +88,8 @@ class MissionRecoveryWidget(QFrame):
             f"""
             QFrame#MissionCard {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(12,16,51,220), stop:0.4 rgba(17,13,61,180),
-                    stop:0.75 rgba(22,10,56,160), stop:1 rgba(10,14,40,120));
+                    stop:0 rgba(15,18,55,235), stop:0.4 rgba(20,15,65,195),
+                    stop:0.75 rgba(25,12,58,175), stop:1 rgba(10,14,42,135));
                 border-radius: {R.xl};
                 border: 1px solid {resolve_alpha(colors.primary, 0.10)};
             }}
@@ -96,12 +98,12 @@ class MissionRecoveryWidget(QFrame):
         apply_elevation(self._card, 2, is_dark=True, bg_color=colors.surface)
 
         ml = QVBoxLayout(self._card)
-        ml.setContentsMargins(_px24, _px20, _px24, _px20)
-        ml.setSpacing(_px12)
+        ml.setContentsMargins(_px28, _px24, _px28, _px24)
+        ml.setSpacing(_px16)
 
         self._workout_name = QLabel("")
         self._workout_name.setStyleSheet(
-            f"color: {colors.text_primary}; {font_style('h2')}; "
+            f"color: {colors.text_primary}; font-size: 22px; font-weight: 700; "
             f"letter-spacing: -0.02em; background: transparent;"
         )
         self._workout_name.setWordWrap(True)
@@ -109,18 +111,21 @@ class MissionRecoveryWidget(QFrame):
 
         self._workout_meta = QLabel("")
         self._workout_meta.setStyleSheet(
-            f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+            f"color: {colors.text_secondary}; font-size: 14px; font-weight: 400; "
+            f"background: transparent;"
         )
         self._workout_meta.setWordWrap(True)
         ml.addWidget(self._workout_meta)
 
         muscle_row = QHBoxLayout()
         muscle_row.setContentsMargins(0, 0, 0, 0)
-        muscle_row.setSpacing(_px6)
+        muscle_row.setSpacing(_px8)
         self._muscle_container = QWidget()
         self._muscle_container.setLayout(muscle_row)
         self._muscle_container.setStyleSheet("background: transparent;")
         ml.addWidget(self._muscle_container)
+
+        ml.addSpacing(_px4)
 
         self._start_btn = QPushButton("  \u25B6  Start Workout")
         self._start_btn.setCursor(Qt.PointingHandCursor)
@@ -130,16 +135,17 @@ class MissionRecoveryWidget(QFrame):
             f"""
             QPushButton {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                    stop:0 rgba(139,92,246,0.9), stop:0.5 rgba(168,85,247,0.85), stop:1 rgba(217,70,239,0.8));
+                    stop:0 rgba(99,102,241,0.95), stop:0.6 rgba(139,92,246,0.9), stop:1 rgba(167,139,250,0.85));
                 color: #FFFFFF;
-                border: 1px solid rgba(255,255,255,0.08);
+                border: 1px solid rgba(255,255,255,0.06);
                 border-radius: {R.size_2xl};
-                padding: 0 {S.s7};
-                {font_style('body', 'bold')}
+                padding: 0 32px;
+                font-size: 15px; font-weight: 700;
+                letter-spacing: 0.01em;
             }}
             QPushButton:hover {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                    stop:0 rgba(167,139,250,0.9), stop:0.5 rgba(192,132,252,0.85), stop:1 rgba(232,121,249,0.8));
+                    stop:0 rgba(129,140,248,0.95), stop:0.6 rgba(167,139,250,0.9), stop:1 rgba(196,181,253,0.85));
             }}
             QPushButton:focus {{
                 border: 2px solid {colors.focus_ring};
@@ -180,8 +186,8 @@ class MissionRecoveryWidget(QFrame):
             f"""
             QFrame#RecoveryCard {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(12,16,51,200), stop:1 rgba(8,12,36,120));
-                border-radius: {R.lg};
+                    stop:0 rgba(15,18,55,220), stop:1 rgba(8,12,36,140));
+                border-radius: {R.xl};
                 border: 1px solid {resolve_alpha(colors.primary, 0.08)};
             }}
         """
@@ -189,27 +195,28 @@ class MissionRecoveryWidget(QFrame):
         apply_elevation(self._rec_card, 1, is_dark=True, bg_color=colors.surface)
 
         rl = QVBoxLayout(self._rec_card)
-        rl.setContentsMargins(_px20, _px16, _px20, _px16)
-        rl.setSpacing(_px8)
+        rl.setContentsMargins(_px24, _px20, _px24, _px20)
+        rl.setSpacing(_px12)
 
         self._rec_narrative = QLabel("--")
         self._rec_narrative.setStyleSheet(
-            f"color: {colors.text_primary}; {font_style('h3')}; "
+            f"color: {colors.text_primary}; font-size: 18px; font-weight: 700; "
             f"letter-spacing: -0.02em; background: transparent;"
         )
         rl.addWidget(self._rec_narrative)
 
         self._rec_score_text = QLabel("")
         self._rec_score_text.setStyleSheet(
-            f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+            f"color: {colors.text_secondary}; font-size: 14px; font-weight: 400; "
+            f"background: transparent;"
         )
         rl.addWidget(self._rec_score_text)
 
         self._rec_suggested = QLabel("")
         self._rec_suggested.setWordWrap(True)
         self._rec_suggested.setStyleSheet(
-            f"color: {colors.primary}; {font_style('body')}; "
-            f"padding-top: {S.s1}; background: transparent;"
+            f"color: {colors.primary}; font-size: 14px; font-weight: 500; "
+            f"padding-top: {_px4}; background: transparent;"
         )
         rl.addWidget(self._rec_suggested)
 

@@ -35,6 +35,7 @@ _px12 = _pxf(S.s3)
 _px16 = _pxf(S.s4)
 _px20 = _pxf(S.s5)
 _px24 = _pxf(S.s6)
+_px28 = _pxf(S.s7) if hasattr(S, 's7') else 28
 
 _ANI_DURATION = 200
 _ANI_STAGGER = 80
@@ -69,8 +70,8 @@ class ProgressWidget(QFrame):
             f"""
             QFrame#ProgressCard {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(12,16,51,200), stop:1 rgba(8,12,36,120));
-                border-radius: {R.lg};
+                    stop:0 rgba(15,18,55,220), stop:1 rgba(8,12,36,140));
+                border-radius: {R.xl};
                 border: 1px solid {resolve_alpha(colors.primary, 0.08)};
             }}
         """
@@ -78,8 +79,8 @@ class ProgressWidget(QFrame):
         apply_elevation(self, 1, is_dark=True, bg_color=colors.surface)
 
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(_px24, _px20, _px24, _px20)
-        layout.setSpacing(_px12)
+        layout.setContentsMargins(_px28, _px24, _px28, _px24)
+        layout.setSpacing(_px16)
 
         # Goal row: weight + details
         goal_row = QHBoxLayout()
@@ -87,21 +88,23 @@ class ProgressWidget(QFrame):
 
         self._goal_weight = QLabel("--")
         self._goal_weight.setStyleSheet(
-            f"color: {colors.text_primary}; {font_style('metric')}; "
+            f"color: {colors.text_primary}; font-size: 32px; font-weight: 800; "
             f"letter-spacing: -0.03em; background: transparent;"
         )
         goal_row.addWidget(self._goal_weight)
 
         self._goal_detail = QLabel("")
         self._goal_detail.setStyleSheet(
-            f"color: {colors.text_disabled}; {font_style('body')}; background: transparent;"
+            f"color: {colors.text_disabled}; font-size: 14px; font-weight: 400; "
+            f"background: transparent;"
         )
         self._goal_detail.setWordWrap(True)
         goal_row.addWidget(self._goal_detail, 1)
 
         self._goal_empty = QLabel("No goal data yet.")
         self._goal_empty.setStyleSheet(
-            f"color: {colors.text_disabled}; {font_style('body')}; background: transparent;"
+            f"color: {colors.text_disabled}; font-size: 14px; font-weight: 400; "
+            f"background: transparent;"
         )
         self._goal_empty.setAlignment(Qt.AlignCenter)
         goal_row.addWidget(self._goal_empty)
@@ -111,18 +114,20 @@ class ProgressWidget(QFrame):
 
         # Weekly volume timeline
         self._weekly_timeline = WeeklyTimeline()
-        self._weekly_timeline.setFixedHeight(40)
+        self._weekly_timeline.setFixedHeight(44)
         layout.addWidget(self._weekly_timeline)
 
         self._weekly_total = QLabel("")
         self._weekly_total.setStyleSheet(
-            f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;"
+            f"color: {colors.text_disabled}; font-size: 13px; font-weight: 500; "
+            f"background: transparent;"
         )
         layout.addWidget(self._weekly_total)
 
         self._volume_empty = QLabel("No volume data yet.")
         self._volume_empty.setStyleSheet(
-            f"color: {colors.text_disabled}; {font_style('body')}; background: transparent;"
+            f"color: {colors.text_disabled}; font-size: 14px; font-weight: 400; "
+            f"background: transparent;"
         )
         self._volume_empty.setAlignment(Qt.AlignCenter)
         layout.addWidget(self._volume_empty)
@@ -168,7 +173,7 @@ class ProgressWidget(QFrame):
         if weight > 0:
             self._goal_empty.hide()
             self._goal_content.show()
-            self._goal_weight.setText(f"{weight:.1f} kg")
+            self._goal_weight.setText(f"{weight:.1f}")
 
             details_parts = []
             if target:

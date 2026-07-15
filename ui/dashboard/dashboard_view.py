@@ -108,7 +108,7 @@ class DashboardView(QWidget):
         layout.setSpacing(0)
 
         main = QVBoxLayout()
-        main.setContentsMargins(0, 0, 32, 40)
+        main.setContentsMargins(0, 0, 40, 48)
         main.setSpacing(0)
         layout.insertLayout(0, main)
 
@@ -116,31 +116,35 @@ class DashboardView(QWidget):
         self._hero = HeroWidget(motion=self._motion)
         main.addWidget(self._hero)
 
-        main.addSpacing(32)
+        main.addSpacing(40)
 
         # 2. Today's Mission
         self._build_section_header(main, "Today's Mission", "Your next training session")
+        main.addSpacing(16)
         self._mission = MissionRecoveryWidget(motion=self._motion)
         main.addWidget(self._mission)
 
-        main.addSpacing(24)
+        main.addSpacing(36)
 
         # 3. Coach
         self._build_section_header(main, "Coach", "Personalized guidance")
+        main.addSpacing(16)
         self._coach = CoachPredictionsWidget(motion=self._motion)
         main.addWidget(self._coach)
 
-        main.addSpacing(24)
+        main.addSpacing(36)
 
         # 4. Progress
         self._build_section_header(main, "Progress", "Your training journey")
+        main.addSpacing(16)
         self._progress = ProgressWidget(motion=self._motion)
         main.addWidget(self._progress)
 
-        main.addSpacing(24)
+        main.addSpacing(36)
 
         # 5. Records & Actions
         self._build_section_header(main, "Records & Actions", "Achievements & quick tasks")
+        main.addSpacing(16)
         self._actions = ActionsWidget(motion=self._motion)
         main.addWidget(self._actions)
 
@@ -152,7 +156,7 @@ class DashboardView(QWidget):
     def _build_section_header(parent: QVBoxLayout, title: str, subtitle: str) -> None:
         header = SectionHeader(title=title, subtitle=subtitle)
         hbox = QHBoxLayout()
-        hbox.setContentsMargins(0, 0, 0, 8)
+        hbox.setContentsMargins(0, 0, 0, 0)
         hbox.addWidget(header)
         parent.addLayout(hbox)
 

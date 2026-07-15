@@ -35,6 +35,8 @@ _px10 = _pxf(S.s2_5)
 _px12 = _pxf(S.s3)
 _px16 = _pxf(S.s4)
 _px20 = _pxf(S.s5)
+_px24 = _pxf(S.s6)
+_px28 = _pxf(S.s7) if hasattr(S, 's7') else 28
 
 
 class _CommandCard(QFrame):
@@ -92,8 +94,8 @@ class ActionsWidget(QFrame):
             f"""
             QFrame#RecordsCard {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(12,16,51,200), stop:1 rgba(8,12,36,120));
-                border-radius: {R.lg};
+                    stop:0 rgba(15,18,55,220), stop:1 rgba(8,12,36,140));
+                border-radius: {R.xl};
                 border: 1px solid {resolve_alpha(colors.primary, 0.08)};
             }}
         """
@@ -101,12 +103,12 @@ class ActionsWidget(QFrame):
         apply_elevation(self._records_card, 1, is_dark=True, bg_color=colors.surface)
 
         rl = QVBoxLayout(self._records_card)
-        rl.setContentsMargins(_px20, _px16, _px20, _px16)
-        rl.setSpacing(_px8)
+        rl.setContentsMargins(_px24, _px20, _px24, _px20)
+        rl.setSpacing(_px12)
 
         self._prs_container = QVBoxLayout()
         self._prs_container.setContentsMargins(0, 0, 0, 0)
-        self._prs_container.setSpacing(_px6)
+        self._prs_container.setSpacing(_px8)
         self._prs_widget = QWidget()
         self._prs_widget.setLayout(self._prs_container)
         self._prs_widget.setStyleSheet("background: transparent;")
@@ -135,16 +137,16 @@ class ActionsWidget(QFrame):
             f"""
             QFrame#ActionsCard {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(12,16,51,200), stop:1 rgba(8,12,36,120));
-                border-radius: {R.lg};
+                    stop:0 rgba(15,18,55,220), stop:1 rgba(8,12,36,140));
+                border-radius: {R.xl};
                 border: 1px solid {resolve_alpha(colors.primary, 0.08)};
             }}
         """
         )
 
         al = QVBoxLayout(actions_card)
-        al.setContentsMargins(_px12, _px12, _px12, _px12)
-        al.setSpacing(_px8)
+        al.setContentsMargins(_px16, _px16, _px16, _px16)
+        al.setSpacing(_px10)
 
         actions = [
             ("\u25B6", "Start Workout", "Begin a new session", self.start_workout_clicked.emit, True),
@@ -166,11 +168,11 @@ class ActionsWidget(QFrame):
             if primary:
                 bg = (
                     "qlineargradient(x1:0, y1:0, x2:1, y2:1, "
-                    "stop:0 rgba(139,92,246,0.9), stop:0.6 rgba(168,85,247,0.85), stop:1 rgba(217,70,239,0.8))"
+                    "stop:0 rgba(99,102,241,0.95), stop:0.6 rgba(139,92,246,0.9), stop:1 rgba(167,139,250,0.85))"
                 )
                 bg_hover = (
                     "qlineargradient(x1:0, y1:0, x2:1, y2:1, "
-                    "stop:0 rgba(167,139,250,0.9), stop:0.6 rgba(192,132,252,0.85), stop:1 rgba(232,121,249,0.8))"
+                    "stop:0 rgba(129,140,248,0.95), stop:0.6 rgba(167,139,250,0.9), stop:1 rgba(196,181,253,0.85))"
                 )
                 bdr = "none"
                 txt = "#FFFFFF"
@@ -178,11 +180,11 @@ class ActionsWidget(QFrame):
             else:
                 bg = (
                     "qlineargradient(x1:0, y1:0, x2:1, y2:1, "
-                    "stop:0 rgba(12,16,51,200), stop:1 rgba(8,12,36,120))"
+                    "stop:0 rgba(15,18,55,220), stop:1 rgba(8,12,36,140))"
                 )
                 bg_hover = (
                     "qlineargradient(x1:0, y1:0, x2:1, y2:1, "
-                    "stop:0 rgba(20,24,74,200), stop:1 rgba(12,16,51,160))"
+                    "stop:0 rgba(22,26,78,220), stop:1 rgba(12,16,51,170))"
                 )
                 bdr = f"1px solid {resolve_alpha(colors.primary, 0.10)}"
                 txt = colors.text_primary
@@ -205,19 +207,19 @@ class ActionsWidget(QFrame):
                 glow_effect(card, glow_rgba=resolve_alpha(colors.primary, 0.35), blur=16, offset_y=0)
 
             card_layout = QVBoxLayout(card)
-            card_layout.setContentsMargins(_px12, _px10, _px12, _px10)
-            card_layout.setSpacing(_px2)
+            card_layout.setContentsMargins(_px16, _px12, _px16, _px12)
+            card_layout.setSpacing(_px4)
 
             icon_lbl = QLabel(icon)
-            icon_lbl.setStyleSheet(f"font-size: 20px; color: {txt}; background: transparent;")
+            icon_lbl.setStyleSheet(f"font-size: 22px; color: {txt}; background: transparent;")
             card_layout.addWidget(icon_lbl)
 
             name_lbl = QLabel(label)
-            name_lbl.setStyleSheet(f"color: {txt}; {font_style('body', 'bold')}; background: transparent;")
+            name_lbl.setStyleSheet(f"color: {txt}; font-size: 14px; font-weight: 700; background: transparent;")
             card_layout.addWidget(name_lbl)
 
             desc_lbl = QLabel(tip)
-            desc_lbl.setStyleSheet(f"color: {txt_desc}; {font_style('caption')}; background: transparent;")
+            desc_lbl.setStyleSheet(f"color: {txt_desc}; font-size: 12px; font-weight: 400; background: transparent;")
             card_layout.addWidget(desc_lbl)
 
             card_layout.addStretch()
@@ -258,24 +260,24 @@ class ActionsWidget(QFrame):
                 row = QFrame()
                 row.setStyleSheet("background: transparent; border: none;")
                 row_layout = QHBoxLayout(row)
-                row_layout.setContentsMargins(0, _px4, 0, _px4)
-                row_layout.setSpacing(_px8)
+                row_layout.setContentsMargins(0, _px6, 0, _px6)
+                row_layout.setSpacing(_px12)
 
                 icon_lbl = QLabel("\u2B50")
-                icon_lbl.setStyleSheet(f"font-size: {T.caption_size}; background: transparent;")
-                icon_lbl.setFixedWidth(_px20)
+                icon_lbl.setStyleSheet(f"font-size: 16px; background: transparent;")
+                icon_lbl.setFixedWidth(24)
                 row_layout.addWidget(icon_lbl)
 
                 name_lbl = QLabel(ex_name)
                 name_lbl.setStyleSheet(
-                    f"color: {colors.text_primary}; {font_style('caption', 'bold')}"
+                    f"color: {colors.text_primary}; font-size: 14px; font-weight: 600; background: transparent;"
                 )
                 row_layout.addWidget(name_lbl, 1)
 
                 if display_val or pr_type:
                     val_lbl = QLabel(f"{pr_type.upper() if pr_type else ''} {display_val}")
                     val_lbl.setStyleSheet(
-                        f"color: {colors.warning}; {font_style('caption', 'bold')}"
+                        f"color: {colors.warning}; font-size: 13px; font-weight: 700; background: transparent;"
                     )
                     row_layout.addWidget(val_lbl)
 

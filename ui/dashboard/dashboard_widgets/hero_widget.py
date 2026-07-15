@@ -39,6 +39,9 @@ _px20 = _pxf(S.s5)
 _px24 = _pxf(S.s6)
 _px28 = _pxf(S.s7)
 _px32 = _pxf(S.s8)
+_px36 = _pxf(S.s9) if hasattr(S, 's9') else 36
+_px40 = _pxf(S.s10) if hasattr(S, 's10') else 40
+_px48 = _pxf(S.s12) if hasattr(S, 's12') else 48
 
 _ANI_DURATION = 200
 _ANI_STAGGER = 80
@@ -66,15 +69,15 @@ class HeroWidget(QFrame):
         colors = self._colors()
 
         self.setObjectName("DashboardHero")
-        self.setMinimumHeight(300)
+        self.setMinimumHeight(340)
         self.setStyleSheet(
             f"""
             QFrame#DashboardHero {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba({','.join(str(c) for c in (12,16,51,200))}),
-                    stop:0.35 rgba({','.join(str(c) for c in (20,16,74,180))}),
-                    stop:0.7 rgba({','.join(str(c) for c in (26,13,68,160))}),
-                    stop:1 rgba({','.join(str(c) for c in (10,14,40,120))}));
+                    stop:0 rgba(15, 18, 55, 230),
+                    stop:0.3 rgba(22, 18, 78, 200),
+                    stop:0.6 rgba(28, 14, 70, 170),
+                    stop:1 rgba(10, 14, 42, 130));
                 border-radius: {R.xl};
                 border: 1px solid {resolve_alpha(colors.primary, 0.10)};
             }}
@@ -83,7 +86,7 @@ class HeroWidget(QFrame):
         apply_elevation(self, 3, is_dark=True, bg_color=colors.surface)
 
         outer = QVBoxLayout(self)
-        outer.setContentsMargins(_px32, _px28, _px32, _px24)
+        outer.setContentsMargins(_px36, _px32, _px36, _px28)
         outer.setSpacing(0)
 
         # Top row: greeting + rings
@@ -91,18 +94,19 @@ class HeroWidget(QFrame):
         top_row.setContentsMargins(0, 0, 0, 0)
 
         left_area = QVBoxLayout()
-        left_area.setSpacing(_px6)
+        left_area.setSpacing(_px8)
 
         self._greeting = QLabel("Good Morning")
         self._greeting.setStyleSheet(
-            f"color: {colors.text_primary}; {font_style('hero')}; "
-            f"letter-spacing: -0.03em; background: transparent;"
+            f"color: {colors.text_primary}; font-size: 34px; font-weight: 700; "
+            f"letter-spacing: -0.04em; background: transparent;"
         )
         left_area.addWidget(self._greeting)
 
         self._subtitle = QLabel("")
         self._subtitle.setStyleSheet(
-            f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+            f"color: {colors.text_secondary}; font-size: 15px; font-weight: 400; "
+            f"background: transparent;"
         )
         self._subtitle.setWordWrap(True)
         left_area.addWidget(self._subtitle)
@@ -111,35 +115,35 @@ class HeroWidget(QFrame):
         top_row.addLayout(left_area, 1)
 
         rings_area = QHBoxLayout()
-        rings_area.setSpacing(_px16)
+        rings_area.setSpacing(_px20)
         rings_area.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
 
-        self._recovery_ring = RecoveryRing(size=72)
+        self._recovery_ring = RecoveryRing(size=80)
         rings_area.addWidget(self._recovery_ring)
 
-        self._goal_ring = GoalRing(size=72)
+        self._goal_ring = GoalRing(size=80)
         rings_area.addWidget(self._goal_ring)
 
         top_row.addLayout(rings_area)
         outer.addLayout(top_row)
 
-        outer.addSpacing(_px16)
+        outer.addSpacing(_px20)
 
         self._prediction = QLabel("")
         self._prediction.setStyleSheet(
-            f"color: {colors.primary}; {font_style('body', 'bold')}; "
-            f"background: transparent; padding: {S.s2} 0;"
+            f"color: {colors.primary}; font-size: 15px; font-weight: 600; "
+            f"font-style: italic; background: transparent; padding: {_px4} 0;"
         )
         self._prediction.setWordWrap(True)
         self._prediction.hide()
         outer.addWidget(self._prediction)
 
-        outer.addSpacing(_px8)
+        outer.addSpacing(_px12)
 
         # Metrics row
         metrics_row = QHBoxLayout()
         metrics_row.setContentsMargins(0, 0, 0, 0)
-        metrics_row.setSpacing(_px24)
+        metrics_row.setSpacing(_px32)
 
         metric_defs = [
             ("_metric_ready", "Readiness", "success"),
@@ -153,18 +157,20 @@ class HeroWidget(QFrame):
             block.setStyleSheet("background: transparent; border: none;")
             bl = QVBoxLayout(block)
             bl.setContentsMargins(0, 0, 0, 0)
-            bl.setSpacing(_px2)
+            bl.setSpacing(_px4)
 
             val = QLabel("--")
             val.setStyleSheet(
                 f"color: {getattr(colors, color_key, colors.text_primary)}; "
-                f"{font_style('metric')}; letter-spacing: -0.03em; background: transparent;"
+                f"font-size: 28px; font-weight: 800; "
+                f"letter-spacing: -0.03em; background: transparent;"
             )
             bl.addWidget(val)
 
             name = QLabel(label)
             name.setStyleSheet(
-                f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;"
+                f"color: {colors.text_disabled}; font-size: 12px; font-weight: 500; "
+                f"letter-spacing: 0.03em; background: transparent;"
             )
             bl.addWidget(name)
 
@@ -175,35 +181,36 @@ class HeroWidget(QFrame):
         metrics_row.addStretch()
         outer.addLayout(metrics_row)
 
-        outer.addSpacing(_px16)
+        outer.addSpacing(_px20)
 
         # CTA buttons
         cta_row = QHBoxLayout()
         cta_row.setContentsMargins(0, 0, 0, 0)
-        cta_row.setSpacing(_px12)
+        cta_row.setSpacing(_px16)
 
         self._start_btn = QPushButton("  \u25B6  Start Workout")
         self._start_btn.setCursor(Qt.PointingHandCursor)
-        self._start_btn.setFixedHeight(52)
-        self._start_btn.setMinimumWidth(200)
+        self._start_btn.setFixedHeight(54)
+        self._start_btn.setMinimumWidth(220)
         self._start_btn.setStyleSheet(
             f"""
             QPushButton {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                    stop:0 rgba(139,92,246,0.9), stop:0.5 rgba(168,85,247,0.85), stop:1 rgba(217,70,239,0.8));
+                    stop:0 rgba(99,102,241,0.95), stop:0.6 rgba(139,92,246,0.9), stop:1 rgba(167,139,250,0.85));
                 color: #FFFFFF;
-                border: 1px solid rgba(255,255,255,0.08);
+                border: 1px solid rgba(255,255,255,0.06);
                 border-radius: {R.size_2xl};
-                padding: 0 {S.s7};
-                {font_style('body', 'bold')}
+                padding: 0 36px;
+                font-size: 15px; font-weight: 700;
+                letter-spacing: 0.01em;
             }}
             QPushButton:hover {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                    stop:0 rgba(167,139,250,0.9), stop:0.5 rgba(192,132,252,0.85), stop:1 rgba(232,121,249,0.8));
+                    stop:0 rgba(129,140,248,0.95), stop:0.6 rgba(167,139,250,0.9), stop:1 rgba(196,181,253,0.85));
             }}
             QPushButton:pressed {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                    stop:0 rgba(124,58,237,0.95), stop:0.5 rgba(147,51,234,0.9), stop:1 rgba(192,38,211,0.85));
+                    stop:0 rgba(79,70,229,0.95), stop:0.5 rgba(99,102,241,0.9), stop:1 rgba(129,140,248,0.85));
             }}
             QPushButton:focus {{
                 border: 2px solid {colors.focus_ring};
@@ -217,20 +224,22 @@ class HeroWidget(QFrame):
 
         self._review_btn = QPushButton("  \u270F  Review Week")
         self._review_btn.setCursor(Qt.PointingHandCursor)
-        self._review_btn.setFixedHeight(52)
+        self._review_btn.setFixedHeight(54)
+        self._review_btn.setMinimumWidth(180)
         self._review_btn.setStyleSheet(
             f"""
             QPushButton {{
                 background-color: transparent;
                 color: {colors.text_primary};
-                border: 1px solid {resolve_alpha(colors.primary, 0.12)};
+                border: 1px solid {resolve_alpha(colors.text_primary, 0.10)};
                 border-radius: {R.size_2xl};
-                padding: 0 {S.s7};
-                {font_style('body', 'bold')}
+                padding: 0 28px;
+                font-size: 15px; font-weight: 600;
+                letter-spacing: 0.01em;
             }}
             QPushButton:hover {{
-                background-color: {resolve_alpha(colors.primary, 0.10)};
-                border-color: {resolve_alpha(colors.primary, 0.25)};
+                background-color: {resolve_alpha(colors.text_primary, 0.05)};
+                border-color: {resolve_alpha(colors.text_primary, 0.20)};
             }}
             QPushButton:focus {{
                 border: 2px solid {colors.focus_ring};
