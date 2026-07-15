@@ -14,6 +14,7 @@ from datetime import datetime
 from typing import Any
 
 from ui.dashboard.dashboard_models import DashboardData
+from ui.dashboard.dashboard_services.overview_metrics import enrich_overview
 
 logger = logging.getLogger(__name__)
 
@@ -91,7 +92,7 @@ class DashboardDataService:
                 if recs:
                     recovery_suggested = recs[0]
 
-            return DashboardData(
+            result = DashboardData(
                 user_name=header.get("user_name", "") or "",
                 current_program=header.get("current_program") or "No Active Program",
                 mesocycle_week=header.get("mesocycle_week", 0),
@@ -129,6 +130,13 @@ class DashboardDataService:
                 nutrition_configured=nutrition_summary.get("configured", False),
                 nutrition_data=nutrition_summary.get("data", {}),
             )
+            enrich_overview(
+                result,
+                db=self._db,
+                prog_mgr=self._prog_mgr,
+                nutrition_service=self._nutrition_service,
+            )
+            return result
         except Exception:
             logger.warning("Dashboard fetch_all failed", exc_info=True)
             return DashboardData()

@@ -105,6 +105,9 @@ class MainWindow(QMainWindow):
         self._dashboard_view.import_program_clicked.connect(
             lambda: self._open_import_wizard()
         )
+        self._dashboard_view.view_recovery_clicked.connect(
+            lambda: self._shell.switch_to("recovery", "page")
+        )
         self._workout_selection_view.workout_selected.connect(self._on_workout_selected)
         self._workout_view.workout_saved.connect(self._on_workout_saved)
         self._workout_view.back_clicked.connect(
