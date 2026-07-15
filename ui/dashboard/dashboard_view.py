@@ -1,40 +1,53 @@
-"""Dashboard View — thin orchestration layer over extracted widgets.
+"""Dashboard View — premium overview matching the GymOS dashboard design.
 
 External API is backward-compatible:
   - Constructor: DashboardView(db, prog_mgr, nutrition_service, controller, motion)
   - Methods: refresh(), controller(), set_motion_service(motion)
   - Signals: start_workout_clicked, view_all_prs_clicked, weekly_review_clicked,
-             view_recommendations_clicked, log_weight_clicked, import_program_clicked, set_goal_clicked
+             view_recommendations_clicked, log_weight_clicked, import_program_clicked,
+             set_goal_clicked, view_recovery_clicked
 
-Widgets are built in _build_ui and updated in _on_data_updated.
+Layout (top → bottom):
+  1. Welcome header (greeting + date)
+  2. Metric strip (Training Load, Calories, Active Time, Score, Recovery)
+  3. Weekly Progress | Muscle Group Focus | Recent Workouts
+  4. Recovery Status | Nutrition Overview | AI Coach Recommendation
+  5. Achievements | Streak | Next Milestone | Body Weight
 """
 
 from __future__ import annotations
 
-from typing import Any
+from datetime import datetime
+from typing import Any, Protocol
 
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QHBoxLayout, QVBoxLayout, QWidget
 
 from ui.dashboard.dashboard_controller import DashboardController
 from ui.dashboard.dashboard_models import DashboardData
-from ui.dashboard.dashboard_widgets.actions_widget import ActionsWidget
-from ui.dashboard.dashboard_widgets.coach_widget import CoachPredictionsWidget
-from ui.dashboard.dashboard_widgets.hero_widget import HeroWidget
-from ui.dashboard.dashboard_widgets.mission_widget import MissionRecoveryWidget
-from ui.dashboard.dashboard_widgets.progress_widget import ProgressWidget
-from ui.design_system.components.section_header import SectionHeader
+from ui.dashboard.dashboard_widgets.ai_coach_widget import AICoachWidget
+from ui.dashboard.dashboard_widgets.card_kit import make_label
+from ui.dashboard.dashboard_widgets.highlights_widget import HighlightsWidget
+from ui.dashboard.dashboard_widgets.muscle_focus_widget import MuscleFocusWidget
+from ui.dashboard.dashboard_widgets.nutrition_overview_widget import NutritionOverviewWidget
+from ui.dashboard.dashboard_widgets.recent_workouts_widget import RecentWorkoutsWidget
+from ui.dashboard.dashboard_widgets.recovery_status_widget import RecoveryStatusWidget
+from ui.dashboard.dashboard_widgets.stat_strip_widget import StatStripWidget
+from ui.dashboard.dashboard_widgets.weekly_progress_widget import WeeklyProgressWidget
 from ui.design_system.layout import ScrollContainer
+from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.experience.motion_service import MotionService
 
-S = 0  # SpacingTokens accessed via _px helpers in widgets
+C = color_from_scheme(ColorScheme.DARK)
+
+
+class _DashboardSection(Protocol):
+    def update_data(self, data: DashboardData) -> None: ...
+    def set_motion_service(self, motion: MotionService) -> None: ...
 
 
 class DashboardView(QWidget):
-    """Main dashboard view — orchestrates widgets, signals, and data flow.
-
-    Signals (backward-compatible):
-    """
+    """Main dashboard view — premium overview surface."""
 
     start_workout_clicked = Signal()
     view_all_prs_clicked = Signal()
@@ -43,6 +56,7 @@ class DashboardView(QWidget):
     log_weight_clicked = Signal()
     import_program_clicked = Signal()
     set_goal_clicked = Signal()
+    view_recovery_clicked = Signal()
 
     def __init__(
         self,
@@ -108,78 +122,85 @@ class DashboardView(QWidget):
         layout.setSpacing(0)
 
         main = QVBoxLayout()
-        main.setContentsMargins(0, 0, 40, 48)
-        main.setSpacing(0)
+        main.setContentsMargins(4, 4, 28, 40)
+        main.setSpacing(20)
         layout.insertLayout(0, main)
 
-        # 1. Hero
-        self._hero = HeroWidget(motion=self._motion)
-        main.addWidget(self._hero)
+        main.addLayout(self._build_header())
 
-        main.addSpacing(40)
+        # 1. Metric strip
+        self._stats = StatStripWidget(motion=self._motion)
+        main.addWidget(self._stats)
 
-        # 2. Today's Mission
-        self._build_section_header(main, "Today's Mission", "Your next training session")
-        main.addSpacing(16)
-        self._mission = MissionRecoveryWidget(motion=self._motion)
-        main.addWidget(self._mission)
+        # 2. Weekly Progress | Muscle Focus | Recent Workouts
+        self._weekly = WeeklyProgressWidget(motion=self._motion)
+        self._muscle = MuscleFocusWidget(motion=self._motion)
+        self._recent = RecentWorkoutsWidget(motion=self._motion)
+        row1 = QHBoxLayout()
+        row1.setContentsMargins(0, 0, 0, 0)
+        row1.setSpacing(16)
+        row1.addWidget(self._weekly, 5)
+        row1.addWidget(self._muscle, 3)
+        row1.addWidget(self._recent, 3)
+        main.addLayout(row1)
 
-        main.addSpacing(36)
+        # 3. Recovery | Nutrition | AI Coach
+        self._recovery = RecoveryStatusWidget(motion=self._motion)
+        self._nutrition = NutritionOverviewWidget(motion=self._motion)
+        self._coach = AICoachWidget(motion=self._motion)
+        row2 = QHBoxLayout()
+        row2.setContentsMargins(0, 0, 0, 0)
+        row2.setSpacing(16)
+        row2.addWidget(self._recovery, 1)
+        row2.addWidget(self._nutrition, 1)
+        row2.addWidget(self._coach, 1)
+        main.addLayout(row2)
 
-        # 3. Coach
-        self._build_section_header(main, "Coach", "Personalized guidance")
-        main.addSpacing(16)
-        self._coach = CoachPredictionsWidget(motion=self._motion)
-        main.addWidget(self._coach)
-
-        main.addSpacing(36)
-
-        # 4. Progress
-        self._build_section_header(main, "Progress", "Your training journey")
-        main.addSpacing(16)
-        self._progress = ProgressWidget(motion=self._motion)
-        main.addWidget(self._progress)
-
-        main.addSpacing(36)
-
-        # 5. Records & Actions
-        self._build_section_header(main, "Records & Actions", "Achievements & quick tasks")
-        main.addSpacing(16)
-        self._actions = ActionsWidget(motion=self._motion)
-        main.addWidget(self._actions)
+        # 4. Highlights row
+        self._highlights = HighlightsWidget(motion=self._motion)
+        main.addWidget(self._highlights)
 
         main.addStretch()
 
-        self._widgets = [self._hero, self._mission, self._coach, self._progress, self._actions]
+        self._widgets: list[_DashboardSection] = [
+            self._stats, self._weekly, self._muscle, self._recent,
+            self._recovery, self._nutrition, self._coach, self._highlights,
+        ]
 
-    @staticmethod
-    def _build_section_header(parent: QVBoxLayout, title: str, subtitle: str) -> None:
-        header = SectionHeader(title=title, subtitle=subtitle)
-        hbox = QHBoxLayout()
-        hbox.setContentsMargins(0, 0, 0, 0)
-        hbox.addWidget(header)
-        parent.addLayout(hbox)
+    def _build_header(self) -> QHBoxLayout:
+        header = QHBoxLayout()
+        header.setContentsMargins(0, 0, 0, 4)
+        header.setSpacing(4)
+
+        text_col = QVBoxLayout()
+        text_col.setSpacing(2)
+        self._welcome = make_label("Welcome back!", size=22, weight=800, color=C.text_primary, letter_spacing="-0.02em")
+        text_col.addWidget(self._welcome)
+        text_col.addWidget(make_label("Here's your overview for today.", size=13, weight=400, color=C.text_secondary))
+        header.addLayout(text_col)
+        header.addStretch()
+
+        date_pill = make_label(datetime.now().strftime("%A, %b %d, %Y"), size=13, weight=600, color=C.text_secondary)
+        date_pill.setStyleSheet(
+            f"color: {C.text_secondary}; font-size: 13px; font-weight: 600; "
+            f"background: {C.surface}; border: 1px solid {C.border}; "
+            f"border-radius: 12px; padding: 9px 16px;"
+        )
+        header.addWidget(date_pill)
+        return header
 
     def _connect_signals(self) -> None:
-        # Forward widget signals to DashboardView signals
-        self._hero.start_workout_clicked.connect(self.start_workout_clicked.emit)
-        self._hero.weekly_review_clicked.connect(self.weekly_review_clicked.emit)
+        self._recent.action_clicked.connect(self.view_all_prs_clicked.emit)
+        self._recovery.view_details_clicked.connect(self.view_recovery_clicked.emit)
+        self._nutrition.view_details_clicked.connect(self.view_recommendations_clicked.emit)
+        self._coach.chat_clicked.connect(self.view_recommendations_clicked.emit)
 
-        self._mission.start_workout_clicked.connect(self.start_workout_clicked.emit)
-        self._mission.import_program_clicked.connect(self.import_program_clicked.emit)
-
-        self._actions.start_workout_clicked.connect(self.start_workout_clicked.emit)
-        self._actions.log_weight_clicked.connect(self.log_weight_clicked.emit)
-        self._actions.set_goal_clicked.connect(self.set_goal_clicked.emit)
-        self._actions.import_program_clicked.connect(self.import_program_clicked.emit)
-        self._actions.view_all_prs_clicked.connect(self.view_all_prs_clicked.emit)
-        self._actions.weekly_review_clicked.connect(self.weekly_review_clicked.emit)
-
-        # Controller → view update
         self._controller.data_updated.connect(self._on_data_updated)
 
     def _on_data_updated(self, data: DashboardData) -> None:
         self._last_data = data
+        name = (data.user_name or "").strip()
+        self._welcome.setText(f"Welcome back, {name}!" if name else "Welcome back!")
         for w in self._widgets:
             w.update_data(data)
 

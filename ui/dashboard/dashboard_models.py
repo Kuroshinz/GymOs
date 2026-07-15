@@ -65,3 +65,60 @@ class DashboardData:
     # ─── Nutrition ───────────────────────────────────────────
     nutrition_configured: bool = False
     nutrition_data: dict = field(default_factory=dict)
+
+    # ─── Overview Metric Strip ───────────────────────────────
+    # Each metric: (value_text, unit, qualifier, trend, trend_label)
+    training_load: int = 0
+    training_load_level: str = ""
+    training_load_trend: str = ""
+    calories_burned: int = 0
+    calories_trend: str = ""
+    active_minutes: int = 0
+    active_trend: str = ""
+    workout_score: int = 0
+    workout_score_label: str = ""
+    workout_score_trend: str = ""
+    recovery_percent: int = 0
+    recovery_qualifier: str = ""
+    recovery_trend: str = ""
+
+    # ─── Weekly Progress (dual series) ───────────────────────
+    weekly_labels: list = field(default_factory=list)
+    weekly_strength: list = field(default_factory=list)
+    weekly_cardio: list = field(default_factory=list)
+    week_workouts_done: int = 0
+    week_workouts_target: int = 0
+    week_sets_done: int = 0
+    week_sets_target: int = 0
+    week_volume_kg: float = 0.0
+    week_volume_delta: str = ""
+    week_prs: int = 0
+
+    # ─── Muscle Group Focus ──────────────────────────────────
+    # {muscle_key: "primary" | "secondary" | "untargeted"}
+    muscle_focus: dict = field(default_factory=dict)
+
+    # ─── Recent Workouts ─────────────────────────────────────
+    # [{name, focus, score, date, color}]
+    recent_workouts: list = field(default_factory=list)
+
+    # ─── Recovery Vitals ─────────────────────────────────────
+    # [{label, value, status}]
+    recovery_vitals: list = field(default_factory=list)
+
+    # ─── AI Coach ────────────────────────────────────────────
+    ai_coach_title: str = ""
+    ai_coach_body: str = ""
+    ai_coach_fatigue: str = ""
+    ai_coach_readiness: str = ""
+
+    # ─── Gamification ────────────────────────────────────────
+    # [{name, tier, unlocked}]
+    achievements: list = field(default_factory=list)
+    level: int = 0
+    level_tier: str = ""
+    xp_current: int = 0
+    xp_target: int = 0
+    milestone_label: str = ""
+    body_weight_series: list = field(default_factory=list)
+    body_weight_delta: str = ""

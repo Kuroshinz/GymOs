@@ -232,7 +232,7 @@ class MotionService(QObject):
         card.setProperty("_motion_orig_glow", orig_glow)
         card.installEventFilter(self)
 
-    def eventFilter(self, obj: QObject, event) -> bool:
+    def eventFilter(self, obj: QObject, event) -> bool:  # noqa: N802
         if self.reduced:
             return super().eventFilter(obj, event)
         if isinstance(obj, QWidget):
