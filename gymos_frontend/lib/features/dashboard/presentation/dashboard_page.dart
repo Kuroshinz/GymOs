@@ -56,7 +56,7 @@ class DashboardPage extends StatelessWidget {
                       value: '94%',
                       subtitle: 'Excellent',
                       icon: Icons.battery_charging_full_outlined,
-                      color: Colors.emerald,
+                      color: Colors.teal,
                     ),
                     _buildStatCard(
                       title: 'Avg RIR',

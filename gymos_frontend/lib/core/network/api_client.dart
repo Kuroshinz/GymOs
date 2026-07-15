@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 class ApiClient {
   final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'http://127.0.0.1:8000/api',
+      baseUrl: "https://gymos-m37k.onrender.com/api",
       connectTimeout: const Duration(seconds: 5),
       receiveTimeout: const Duration(seconds: 5),
       headers: {
@@ -49,6 +49,15 @@ class ApiClient {
       return response.data as Map<String, dynamic>;
     } catch (e) {
       throw Exception('Failed to load prediction data: $e');
+    }
+  }
+
+  Future<Map<String, dynamic>> getAiData() async {
+    try {
+      final response = await _dio.get('/ai');
+      return response.data as Map<String, dynamic>;
+    } catch (e) {
+      throw Exception('Failed to load AI data: $e');
     }
   }
 }

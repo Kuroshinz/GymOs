@@ -3,7 +3,7 @@ import '../../dashboard/presentation/dashboard_page.dart';
 import '../../workout/presentation/workout_page.dart';
 import '../../progress/presentation/progress_page.dart';
 import '../../recovery/presentation/recovery_page.dart';
-import '../../predictions/presentation/predictions_page.dart';
+import '../../ai_analytics/presentation/ai_analytics_page.dart';
 import '../../records/presentation/records_page.dart';
 import '../../settings/presentation/settings_page.dart';
 
@@ -33,7 +33,7 @@ class _ShellLayoutState extends State<ShellLayout> {
     SidebarItem.workout: const WorkoutPage(),
     SidebarItem.progress: const ProgressPage(),
     SidebarItem.recovery: const RecoveryPage(),
-    SidebarItem.predictions: const PredictionsPage(),
+    SidebarItem.predictions: const AIAnalyticsPage(),
     SidebarItem.records: const RecordsPage(),
     SidebarItem.settings: const SettingsPage(),
   };
@@ -95,7 +95,7 @@ class _ShellLayoutState extends State<ShellLayout> {
                       _buildNavigationItem(
                         item: SidebarItem.predictions,
                         icon: Icons.psychology_outlined,
-                        label: 'Predictions',
+                        label: 'AI Analytics',
                       ),
                       _buildNavigationItem(
                         item: SidebarItem.records,

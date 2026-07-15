@@ -1,0 +1,24 @@
+# NexusOS AI Agent Configuration & Workspace Rules
+
+This file guides AI assistants (like Cursor, Gemini, and Claude) on how to navigate and interact with the NexusOS codebase.
+
+## 1. Custom Agent Configurations
+
+AI Agents operating in this repository must discover and register our custom development structures:
+
+*   **Rules Path:** Check rules in `./.ai/` (or `./ai/rules/` if present). These contain core guidelines (e.g., Coding Standards, Architecture, Database rules).
+*   **Skills Path:** Modular skill recipes are registered and stored in `./ai/skills/` (and `./.agents/skills/`).
+*   **Workflows Path:** Automation workflows are located in `./ai/workflows/`.
+
+## 2. Directory Layout & Context
+
+*   **Rules (`./.ai/`):** Contains files specifying constraints, standards, and checklists. Always consult files in `./.ai/` (e.g., `CODING_STANDARD.md`, `ARCHITECTURE_RULES.md`) before editing the codebase.
+*   **Skills (`./ai/skills/`):** Read existing skills to leverage pre-defined behaviors and methodologies.
+*   **Workflows (`./ai/workflows/`):** Check here for automated recipes, slash commands, or run scripts.
+
+## 3. General Behavioral Directives
+
+1.  **Read Custom Rules First:** Before modifying files, check for relevant rules in `./.ai/`.
+2.  **No Placeholders:** Write fully functional, production-ready code with complete implementation details.
+3.  **Preserve Structure:** Maintain existing files, docstrings, and styles unless explicitly instructed otherwise.
+4.  **Verification:** Always run or suggest verification steps (e.g. tests in `tests/`) to ensure functional correctness.

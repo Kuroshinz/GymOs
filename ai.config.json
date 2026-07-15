@@ -1,0 +1,25 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "project": "NexusOs",
+  "paths": {
+    "rules": [
+      "./.ai/",
+      "./ai/rules/"
+    ],
+    "skills": [
+      "./ai/skills/",
+      "./.agents/skills/",
+      "./.opencode/skills/"
+    ],
+    "workflows": [
+      "./ai/workflows/"
+    ]
+  },
+  "agent": {
+    "customizations": {
+      "rules": "./.ai/",
+      "skills": "./ai/skills/",
+      "workflows": "./ai/workflows/"
+    }
+  }
+}

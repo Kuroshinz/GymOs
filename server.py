@@ -14,6 +14,7 @@ from modules.prediction.application import PredictionService
 from modules.gymbrain.services.decision_engine import DecisionEngine
 from shared.events.event_bus import get_event_bus
 from schemas.api_models import WorkoutLogPayload
+from modules.ai.workflows.routes import router as ai_router
 
 app = FastAPI(title="GymOS Headless API")
 
@@ -25,6 +26,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(ai_router)
 
 # Resolve DB Path
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -185,6 +188,8 @@ def get_prediction_analytics():
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
 
 if __name__ == "__main__":
     import uvicorn
