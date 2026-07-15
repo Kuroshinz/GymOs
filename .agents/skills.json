@@ -1,6 +1,7 @@
 {
   "entries": [
     { "path": "../ai/skills" },
-    { "path": "../.opencode/skills" }
+    { "path": "../.opencode/skills" },
+    { "path": "../.opencode/skills/agentic-awesome-skills" }
   ]
 }

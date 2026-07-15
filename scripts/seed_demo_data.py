@@ -23,7 +23,7 @@ def seed_demo_data(db_path: str = DB_PATH) -> None:
     init_db(db_path)
 
     db = GymDatabase(db_path)
-    if db._count_workouts() > 0:
+    if len(db.list_sessions(limit=1)) > 0:
         logger.info("Demo data skipped: workouts exist")
         return
 

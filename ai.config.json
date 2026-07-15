@@ -9,7 +9,8 @@
     "skills": [
       "./ai/skills/",
       "./.agents/skills/",
-      "./.opencode/skills/"
+      "./.opencode/skills/",
+      "./.opencode/skills/agentic-awesome-skills/"
     ],
     "workflows": [
       "./ai/workflows/"

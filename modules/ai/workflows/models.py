@@ -1,9 +1,9 @@
 from pydantic import BaseModel, Field
-from typing import list, dict
+from typing import List, Dict
 
 class ProgressiveOverloadRequest(BaseModel):
-    reps: list[int] = Field(..., description="Reps completed per set")
-    rir: list[int] = Field(..., description="RIR recorded per set")
+    reps: List[int] = Field(..., description="Reps completed per set")
+    rir: List[int] = Field(..., description="RIR recorded per set")
     current_weight: float = Field(..., description="Current weight lifted in kg")
     target_reps: int = Field(10, description="Target reps to trigger weight progression")
     target_rir: int = Field(2, description="Target reps in reserve to trigger weight progression")
@@ -29,7 +29,7 @@ class RecoveryForecastRequest(BaseModel):
     sleep_hours: float
     stress_level: int
     soreness_level: int
-    previous_scores: list[float] = Field(default_factory=list)
+    previous_scores: List[float] = Field(default_factory=list)
 
 class RecoveryForecastResponse(BaseModel):
     forecasted_score: float
@@ -40,8 +40,8 @@ class CounterfactualRequest(BaseModel):
     baseline_sleep: float
     baseline_stress: int
     baseline_soreness: int
-    previous_scores: list[float] = Field(default_factory=list)
-    modified_parameters: dict = Field(..., description="Modified sleep_hours, stress_level, soreness_level")
+    previous_scores: List[float] = Field(default_factory=list)
+    modified_parameters: Dict = Field(..., description="Modified sleep_hours, stress_level, soreness_level")
 
 class CounterfactualResponse(BaseModel):
     baseline_score: float

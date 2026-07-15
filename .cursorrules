@@ -7,7 +7,7 @@ This file guides AI assistants (like Cursor, Gemini, and Claude) on how to navig
 AI Agents operating in this repository must discover and register our custom development structures:
 
 *   **Rules Path:** Check rules in `./.ai/` (or `./ai/rules/` if present). These contain core guidelines (e.g., Coding Standards, Architecture, Database rules).
-*   **Skills Path:** Modular skill recipes are registered and stored in `./ai/skills/` (and `./.agents/skills/`).
+*   **Skills Path:** Modular skill recipes are registered and stored in `./ai/skills/` (and `./.agents/skills/`, `./.opencode/skills/agentic-awesome-skills/`).
 *   **Workflows Path:** Automation workflows are located in `./ai/workflows/`.
 
 ## 2. Directory Layout & Context
