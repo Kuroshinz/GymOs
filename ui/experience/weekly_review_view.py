@@ -136,7 +136,7 @@ class WeeklyReviewView(QWidget):
         # Empty State
         self.empty_state = EmptyState(
             title="No sessions completed this week",
-            description="Complete at least one workout session to generate a weekly intelligence review.",
+            message="Complete at least one workout session to generate a weekly intelligence review.",
             icon="📊",
         )
         self.content_layout.addWidget(self.empty_state)
