@@ -10,7 +10,7 @@ from __future__ import annotations
 from typing import Any
 
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtWidgets import QFrame, QLabel, QPushButton, QVBoxLayout
+from PySide6.QtWidgets import QFrame, QLabel, QPushButton, QVBoxLayout, QProgressBar
 
 from .base_card import DashboardCard
 
@@ -86,36 +86,48 @@ class NutritionWidget(DashboardCard):
         self._container.addWidget(self._button)
 
     def _render_nutrition(self, data: Any) -> None:
-        """Render nutrition data when configured.
-
-        This is a stub for future Nutrition Intelligence integration.
-        When the Nutrition module is live, this will display:
-          - Calories (current/target)
-          - Protein (current/target)
-          - Carbs (current/target)
-          - Fat (current/target)
-          - Hydration (current/target)
-        """
+        """Render nutrition data when configured."""
         nutrition = getattr(data, "nutrition_data", {}) or {}
 
-        # Future: populate from Nutrition Intelligence module
         macros = [
-            ("Calories", nutrition.get("calories", {}), "kcal"),
-            ("Protein", nutrition.get("protein", {}), "g"),
-            ("Carbs", nutrition.get("carbs", {}), "g"),
-            ("Fat", nutrition.get("fat", {}), "g"),
-            ("Hydration", nutrition.get("hydration", {}), "ml"),
+            ("Calories", nutrition.get("calories", {}), "kcal", "#6366F1"),
+            ("Protein", nutrition.get("protein", {}), "g", "#10B981"),
+            ("Carbs", nutrition.get("carbs", {}), "g", "#3B82F6"),
+            ("Fat", nutrition.get("fat", {}), "g", "#F59E0B"),
+            ("Hydration", nutrition.get("hydration", {}), "ml", "#06B6D4"),
         ]
 
-        for label, values, unit in macros:
+        for label, values, unit, color in macros:
             current = values.get("current", 0) if isinstance(values, dict) else 0
             target = values.get("target", 0) if isinstance(values, dict) else 0
+            
+            # Row label/value
             row = DashboardCard.make_row(
                 label,
                 f"{current}/{target} {unit}",
-                "#4ADE80" if current >= target else "#F1F5F9",
+                "#10B981" if current >= target and target > 0 else "#F1F5F9",
             )
             self._container.addWidget(row)
+            
+            # Progress bar
+            bar = QProgressBar()
+            bar.setFixedHeight(5)
+            bar.setTextVisible(False)
+            bar.setRange(0, int(target) if target > 0 else 100)
+            bar.setValue(int(current))
+            bar.setStyleSheet(f"""
+                QProgressBar {{
+                    background-color: rgba(255, 255, 255, 0.05);
+                    border: none;
+                    border-radius: 2px;
+                }}
+                QProgressBar::chunk {{
+                    background-color: {color};
+                    border-radius: 2px;
+                }}
+            """)
+            self._container.addWidget(bar)
+            self._container.addSpacing(4)
 
         self._container.addWidget(DashboardCard.make_separator())
         self._container.addWidget(self._button)

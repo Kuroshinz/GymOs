@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
     QFrame,
     QGridLayout,
@@ -28,10 +29,16 @@ class MetricCard(QFrame):
     def __init__(self, label: str, value: str, subtitle: str = "", color: str | None = None) -> None:
         super().__init__()
         c = color_from_scheme(ColorScheme.DARK)
+        border_color = color if color else c.border
+        bg_color = c.surface_elevated
+        if color:
+            # Add a subtle translucent color tint to the background
+            bg_color = f"rgba({QColor(color).red()}, {QColor(color).green()}, {QColor(color).blue()}, 0.08)"
+            
         self.setStyleSheet(f"""
             MetricCard {{
-                background-color: {c.surface_elevated};
-                border: 1px solid {c.border};
+                background-color: {bg_color};
+                border: 1px solid {border_color};
                 border-radius: {R.lg};
                 padding: 16px;
             }}
