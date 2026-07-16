@@ -47,8 +47,8 @@ class MetricCard(QFrame):
         layout.setContentsMargins(16, 12, 16, 12)
         layout.setSpacing(4)
 
-        lbl = QLabel(label)
-        lbl.setStyleSheet(f"color: {c.text_secondary}; font-size: 11px; font-weight: 700; letter-spacing: 0.5px;")
+        lbl = QLabel(label.upper())
+        lbl.setStyleSheet(f"color: {c.text_secondary}; {font_style('caption', 'bold')}; background: transparent; border: none; letter-spacing: 0.5px;")
         layout.addWidget(lbl)
 
         val_color = color or c.text_primary
@@ -62,22 +62,22 @@ class MetricCard(QFrame):
             val_layout.setAlignment(Qt.AlignBottom | Qt.AlignLeft)
             
             num_lbl = QLabel(parts[0])
-            num_lbl.setStyleSheet(f"color: {val_color}; font-size: 24px; font-weight: 700; background: transparent; border: none;")
+            num_lbl.setStyleSheet(f"color: {val_color}; {font_style('h1', 'bold')}; background: transparent; border: none;")
             val_layout.addWidget(num_lbl)
             
             unit_lbl = QLabel(parts[1])
-            unit_lbl.setStyleSheet(f"color: {c.text_disabled}; font-size: 13px; font-weight: 500; background: transparent; border: none; padding-bottom: 2px;")
+            unit_lbl.setStyleSheet(f"color: {c.text_disabled}; {font_style('caption', 'medium')}; background: transparent; border: none; padding-bottom: 2px;")
             val_layout.addWidget(unit_lbl)
             
             layout.addWidget(val_widget)
         else:
             val = QLabel(value)
-            val.setStyleSheet(f"color: {val_color}; font-size: 24px; font-weight: 700; background: transparent; border: none;")
+            val.setStyleSheet(f"color: {val_color}; {font_style('h1', 'bold')}; background: transparent; border: none;")
             layout.addWidget(val)
 
         if subtitle:
             sub = QLabel(subtitle)
-            sub.setStyleSheet(f"color: {c.text_disabled}; font-size: 11px;")
+            sub.setStyleSheet(f"color: {c.text_disabled}; {font_style('caption')}; background: transparent; border: none;")
             layout.addWidget(sub)
 
 
