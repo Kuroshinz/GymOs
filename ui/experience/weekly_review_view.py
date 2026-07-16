@@ -52,9 +52,28 @@ class MetricCard(QFrame):
         layout.addWidget(lbl)
 
         val_color = color or c.text_primary
-        val = QLabel(value)
-        val.setStyleSheet(f"color: {val_color}; font-size: 24px; font-weight: 700;")
-        layout.addWidget(val)
+        parts = value.split(" ", 1)
+        if len(parts) == 2:
+            val_widget = QWidget()
+            val_widget.setStyleSheet("background: transparent; border: none;")
+            val_layout = QHBoxLayout(val_widget)
+            val_layout.setContentsMargins(0, 0, 0, 0)
+            val_layout.setSpacing(4)
+            val_layout.setAlignment(Qt.AlignBottom | Qt.AlignLeft)
+            
+            num_lbl = QLabel(parts[0])
+            num_lbl.setStyleSheet(f"color: {val_color}; font-size: 24px; font-weight: 700; background: transparent; border: none;")
+            val_layout.addWidget(num_lbl)
+            
+            unit_lbl = QLabel(parts[1])
+            unit_lbl.setStyleSheet(f"color: {c.text_disabled}; font-size: 13px; font-weight: 500; background: transparent; border: none; padding-bottom: 2px;")
+            val_layout.addWidget(unit_lbl)
+            
+            layout.addWidget(val_widget)
+        else:
+            val = QLabel(value)
+            val.setStyleSheet(f"color: {val_color}; font-size: 24px; font-weight: 700; background: transparent; border: none;")
+            layout.addWidget(val)
 
         if subtitle:
             sub = QLabel(subtitle)

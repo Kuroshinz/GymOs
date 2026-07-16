@@ -67,7 +67,7 @@ class DeloadScheduler(QFrame):
 
         # Progress bar to deload
         self._progress = QProgressBar()
-        self._progress.setFixedHeight(8)
+        self._progress.setFixedHeight(6)
         self._progress.setTextVisible(False)
         self._progress.setRange(0, 4)
         self._progress.setValue(1)
@@ -75,11 +75,11 @@ class DeloadScheduler(QFrame):
             QProgressBar {{
                 background-color: rgba(255, 255, 255, 0.05);
                 border: none;
-                border-radius: 4px;
+                border-radius: 3px;
             }}
             QProgressBar::chunk {{
                 background-color: {c.primary};
-                border-radius: 4px;
+                border-radius: 3px;
             }}
         """)
         layout.addWidget(self._progress)
