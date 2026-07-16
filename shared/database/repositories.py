@@ -23,6 +23,9 @@ class SQLiteProgressRepository(IProgressRepository):
     def list_sessions(self, limit: int = 10) -> list[Any]:
         return self._db.list_sessions(limit=limit)
 
+    def get_latest_body_weight(self) -> float | None:
+        return self._db.get_latest_body_weight()
+
 
 class SQLiteWorkoutRepository(IWorkoutRepository):
     """SQLite implementation of the workout repository interface."""

@@ -75,9 +75,18 @@ _LICENSE_TEXT = (
 
 
 class SettingsExperience(QWidget):
-    def __init__(self, db: Any, prog_mgr: Any = None, recovery_service: Any = None, parent: QWidget | None = None) -> None:
+    def __init__(self, db_or_repo: Any, prog_mgr: Any = None, recovery_service: Any = None, parent: QWidget | None = None) -> None:
         super().__init__(parent)
-        self._db = db
+        from shared.interfaces import IProgressRepository
+        from shared.database.repositories import SQLiteProgressRepository
+        
+        if isinstance(db_or_repo, IProgressRepository):
+            self._progress_repo = db_or_repo
+            self._db = getattr(db_or_repo, "_db", db_or_repo)
+        else:
+            self._progress_repo = SQLiteProgressRepository(db_or_repo)
+            self._db = db_or_repo
+            
         self._prog_mgr = prog_mgr
         self._recovery_service = recovery_service
         
@@ -777,7 +786,7 @@ class SettingsExperience(QWidget):
     def _refresh_profile(self) -> None:
         colors = self._colors()
         try:
-            bw = self._db.get_latest_body_weight()
+            bw = self._progress_repo.get_latest_body_weight()
             if bw and hasattr(bw, "weight_kg"):
                 self._profile_weight.setText(f"{bw.weight_kg:.1f} kg")
                 self._profile_weight.setStyleSheet(
@@ -818,7 +827,7 @@ class SettingsExperience(QWidget):
         if not save_path:
             return
 
-        sessions = self._db.list_sessions(limit=1000)
+        sessions = self._progress_repo.list_sessions(limit=1000)
 
         data = {
             "exported_at": datetime.now().isoformat(),
@@ -851,7 +860,7 @@ class SettingsExperience(QWidget):
             }
             data["workouts"].append(workout)
 
-        bw_data = self._db.get_body_weight_history(days=365)
+        bw_data = self._progress_repo.get_body_weight_history(days=365)
         for w in bw_data:
             data["body_weight"].append({
                 "date": w.date,
@@ -875,7 +884,7 @@ class SettingsExperience(QWidget):
         if not save_path:
             return
 
-        sessions = self._db.list_sessions(limit=1000)
+        sessions = self._progress_repo.list_sessions(limit=1000)
 
         lines = ["date,day,exercise,set_number,weight_kg,reps,rir"]
         for s in sessions:
