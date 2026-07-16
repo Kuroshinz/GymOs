@@ -62,7 +62,7 @@ class SetRow(QFrame):
         self.setStyleSheet("background: transparent; border: none;")
 
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(0, 4, 0, 4)
+        layout.setContentsMargins(12, 12, 12, 12)
         layout.setSpacing(_px16)
 
         num_label = QLabel(f"Set {set_number}")
@@ -110,8 +110,15 @@ class SetRow(QFrame):
         self.update_theme_styles(color_from_scheme(ColorScheme.DARK))
 
     def update_theme_styles(self, colors: Any) -> None:
+        self.setStyleSheet(f"""
+            SetRow {{
+                background-color: rgba(99, 102, 241, 0.04);
+                border: 1px solid rgba(99, 102, 241, 0.2);
+                border-radius: {R.md};
+            }}
+        """)
         self._num_label.setStyleSheet(
-            f"color: {colors.text_disabled}; {font_style('body_small', 'bold')}; background: transparent;"
+            f"color: {colors.text_disabled}; {font_style('body_small', 'bold')}; background: transparent; border: none;"
         )
         input_qss = f"""
             QLineEdit {{

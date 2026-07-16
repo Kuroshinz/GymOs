@@ -29,11 +29,12 @@ class DashboardCard(QFrame):
         colors = self._colors()
         self.setStyleSheet(f"""
             DashboardCard {{
-                background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                    stop:0 rgba(20, 21, 38, 0.75),
-                    stop:1 rgba(10, 11, 22, 0.75));
+                background-color: rgba(20, 21, 38, 0.65);
                 border-radius: 16px;
                 border: 1px solid rgba(255, 255, 255, 0.05);
+            }}
+            DashboardCard:hover {{
+                border-color: rgba(99, 102, 241, 0.35);
             }}
         """)
 

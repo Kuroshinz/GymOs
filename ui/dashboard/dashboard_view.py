@@ -40,6 +40,9 @@ class RecoveryCard(QFrame):
                 border-radius: 16px;
                 border: 1px solid rgba(255, 255, 255, 0.05);
             }
+            QFrame#RecoveryCard:hover {
+                border-color: rgba(99, 102, 241, 0.35);
+            }
         """
         )
         apply_elevation(self, 1, is_dark=True, bg_color=color_from_scheme(ColorScheme.DARK).surface)
