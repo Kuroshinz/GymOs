@@ -147,10 +147,17 @@ class WeeklyReviewView(QWidget):
         self._date_label.setText(review.week_label)
 
         # Clear grid
+        try:
+            import shiboken
+        except ImportError:
+            shiboken = None
+
         while self.grid_layout.count():
             item = self.grid_layout.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
+            w = item.widget()
+            if w is not None:
+                if shiboken is None or shiboken.isValid(w):
+                    w.deleteLater()
 
         # Populate grid
         c = color_from_scheme(ColorScheme.DARK)

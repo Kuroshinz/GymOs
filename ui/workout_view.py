@@ -635,6 +635,16 @@ class WorkoutView(QWidget):
         self._timer.timeout.connect(self._update_time_and_rest)
         self._timer.start(1000)
 
+    def showEvent(self, event) -> None:
+        super().showEvent(event)
+        if hasattr(self, "_timer") and not self._timer.isActive():
+            self._timer.start(1000)
+
+    def hideEvent(self, event) -> None:
+        super().hideEvent(event)
+        if hasattr(self, "_timer") and self._timer.isActive():
+            self._timer.stop()
+
     def _update_time_and_rest(self):
         colors = self._colors()
         # Update elapsed workout duration
@@ -700,11 +710,17 @@ class WorkoutView(QWidget):
         prog_engine = ProgressionEngine(self._db)
 
         # Clear timeline layouts
+        try:
+            import shiboken
+        except ImportError:
+            shiboken = None
+
         while self._timeline_layout.count():
             item = self._timeline_layout.takeAt(0)
             w = item.widget()
             if w is not None:
-                w.deleteLater()
+                if shiboken is None or shiboken.isValid(w):
+                    w.deleteLater()
 
         for i, ex in enumerate(day_data["exercises"]):
             ex_name = ex["name"]

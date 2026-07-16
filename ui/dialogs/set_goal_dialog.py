@@ -43,6 +43,7 @@ class SetGoalDialog(QDialog):
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
+        self.setAttribute(Qt.WA_DeleteOnClose)
         self._current_weight = current_weight
         self._color_scheme = ColorScheme.DARK
         self._build_ui()
