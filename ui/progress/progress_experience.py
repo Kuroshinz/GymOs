@@ -228,9 +228,17 @@ class ProgressExperience(QWidget):
     - Data sources: PREngine, VolumeAnalytics, db (all unchanged)
     """
 
-    def __init__(self, db: Any, parent: QWidget | None = None) -> None:
+    def __init__(self, db_or_repo: Any, parent: QWidget | None = None) -> None:
         super().__init__(parent)
-        self._db = db
+        from shared.interfaces import IProgressRepository
+        from shared.database.repositories import SQLiteProgressRepository
+        
+        if isinstance(db_or_repo, IProgressRepository):
+            self._repo = db_or_repo
+            self._db = getattr(db_or_repo, "_db", db_or_repo)
+        else:
+            self._repo = SQLiteProgressRepository(db_or_repo)
+            self._db = db_or_repo
         self._build_ui()
 
     def _colors(self):
@@ -544,7 +552,7 @@ class ProgressExperience(QWidget):
         # KPI strip
         vol_text = "--"
         try:
-            vol_data = self._db.get_volume_by_day(days=90)
+            vol_data = self._repo.get_volume_by_day(days=90)
             total_vol_kg = sum(v["volume"] for v in vol_data)
             vol_text = f"{total_vol_kg / 1000:.1f}k" if total_vol_kg >= 1000 else f"{int(total_vol_kg)}"
         except Exception:
@@ -584,7 +592,7 @@ class ProgressExperience(QWidget):
 
         # Body weight milestone
         try:
-            bw_data = self._db.get_body_weight_history(days=180)
+            bw_data = self._repo.get_body_weight_history(days=180)
             if len(bw_data) >= 2:
                 delta = bw_data[-1].weight_kg - bw_data[0].weight_kg
                 if abs(delta) >= 1.0:
@@ -757,7 +765,7 @@ class ProgressExperience(QWidget):
     def _update_body(self) -> None:
         colors = self._colors()
         try:
-            bw_data = self._db.get_body_weight_history(days=90)
+            bw_data = self._repo.get_body_weight_history(days=90)
         except Exception:
             bw_data = []
 
@@ -1087,7 +1095,7 @@ class ProgressExperience(QWidget):
         # Volume milestones — find the highest reached
         vol_milestones = {10000: "10k Volume", 50000: "50k Volume", 100000: "100k Volume"}
         try:
-            vol_data = self._db.get_volume_by_day(days=365)
+            vol_data = self._repo.get_volume_by_day(days=365)
             total_vol = sum(v["volume"] for v in vol_data)
             max_vol_reached = 0
             for threshold in sorted(vol_milestones.keys()):
@@ -1137,7 +1145,7 @@ class ProgressExperience(QWidget):
 
     def _safe_list_sessions(self, limit: int = 100):
         try:
-            return self._db.list_sessions(limit=limit)
+            return self._repo.list_sessions(limit=limit)
         except Exception:
             return []
 

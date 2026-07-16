@@ -235,6 +235,25 @@ class IDataProvider(ITrainingProvider, Protocol):
     def nutrition_provider(self) -> INutritionProvider | None: ...
 
 
+# ─── Recovery Repository ────────────────────────────────────────
+
+@runtime_checkable
+class IRecoveryRepository(Protocol):
+    """Abstraction for recovery data access in persistence layer."""
+    pass
+
+
+# ─── Progress Repository ────────────────────────────────────────
+
+@runtime_checkable
+class IProgressRepository(Protocol):
+    """Abstraction for training progress data access in persistence layer."""
+
+    def get_volume_by_day(self, days: int = 90) -> list[dict]: ...
+    def get_body_weight_history(self, days: int = 90) -> list[Any]: ...
+    def list_sessions(self, limit: int = 10) -> list[Any]: ...
+
+
 __all__ = [
     "IDataProvider",
     "IGoalProvider",
@@ -244,4 +263,6 @@ __all__ = [
     "IRecommendationEngine",
     "IRecoveryProvider",
     "ITrainingProvider",
+    "IRecoveryRepository",
+    "IProgressRepository",
 ]
