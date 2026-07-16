@@ -94,7 +94,7 @@ class MainWindow(QMainWindow):
         )
         self._workout_selection_view = WorkoutSelectionView(self._controller.db, self._controller.prog_mgr)
         self._workout_view = WorkoutView(
-            self._controller.db,
+            self._controller.workout_repository,
             self._controller.prog_mgr,
             recovery_service=self._controller.recovery_service
         )

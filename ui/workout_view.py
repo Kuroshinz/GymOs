@@ -301,9 +301,17 @@ class WorkoutView(QWidget):
     workout_saved = Signal()
     back_clicked = Signal()
 
-    def __init__(self, db, prog_mgr=None, recovery_service=None):
+    def __init__(self, db_or_repo: Any, prog_mgr=None, recovery_service=None):
         super().__init__()
-        self._db = db
+        from shared.interfaces import IWorkoutRepository
+        from shared.database.repositories import SQLiteWorkoutRepository
+        
+        if isinstance(db_or_repo, IWorkoutRepository):
+            self._repo = db_or_repo
+            self._db = getattr(db_or_repo, "_db", db_or_repo)
+        else:
+            self._repo = SQLiteWorkoutRepository(db_or_repo)
+            self._db = db_or_repo
         self._prog_mgr = prog_mgr
         self._recovery_service = recovery_service
         self._current_day_name = ""
@@ -679,7 +687,7 @@ class WorkoutView(QWidget):
         if self._prog_mgr:
             program_days = self._prog_mgr.get_active_program_days()
         if not program_days:
-            program_days = self._db.get_program_days("PPL-UL")
+            program_days = self._repo.get_program_days("PPL-UL")
         day_data = None
         for d in program_days:
             if d["name"] == day_name:
@@ -705,7 +713,7 @@ class WorkoutView(QWidget):
                 target_sets = max(1, target_sets // 2)
             target_reps = ex.get("target_reps", "8-12")
 
-            prev = self._db.get_last_session_for_exercise(ex_name)
+            prev = self._repo.get_last_session_for_exercise(ex_name)
             prev_sets = prev.sets if prev else None
             rec = prog_engine.get_recommendation(ex_name, target_reps)
 
@@ -830,7 +838,7 @@ class WorkoutView(QWidget):
             completed_at=completed_at,
         )
 
-        saved = self._db.save_session(session)
+        saved = self._repo.save_session(session)
 
         pr_engine = PREngine(self._db)
         prs = pr_engine.detect_prs(saved)
@@ -842,7 +850,7 @@ class WorkoutView(QWidget):
         if self._prog_mgr:
             program_days = self._prog_mgr.get_active_program_days()
         if not program_days:
-            program_days = self._db.get_program_days("PPL-UL")
+            program_days = self._repo.get_program_days("PPL-UL")
         target_reps_map: dict[str, str] = {}
         for d in program_days:
             if d["name"] == self._current_day_name:

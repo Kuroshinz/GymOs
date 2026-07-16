@@ -11,7 +11,7 @@ from modules.prediction.infrastructure.repository import PredictionRepository
 from modules.prediction.application import PredictionService
 from modules.gymbrain.services.decision_engine import DecisionEngine
 from shared.events.event_bus import get_event_bus
-from shared.database.repositories import SQLiteRecoveryRepository, SQLiteProgressRepository
+from shared.database.repositories import SQLiteRecoveryRepository, SQLiteProgressRepository, SQLiteWorkoutRepository
 
 class ApplicationController:
     """Composition Root and Controller for GymOS Desktop application.
@@ -60,6 +60,7 @@ class ApplicationController:
         # Instantiate repositories
         self._recovery_repository = SQLiteRecoveryRepository(self._db)
         self._progress_repository = SQLiteProgressRepository(self._db)
+        self._workout_repository = SQLiteWorkoutRepository(self._db)
 
     @property
     def db(self) -> GymDatabase:
@@ -92,6 +93,10 @@ class ApplicationController:
     @property
     def progress_repository(self) -> SQLiteProgressRepository:
         return self._progress_repository
+
+    @property
+    def workout_repository(self) -> SQLiteWorkoutRepository:
+        return self._workout_repository
 
     def dispose(self) -> None:
         if hasattr(self._db, "dispose"):
