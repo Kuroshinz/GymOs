@@ -61,8 +61,16 @@ def _estimate_1rm(weight_kg: float, reps: int) -> float:
 class PREngine:
     """Detects personal records by comparing against historical data."""
 
-    def __init__(self, db: Any) -> None:
-        self._db = db
+    def __init__(self, db_or_repo: Any) -> None:
+        from shared.interfaces import IProgressRepository
+        from shared.database.repositories import SQLiteProgressRepository
+
+        if isinstance(db_or_repo, IProgressRepository):
+            self._progress_repo = db_or_repo
+            self._db = getattr(db_or_repo, "_db", db_or_repo)
+        else:
+            self._progress_repo = SQLiteProgressRepository(db_or_repo)
+            self._db = db_or_repo
 
     def detect_prs(self, session: WorkoutSession) -> list[PersonalRecord]:
         """Detect all PRs in a completed session.
@@ -141,7 +149,7 @@ class PREngine:
     def _get_historical_best(self, exercise_name: str,
                              exclude_session_id: str | None = None) -> dict:
         """Get the best historical values for an exercise."""
-        sessions = self._db.list_sessions(limit=500)
+        sessions = self._progress_repo.list_sessions(limit=500)
 
         result = {
             "max_weight": 0.0,
@@ -179,7 +187,7 @@ class PREngine:
 
     def get_all_prs(self, exercise_name: str) -> list[PersonalRecord]:
         """Get all historical PRs for an exercise."""
-        sessions = self._db.list_sessions(limit=500)
+        sessions = self._progress_repo.list_sessions(limit=500)
         all_prs: list[PersonalRecord] = []
 
         for s in sessions:
@@ -194,7 +202,7 @@ class PREngine:
 
     def get_latest_prs(self, limit: int = 10) -> list[PersonalRecord]:
         """Get the most recent PRs across all exercises."""
-        sessions = self._db.list_sessions(limit=200)
+        sessions = self._progress_repo.list_sessions(limit=200)
         all_prs: list[PersonalRecord] = []
 
         for s in sessions:
@@ -225,7 +233,7 @@ class PREngine:
 
     def get_best_prs(self) -> list[PersonalRecord]:
         """Get the best PR achieved for each exercise+type combination."""
-        sessions = self._db.list_sessions(limit=500)
+        sessions = self._progress_repo.list_sessions(limit=500)
         best: dict[tuple[str, str], PersonalRecord] = {}
 
         for s in sessions:

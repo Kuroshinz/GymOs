@@ -101,7 +101,7 @@ class MainWindow(QMainWindow):
         self._progress_view = ProgressExperience(self._controller.progress_repository)
         self._recovery_dashboard = RecoveryDashboard() if self._controller.recovery_service else None
         self._prediction_dashboard = PredictionDashboard() if self._controller.prediction_service else None
-        self._pr_view = PRView(self._controller.db)
+        self._pr_view = PRView(self._controller.progress_repository)
         self._settings_view = SettingsExperience(
             self._controller.progress_repository,
             self._controller.prog_mgr,

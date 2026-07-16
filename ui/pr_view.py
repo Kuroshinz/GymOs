@@ -107,9 +107,18 @@ class PRCard(QFrame):
 class PRView(QWidget):
     """Personal Records screen — displays all PRs."""
 
-    def __init__(self, db):
+    def __init__(self, db_or_repo):
         super().__init__()
-        self._db = db
+        from shared.interfaces import IProgressRepository
+        from shared.database.repositories import SQLiteProgressRepository
+
+        if isinstance(db_or_repo, IProgressRepository):
+            self._progress_repo = db_or_repo
+            self._db = getattr(db_or_repo, "_db", db_or_repo)
+        else:
+            self._progress_repo = SQLiteProgressRepository(db_or_repo)
+            self._db = db_or_repo
+
         self._build_ui()
 
     def _colors(self):
@@ -148,7 +157,7 @@ class PRView(QWidget):
         self._clear_grid()
         from modules.workout.application.pr_engine import PREngine
 
-        engine = PREngine(self._db)
+        engine = PREngine(self._progress_repo)
         prs = engine.get_best_prs()
 
         if not prs:
