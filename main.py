@@ -47,7 +47,42 @@ else:
 CANONICAL_PROGRAM = resource_path(os.path.join("data", "program.json"))
 
 
+def validate_startup_environment() -> None:
+    """Validate user dirs, databases, and resource layouts, fallback if needed."""
+    # 1. Check user directories
+    user_dir = os.path.expanduser("~/.gymos")
+    for sub in ("data", "crashes", "logs", "cache"):
+        os.makedirs(os.path.join(user_dir, sub), exist_ok=True)
+    
+    # 2. Check write permissions
+    test_file = os.path.join(user_dir, "cache", ".write_test")
+    try:
+        with open(test_file, "w") as f:
+            f.write("test")
+        os.remove(test_file)
+    except Exception as e:
+        logger.error("Startup validation: AppData cache directory not writable: %s", e)
+
+    # 3. Writable database location directory
+    db_dir = os.path.dirname(DB_PATH)
+    if db_dir:
+        os.makedirs(db_dir, exist_ok=True)
+
+    # 4. Check canonical program exists, create stub if missing
+    prog_dir = os.path.dirname(CANONICAL_PROGRAM)
+    if prog_dir:
+        os.makedirs(prog_dir, exist_ok=True)
+    if not os.path.exists(CANONICAL_PROGRAM):
+        logger.warning("Resource validation: program.json missing! Creating stub.")
+        try:
+            with open(CANONICAL_PROGRAM, "w", encoding="utf-8") as f:
+                f.write('{"exercises": []}')
+        except Exception as e:
+            logger.error("Could not create stub program.json: %s", e)
+
+
 def init_infrastructure(db_path: str = DB_PATH) -> None:
+    validate_startup_environment()
     install_global_handler()
     show_recovery_dialog_if_needed()
 

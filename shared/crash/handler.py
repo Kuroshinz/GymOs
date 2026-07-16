@@ -15,6 +15,9 @@ import os
 import sys
 import traceback
 import types
+import uuid
+import platform
+import threading
 from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
@@ -23,7 +26,9 @@ from shared.version import APP_VERSION, BUILD_NUMBER
 
 logger = logging.getLogger(__name__)
 
-_CRASH_DIR = Path(os.path.dirname(__file__)) / ".." / ".." / "data" / "crashes"
+SESSION_ID = str(uuid.uuid4())
+STARTUP_TIME = datetime.now().isoformat()
+_CRASH_DIR = Path(os.path.expanduser("~/.gymos/crashes"))
 _original_excepthook: Callable[[type[BaseException], BaseException, types.TracebackType | None], None] = sys.excepthook
 _cleanup_callbacks: list[Callable[[], None]] = []
 
@@ -38,24 +43,42 @@ def _ensure_crash_dir() -> Path:
     return _CRASH_DIR
 
 
-def write_crash_report(exc_type: type[BaseException], exc_value: BaseException, tb: types.TracebackType | None) -> str:
-    """Write a crash report file.
+def get_active_page_desc() -> str:
+    """Safely fetch current active view page description."""
+    try:
+        from PySide6.QtWidgets import QApplication
+        app = QApplication.instance()
+        if app:
+            for widget in app.topLevelWidgets():
+                from ui.main_window import MainWindow
+                if isinstance(widget, MainWindow):
+                    if hasattr(widget, "_shell") and hasattr(widget._shell, "_current_page"):
+                        return str(widget._shell._current_page)
+    except Exception:
+        pass
+    return "unknown"
 
-    Returns:
-        Path to the crash report file.
-    """
+
+def write_crash_report(exc_type: type[BaseException], exc_value: BaseException, tb: types.TracebackType | None) -> str:
+    """Write a crash report file with rich system diagnostics."""
     ts = datetime.now(UTC).strftime("%Y%m%d_%H%M%S_%f")
     crash_dir = _ensure_crash_dir()
     report_path = crash_dir / f"crash_{ts}.log"
+    crash_id = str(uuid.uuid4())
 
     lines = [
         "=" * 60,
-        "GymOS Crash Report",
+        "GymOS Rich Crash Report",
         "=" * 60,
-        f"Time:       {datetime.now(UTC).isoformat()}",
-        f"Version:    {APP_VERSION} (build {BUILD_NUMBER})",
-        f"Python:     {sys.version}",
-        f"Platform:   {sys.platform}",
+        f"Crash ID:      {crash_id}",
+        f"Session ID:    {SESSION_ID}",
+        f"Startup Time:  {STARTUP_TIME}",
+        f"Crash Time:    {datetime.now(UTC).isoformat()}",
+        f"Version:       {APP_VERSION} (build {BUILD_NUMBER})",
+        f"Python:        {sys.version}",
+        f"Platform:      {sys.platform} ({platform.platform()})",
+        f"Active Page:   {get_active_page_desc()}",
+        f"Thread Name:   {threading.current_thread().name}",
         "-" * 60,
         "Exception:",
         "".join(traceback.format_exception(exc_type, exc_value, tb)),
@@ -77,22 +100,22 @@ def safe_shutdown() -> None:
         except Exception:
             logger.exception("Cleanup callback failed")
     _cleanup_callbacks.clear()
+    
+    # Flush logs on exit
+    logging.shutdown()
 
 
 def _global_excepthook(exc_type: type[BaseException], exc_value: BaseException, tb: types.TracebackType | None) -> None:
-    """Global exception handler installed as sys.excepthook.
-
-    On PySide6 applications, also installs qInstallMessageHandler
-    for Qt-level crashes.
-    """
+    """Global exception handler installed as sys.excepthook."""
     if issubclass(exc_type, KeyboardInterrupt):
         safe_shutdown()
         sys.exit(0)
 
     logger.critical(
-        "Unhandled exception: %s: %s",
+        "Unhandled exception: %s: %s (Session: %s)",
         exc_type.__name__,
         exc_value,
+        SESSION_ID,
         exc_info=(exc_type, exc_value, tb),
     )
 
@@ -145,14 +168,39 @@ def _show_recovery_dialog(
         pass
 
 
+def _thread_excepthook(args: Any) -> None:
+    """Thread-level exception handler forwarding to logging pipeline."""
+    exc_type = args.exc_type
+    exc_value = args.exc_value
+    tb = args.exc_traceback
+    
+    logger.error(
+        "Unhandled thread exception: %s: %s (Session: %s)",
+        exc_type.__name__,
+        exc_value,
+        SESSION_ID,
+        exc_info=(exc_type, exc_value, tb),
+    )
+    
+    try:
+        report_path = write_crash_report(exc_type, exc_value, tb)
+        logger.critical("Thread crash report written to %s", report_path)
+    except Exception:
+        pass
+
+
 def install_global_handler() -> None:
-    """Install the global exception handler.
+    """Install the global exception handler and thread hooks.
 
     Call once at application startup.
     """
     global _original_excepthook
     _original_excepthook = sys.excepthook
     sys.excepthook = _global_excepthook
+    
+    # Thread hook setup
+    import threading
+    threading.excepthook = _thread_excepthook
 
 
 def get_last_crash_report() -> str | None:
