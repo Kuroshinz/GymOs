@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 from typing import Any
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Slot
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -669,9 +669,18 @@ class SettingsExperience(QWidget):
 
         layout.addWidget(self._separator())
 
+        buttons_row = QHBoxLayout()
+        buttons_row.setSpacing(_px12)
+        
         license_btn = self._secondary_button("View License", tooltip="View the MIT License")
         license_btn.clicked.connect(self._show_license)
-        layout.addWidget(license_btn)
+        buttons_row.addWidget(license_btn)
+
+        update_btn = self._secondary_button("Check for Updates", tooltip="Check for application updates")
+        update_btn.clicked.connect(self._check_for_updates)
+        buttons_row.addWidget(update_btn)
+        
+        layout.addLayout(buttons_row)
 
         copyright_label = QLabel(COPYRIGHT)
         copyright_label.setObjectName("about_copyright")
@@ -681,6 +690,52 @@ class SettingsExperience(QWidget):
 
     def _show_license(self) -> None:
         QMessageBox.information(self, f"{APP_NAME} License", _LICENSE_TEXT)
+
+    def _check_for_updates(self) -> None:
+        """Trigger update check background check."""
+        for widget in self.findChildren(QPushButton):
+            if widget.text() == "Check for Updates":
+                widget.setEnabled(False)
+                widget.setText("Checking...")
+
+        import threading
+        def worker():
+            try:
+                from shared.update.checker import check_for_updates, UpdateCheckResult, UpdateAvailability
+                # Use default update check
+                result = check_for_updates()
+                from PySide6.QtCore import QMetaObject, Qt, Q_ARG
+                QMetaObject.invokeMethod(self, "_on_update_check_finished", Qt.QueuedConnection, Q_ARG(object, result))
+            except Exception as e:
+                from PySide6.QtCore import QMetaObject, Qt, Q_ARG
+                from shared.update.checker import UpdateCheckResult, UpdateAvailability
+                err_result = UpdateCheckResult(UpdateAvailability.CHECK_FAILED, error=str(e))
+                QMetaObject.invokeMethod(self, "_on_update_check_finished", Qt.QueuedConnection, Q_ARG(object, err_result))
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    @Slot(object)
+    def _on_update_check_finished(self, result: Any) -> None:
+        """Process check result on main thread GUI."""
+        for widget in self.findChildren(QPushButton):
+            if widget.text() == "Checking...":
+                widget.setEnabled(True)
+                widget.setText("Check for Updates")
+
+        from shared.update.checker import UpdateAvailability
+        if result.availability == UpdateAvailability.UPDATE_AVAILABLE:
+            from PySide6.QtWidgets import QMessageBox
+            msg = QMessageBox(self)
+            msg.setIcon(QMessageBox.Information)
+            msg.setWindowTitle("Update Available")
+            msg.setText(f"A new version of GymOS is available: v{result.remote_version}")
+            msg.setInformativeText(f"Release Notes URL: {result.release_notes_url}")
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+        elif result.availability == UpdateAvailability.UP_TO_DATE:
+            QMessageBox.information(self, "Up to Date", result.message)
+        else:
+            QMessageBox.warning(self, "Update Check Failed", result.message)
 
     # ── Theme ─────────────────────────────────────────────────
 

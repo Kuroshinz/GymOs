@@ -174,6 +174,18 @@ def main() -> None:
 
     run_onboarding()
 
+    # Start non-blocking background update check
+    import threading
+    def bg_update_check():
+        try:
+            from shared.update.checker import check_for_updates
+            res = check_for_updates()
+            if res.has_update:
+                logger.info("Background update check: Update available: v%s", res.remote_version)
+        except Exception as e:
+            logger.error("Background update check failed: %s", e)
+    threading.Thread(target=bg_update_check, daemon=True).start()
+
     window.show()
 
     exit_code = app.exec()
