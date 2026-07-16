@@ -51,7 +51,7 @@ class NutritionWidget(DashboardCard):
         """)
         self._button.clicked.connect(self.configure_nutrition_clicked.emit)
 
-    def update(self, data: Any) -> None:
+    def update_data(self, data: Any) -> None:
         """Update with dashboard data."""
         while self._container.count():
             item = self._container.takeAt(0)

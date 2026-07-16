@@ -67,6 +67,10 @@ class DashboardController(QObject):
     def last_data(self) -> DashboardData:
         return self._last_data
 
+    @property
+    def engine(self) -> Any:
+        return self._engine
+
     # ─── Event Subscriptions ──────────────────────────────────
 
     def _subscribe_to_events(self) -> None:

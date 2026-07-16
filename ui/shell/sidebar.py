@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from PySide6.QtCore import Qt, Signal
+import math
+from PySide6.QtCore import Qt, Signal, QSize
+from PySide6.QtGui import QPainter, QPen, QPainterPath, QColor
 from PySide6.QtWidgets import (
     QFrame,
     QHBoxLayout,
@@ -24,6 +26,7 @@ NAV_SECTIONS: list[tuple[str, list[tuple[str, str, str]]]] = [
         ("dashboard", "Dashboard", "\u2302"),
         ("workout", "Workout", "\u25B6"),
         ("progress", "Progress", "\u2191"),
+        ("weekly_review", "Weekly Review", "\u22EE"),
     ]),
     ("Data", [
         ("recovery", "Recovery", "\u2665"),
@@ -39,6 +42,98 @@ COLLAPSED_WIDTH = 56
 EXPANDED_WIDTH = px_from_token(LAYOUT.sidebar_width)
 
 
+class VectorIconWidget(QWidget):
+    def __init__(self, page_id: str, color: QColor, parent: QWidget | None = None) -> None:
+        super().__init__(parent)
+        self._page_id = page_id
+        self._color = color
+        self.setFixedSize(18, 18)
+
+    def set_color(self, color: QColor) -> None:
+        self._color = color
+        self.update()
+
+    def paintEvent(self, event) -> None:
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        pen = QPen(self._color, 2)
+        pen.setCapStyle(Qt.RoundCap)
+        pen.setJoinStyle(Qt.RoundJoin)
+        painter.setPen(pen)
+        painter.setBrush(Qt.NoBrush)
+
+        x, y = 0, 0
+        
+        if self._page_id == "dashboard":
+            path = QPainterPath()
+            path.moveTo(x + 2, y + 8)
+            path.lineTo(x + 9, y + 2)
+            path.lineTo(x + 16, y + 8)
+            path.moveTo(x + 4, y + 7)
+            path.lineTo(x + 4, y + 16)
+            path.lineTo(x + 14, y + 16)
+            path.lineTo(x + 14, y + 7)
+            painter.drawPath(path)
+        elif self._page_id == "workout":
+            path = QPainterPath()
+            path.moveTo(x + 5, y + 3)
+            path.lineTo(x + 14, y + 9)
+            path.lineTo(x + 5, y + 15)
+            path.closeSubpath()
+            painter.drawPath(path)
+        elif self._page_id == "progress":
+            painter.drawRect(x + 2, y + 10, 3, 6)
+            painter.drawRect(x + 7, y + 6, 3, 10)
+            painter.drawRect(x + 12, y + 2, 3, 14)
+        elif self._page_id == "recovery":
+            path = QPainterPath()
+            path.moveTo(x + 9, y + 15)
+            path.cubicTo(x + 9, y + 15, x + 2, y + 9, x + 2, y + 5.5)
+            path.cubicTo(x + 2, y + 3, x + 4, y + 1, x + 6.5, y + 1)
+            path.cubicTo(x + 8, y + 1, x + 9, y + 2, x + 9, y + 2)
+            path.cubicTo(x + 9, y + 2, x + 10, y + 1, x + 11.5, y + 1)
+            path.cubicTo(x + 14, y + 1, x + 16, y + 3, x + 16, y + 5.5)
+            path.cubicTo(x + 16, y + 9, x + 9, y + 15, x + 9, y + 15)
+            painter.drawPath(path)
+        elif self._page_id == "predictions":
+            path = QPainterPath()
+            path.moveTo(x + 9, y + 2)
+            path.quadTo(x + 9, y + 9, x + 16, y + 9)
+            path.quadTo(x + 9, y + 9, x + 9, y + 16)
+            path.quadTo(x + 9, y + 9, x + 2, y + 9)
+            path.quadTo(x + 9, y + 9, x + 9, y + 2)
+            painter.drawPath(path)
+        elif self._page_id == "prs":
+            path = QPainterPath()
+            path.moveTo(x + 4, y + 2)
+            path.lineTo(x + 14, y + 2)
+            path.lineTo(x + 14, y + 9)
+            path.cubicTo(x + 14, y + 13, x + 4, y + 13, x + 4, y + 9)
+            path.closeSubpath()
+            painter.drawPath(path)
+            painter.drawLine(x + 9, y + 13, x + 9, y + 16)
+            painter.drawLine(x + 5, y + 16, x + 13, y + 16)
+        elif self._page_id == "weekly_review":
+            path = QPainterPath()
+            path.moveTo(x + 4, y + 2)
+            path.lineTo(x + 14, y + 2)
+            path.lineTo(x + 14, y + 16)
+            path.lineTo(x + 4, y + 16)
+            path.closeSubpath()
+            painter.drawPath(path)
+            painter.drawLine(x + 6, y + 6, x + 12, y + 6)
+            painter.drawLine(x + 6, y + 10, x + 12, y + 10)
+        elif self._page_id == "settings":
+            painter.drawEllipse(x + 5, y + 5, 8, 8)
+            for i in range(8):
+                angle = i * math.pi / 4
+                x1 = x + 9 + int(4 * math.cos(angle))
+                y1 = y + 9 + int(4 * math.sin(angle))
+                x2 = x + 9 + int(7 * math.cos(angle))
+                y2 = y + 9 + int(7 * math.sin(angle))
+                painter.drawLine(x1, y1, x2, y2)
+
+
 class ShellSidebarButton(QPushButton):
     def __init__(
         self,
@@ -51,12 +146,24 @@ class ShellSidebarButton(QPushButton):
         super().__init__(parent)
         self._page_id = page_id
         self._label = label
-        self._icon = icon
         self._expanded = expanded
         self._active = False
         self.setFixedHeight(44)
         self.setCursor(Qt.PointingHandCursor)
         self.setFocusPolicy(Qt.StrongFocus)
+
+        self._btn_layout = QHBoxLayout(self)
+        self._btn_layout.setContentsMargins(12, 0, 12, 0)
+        self._btn_layout.setSpacing(12)
+
+        c = self._get_colors()
+        self._icon_widget = VectorIconWidget(self._page_id, QColor(c.text_secondary))
+        self._btn_layout.addWidget(self._icon_widget)
+
+        self._text_label = QLabel(self._label)
+        self._text_label.setStyleSheet("background: transparent; color: inherit; font-size: 14px; font-weight: inherit;")
+        self._btn_layout.addWidget(self._text_label)
+
         self._update_content()
         self._update_style()
 
@@ -67,14 +174,21 @@ class ShellSidebarButton(QPushButton):
 
     def set_active(self, active: bool) -> None:
         self._active = active
+        c = self._get_colors()
+        active_color = QColor(c.primary if self._active else c.text_secondary)
+        self._icon_widget.set_color(active_color)
         self._update_style()
 
     def _update_content(self) -> None:
         if self._expanded:
-            self.setText(f"{self._icon}   {self._label}")
+            self._text_label.show()
+            self._btn_layout.setContentsMargins(12, 0, 12, 0)
+            self._btn_layout.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
             self.setToolTip("")
         else:
-            self.setText(self._icon)
+            self._text_label.hide()
+            self._btn_layout.setContentsMargins(0, 0, 0, 0)
+            self._btn_layout.setAlignment(Qt.AlignCenter)
             self.setToolTip(self._label)
 
     def _get_colors(self):
@@ -82,50 +196,33 @@ class ShellSidebarButton(QPushButton):
 
     def _update_style(self) -> None:
         c = self._get_colors()
-        bg = "transparent"
-        color = c.primary if self._active else c.text_secondary
-        weight = "600" if self._active else "500"
-
-        if self._expanded:
-            self.setStyleSheet(f"""
-                QPushButton {{
-                    background-color: {bg};
-                    color: {color};
-                    border: none;
-                    border-radius: {RADIUS.md};
-                    padding: 8px 14px;
-                    text-align: left;
-                    font-size: 14px;
-                    font-weight: {weight};
-                }}
-                QPushButton:hover {{
-                    background-color: {c.surface_hover};
-                    color: {c.text_primary};
-                }}
-                QPushButton:focus {{
-                    border: 2px solid {c.focus_ring};
-                }}
-            """)
+        if self._active:
+            bg = "rgba(99, 102, 241, 0.12)"
+            border_style = "1px solid rgba(99, 102, 241, 0.25)"
+            color = c.primary
+            weight = "600"
         else:
-            self.setStyleSheet(f"""
-                QPushButton {{
-                    background-color: {bg};
-                    color: {color};
-                    border: none;
-                    border-radius: {RADIUS.md};
-                    padding: 0px;
-                    text-align: center;
-                    font-size: 18px;
-                    font-weight: {weight};
-                }}
-                QPushButton:hover {{
-                    background-color: {c.surface_hover};
-                    color: {c.text_primary};
-                }}
-                QPushButton:focus {{
-                    border: 2px solid {c.focus_ring};
-                }}
-            """)
+            bg = "transparent"
+            border_style = "none"
+            color = c.text_secondary
+            weight = "500"
+
+        self.setStyleSheet(f"""
+            QPushButton {{
+                background-color: {bg};
+                color: {color};
+                border: {border_style};
+                border-radius: {RADIUS.md};
+                font-weight: {weight};
+            }}
+            QPushButton:hover {{
+                background-color: {c.surface_hover};
+                color: {c.text_primary};
+            }}
+            QPushButton:focus {{
+                border: 2px solid {c.focus_ring};
+            }}
+        """)
 
 
 class ShellSidebar(QFrame):
@@ -147,7 +244,7 @@ class ShellSidebar(QFrame):
 
         self._layout = QVBoxLayout(self)
         self._layout.setContentsMargins(12, 20, 12, 20)
-        self._layout.setSpacing(6)  # Tăng lên 6px giúp khoảng cách các nút thở tốt hơn
+        self._layout.setSpacing(6)
 
         logo = QLabel("N")
         logo.setAccessibleName("GymOS logo")
@@ -164,8 +261,7 @@ class ShellSidebar(QFrame):
         prev_btn: QPushButton | None = None
 
         for section_name, items in NAV_SECTIONS:
-            # Sửa triệt để lỗi mất chữ/vỡ chữ danh mục ở đây
-            self._layout.addSpacing(12)  # Dùng spacing của layout thay vì padding CSS gò bó
+            self._layout.addSpacing(12)
             sec = QLabel(section_name.upper())
             sec.setStyleSheet(
                 f"color: #565f73; font-size: 11px; font-weight: 700; "

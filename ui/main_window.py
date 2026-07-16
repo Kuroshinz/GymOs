@@ -67,12 +67,15 @@ class MainWindow(QMainWindow):
 
         self._dashboard_view = DashboardView(db=db, prog_mgr=prog_mgr, nutrition_service=nutrition_service)
         self._workout_selection_view = WorkoutSelectionView(db, prog_mgr)
-        self._workout_view = WorkoutView(db, prog_mgr)
+        self._workout_view = WorkoutView(db, prog_mgr, recovery_service=recovery_service)
         self._progress_view = ProgressExperience(db)
         self._recovery_dashboard = RecoveryDashboard() if recovery_service else None
         self._prediction_dashboard = PredictionDashboard() if prediction_service else None
         self._pr_view = PRView(db)
-        self._settings_view = SettingsExperience(db, prog_mgr)
+        self._settings_view = SettingsExperience(db, prog_mgr, recovery_service=recovery_service)
+
+        from ui.experience.weekly_review_view import WeeklyReviewView
+        self._weekly_review_view = WeeklyReviewView(db=db, decision_engine=self._dashboard_view.controller().engine)
 
         self._shell.add_page(self._dashboard_view, "dashboard")
         self._shell.add_page(self._workout_selection_view, "workout")
@@ -84,6 +87,7 @@ class MainWindow(QMainWindow):
         self._shell.add_page(self._pr_view, "prs")
         self._shell.add_page(self._settings_view, "settings")
         self._shell.add_page(self._workout_view, "workout_detail")
+        self._shell.add_page(self._weekly_review_view, "weekly_review")
 
         self._shell.page_switched.connect(self._on_page_switched)
 
@@ -97,7 +101,7 @@ class MainWindow(QMainWindow):
             lambda: self._shell.switch_to("progress", "page")
         )
         self._dashboard_view.weekly_review_clicked.connect(
-            lambda: self._shell.switch_to("progress", "page")
+            lambda: self._shell.switch_to("weekly_review", "page")
         )
         self._dashboard_view.log_weight_clicked.connect(
             lambda: self._shell.switch_to("settings", "page")
@@ -134,6 +138,8 @@ class MainWindow(QMainWindow):
             self._workout_selection_view.refresh()
         elif page_id == "progress":
             self._progress_view.refresh()
+        elif page_id == "weekly_review":
+            self._weekly_review_view.refresh()
         elif page_id == "recovery":
             self._refresh_recovery()
         elif page_id == "predictions":

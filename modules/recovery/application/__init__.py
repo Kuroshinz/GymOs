@@ -397,6 +397,24 @@ class RecoveryService:
 
         return should_deload, reason, plan
 
+    def trigger_manual_deload(self, reason: str = "Manual trigger") -> DeloadPlan:
+        """Manually trigger a 7-day deload week starting today."""
+        start_date = datetime.now().strftime("%Y-%m-%d")
+        end_date = (datetime.now() + timedelta(days=7)).strftime("%Y-%m-%d")
+        plan = DeloadPlan(
+            start_date=start_date,
+            end_date=end_date,
+            reason=reason,
+            status=DeloadStatus.IN_PROGRESS,
+        )
+        saved = self._repo.save_deload_plan(plan)
+        self._publish_event("recovery.deload_recommended", {
+            "reason": reason,
+            "start_date": start_date,
+            "end_date": end_date,
+        })
+        return saved
+
     def complete_deload(self, plan_id: str) -> DeloadPlan | None:
         """Mark a deload plan as completed."""
         plan = DeloadPlan(id=plan_id, status=DeloadStatus.COMPLETED)
