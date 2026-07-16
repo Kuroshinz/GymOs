@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from typing import Any
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
     QFrame,
     QGridLayout,
@@ -19,66 +18,9 @@ from ui.design_system.tokens.color import ColorScheme, color_from_scheme
 from ui.design_system.tokens.radius import RadiusTokens
 from ui.design_system.tokens.typography import font_style
 from ui.design_system.components.empty_state import EmptyState
+from ui.design_system.components.metric_card import MetricCard
 
 R = RadiusTokens()
-
-
-class MetricCard(QFrame):
-    """A card displaying a single weekly review metric."""
-
-    def __init__(self, label: str, value: str, subtitle: str = "", color: str | None = None) -> None:
-        super().__init__()
-        c = color_from_scheme(ColorScheme.DARK)
-        border_color = color if color else c.border
-        bg_color = c.surface_elevated
-        if color:
-            # Add a subtle translucent color tint to the background
-            bg_color = f"rgba({QColor(color).red()}, {QColor(color).green()}, {QColor(color).blue()}, 0.08)"
-            
-        self.setStyleSheet(f"""
-            MetricCard {{
-                background-color: {bg_color};
-                border: 1px solid {border_color};
-                border-radius: {R.lg};
-                padding: 16px;
-            }}
-        """)
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(16, 12, 16, 12)
-        layout.setSpacing(4)
-
-        lbl = QLabel(label.upper())
-        lbl.setStyleSheet(f"color: {c.text_secondary}; {font_style('caption', 'bold')}; background: transparent; border: none; letter-spacing: 0.5px;")
-        layout.addWidget(lbl)
-
-        val_color = color or c.text_primary
-        parts = value.split(" ", 1)
-        if len(parts) == 2:
-            val_widget = QWidget()
-            val_widget.setStyleSheet("background: transparent; border: none;")
-            val_layout = QHBoxLayout(val_widget)
-            val_layout.setContentsMargins(0, 0, 0, 0)
-            val_layout.setSpacing(4)
-            val_layout.setAlignment(Qt.AlignBottom | Qt.AlignLeft)
-            
-            num_lbl = QLabel(parts[0])
-            num_lbl.setStyleSheet(f"color: {val_color}; {font_style('h1', 'bold')}; background: transparent; border: none;")
-            val_layout.addWidget(num_lbl)
-            
-            unit_lbl = QLabel(parts[1])
-            unit_lbl.setStyleSheet(f"color: {c.text_disabled}; {font_style('caption', 'medium')}; background: transparent; border: none; padding-bottom: 2px;")
-            val_layout.addWidget(unit_lbl)
-            
-            layout.addWidget(val_widget)
-        else:
-            val = QLabel(value)
-            val.setStyleSheet(f"color: {val_color}; {font_style('h1', 'bold')}; background: transparent; border: none;")
-            layout.addWidget(val)
-
-        if subtitle:
-            sub = QLabel(subtitle)
-            sub.setStyleSheet(f"color: {c.text_disabled}; {font_style('caption')}; background: transparent; border: none;")
-            layout.addWidget(sub)
 
 
 class WeeklyReviewView(QWidget):
