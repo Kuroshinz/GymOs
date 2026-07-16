@@ -31,6 +31,8 @@ class WeeklyReviewView(QWidget):
         super().__init__(parent)
         self._db = db
         self._engine = decision_engine
+        self._cached_review = None
+        self._cache_time = 0.0
         self._build_ui()
 
     def _build_ui(self) -> None:
@@ -108,10 +110,15 @@ class WeeklyReviewView(QWidget):
         self.scroll.setWidget(self.scroll_content)
         main_layout.addWidget(self.scroll)
 
-    def refresh(self) -> None:
+    def refresh(self, force: bool = False) -> None:
         """Fetch and populate weekly review metrics."""
         if not self._engine:
             self._show_empty_state()
+            return
+
+        import time
+        now = time.time()
+        if not force and self._cached_review is not None and now - self._cache_time < 10.0:
             return
 
         try:
@@ -120,6 +127,8 @@ class WeeklyReviewView(QWidget):
                 self._show_empty_state()
                 return
 
+            self._cached_review = review
+            self._cache_time = now
             self._show_content(review)
         except Exception:
             self._show_empty_state()

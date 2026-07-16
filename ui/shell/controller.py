@@ -7,9 +7,6 @@ from modules.nutrition.infrastructure.repository import NutritionRepository
 from modules.nutrition.services import NutritionService
 from modules.recovery.infrastructure.repository import RecoveryRepository
 from modules.recovery.application import RecoveryService
-from modules.prediction.infrastructure.repository import PredictionRepository
-from modules.prediction.application import PredictionService
-from modules.gymbrain.services.decision_engine import DecisionEngine
 from shared.events.event_bus import get_event_bus
 from shared.database.repositories import SQLiteRecoveryRepository, SQLiteProgressRepository, SQLiteWorkoutRepository
 
@@ -44,18 +41,10 @@ class ApplicationController:
             event_bus=self._event_bus,
         )
         
-        self._prediction_repo = PredictionRepository(db_path)
-        self._prediction_service = PredictionService(
-            repository=self._prediction_repo,
-            db=self._db,
-            event_bus=self._event_bus,
-        )
-        
-        self._decision_engine = DecisionEngine.from_production(
-            db=self._db,
-            nutrition_provider=self._nutrition_service.provider,
-            recovery_provider=self._recovery_service.provider,
-        )
+        # Lazy elements initialized as None
+        self._prediction_repo = None
+        self._prediction_service = None
+        self._decision_engine = None
         
         # Instantiate repositories
         self._recovery_repository = SQLiteRecoveryRepository(self._db)
@@ -80,10 +69,26 @@ class ApplicationController:
 
     @property
     def prediction_service(self) -> PredictionService:
+        if self._prediction_service is None:
+            from modules.prediction.infrastructure.repository import PredictionRepository
+            from modules.prediction.application import PredictionService
+            self._prediction_repo = PredictionRepository(self._db_path)
+            self._prediction_service = PredictionService(
+                repository=self._prediction_repo,
+                db=self._db,
+                event_bus=self._event_bus,
+            )
         return self._prediction_service
 
     @property
     def decision_engine(self) -> DecisionEngine:
+        if self._decision_engine is None:
+            from modules.gymbrain.services.decision_engine import DecisionEngine
+            self._decision_engine = DecisionEngine.from_production(
+                db=self._db,
+                nutrition_provider=self.nutrition_service.provider,
+                recovery_provider=self.recovery_service.provider,
+            )
         return self._decision_engine
 
     @property
@@ -107,5 +112,5 @@ class ApplicationController:
             self._nutrition_service.dispose()
         if hasattr(self._recovery_service, "dispose"):
             self._recovery_service.dispose()
-        if hasattr(self._prediction_service, "dispose"):
+        if self._prediction_service is not None and hasattr(self._prediction_service, "dispose"):
             self._prediction_service.dispose()
