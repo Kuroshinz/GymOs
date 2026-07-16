@@ -103,6 +103,9 @@ class MainWindow(QMainWindow):
         self._dashboard_view.weekly_review_clicked.connect(
             lambda: self._shell.switch_to("weekly_review", "page")
         )
+        self._weekly_review_view.start_training_requested.connect(
+            lambda: self._shell.switch_to("workout", "page")
+        )
         self._dashboard_view.log_weight_clicked.connect(
             lambda: self._shell.switch_to("settings", "page")
         )

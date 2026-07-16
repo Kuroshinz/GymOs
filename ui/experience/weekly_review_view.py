@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Any
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
     QFrame,
@@ -83,6 +83,7 @@ class MetricCard(QFrame):
 
 class WeeklyReviewView(QWidget):
     """Displays weekly training review and optimization guidelines."""
+    start_training_requested = Signal()
 
     def __init__(self, db: Any = None, decision_engine: Any = None, parent: QWidget | None = None) -> None:
         super().__init__(parent)
@@ -157,6 +158,8 @@ class WeeklyReviewView(QWidget):
             title="No sessions completed this week",
             message="Complete at least one workout session to generate a weekly intelligence review.",
             icon="📊",
+            action_text="Start Training",
+            on_action=lambda: self.start_training_requested.emit()
         )
         self.content_layout.addWidget(self.empty_state)
 
