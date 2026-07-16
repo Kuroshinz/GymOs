@@ -822,6 +822,13 @@ class ProgressExperience(QWidget):
 
     def _update_consistency(self) -> None:
         colors = self._colors()
+        
+        # Guard consistency_summary C++ reference validity
+        import shiboken
+        if not shiboken.isValid(self._consistency_summary):
+            self._consistency_summary = QLabel("")
+            self._consistency_summary.setWordWrap(True)
+
         # Clear all widgets from consistency layout
         layout = self._consistency_view.layout()
         if layout:
@@ -829,7 +836,7 @@ class ProgressExperience(QWidget):
                 item = layout.takeAt(0)
                 if item and item.widget():
                     w = item.widget()
-                    if w == self._consistency_timeline:
+                    if w in (self._consistency_timeline, self._consistency_summary):
                         w.setParent(None)
                     else:
                         w.deleteLater()
