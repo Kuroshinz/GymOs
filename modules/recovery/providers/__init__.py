@@ -118,10 +118,45 @@ class ProductionRecoveryProvider(IRecoveryProvider):
     def __init__(self, repository: RecoveryRepository, db: Any = None) -> None:
         self._repo = repository
         self._db = db
+        from modules.recovery.engines import RecoveryScoreEngine
+        self._score_engine = RecoveryScoreEngine()
 
     def get_today_score(self) -> RecoveryScore | None:
         today = datetime.now().strftime("%Y-%m-%d")
-        return self._repo.get_score_by_date(today)
+        score = self._repo.get_score_by_date(today)
+        if score is not None:
+            return score
+
+        # Compute on-the-fly if sleep or stress logs exist today
+        sleep_log = self._repo.get_sleep_by_date(today)
+        stress_log = self._repo.get_stress_by_date(today)
+        
+        # If neither is logged today, return None (or we can fallback to defaults if we want a snapshot)
+        if not sleep_log and not stress_log:
+            return None
+            
+        profile = self.get_profile()
+        training_fatigue = 30.0
+        consistency = 80.0
+        if self._db:
+            try:
+                recent_volume = self._db.get_recent_volume(days=7)
+                training_fatigue = min(recent_volume / 50000.0 * 100.0, 100.0)
+                streak = self._db.get_streak()
+                consistency = min(streak / 14.0 * 100.0, 100.0)
+            except Exception:
+                pass
+
+        score = self._score_engine.compute(
+            sleep_hours=sleep_log.hours if sleep_log else 7.5,
+            sleep_quality=sleep_log.quality if sleep_log else None,
+            stress_level=stress_log.level if stress_log else None,
+            training_fatigue_score=training_fatigue,
+            consistency_score=consistency,
+            profile=profile,
+        )
+        score.date = today
+        return score
 
     def get_score_by_date(self, date: str) -> RecoveryScore | None:
         return self._repo.get_score_by_date(date)
