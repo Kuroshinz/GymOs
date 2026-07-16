@@ -30,8 +30,9 @@ from ui.design_system.components.app_card import AppCard
 from ui.design_system.components.chart_container import ChartContainer
 from ui.design_system.components.section_header import SectionHeader
 from ui.design_system.components.status_badge import StatusBadge, StatusLevel
+from ui.design_system.components.empty_state import EmptyState
 from ui.design_system.layout.kpi_strip import KpiItem, KpiStrip
-from ui.design_system.tokens.color import ColorScheme, color_from_scheme
+from ui.design_system.tokens.color import ColorScheme, color_from_scheme, resolve_alpha
 from ui.design_system.tokens.elevation import glow_effect
 from ui.design_system.tokens.radius import RadiusTokens, px_from_token
 from ui.design_system.tokens.spacing import SpacingTokens
@@ -147,24 +148,33 @@ class _AchievementCard(QFrame):
         title: str,
         description: str,
         date_earned: str = "",
+        color_scheme: ColorScheme = ColorScheme.DARK,
         parent: QWidget | None = None,
     ) -> None:
         super().__init__(parent)
+        self._color_scheme = color_scheme
         self._build_ui(icon, title, description, date_earned)
 
     def _build_ui(self, icon: str, title: str, description: str, date_earned: str) -> None:
-        colors = color_from_scheme(ColorScheme.DARK)
+        colors = color_from_scheme(self._color_scheme)
+        is_hc = self._color_scheme == ColorScheme.HIGH_CONTRAST
+        bg = colors.surface if is_hc else resolve_alpha(colors.surface, 0.65)
+        border_col = colors.border if is_hc else "rgba(255, 255, 255, 0.05)"
+        hover_bg = colors.surface_hover if is_hc else resolve_alpha(colors.surface, 0.85)
+        hover_border = colors.border_hover if is_hc else "rgba(99, 102, 241, 0.5)"
+
         self.setStyleSheet(f"""
             _AchievementCard {{
-                background-color: {colors.surface};
-                border: 1px solid {colors.border};
-                border-radius: {R.lg};
+                background-color: {bg};
+                border: 1px solid {border_col};
+                border-radius: {R.xl};
             }}
             _AchievementCard:hover {{
-                border-color: {colors.primary};
+                border-color: {hover_border};
+                background-color: {hover_bg};
             }}
         """)
-        glow_effect(self, glow_rgba="rgba(124, 58, 237, 0.15)", blur=16, offset_y=0)
+        glow_effect(self, glow_rgba="rgba(124, 58, 237, 0.15)" if not is_hc else "transparent", blur=16, offset_y=0)
         self.setAccessibleName(f"Achievement: {title}")
 
         layout = QVBoxLayout(self)
@@ -224,7 +234,43 @@ class ProgressExperience(QWidget):
         self._build_ui()
 
     def _colors(self):
+        window = self.window()
+        if window and hasattr(window, "_active_scheme"):
+            return color_from_scheme(window._active_scheme)
+        if window:
+            experience = getattr(window, "_experience", None)
+            if experience and hasattr(experience, "accessibility"):
+                if experience.accessibility.high_contrast:
+                    return color_from_scheme(ColorScheme.HIGH_CONTRAST)
         return color_from_scheme(ColorScheme.DARK)
+
+    def _update_theme_styles(self) -> None:
+        colors = self._colors()
+        window = self.window()
+        is_hc = colors.text_primary == "#000000"
+        
+        scheme = ColorScheme.DARK
+        if window and hasattr(window, "_active_scheme"):
+            scheme = window._active_scheme
+        elif is_hc:
+            scheme = ColorScheme.HIGH_CONTRAST
+        elif colors.background == "#F7F8FA":
+            scheme = ColorScheme.LIGHT
+            
+        bg = colors.surface if is_hc else resolve_alpha(colors.surface, 0.65)
+        border_col = colors.border if is_hc else "rgba(255, 255, 255, 0.05)"
+        
+        if hasattr(self, "_hero_card"):
+            self._hero_card.setStyleSheet(f"""
+                AppCard {{
+                    background-color: {bg};
+                    border-radius: {R.xl};
+                    border: 1px solid {border_col};
+                }}
+            """)
+            
+        if hasattr(self, "_hero_kpi"):
+            self._hero_kpi._color_scheme = scheme
 
     def _build_ui(self) -> None:
         from ui.design_system.layout.scroll_container import ScrollContainer
@@ -241,6 +287,13 @@ class ProgressExperience(QWidget):
 
         # Section 1: Hero
         self._hero_card = AppCard(title="", elevated=True)
+        self._hero_card.setStyleSheet(f"""
+            AppCard {{
+                background-color: rgba(20, 21, 38, 0.65);
+                border-radius: {R.xl};
+                border: 1px solid rgba(255, 255, 255, 0.05);
+            }}
+        """)
         hc = QHBoxLayout()
         hc.setContentsMargins(0, 0, 0, 0)
         hc.setSpacing(_px16)
@@ -387,11 +440,10 @@ class ProgressExperience(QWidget):
         self._achievement_grid.setSpacing(_px12)
         main.addLayout(self._achievement_grid)
 
-        self._achievement_empty = QLabel("")
-        self._achievement_empty.setAlignment(Qt.AlignCenter)
-        self._achievement_empty.setWordWrap(True)
-        self._achievement_empty.setStyleSheet(
-            "background: transparent; border: none;"
+        self._achievement_empty = EmptyState(
+            icon="🏆",
+            title="No Achievements yet",
+            message="Complete workouts and set PRs to unlock achievements.\nEvery milestone is a celebration of your dedication."
         )
 
         main.addStretch()
@@ -403,9 +455,8 @@ class ProgressExperience(QWidget):
         hbox.addWidget(header)
         parent.addLayout(hbox)
 
-    # ── Refresh (unchanged public API) ──────────────────────────────
-
     def refresh(self) -> None:
+        self._update_theme_styles()
         self._update_hero()
         self._update_journey()
         self._update_strength()
@@ -614,12 +665,13 @@ class ProgressExperience(QWidget):
             card = AppCard(title="", elevated=False, interactive=False)
             card.setStyleSheet(f"""
                 AppCard {{
-                    background-color: {colors.surface};
-                    border: 1px solid {colors.border};
-                    border-radius: {R.lg};
+                    background-color: rgba(20, 21, 38, 0.65);
+                    border: 1px solid rgba(255, 255, 255, 0.05);
+                    border-radius: {R.xl};
                 }}
                 AppCard:hover {{
-                    border-color: {colors.primary};
+                    border-color: rgba(99, 102, 241, 0.5);
+                    background-color: rgba(20, 21, 38, 0.85);
                 }}
             """)
 
@@ -768,7 +820,11 @@ class ProgressExperience(QWidget):
             while layout.count():
                 item = layout.takeAt(0)
                 if item and item.widget():
-                    item.widget().deleteLater()
+                    w = item.widget()
+                    if w == self._consistency_timeline:
+                        w.setParent(None)
+                    else:
+                        w.deleteLater()
 
         sessions = self._safe_list_sessions(limit=100)
 
@@ -802,6 +858,11 @@ class ProgressExperience(QWidget):
                     pass
 
         week_values.reverse()
+        try:
+            self._consistency_timeline.objectName()
+        except RuntimeError:
+            from ui.design_system.visualization.weekly_timeline import WeeklyTimeline
+            self._consistency_timeline = WeeklyTimeline()
         self._consistency_timeline.set_data(week_values)
         self._consistency_view.layout().addWidget(self._consistency_timeline)
 
@@ -1039,20 +1100,33 @@ class ProgressExperience(QWidget):
             pass
 
         if not achievements:
-            self._achievement_empty.setText(
-                "Complete workouts and set PRs to unlock achievements.\n"
-                "Every milestone is a celebration of your dedication."
-            )
-            self._achievement_empty.setStyleSheet(
-                f"color: {colors.text_disabled}; {font_style('body')}; "
-                f"background: transparent; border: none; padding: {S.s8};"
-            )
+            for label in self._achievement_empty.findChildren(QLabel):
+                if label == getattr(self._achievement_empty, "_title_label", None):
+                    label.setStyleSheet(
+                        f"color: {colors.text_primary}; {font_style('h3', weight='semibold')}; "
+                        f"background: transparent; border: none;"
+                    )
+                elif label == getattr(self._achievement_empty, "_msg_label", None):
+                    label.setStyleSheet(
+                        f"color: {colors.text_secondary}; {font_style('body')}; "
+                        f"background: transparent; border: none;"
+                    )
             self._achievement_grid.addWidget(self._achievement_empty, 0, 0)
             return
 
+        colors = self._colors()
+        window = self.window()
+        scheme = ColorScheme.DARK
+        if window and hasattr(window, "_active_scheme"):
+            scheme = window._active_scheme
+        elif colors.text_primary == "#000000":
+            scheme = ColorScheme.HIGH_CONTRAST
+        elif colors.background == "#F7F8FA":
+            scheme = ColorScheme.LIGHT
+
         row_i, col_i = 0, 0
         for icon, title, desc, date_str in achievements[:6]:
-            card = _AchievementCard(icon=icon, title=title, description=desc, date_earned=date_str)
+            card = _AchievementCard(icon=icon, title=title, description=desc, date_earned=date_str, color_scheme=scheme)
             self._achievement_grid.addWidget(card, row_i, col_i)
             col_i += 1
             if col_i >= 3:

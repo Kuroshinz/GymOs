@@ -694,9 +694,9 @@ class WorkoutView(QWidget):
         # Clear timeline layouts
         while self._timeline_layout.count():
             item = self._timeline_layout.takeAt(0)
-            if item.widget():
-                item.widget().setParent(None)
-                item.widget().deleteLater()
+            w = item.widget()
+            if w is not None:
+                w.deleteLater()
 
         for i, ex in enumerate(day_data["exercises"]):
             ex_name = ex["name"]
