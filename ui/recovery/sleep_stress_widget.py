@@ -9,7 +9,7 @@ from PySide6.QtWidgets import QHBoxLayout, QLabel, QProgressBar, QVBoxLayout, QW
 from ui.dashboard.dashboard_widgets.base_card import DashboardCard
 
 
-class MetricCard(QWidget):
+class ProgressBarMetricCard(QWidget):
     """A single metric mini-card with label, value, and progress bar."""
 
     def __init__(self, title: str, parent: QWidget | None = None) -> None:
@@ -63,10 +63,10 @@ class SleepStressWidget(DashboardCard):
         row.setContentsMargins(0, 0, 0, 0)
         row.setSpacing(12)
 
-        self._sleep_card = MetricCard("SLEEP")
+        self._sleep_card = ProgressBarMetricCard("SLEEP")
         row.addWidget(self._sleep_card)
 
-        self._stress_card = MetricCard("STRESS")
+        self._stress_card = ProgressBarMetricCard("STRESS")
         row.addWidget(self._stress_card)
 
         container = QWidget()

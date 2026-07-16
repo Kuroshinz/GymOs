@@ -1,75 +1,16 @@
 from __future__ import annotations
 
 from typing import Any
-
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QVBoxLayout
 
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme
-from ui.design_system.tokens.radius import RadiusTokens
-from ui.design_system.tokens.spacing import SpacingTokens
+from ui.design_system.components.app_card import AppCard
 
-R = RadiusTokens()
-S = SpacingTokens()
-
-
-class DashboardCard(QFrame):
-    CARD_STYLE = None
-    TITLE_STYLE = None
-    BADGE_STYLE = None
+class DashboardCard(AppCard):
+    """Adapter card for dashboard widgets, inheriting from AppCard."""
 
     def __init__(self, title: str = "", badge: str = "", parent: QFrame | None = None) -> None:
-        super().__init__(parent)
-        self._color_scheme = ColorScheme.DARK
-        self._apply_styles(title, badge)
-
-    def _colors(self):
-        return color_from_scheme(self._color_scheme)
-
-    def _apply_styles(self, title: str, badge: str) -> None:
-        colors = self._colors()
-        self.setStyleSheet(f"""
-            DashboardCard {{
-                background-color: rgba(20, 21, 38, 0.65);
-                border-radius: 16px;
-                border: 1px solid rgba(255, 255, 255, 0.05);
-            }}
-            DashboardCard:hover {{
-                border-color: rgba(99, 102, 241, 0.35);
-            }}
-        """)
-
-        self._layout = QVBoxLayout(self)
-        self._layout.setContentsMargins(24, 20, 24, 20)
-        self._layout.setSpacing(16)
-
-        if title:
-            header = QHBoxLayout()
-            header.setContentsMargins(0, 0, 0, 0)
-            header.setSpacing(8)
-
-            title_label = QLabel(title.upper())
-            title_label.setStyleSheet(
-                f"color: {colors.text_secondary}; font-size: 11px; font-weight: 600; "
-                f"letter-spacing: 0.5px; text-transform: uppercase; background: transparent;"
-            )
-            header.addWidget(title_label)
-
-            if badge:
-                badge_label = QLabel(badge)
-                badge_label.setStyleSheet(
-                    f"background-color: {colors.border}; color: {colors.text_secondary}; "
-                    f"border-radius: 8px; padding: 2px 8px; font-size: 11px;"
-                )
-                badge_label.setFixedHeight(20)
-                header.addWidget(badge_label)
-
-            header.addStretch()
-            self._layout.addLayout(header)
-
-        self._body = QVBoxLayout()
-        self._body.setContentsMargins(0, 0, 0, 0)
-        self._body.setSpacing(8)
-        self._layout.addLayout(self._body)
+        super().__init__(title=title, badge=badge, parent=parent)
 
     def add_content(self, widget: Any) -> None:
         self._body.addWidget(widget)

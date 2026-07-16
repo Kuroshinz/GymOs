@@ -31,7 +31,7 @@ class AppCard(QFrame):
         super().__init__(parent)
         self._interactive = interactive
         self._color_scheme = ColorScheme.DARK
-        self._build_ui(title, subtitle, badge, elevated)
+        self._build_app_card_ui(title, subtitle, badge, elevated)
         if title:
             self.setAccessibleName(f"Card: {title}")
         if subtitle:
@@ -42,7 +42,7 @@ class AppCard(QFrame):
     def _colors(self):
         return color_from_scheme(self._color_scheme)
 
-    def _build_ui(self, title: str, subtitle: str, badge: str, elevated: bool) -> None:
+    def _build_app_card_ui(self, title: str, subtitle: str, badge: str, elevated: bool) -> None:
         colors = self._colors()
 
         if elevated:
