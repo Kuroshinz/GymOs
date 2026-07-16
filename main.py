@@ -99,69 +99,27 @@ def main() -> None:
     splash.advance("Initializing infrastructure...", 5)
     init_infrastructure()
 
-    splash.advance("Initializing database...", 15)
-    init_db(DB_PATH)
-    db = GymDatabase(DB_PATH)
-    register_cleanup(db.dispose)
 
-    splash.advance("Loading workout programs...", 25)
-    prog_mgr = ProgramManager(DB_PATH)
-    register_cleanup(prog_mgr.dispose)
 
-    if prog_mgr.repository.count() == 0:
+    splash.advance("Initializing controller...", 80)
+    from ui.shell.controller import ApplicationController
+    controller = ApplicationController(DB_PATH)
+    register_cleanup(controller.dispose)
+
+    # Boot programs if empty
+    if controller.prog_mgr.repository.count() == 0:
         if os.path.exists(CANONICAL_PROGRAM):
-            prog_mgr.import_save_and_activate(CANONICAL_PROGRAM)
-    elif prog_mgr.get_active_program() is None:
-        programs = prog_mgr.list_programs()
+            controller.prog_mgr.import_save_and_activate(CANONICAL_PROGRAM)
+    elif controller.prog_mgr.get_active_program() is None:
+        programs = controller.prog_mgr.list_programs()
         if programs:
-            prog_mgr.switch_to_program(programs[0]["id"])
+            controller.prog_mgr.switch_to_program(programs[0]["id"])
 
-    splash.advance("Loading nutrition services...", 40)
-    nutrition_repo = NutritionRepository(DB_PATH)
-    event_bus = get_event_bus()
-    nutrition_service = NutritionService(
-        repository=nutrition_repo,
-        db=db,
-        event_bus=event_bus,
-    )
-    register_cleanup(nutrition_service.dispose)
-
-    splash.advance("Loading recovery services...", 55)
-    recovery_repo = RecoveryRepository(DB_PATH)
-    recovery_service = RecoveryService(
-        repository=recovery_repo,
-        db=db,
-        event_bus=event_bus,
-    )
-    register_cleanup(recovery_service.dispose)
-
-    splash.advance("Loading prediction services...", 70)
-    prediction_repo = PredictionRepository(DB_PATH)
-    prediction_service = PredictionService(
-        repository=prediction_repo,
-        db=db,
-        event_bus=event_bus,
-    )
-    register_cleanup(prediction_service.dispose)
-
-    splash.advance("Initializing decision engine...", 80)
-    engine = DecisionEngine.from_production(
-        db=db,
-        nutrition_provider=nutrition_service.provider,
-        recovery_provider=recovery_service.provider,
-    )
-
-    NutritionSubscriber(bus=event_bus, decision_engine=engine)
-    RecoverySubscriber(bus=event_bus, recovery_service=recovery_service)
+    NutritionSubscriber(bus=controller._event_bus, decision_engine=controller.decision_engine)
+    RecoverySubscriber(bus=controller._event_bus, recovery_service=controller.recovery_service)
 
     splash.advance("Building interface...", 90)
-    window = MainWindow(
-        db=db,
-        prog_mgr=prog_mgr,
-        nutrition_service=nutrition_service,
-        recovery_service=recovery_service,
-        prediction_service=prediction_service,
-    )
+    window = MainWindow(controller)
 
     app_icon = create_app_icon()
     app.setWindowIcon(app_icon)

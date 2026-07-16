@@ -36,13 +36,34 @@ PAGE_INDEX = {
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, db, prog_mgr=None, nutrition_service=None, recovery_service=None, prediction_service=None, experience=None):
+    def __init__(self, db_or_controller: Any, prog_mgr=None, nutrition_service=None, recovery_service=None, prediction_service=None, experience=None):
         super().__init__()
-        self._db = db
-        self._prog_mgr = prog_mgr
-        self._nutrition_service = nutrition_service
-        self._recovery_service = recovery_service
-        self._prediction_service = prediction_service
+        
+        # Resolve controller with backward compatibility
+        from ui.shell.controller import ApplicationController
+        if isinstance(db_or_controller, ApplicationController):
+            self._controller = db_or_controller
+        else:
+            class LegacyControllerAdapter:
+                def __init__(self, db, pm, ns, rs, ps):
+                    self.db = db
+                    self.prog_mgr = pm
+                    self.nutrition_service = ns
+                    self.recovery_service = rs
+                    self.prediction_service = ps
+                    from shared.database.repositories import SQLiteProgressRepository
+                    self.progress_repository = SQLiteProgressRepository(db)
+                    
+                    from modules.gymbrain.services.decision_engine import DecisionEngine
+                    self.decision_engine = DecisionEngine.from_production(
+                        db=db,
+                        nutrition_provider=ns.provider if ns else None,
+                        recovery_provider=rs.provider if rs else None,
+                    )
+            self._controller = LegacyControllerAdapter(
+                db_or_controller, prog_mgr, nutrition_service, recovery_service, prediction_service
+            )
+
         self._recovery_dashboard = None
         self._prediction_dashboard = None
         self._experience = experience or ExperienceManager(self)
@@ -65,17 +86,33 @@ class MainWindow(QMainWindow):
         from ui.desktop_integration import DesktopIntegrationManager
         self._desktop_integration = DesktopIntegrationManager(self)
 
-        self._dashboard_view = DashboardView(db=db, prog_mgr=prog_mgr, nutrition_service=nutrition_service)
-        self._workout_selection_view = WorkoutSelectionView(db, prog_mgr)
-        self._workout_view = WorkoutView(db, prog_mgr, recovery_service=recovery_service)
-        self._progress_view = ProgressExperience(db)
-        self._recovery_dashboard = RecoveryDashboard() if recovery_service else None
-        self._prediction_dashboard = PredictionDashboard() if prediction_service else None
-        self._pr_view = PRView(db)
-        self._settings_view = SettingsExperience(db, prog_mgr, recovery_service=recovery_service)
+        # Instantiate views via controller dependencies
+        self._dashboard_view = DashboardView(
+            db=self._controller.db,
+            prog_mgr=self._controller.prog_mgr,
+            nutrition_service=self._controller.nutrition_service
+        )
+        self._workout_selection_view = WorkoutSelectionView(self._controller.db, self._controller.prog_mgr)
+        self._workout_view = WorkoutView(
+            self._controller.db,
+            self._controller.prog_mgr,
+            recovery_service=self._controller.recovery_service
+        )
+        self._progress_view = ProgressExperience(self._controller.progress_repository)
+        self._recovery_dashboard = RecoveryDashboard() if self._controller.recovery_service else None
+        self._prediction_dashboard = PredictionDashboard() if self._controller.prediction_service else None
+        self._pr_view = PRView(self._controller.db)
+        self._settings_view = SettingsExperience(
+            self._controller.db,
+            self._controller.prog_mgr,
+            recovery_service=self._controller.recovery_service
+        )
 
         from ui.experience.weekly_review_view import WeeklyReviewView
-        self._weekly_review_view = WeeklyReviewView(db=db, decision_engine=self._dashboard_view.controller().engine)
+        self._weekly_review_view = WeeklyReviewView(
+            db=self._controller.db,
+            decision_engine=self._controller.decision_engine
+        )
 
         self._shell.add_page(self._dashboard_view, "dashboard")
         self._shell.add_page(self._workout_selection_view, "workout")
@@ -178,7 +215,7 @@ class MainWindow(QMainWindow):
             pass
 
     def _open_import_wizard(self):
-        dialog = ImportWizard(self._prog_mgr, self)
+        dialog = ImportWizard(self._controller.prog_mgr, self)
         if dialog.exec() == QWizard.Accepted:
             self._prediction_cache = None
             self._dashboard_cache_time = 0.0
@@ -195,7 +232,7 @@ class MainWindow(QMainWindow):
         self._shell.switch_to("workout_detail", "page")
 
     def _refresh_predictions(self):
-        if not self._prediction_service or not self._prediction_dashboard:
+        if not self._controller.prediction_service or not self._prediction_dashboard:
             return
         import time
         now = time.time()
@@ -205,12 +242,12 @@ class MainWindow(QMainWindow):
         QTimer.singleShot(0, self._do_refresh_predictions)
 
     def _do_refresh_predictions(self):
-        if not self._prediction_service or not self._prediction_dashboard:
+        if not self._controller.prediction_service or not self._prediction_dashboard:
             return
         import time
 
         from modules.prediction.presentation import PredictionFormatter
-        result = self._prediction_service.generate_all_predictions()
+        result = self._controller.prediction_service.generate_all_predictions()
         vm = PredictionFormatter.prediction_result_to_view_model(result)
         data = PredictionDashboardData(
             view_model=vm,
@@ -222,8 +259,8 @@ class MainWindow(QMainWindow):
         self._prediction_dashboard.refresh(data)
 
     def _refresh_recovery(self):
-        if self._recovery_service and self._recovery_dashboard:
-            svc = self._recovery_service
+        if self._controller.recovery_service and self._recovery_dashboard:
+            svc = self._controller.recovery_service
             snapshot = svc.get_snapshot()
             scores = svc.get_recent_scores(days=7)
             trend = svc.get_trend(days=14)
