@@ -115,6 +115,12 @@ class DeloadScheduler(QFrame):
         self._btn.clicked.connect(self._on_btn_clicked)
         layout.addWidget(self._btn)
 
+    def showEvent(self, event) -> None:
+        super().showEvent(event)
+        motion = getattr(self.window(), "_motion", None)
+        if motion:
+            motion.bind_press_scale(self._btn)
+
     def refresh(self) -> None:
         """Update the scheduler values from the program manager and recovery service."""
         c = color_from_scheme(ColorScheme.DARK)

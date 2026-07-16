@@ -839,3 +839,10 @@ class SettingsExperience(QWidget):
             self, "Export Complete",
             f"Exported {len(sessions)} workouts to:\n{save_path}"
         )
+
+    def showEvent(self, event) -> None:
+        super().showEvent(event)
+        motion = getattr(self.window(), "_motion", None)
+        if motion:
+            for btn in self._primary_buttons + self._secondary_buttons:
+                motion.bind_press_scale(btn)
