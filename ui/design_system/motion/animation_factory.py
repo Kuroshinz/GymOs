@@ -36,6 +36,28 @@ class AnimationFactory:
         return anim
 
     @staticmethod
+    def safe_fade_in(
+        widget: QWidget,
+        duration: int = MT.normal,
+        easing: QEasingCurve.Type = MT.out_cubic,
+    ) -> QPropertyAnimation | None:
+        """Create a fade-in animation, respecting reduced-motion preferences."""
+        window = widget.window()
+        reduced_motion = False
+        if window:
+            experience = getattr(window, "_experience", None)
+            if experience and hasattr(experience, "accessibility"):
+                reduced_motion = experience.accessibility.reduced_motion
+        
+        if reduced_motion:
+            effect = QGraphicsOpacityEffect(widget)
+            widget.setGraphicsEffect(effect)
+            effect.setOpacity(1.0)
+            return None
+            
+        return AnimationFactory.fade_in(widget, duration, easing)
+
+    @staticmethod
     def fade_out(
         widget: QWidget,
         duration: int = MT.normal,

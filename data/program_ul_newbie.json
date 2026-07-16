@@ -1,0 +1,229 @@
+{
+  "$schema": "https://gymos.app/schemas/program.schema.json",
+  "name": "Upper-Lower Newbie",
+  "description": "Lịch tập 4 buổi Upper/Lower cho newbie — Học kỹ thuật, làm quen khớp, ít áp lực lưng (8 tuần đầu)",
+  "version": "1.0.0",
+  "author": "ChatGPT / GymOS",
+  "source": "https://chatgpt.com/share/6a460229-dab8-83ec-a32e-136139980cf8",
+  "goal": "hypertrophy",
+  "experience_level": "beginner",
+  "split": "Upper-Lower",
+  "mesocycle_duration_weeks": 8,
+  "deload_week": {
+    "frequency_weeks": 4,
+    "type": "reduced_volume",
+    "description": "Tuần thứ 4: giảm 50% số sets, giữ nguyên mức tạ"
+  },
+  "progression_strategy": {
+    "primary": "double_progression",
+    "description": "Tăng reps trước, khi đạt rep cao nhất cho mọi sets thì tăng tạ"
+  },
+  "priority_muscles": [
+    "chest",
+    "back",
+    "quads"
+  ],
+  "rules": [
+    "Compound nghỉ 90–120s",
+    "Isolation nghỉ 60–90s",
+    "Khi đạt đủ reps mọi set → tăng 2.5–5kg",
+    "Không tập fail mọi set, giữ RIR 1-3"
+  ],
+  "days": [
+    {
+      "name": "T2 — Upper A",
+      "notes": "Nhóm cơ thân trên",
+      "exercises": [
+        {
+          "name": "Machine Chest Press",
+          "exercise_id": "chest_machine_press",
+          "target_sets": 3,
+          "target_reps": "8–10",
+          "muscle_group": "chest"
+        },
+        {
+          "name": "Lat Pulldown",
+          "exercise_id": "back_lat_pulldown",
+          "target_sets": 3,
+          "target_reps": "8–10",
+          "muscle_group": "back"
+        },
+        {
+          "name": "Seated Cable Row",
+          "exercise_id": "back_seated_cable_row",
+          "target_sets": 3,
+          "target_reps": "10",
+          "muscle_group": "back"
+        },
+        {
+          "name": "Machine Shoulder Press",
+          "exercise_id": "shoulders_machine_press",
+          "target_sets": 2,
+          "target_reps": "10",
+          "muscle_group": "shoulders"
+        },
+        {
+          "name": "Dumbbell Curl",
+          "exercise_id": "biceps_db_curl",
+          "target_sets": 2,
+          "target_reps": "12",
+          "muscle_group": "biceps"
+        },
+        {
+          "name": "Rope Pushdown",
+          "exercise_id": "triceps_pulldown",
+          "target_sets": 2,
+          "target_reps": "12",
+          "muscle_group": "triceps"
+        }
+      ]
+    },
+    {
+      "name": "T3 — Lower A",
+      "notes": "Nhóm cơ đùi và bắp chân",
+      "exercises": [
+        {
+          "name": "Leg Press",
+          "exercise_id": "quads_leg_press",
+          "target_sets": 3,
+          "target_reps": "10",
+          "muscle_group": "quads"
+        },
+        {
+          "name": "Romanian Deadlift",
+          "exercise_id": "hamstrings_romian_deadlift",
+          "target_sets": 3,
+          "target_reps": "10",
+          "muscle_group": "hamstrings"
+        },
+        {
+          "name": "Leg Curl",
+          "exercise_id": "hamstrings_leg_curl",
+          "target_sets": 3,
+          "target_reps": "12",
+          "muscle_group": "hamstrings"
+        },
+        {
+          "name": "Leg Extension",
+          "exercise_id": "quads_leg_extension",
+          "target_sets": 3,
+          "target_reps": "12",
+          "muscle_group": "quads"
+        },
+        {
+          "name": "Calf Raise",
+          "exercise_id": "calves_standing_raise",
+          "target_sets": 4,
+          "target_reps": "15",
+          "muscle_group": "calves"
+        },
+        {
+          "name": "Plank",
+          "exercise_id": "core_plank",
+          "target_sets": 3,
+          "target_reps": "60",
+          "muscle_group": "abs"
+        }
+      ]
+    },
+    {
+      "name": "T5 — Upper B",
+      "notes": "Nhóm cơ thân trên",
+      "exercises": [
+        {
+          "name": "Incline Dumbbell Press",
+          "exercise_id": "chest_incline_bench_press",
+          "target_sets": 3,
+          "target_reps": "8–10",
+          "muscle_group": "chest"
+        },
+        {
+          "name": "Lat Pulldown",
+          "exercise_id": "back_lat_pulldown",
+          "target_sets": 3,
+          "target_reps": "8–10",
+          "muscle_group": "back"
+        },
+        {
+          "name": "Chest Supported Row",
+          "exercise_id": "back_chest_supported_row",
+          "target_sets": 3,
+          "target_reps": "10",
+          "muscle_group": "back"
+        },
+        {
+          "name": "Lateral Raise",
+          "exercise_id": "shoulders_lateral_raise",
+          "target_sets": 3,
+          "target_reps": "15",
+          "muscle_group": "shoulders"
+        },
+        {
+          "name": "Cable Curl",
+          "exercise_id": "biceps_cable_curl",
+          "target_sets": 2,
+          "target_reps": "12",
+          "muscle_group": "biceps"
+        },
+        {
+          "name": "Overhead Tricep Extension",
+          "exercise_id": "triceps_overhead_extension",
+          "target_sets": 2,
+          "target_reps": "12",
+          "muscle_group": "triceps"
+        }
+      ]
+    },
+    {
+      "name": "T6 — Lower B",
+      "notes": "Nhóm cơ đùi và bắp chân",
+      "exercises": [
+        {
+          "name": "Goblet Squat",
+          "exercise_id": "quads_goblet_squat",
+          "target_sets": 3,
+          "target_reps": "10",
+          "muscle_group": "quads"
+        },
+        {
+          "name": "RDL",
+          "exercise_id": "hamstrings_romian_deadlift",
+          "target_sets": 3,
+          "target_reps": "10",
+          "muscle_group": "hamstrings"
+        },
+        {
+          "name": "Walking Lunge",
+          "exercise_id": "quads_lunge",
+          "target_sets": 2,
+          "target_reps": "12",
+          "muscle_group": "quads"
+        },
+        {
+          "name": "Leg Curl",
+          "exercise_id": "hamstrings_leg_curl",
+          "target_sets": 3,
+          "target_reps": "12",
+          "muscle_group": "hamstrings"
+        },
+        {
+          "name": "Calf Raise",
+          "exercise_id": "calves_standing_raise",
+          "target_sets": 4,
+          "target_reps": "15",
+          "muscle_group": "calves"
+        },
+        {
+          "name": "Hanging Knee Raise",
+          "exercise_id": "core_hanging_leg_raise",
+          "target_sets": 3,
+          "target_reps": "12",
+          "muscle_group": "abs"
+        }
+      ]
+    }
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "2026-07-16",
+  "last_updated": "2026-07-16"
+}

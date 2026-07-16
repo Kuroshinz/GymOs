@@ -1,4 +1,7 @@
-"""Settings view — configuration, export, user info."""
+"""[LEGACY] Settings view.
+This file is deprecated. The active view is now ui/settings/settings_experience.py.
+Do not modify or import this file. Scheduled for deletion in the next cleanup phase.
+"""
 
 import json
 from datetime import datetime

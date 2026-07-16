@@ -1,0 +1,495 @@
+Line 277: row.setStyleSheet("background: transparent; border: none;")
+  275: def _add_driver_row(self, icon: str, text: str, detail: str, colors: Any) -> None:
+  276: row = QFrame()
+  277: row.setStyleSheet("background: transparent; border: none;")
+  278: rl = QHBoxLayout(row)
+  279: rl.setContentsMargins(0, 0, 0, 0)
+  280: rl.setSpacing(_px12)
+  281: 
+  282: icon_lbl = QLabel(icon)
+  283: icon_lbl.setStyleSheet("font-size: 18px; background: transparent;")
+  284: icon_lbl.setFixedWidth(28)
+Line 283: icon_lbl.setStyleSheet("font-size: 18px; background: transparent;")
+  281: 
+  282: icon_lbl = QLabel(icon)
+  283: icon_lbl.setStyleSheet("font-size: 18px; background: transparent;")
+  284: icon_lbl.setFixedWidth(28)
+  285: rl.addWidget(icon_lbl)
+  286: 
+  287: col = QVBoxLayout()
+  288: col.setSpacing(2)
+  289: 
+  290: txt = QLabel(text)
+Line 291: txt.setStyleSheet(f"color: {colors.text_primary}; {font_style('body')}; background: transparent;")
+  289: 
+  290: txt = QLabel(text)
+  291: txt.setStyleSheet(f"color: {colors.text_primary}; {font_style('body')}; background: transparent;")
+  292: txt.setWordWrap(True)
+  293: col.addWidget(txt)
+  294: 
+  295: if detail:
+  296: det = QLabel(detail)
+  297: det.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
+  298: det.setWordWrap(True)
+Line 297: det.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
+  295: if detail:
+  296: det = QLabel(detail)
+  297: det.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
+  298: det.setWordWrap(True)
+  299: col.addWidget(det)
+  300: 
+  301: rl.addLayout(col, 1)
+  302: self._layout.addWidget(row)
+  303: 
+  304: def _add_empty(self, colors: Any) -> None:
+Line 306: empty.setStyleSheet(f"color: {colors.text_disabled}; {font_style('body')}; background: transparent;")
+  304: def _add_empty(self, colors: Any) -> None:
+  305: empty = QLabel("Complete a workout to see your recovery drivers.")
+  306: empty.setStyleSheet(f"color: {colors.text_disabled}; {font_style('body')}; background: transparent;")
+  307: empty.setWordWrap(True)
+  308: empty.setAlignment(Qt.AlignCenter)
+  309: self._layout.addWidget(empty)
+  310: 
+  311: def _clear_layout(self) -> None:
+  312: while self._layout.count():
+  313: item = self._layout.takeAt(0)
+Line 348: icon_lbl.setStyleSheet("font-size: 28px; background: transparent;")
+  346: 
+  347: icon_lbl = QLabel(icon)
+  348: icon_lbl.setStyleSheet("font-size: 28px; background: transparent;")
+  349: row.addWidget(icon_lbl)
+  350: 
+  351: col = QVBoxLayout()
+  352: col.setSpacing(2)
+  353: 
+  354: what_if = QLabel("What if...")
+  355: what_if.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
+Line 355: what_if.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
+  353: 
+  354: what_if = QLabel("What if...")
+  355: what_if.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
+  356: col.addWidget(what_if)
+  357: 
+  358: action_lbl = QLabel(action)
+  359: action_lbl.setStyleSheet(f"color: {colors.text_primary}; {font_style('body', weight='semibold')}; background: transparent;")
+  360: action_lbl.setWordWrap(True)
+  361: col.addWidget(action_lbl)
+  362: 
+Line 359: action_lbl.setStyleSheet(f"color: {colors.text_primary}; {font_style('body', weight='semibold')}; background: transparent;")
+  357: 
+  358: action_lbl = QLabel(action)
+  359: action_lbl.setStyleSheet(f"color: {colors.text_primary}; {font_style('body', weight='semibold')}; background: transparent;")
+  360: action_lbl.setWordWrap(True)
+  361: col.addWidget(action_lbl)
+  362: 
+  363: row.addLayout(col, 1)
+  364: self.layout().addLayout(row)
+  365: 
+  366: impact_lbl = QLabel(impact)
+Line 367: impact_lbl.setStyleSheet(f"color: {action_color}; {font_style('h3')}; background: transparent;")
+  365: 
+  366: impact_lbl = QLabel(impact)
+  367: impact_lbl.setStyleSheet(f"color: {action_color}; {font_style('h3')}; background: transparent;")
+  368: self.layout().addWidget(impact_lbl)
+  369: 
+  370: bar = QProgressBar()
+  371: bar.setRange(0, 100)
+  372: bar.setValue(int(impact_pct * 100))
+  373: bar.setTextVisible(False)
+  374: bar.setFixedHeight(6)
+Line 375: bar.setStyleSheet(f"""
+  373: bar.setTextVisible(False)
+  374: bar.setFixedHeight(6)
+  375: bar.setStyleSheet(f"""
+  376: QProgressBar {{
+  377: background-color: {colors.surface_hover};
+  378: border-radius: 3px;
+  379: border: none;
+  380: }}
+  381: QProgressBar::chunk {{
+  382: background-color: {resolve_alpha(action_color, 0.6)};
+Line 389: conf_lbl.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
+  387: 
+  388: conf_lbl = QLabel(f"{impact_pct * 100:.0f}% confidence")
+  389: conf_lbl.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
+  390: self.layout().addWidget(conf_lbl)
+  391: 
+  392: 
+  393: # ─── Recovery Dashboard ───────────────────────────────────────────
+  394: 
+  395: 
+  396: class RecoveryDashboard(QWidget):
+Line 409: self.setStyleSheet("RecoveryDashboard { background: transparent; }")
+  407: 
+  408: def _build_ui(self) -> None:
+  409: self.setStyleSheet("RecoveryDashboard { background: transparent; }")
+  410: self._scroll = ScrollContainer()
+  411: outer = QVBoxLayout(self)
+  412: outer.setContentsMargins(0, 0, 0, 0)
+  413: outer.addWidget(self._scroll)
+  414: 
+  415: layout = QHBoxLayout()
+  416: layout.setContentsMargins(0, 0, 0, 0)
+Line 464: self._rec_card = AppCard(title="", elevated=True)
+  462: # 6. Today's Recommendation
+  463: self._build_section_header(main, "Today\u2019s Recommendation", "What should you do?")
+  464: self._rec_card = AppCard(title="", elevated=True)
+  465: main.addWidget(self._rec_card)
+  466: 
+  467: main.addSpacing(_px24)
+  468: 
+  469: # 7. What If...
+  470: self._build_section_header(main, "What If\u2026", "Small changes, big impact")
+  471: self._counterfactual_grid = EditorialGrid()
+Line 501: self._hero_frame.setStyleSheet(f"""
+  499: self._hero_frame.setObjectName("RecoveryHero")
+  500: self._hero_frame.setMinimumHeight(240)
+  501: self._hero_frame.setStyleSheet(f"""
+  502: QFrame#RecoveryHero {{
+  503: background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+  504: stop:0 rgba(12,16,51,200), stop:0.35 rgba(20,16,74,180),
+  505: stop:0.7 rgba(26,13,68,160), stop:1 rgba(10,14,40,120));
+  506: border-radius: {R.xl};
+  507: border: 1px solid {resolve_alpha(colors.primary, 0.10)};
+  508: }}
+Line 527: self._hero_state_label.setStyleSheet(
+  525: 
+  526: self._hero_state_label = QLabel("--")
+  527: self._hero_state_label.setStyleSheet(
+  528: f"color: {colors.text_primary}; {font_style('h2')}; "
+  529: f"letter-spacing: -0.02em; background: transparent;"
+  530: )
+  531: text_col.addWidget(self._hero_state_label)
+  532: 
+  533: self._hero_narrative = QLabel("")
+  534: self._hero_narrative.setStyleSheet(
+Line 534: self._hero_narrative.setStyleSheet(
+  532: 
+  533: self._hero_narrative = QLabel("")
+  534: self._hero_narrative.setStyleSheet(
+  535: f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+  536: )
+  537: self._hero_narrative.setWordWrap(True)
+  538: text_col.addWidget(self._hero_narrative)
+  539: 
+  540: kpi_row = QHBoxLayout()
+  541: kpi_row.setSpacing(_px16)
+Line 548: self._hero_score_mini.setStyleSheet(
+  546: 
+  547: self._hero_score_mini = QLabel("")
+  548: self._hero_score_mini.setStyleSheet(
+  549: f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;"
+  550: )
+  551: kpi_row.addWidget(self._hero_score_mini)
+  552: 
+  553: self._hero_deload_badge = StatusBadge("", StatusLevel.NEUTRAL, outlined=True)
+  554: self._hero_deload_badge.hide()
+  555: kpi_row.addWidget(self._hero_deload_badge)
+Line 573: self._hero_cta.setStyleSheet(f"""
+  571: self._hero_cta.setMinimumHeight(48)
+  572: self._hero_cta.setMinimumWidth(200)
+  573: self._hero_cta.setStyleSheet(f"""
+  574: QPushButton {{
+  575: background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+  576: stop:0 rgba(124,58,237,0.95), stop:0.5 rgba(147,51,234,0.9), stop:1 rgba(192,38,211,0.85));
+  577: color: white;
+  578: border-radius: {R.size_2xl};
+  579: padding: 0 {S.s7};
+  580: {font_style('body', 'bold')}
+Line 593: self._hero_cta_sub.setStyleSheet(
+  591: 
+  592: self._hero_cta_sub = QLabel("Based on current recovery metrics")
+  593: self._hero_cta_sub.setStyleSheet(
+  594: f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;"
+  595: )
+  596: self._hero_cta_sub.setAlignment(Qt.AlignRight)
+  597: right.addWidget(self._hero_cta_sub)
+  598: 
+  599: hero_layout.addLayout(right)
+  600: 
+Line 609: self._sleep_card = AppCard(title="Sleep", elevated=False)
+  607: 
+  608: # Sleep card
+  609: self._sleep_card = AppCard(title="Sleep", elevated=False)
+  610: self._sleep_narrative = QLabel("--")
+  611: self._sleep_narrative.setStyleSheet(
+  612: f"color: {colors.text_primary}; {font_style('h3')}; "
+  613: f"letter-spacing: -0.02em; background: transparent;"
+  614: )
+  615: self._sleep_card.add_content(self._sleep_narrative)
+  616: self._sleep_detail = QLabel("")
+Line 611: self._sleep_narrative.setStyleSheet(
+  609: self._sleep_card = AppCard(title="Sleep", elevated=False)
+  610: self._sleep_narrative = QLabel("--")
+  611: self._sleep_narrative.setStyleSheet(
+  612: f"color: {colors.text_primary}; {font_style('h3')}; "
+  613: f"letter-spacing: -0.02em; background: transparent;"
+  614: )
+  615: self._sleep_card.add_content(self._sleep_narrative)
+  616: self._sleep_detail = QLabel("")
+  617: self._sleep_detail.setStyleSheet(
+  618: f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+Line 617: self._sleep_detail.setStyleSheet(
+  615: self._sleep_card.add_content(self._sleep_narrative)
+  616: self._sleep_detail = QLabel("")
+  617: self._sleep_detail.setStyleSheet(
+  618: f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+  619: )
+  620: self._sleep_card.add_content(self._sleep_detail)
+  621: self._sleep_empty = QLabel("No sleep data \u2014 Connect a wearable or log manually.")
+  622: self._sleep_empty.setStyleSheet(
+  623: f"color: {colors.text_disabled}; {font_style('body_small')}; background: transparent;"
+  624: )
+Line 622: self._sleep_empty.setStyleSheet(
+  620: self._sleep_card.add_content(self._sleep_detail)
+  621: self._sleep_empty = QLabel("No sleep data \u2014 Connect a wearable or log manually.")
+  622: self._sleep_empty.setStyleSheet(
+  623: f"color: {colors.text_disabled}; {font_style('body_small')}; background: transparent;"
+  624: )
+  625: self._sleep_empty.setWordWrap(True)
+  626: self._sleep_empty.setAlignment(Qt.AlignCenter)
+  627: self._sleep_card.add_content(self._sleep_empty)
+  628: self._sleep_narrative.hide()
+  629: self._sleep_detail.hide()
+Line 633: self._fatigue_card = AppCard(title="Fatigue", elevated=False)
+  631: 
+  632: # Fatigue card
+  633: self._fatigue_card = AppCard(title="Fatigue", elevated=False)
+  634: self._fatigue_narrative = QLabel("--")
+  635: self._fatigue_narrative.setStyleSheet(
+  636: f"color: {colors.text_primary}; {font_style('h3')}; "
+  637: f"letter-spacing: -0.02em; background: transparent;"
+  638: )
+  639: self._fatigue_card.add_content(self._fatigue_narrative)
+  640: self._fatigue_detail = QLabel("")
+Line 635: self._fatigue_narrative.setStyleSheet(
+  633: self._fatigue_card = AppCard(title="Fatigue", elevated=False)
+  634: self._fatigue_narrative = QLabel("--")
+  635: self._fatigue_narrative.setStyleSheet(
+  636: f"color: {colors.text_primary}; {font_style('h3')}; "
+  637: f"letter-spacing: -0.02em; background: transparent;"
+  638: )
+  639: self._fatigue_card.add_content(self._fatigue_narrative)
+  640: self._fatigue_detail = QLabel("")
+  641: self._fatigue_detail.setStyleSheet(
+  642: f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+Line 641: self._fatigue_detail.setStyleSheet(
+  639: self._fatigue_card.add_content(self._fatigue_narrative)
+  640: self._fatigue_detail = QLabel("")
+  641: self._fatigue_detail.setStyleSheet(
+  642: f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+  643: )
+  644: self._fatigue_card.add_content(self._fatigue_detail)
+  645: self._fatigue_empty = QLabel("No fatigue data yet.")
+  646: self._fatigue_empty.setStyleSheet(
+  647: f"color: {colors.text_disabled}; {font_style('body_small')}; background: transparent;"
+  648: )
+Line 646: self._fatigue_empty.setStyleSheet(
+  644: self._fatigue_card.add_content(self._fatigue_detail)
+  645: self._fatigue_empty = QLabel("No fatigue data yet.")
+  646: self._fatigue_empty.setStyleSheet(
+  647: f"color: {colors.text_disabled}; {font_style('body_small')}; background: transparent;"
+  648: )
+  649: self._fatigue_empty.setAlignment(Qt.AlignCenter)
+  650: self._fatigue_card.add_content(self._fatigue_empty)
+  651: self._fatigue_narrative.hide()
+  652: self._fatigue_detail.hide()
+  653: self._summary_grid.add_panel(self._fatigue_card, span=PanelSpan.QUARTER)
+Line 656: self._readiness_card = AppCard(title="Readiness", elevated=True)
+  654: 
+  655: # Readiness card (wider)
+  656: self._readiness_card = AppCard(title="Readiness", elevated=True)
+  657: self._readiness_narrative = QLabel("--")
+  658: self._readiness_narrative.setStyleSheet(
+  659: f"color: {colors.text_primary}; {font_style('h3')}; "
+  660: f"letter-spacing: -0.02em; background: transparent;"
+  661: )
+  662: self._readiness_card.add_content(self._readiness_narrative)
+  663: self._readiness_detail = QLabel("")
+Line 658: self._readiness_narrative.setStyleSheet(
+  656: self._readiness_card = AppCard(title="Readiness", elevated=True)
+  657: self._readiness_narrative = QLabel("--")
+  658: self._readiness_narrative.setStyleSheet(
+  659: f"color: {colors.text_primary}; {font_style('h3')}; "
+  660: f"letter-spacing: -0.02em; background: transparent;"
+  661: )
+  662: self._readiness_card.add_content(self._readiness_narrative)
+  663: self._readiness_detail = QLabel("")
+  664: self._readiness_detail.setStyleSheet(
+  665: f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+Line 664: self._readiness_detail.setStyleSheet(
+  662: self._readiness_card.add_content(self._readiness_narrative)
+  663: self._readiness_detail = QLabel("")
+  664: self._readiness_detail.setStyleSheet(
+  665: f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+  666: )
+  667: self._readiness_card.add_content(self._readiness_detail)
+  668: self._readiness_empty = QLabel("Complete a workout to unlock readiness insights.")
+  669: self._readiness_empty.setStyleSheet(
+  670: f"color: {colors.text_disabled}; {font_style('body_small')}; background: transparent;"
+  671: )
+Line 669: self._readiness_empty.setStyleSheet(
+  667: self._readiness_card.add_content(self._readiness_detail)
+  668: self._readiness_empty = QLabel("Complete a workout to unlock readiness insights.")
+  669: self._readiness_empty.setStyleSheet(
+  670: f"color: {colors.text_disabled}; {font_style('body_small')}; background: transparent;"
+  671: )
+  672: self._readiness_empty.setWordWrap(True)
+  673: self._readiness_empty.setAlignment(Qt.AlignCenter)
+  674: self._readiness_card.add_content(self._readiness_empty)
+  675: self._readiness_narrative.hide()
+  676: self._readiness_detail.hide()
+Line 705: self._hero_state_label.setStyleSheet(
+  703: state_label, narrative, cta_text, status_lvl = _score_to_state(score)
+  704: self._hero_state_label.setText(state_label)
+  705: self._hero_state_label.setStyleSheet(
+  706: f"color: {_score_color(score)}; {font_style('h2')}; "
+  707: f"letter-spacing: -0.02em; background: transparent;"
+  708: )
+  709: self._hero_narrative.setText(narrative)
+  710: self._hero_cta.setText(f"  \u25B6  {cta_text}")
+  711: self._hero_cta_sub.setText(f"Score: {score:.0f}/100 \u00b7 {level.upper() if level else ''}")
+  712: 
+Line 754: self._hero_state_label.setStyleSheet(
+  752: else:
+  753: self._hero_state_label.setText("No Recovery Data")
+  754: self._hero_state_label.setStyleSheet(
+  755: f"color: {colors.text_secondary}; {font_style('h2')}; "
+  756: f"letter-spacing: -0.02em; background: transparent;"
+  757: )
+  758: self._hero_narrative.setText("Complete a workout to unlock recovery insights. GymOS will analyse your training data to calculate sleep quality, fatigue levels, and training readiness.")
+  759: self._hero_cta.setText("  \u25B6  Start Training")
+  760: self._hero_cta_sub.setText("First workout creates your baseline")
+  761: self._hero_trend_badge.hide()
+Line 779: self._sleep_narrative.setStyleSheet(
+  777: sleep_label = "Good" if sleep_score >= 70 else "Fair" if sleep_score >= 40 else "Needs Work"
+  778: self._sleep_narrative.setText(sleep_label)
+  779: self._sleep_narrative.setStyleSheet(
+  780: f"color: {_score_color(sleep_score)}; {font_style('h3')}; "
+  781: f"letter-spacing: -0.02em; background: transparent;"
+  782: )
+  783: self._sleep_detail.setText(f"{sleep_hours:.1f}h \u00b7 Score: {sleep_score:.0f}/100")
+  784: self._sleep_narrative.show()
+  785: self._sleep_detail.show()
+  786: self._sleep_empty.hide()
+Line 797: self._fatigue_narrative.setStyleSheet(
+  795: self._fatigue_narrative.setText(fatigue_label)
+  796: fc = colors.success if fatigue_score <= 30 else colors.warning if fatigue_score <= 50 else colors.error
+  797: self._fatigue_narrative.setStyleSheet(
+  798: f"color: {fc}; {font_style('h3')}; "
+  799: f"letter-spacing: -0.02em; background: transparent;"
+  800: )
+  801: self._fatigue_detail.setText(f"Score: {fatigue_score:.0f}/100")
+  802: self._fatigue_narrative.show()
+  803: self._fatigue_detail.show()
+  804: self._fatigue_empty.hide()
+Line 814: self._readiness_narrative.setStyleSheet(
+  812: readiness_label = "Ready" if score >= 80 else "Good to Train" if score >= 60 else "Fatigued"
+  813: self._readiness_narrative.setText(readiness_label)
+  814: self._readiness_narrative.setStyleSheet(
+  815: f"color: {_score_color(score)}; {font_style('h3')}; "
+  816: f"letter-spacing: -0.02em; background: transparent;"
+  817: )
+  818: self._readiness_detail.setText(f"Score: {score:.0f}/100 \u00b7 Stress: {stress_score:.0f}/100")
+  819: self._readiness_narrative.show()
+  820: self._readiness_detail.show()
+  821: self._readiness_empty.hide()
+Line 955: trend_lbl.setStyleSheet(
+  953: if narrative else f"7-day average: {avg:.0f}/100"
+  954: )
+  955: trend_lbl.setStyleSheet(
+  956: f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+  957: )
+  958: trend_lbl.setWordWrap(True)
+  959: trend_lbl.setAlignment(Qt.AlignCenter)
+  960: self._trend_container.addWidget(trend_lbl)
+  961: else:
+  962: empty = QLabel("Weekly recovery data will appear here after completing workouts.")
+Line 963: empty.setStyleSheet(
+  961: else:
+  962: empty = QLabel("Weekly recovery data will appear here after completing workouts.")
+  963: empty.setStyleSheet(
+  964: f"color: {colors.text_disabled}; {font_style('body_small')}; background: transparent;"
+  965: )
+  966: empty.setWordWrap(True)
+  967: empty.setAlignment(Qt.AlignCenter)
+  968: self._trend_container.addWidget(empty)
+  969: 
+  970: # ── Update: Recommendation ───────────────────────────────────
+Line 1012: action_lbl.setStyleSheet(
+  1010: 
+  1011: action_lbl = QLabel(state_label)
+  1012: action_lbl.setStyleSheet(
+  1013: f"color: {_score_color(score)}; {font_style('h3')}; background: transparent;"
+  1014: )
+  1015: self._rec_card.add_content(action_lbl)
+  1016: 
+  1017: reason_lbl = QLabel(reasoning)
+  1018: reason_lbl.setStyleSheet(
+  1019: f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+Line 1018: reason_lbl.setStyleSheet(
+  1016: 
+  1017: reason_lbl = QLabel(reasoning)
+  1018: reason_lbl.setStyleSheet(
+  1019: f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+  1020: )
+  1021: reason_lbl.setWordWrap(True)
+  1022: self._rec_card.add_content(reason_lbl)
+  1023: 
+  1024: if flags:
+  1025: for flag in flags[:2]:
+Line 1031: flag_lbl.setStyleSheet(
+  1029: )
+  1030: flag_lbl = QLabel(f"\u26a0 {msg[:120]}")
+  1031: flag_lbl.setStyleSheet(
+  1032: f"color: {colors.warning}; {font_style('body')}; background: transparent;"
+  1033: )
+  1034: flag_lbl.setWordWrap(True)
+  1035: self._rec_card.add_content(flag_lbl)
+  1036: if detail:
+  1037: detail_lbl = QLabel(detail[:200])
+  1038: detail_lbl.setStyleSheet(
+Line 1038: detail_lbl.setStyleSheet(
+  1036: if detail:
+  1037: detail_lbl = QLabel(detail[:200])
+  1038: detail_lbl.setStyleSheet(
+  1039: f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;"
+  1040: )
+  1041: detail_lbl.setWordWrap(True)
+  1042: self._rec_card.add_content(detail_lbl)
+  1043: else:
+  1044: empty = QLabel("Complete a workout to start receiving recovery recommendations.")
+  1045: empty.setStyleSheet(
+Line 1045: empty.setStyleSheet(
+  1043: else:
+  1044: empty = QLabel("Complete a workout to start receiving recovery recommendations.")
+  1045: empty.setStyleSheet(
+  1046: f"color: {colors.text_disabled}; {font_style('body_small')}; background: transparent;"
+  1047: )
+  1048: empty.setWordWrap(True)
+  1049: empty.setAlignment(Qt.AlignCenter)
+  1050: self._rec_card.add_content(empty)
+  1051: 
+  1052: # ── Update: Counterfactuals ──────────────────────────────────
+Line 1132: ml.setStyleSheet(
+  1130: 
+  1131: ml = QLabel("\n".join(f"\u2022 {m}" for m in milestones))
+  1132: ml.setStyleSheet(
+  1133: f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+  1134: )
+  1135: ml.setWordWrap(True)
+  1136: self._history_container.addWidget(ml)
+  1137: else:
+  1138: empty = QLabel("Recovery history will appear here after completing workouts.")
+  1139: empty.setStyleSheet(
+Line 1139: empty.setStyleSheet(
+  1137: else:
+  1138: empty = QLabel("Recovery history will appear here after completing workouts.")
+  1139: empty.setStyleSheet(
+  1140: f"color: {colors.text_disabled}; {font_style('body_small')}; background: transparent;"
+  1141: )
+  1142: empty.setWordWrap(True)
+  1143: empty.setAlignment(Qt.AlignCenter)
+  1144: self._history_container.addWidget(empty)
+  1145: 
+  1146: # ── Layout Helpers ───────────────────────────────────────────

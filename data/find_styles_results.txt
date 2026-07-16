@@ -1,0 +1,385 @@
+Line 157: self.setStyleSheet(f"""
+  155: def _build_ui(self, icon: str, title: str, description: str, date_earned: str) -> None:
+  156: colors = color_from_scheme(ColorScheme.DARK)
+  157: self.setStyleSheet(f"""
+  158: _AchievementCard {{
+  159: background-color: {colors.surface};
+  160: border: 1px solid {colors.border};
+  161: border-radius: {R.lg};
+  162: }}
+  163: _AchievementCard:hover {{
+  164: border-color: {colors.primary};
+Line 177: icon_lbl.setStyleSheet("font-size: 32px; background: transparent; border: none;")
+  175: icon_lbl = QLabel(icon)
+  176: icon_lbl.setAlignment(Qt.AlignCenter)
+  177: icon_lbl.setStyleSheet("font-size: 32px; background: transparent; border: none;")
+  178: layout.addWidget(icon_lbl)
+  179: 
+  180: t = QLabel(title)
+  181: t.setAlignment(Qt.AlignCenter)
+  182: t.setWordWrap(True)
+  183: t.setStyleSheet(
+  184: f"color: {colors.text_primary}; {font_style('body', weight='bold')}; "
+Line 183: t.setStyleSheet(
+  181: t.setAlignment(Qt.AlignCenter)
+  182: t.setWordWrap(True)
+  183: t.setStyleSheet(
+  184: f"color: {colors.text_primary}; {font_style('body', weight='bold')}; "
+  185: f"background: transparent; border: none;"
+  186: )
+  187: layout.addWidget(t)
+  188: 
+  189: if description:
+  190: d = QLabel(description)
+Line 193: d.setStyleSheet(
+  191: d.setAlignment(Qt.AlignCenter)
+  192: d.setWordWrap(True)
+  193: d.setStyleSheet(
+  194: f"color: {colors.text_secondary}; {font_style('caption')}; "
+  195: f"background: transparent; border: none;"
+  196: )
+  197: layout.addWidget(d)
+  198: 
+  199: if date_earned:
+  200: dt = QLabel(date_earned)
+Line 202: dt.setStyleSheet(
+  200: dt = QLabel(date_earned)
+  201: dt.setAlignment(Qt.AlignCenter)
+  202: dt.setStyleSheet(
+  203: f"color: {colors.text_disabled}; {font_style('caption')}; "
+  204: f"background: transparent; border: none;"
+  205: )
+  206: layout.addWidget(dt)
+  207: 
+  208: 
+  209: # ── Progress Experience (main) ────────────────────────────────────
+Line 252: self._hero_narrative.setStyleSheet(
+  250: self._hero_narrative = QLabel("")
+  251: self._hero_narrative.setWordWrap(True)
+  252: self._hero_narrative.setStyleSheet(
+  253: "background: transparent; border: none;"
+  254: )
+  255: self._hero_text_col.addWidget(self._hero_narrative)
+  256: 
+  257: self._hero_subtitle = QLabel("")
+  258: self._hero_subtitle.setWordWrap(True)
+  259: self._hero_subtitle.setStyleSheet(
+Line 259: self._hero_subtitle.setStyleSheet(
+  257: self._hero_subtitle = QLabel("")
+  258: self._hero_subtitle.setWordWrap(True)
+  259: self._hero_subtitle.setStyleSheet(
+  260: "background: transparent; border: none;"
+  261: )
+  262: self._hero_text_col.addWidget(self._hero_subtitle)
+  263: self._hero_text_col.addStretch()
+  264: hc.addLayout(self._hero_text_col, 1)
+  265: 
+  266: self._hero_kpi = KpiStrip([], color_scheme=ColorScheme.DARK)
+Line 287: self._strength_header.setStyleSheet(
+  285: self._strength_header = QLabel("")
+  286: self._strength_header.setWordWrap(True)
+  287: self._strength_header.setStyleSheet(
+  288: "background: transparent; border: none;"
+  289: )
+  290: main.addWidget(self._strength_header)
+  291: 
+  292: self._pr_grid = QGridLayout()
+  293: self._pr_grid.setContentsMargins(0, 0, 0, 0)
+  294: self._pr_grid.setSpacing(_px12)
+Line 300: self._strength_empty.setStyleSheet(
+  298: self._strength_empty.setAlignment(Qt.AlignCenter)
+  299: self._strength_empty.setWordWrap(True)
+  300: self._strength_empty.setStyleSheet(
+  301: "background: transparent; border: none;"
+  302: )
+  303: 
+  304: main.addSpacing(_px20)
+  305: 
+  306: # Section 4: Body
+  307: self._build_section_header(main, "Body", "Weight trend and composition")
+Line 314: self._body_narrative_widget.setStyleSheet("background: transparent; border: none;")
+  312: 
+  313: self._body_narrative_widget = QFrame()
+  314: self._body_narrative_widget.setStyleSheet("background: transparent; border: none;")
+  315: self._body_narrative_widget.hide()
+  316: nwl = QVBoxLayout(self._body_narrative_widget)
+  317: nwl.setContentsMargins(0, _px8, 0, 0)
+  318: 
+  319: self._body_narrative = QLabel("")
+  320: self._body_narrative.setWordWrap(True)
+  321: self._body_narrative.setStyleSheet(
+Line 321: self._body_narrative.setStyleSheet(
+  319: self._body_narrative = QLabel("")
+  320: self._body_narrative.setWordWrap(True)
+  321: self._body_narrative.setStyleSheet(
+  322: "background: transparent; border: none;"
+  323: )
+  324: nwl.addWidget(self._body_narrative)
+  325: main.addWidget(self._body_narrative_widget)
+  326: 
+  327: self._body_empty = QLabel("")
+  328: self._body_empty.setAlignment(Qt.AlignCenter)
+Line 330: self._body_empty.setStyleSheet(
+  328: self._body_empty.setAlignment(Qt.AlignCenter)
+  329: self._body_empty.setWordWrap(True)
+  330: self._body_empty.setStyleSheet(
+  331: "background: transparent; border: none;"
+  332: )
+  333: main.addWidget(self._body_empty)
+  334: self._body_empty.hide()
+  335: 
+  336: main.addSpacing(_px20)
+  337: 
+Line 341: self._consistency_view.setStyleSheet("background: transparent; border: none;")
+  339: self._build_section_header(main, "Consistency", "Your training rhythm")
+  340: self._consistency_view = QFrame()
+  341: self._consistency_view.setStyleSheet("background: transparent; border: none;")
+  342: cvl = QVBoxLayout(self._consistency_view)
+  343: cvl.setContentsMargins(0, 0, 0, 0)
+  344: cvl.setSpacing(_px8)
+  345: 
+  346: self._consistency_timeline = WeeklyTimeline()
+  347: cvl.addWidget(self._consistency_timeline)
+  348: 
+Line 350: self._adherence_label.setStyleSheet(
+  348: 
+  349: self._adherence_label = QLabel("")
+  350: self._adherence_label.setStyleSheet(
+  351: "background: transparent; border: none;"
+  352: )
+  353: self._adherence_label.setAlignment(Qt.AlignCenter)
+  354: cvl.addWidget(self._adherence_label)
+  355: 
+  356: self._consistency_summary = QLabel("")
+  357: self._consistency_summary.setWordWrap(True)
+Line 358: self._consistency_summary.setStyleSheet(
+  356: self._consistency_summary = QLabel("")
+  357: self._consistency_summary.setWordWrap(True)
+  358: self._consistency_summary.setStyleSheet(
+  359: "background: transparent; border: none;"
+  360: )
+  361: cvl.addWidget(self._consistency_summary)
+  362: 
+  363: self._consistency_empty = QLabel("")
+  364: self._consistency_empty.setAlignment(Qt.AlignCenter)
+  365: self._consistency_empty.setWordWrap(True)
+Line 366: self._consistency_empty.setStyleSheet(
+  364: self._consistency_empty.setAlignment(Qt.AlignCenter)
+  365: self._consistency_empty.setWordWrap(True)
+  366: self._consistency_empty.setStyleSheet(
+  367: "background: transparent; border: none;"
+  368: )
+  369: self._consistency_empty.hide()
+  370: 
+  371: main.addWidget(self._consistency_view)
+  372: main.addWidget(self._consistency_empty)
+  373: 
+Line 393: self._achievement_empty.setStyleSheet(
+  391: self._achievement_empty.setAlignment(Qt.AlignCenter)
+  392: self._achievement_empty.setWordWrap(True)
+  393: self._achievement_empty.setStyleSheet(
+  394: "background: transparent; border: none;"
+  395: )
+  396: 
+  397: main.addStretch()
+  398: 
+  399: def _build_section_header(self, parent: QVBoxLayout, title: str, subtitle: str) -> None:
+  400: header = SectionHeader(title=title, subtitle=subtitle)
+Line 465: self._hero_narrative.setStyleSheet(
+  463: 
+  464: self._hero_narrative.setText(narrative)
+  465: self._hero_narrative.setStyleSheet(
+  466: f"color: {colors.text_primary}; {font_style('h2')}; "
+  467: f"background: transparent; border: none;"
+  468: )
+  469: 
+  470: # Today's achievement badge (replace any existing one)
+  471: if hasattr(self, '_hero_achievement_badge') and self._hero_achievement_badge:
+  472: self._hero_achievement_badge.deleteLater()
+Line 488: self._hero_subtitle.setStyleSheet(
+  486: subtitle = f"{greeting.capitalize()}, here's your progress overview."
+  487: self._hero_subtitle.setText(subtitle)
+  488: self._hero_subtitle.setStyleSheet(
+  489: f"color: {colors.text_secondary}; {font_style('body')}; "
+  490: f"background: transparent; border: none;"
+  491: )
+  492: 
+  493: # KPI strip
+  494: vol_text = "--"
+  495: try:
+Line 571: self._strength_empty.setStyleSheet(
+  569: "Every rep is a step toward a new personal record."
+  570: )
+  571: self._strength_empty.setStyleSheet(
+  572: f"color: {colors.text_disabled}; {font_style('body')}; "
+  573: f"background: transparent; border: none; padding: {S.s8};"
+  574: )
+  575: self._pr_grid.addWidget(self._strength_empty, 0, 0)
+  576: self._strength_header.setText("")
+  577: return
+  578: 
+Line 595: self._strength_header.setStyleSheet(
+  593: narrative = ""
+  594: self._strength_header.setText(narrative)
+  595: self._strength_header.setStyleSheet(
+  596: f"color: {colors.primary}; {font_style('body', weight=500)}; "
+  597: f"background: transparent; border: none; padding-bottom: {S.s2};"
+  598: )
+  599: 
+  600: # PR cards
+  601: row_i, col_i = 0, 0
+  602: type_colors_map = {
+Line 615: card.setStyleSheet(f"""
+  613: 
+  614: card = AppCard(title="", elevated=False, interactive=False)
+  615: card.setStyleSheet(f"""
+  616: AppCard {{
+  617: background-color: {colors.surface};
+  618: border: 1px solid {colors.border};
+  619: border-radius: {R.lg};
+  620: }}
+  621: AppCard:hover {{
+  622: border-color: {colors.primary};
+Line 632: name_lbl.setStyleSheet(
+  630: # Exercise name
+  631: name_lbl = QLabel(pr.exercise_name)
+  632: name_lbl.setStyleSheet(
+  633: f"color: {colors.text_primary}; {font_style('body', weight='bold')}; "
+  634: f"background: transparent; border: none;"
+  635: )
+  636: inner.addWidget(name_lbl)
+  637: 
+  638: # Value (large)
+  639: val_lbl = QLabel(pr.display_value)
+Line 640: val_lbl.setStyleSheet(
+  638: # Value (large)
+  639: val_lbl = QLabel(pr.display_value)
+  640: val_lbl.setStyleSheet(
+  641: f"color: {pr_color}; {font_style('h3')}; "
+  642: f"background: transparent; border: none;"
+  643: )
+  644: inner.addWidget(val_lbl)
+  645: 
+  646: # Improvement with arrow
+  647: if improvement > 0:
+Line 651: imp_lbl.setStyleSheet(
+  649: pct = f"{improvement:.0f}%"
+  650: imp_lbl = QLabel(f"{arrow} +{improvement_text}" if improvement_text else f"{arrow} +{int(improvement)} ({pct})")
+  651: imp_lbl.setStyleSheet(
+  652: f"color: {colors.success}; {font_style('caption', weight='bold')}; "
+  653: f"background: transparent; border: none;"
+  654: )
+  655: inner.addWidget(imp_lbl)
+  656: elif improvement == 0:
+  657: imp_lbl = QLabel("— No change")
+  658: imp_lbl.setStyleSheet(
+Line 658: imp_lbl.setStyleSheet(
+  656: elif improvement == 0:
+  657: imp_lbl = QLabel("— No change")
+  658: imp_lbl.setStyleSheet(
+  659: f"color: {colors.text_disabled}; {font_style('caption')}; "
+  660: f"background: transparent; border: none;"
+  661: )
+  662: inner.addWidget(imp_lbl)
+  663: 
+  664: # Improvement narrative
+  665: if improvement >= 10:
+Line 675: nar_lbl.setStyleSheet(
+  673: 
+  674: nar_lbl = QLabel(narrative_text)
+  675: nar_lbl.setStyleSheet(
+  676: f"color: {colors.text_secondary}; {font_style('caption')}; "
+  677: f"background: transparent; border: none;"
+  678: )
+  679: inner.addWidget(nar_lbl)
+  680: 
+  681: # Date
+  682: date_str = self._format_date_short(getattr(pr, "achieved_at", ""))
+Line 685: dt_lbl.setStyleSheet(
+  683: if date_str:
+  684: dt_lbl = QLabel(date_str)
+  685: dt_lbl.setStyleSheet(
+  686: f"color: {colors.text_disabled}; {font_style('caption')}; "
+  687: f"background: transparent; border: none;"
+  688: )
+  689: inner.addWidget(dt_lbl)
+  690: 
+  691: inner.addStretch()
+  692: wrapper = QFrame()
+Line 694: wrapper.setStyleSheet("background: transparent; border: none;")
+  692: wrapper = QFrame()
+  693: wrapper.setLayout(inner)
+  694: wrapper.setStyleSheet("background: transparent; border: none;")
+  695: card.add_content(wrapper)
+  696: 
+  697: self._pr_grid.addWidget(card, row_i, col_i)
+  698: col_i += 1
+  699: if col_i >= 3:
+  700: col_i = 0
+  701: row_i += 1
+Line 742: self._body_narrative.setStyleSheet(
+  740: 
+  741: self._body_narrative.setText(trend + goal_hint)
+  742: self._body_narrative.setStyleSheet(
+  743: f"color: {colors.text_secondary}; {font_style('body')}; "
+  744: f"background: transparent; border: none;"
+  745: )
+  746: self._body_narrative.show()
+  747: self._body_empty.hide()
+  748: else:
+  749: self._body_chart.hide()
+Line 755: self._body_empty.setStyleSheet(
+  753: "Log your body weight in Settings to track changes and see your progress."
+  754: )
+  755: self._body_empty.setStyleSheet(
+  756: f"color: {colors.text_disabled}; {font_style('body')}; "
+  757: f"background: transparent; border: none; padding: {S.s8};"
+  758: )
+  759: self._body_empty.show()
+  760: 
+  761: # ── Section 5: Consistency ──────────────────────────────────────
+  762: 
+Line 780: self._consistency_empty.setStyleSheet(
+  778: "and see your training rhythm."
+  779: )
+  780: self._consistency_empty.setStyleSheet(
+  781: f"color: {colors.text_disabled}; {font_style('body')}; "
+  782: f"background: transparent; border: none; padding: {S.s8};"
+  783: )
+  784: self._consistency_empty.show()
+  785: self._consistency_view.hide()
+  786: return
+  787: else:
+Line 837: self._consistency_summary.setStyleSheet(
+  835: 
+  836: self._consistency_summary.setText(summary_text)
+  837: self._consistency_summary.setStyleSheet(
+  838: f"color: {colors.text_secondary}; {font_style('caption')}; "
+  839: f"background: transparent; border: none;"
+  840: )
+  841: self._consistency_view.layout().addWidget(self._consistency_summary)
+  842: 
+  843: # Monthly context
+  844: try:
+Line 850: monthly_lbl.setStyleSheet(
+  848: monthly = f"Monthly average: {avg_week:.1f} sessions/week"
+  849: monthly_lbl = QLabel(monthly)
+  850: monthly_lbl.setStyleSheet(
+  851: f"color: {colors.text_disabled}; {font_style('caption')}; "
+  852: f"background: transparent; border: none;"
+  853: )
+  854: monthly_lbl.setAlignment(Qt.AlignCenter)
+  855: self._consistency_view.layout().addWidget(monthly_lbl)
+  856: except Exception:
+  857: pass
+Line 1046: self._achievement_empty.setStyleSheet(
+  1044: "Every milestone is a celebration of your dedication."
+  1045: )
+  1046: self._achievement_empty.setStyleSheet(
+  1047: f"color: {colors.text_disabled}; {font_style('body')}; "
+  1048: f"background: transparent; border: none; padding: {S.s8};"
+  1049: )
+  1050: self._achievement_grid.addWidget(self._achievement_empty, 0, 0)
+  1051: return
+  1052: 
+  1053: row_i, col_i = 0, 0

@@ -1,16 +1,14 @@
-"""Dashboard Mission + Recovery widget — today's workout and recovery status."""
+"""Dashboard Mission widget — today's workout target exercises list."""
 
 from __future__ import annotations
 
 from typing import Any
 
-from PySide6.QtCore import QEasingCurve, QPropertyAnimation, Qt, QTimer, Signal
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QFrame,
-    QGraphicsOpacityEffect,
     QHBoxLayout,
     QLabel,
-    QPushButton,
     QVBoxLayout,
     QWidget,
 )
@@ -18,12 +16,11 @@ from PySide6.QtWidgets import (
 from ui.dashboard.dashboard_models import DashboardData
 from ui.design_system.components.empty_state import EmptyState
 from ui.design_system.components.status_badge import StatusBadge, StatusLevel
-from ui.design_system.layout import EditorialGrid, PanelSpan
 from ui.design_system.tokens.color import ColorScheme, color_from_scheme, resolve_alpha
-from ui.design_system.tokens.elevation import apply_elevation, glow_effect
+from ui.design_system.tokens.elevation import apply_elevation
 from ui.design_system.tokens.radius import RadiusTokens, px_from_token
 from ui.design_system.tokens.spacing import SpacingTokens
-from ui.design_system.tokens.typography import TypographyTokens, font_style
+from ui.design_system.tokens.typography import TypographyTokens
 
 S = SpacingTokens()
 R = RadiusTokens()
@@ -31,254 +28,149 @@ T = TypographyTokens()
 
 _pxf = px_from_token
 _px4 = _pxf(S.s1)
-_px6 = _pxf(S.s1_5)
 _px8 = _pxf(S.s2)
 _px12 = _pxf(S.s3)
 _px16 = _pxf(S.s4)
 _px20 = _pxf(S.s5)
 _px24 = _pxf(S.s6)
-_px28 = _pxf(S.s7) if hasattr(S, 's7') else 28
-_px32 = _pxf(S.s8)
-_px36 = _pxf(S.s9) if hasattr(S, 's9') else 36
-
-_ANI_DURATION = 200
-_ANI_STAGGER = 80
 
 
 class MissionRecoveryWidget(QFrame):
-    """Combined mission panel + recovery panel in an editorial grid.
-
-    Shows today's workout (or empty state) and recovery status side by side.
-    """
+    """Today's target workout and exercise list card."""
 
     start_workout_clicked = Signal()
     import_program_clicked = Signal()
 
-    def __init__(self, motion: Any = None, parent: QWidget | None = None) -> None:
+    def __init__(
+        self,
+        prog_mgr: Any = None,
+        db: Any = None,
+        motion: Any = None,
+        parent: QWidget | None = None,
+    ) -> None:
         super().__init__(parent)
+        self._prog_mgr = prog_mgr
+        self._db = db
         self._motion = motion
-        self._animations: list[QPropertyAnimation] = []
         self._build_ui()
 
     def set_motion_service(self, motion: Any) -> None:
         self._motion = motion
+        if self._motion:
+            self._motion.bind_hover_elevation(self)
 
     def _colors(self):
         return color_from_scheme(ColorScheme.DARK)
 
     def _build_ui(self) -> None:
-        self.setStyleSheet("MissionRecoveryWidget { background: transparent; }")
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(0)
-
-        grid = EditorialGrid()
-        grid.set_spacing(_px16)
-        layout.addWidget(grid)
-
-        self._build_mission_panel(grid)
-        self._build_recovery_panel(grid)
-
-    def _build_mission_panel(self, grid: EditorialGrid) -> None:
         colors = self._colors()
 
-        self._card = QFrame()
-        self._card.setObjectName("MissionCard")
-        self._card.setStyleSheet(
+        self.setObjectName("MissionCard")
+        self.setStyleSheet(
             f"""
             QFrame#MissionCard {{
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(15,18,55,235), stop:0.4 rgba(20,15,65,195),
-                    stop:0.75 rgba(25,12,58,175), stop:1 rgba(10,14,42,135));
+                background-color: rgba(20, 21, 38, 0.65);
                 border-radius: {R.xl};
-                border: 1px solid {resolve_alpha(colors.primary, 0.10)};
+                border: 1px solid rgba(255, 255, 255, 0.05);
             }}
         """
         )
-        apply_elevation(self._card, 2, is_dark=True, bg_color=colors.surface)
+        apply_elevation(self, 1, is_dark=True, bg_color=colors.surface)
 
-        ml = QVBoxLayout(self._card)
-        ml.setContentsMargins(_px28, _px24, _px28, _px24)
-        ml.setSpacing(_px16)
+        main_layout = QVBoxLayout(self)
+        main_layout.setContentsMargins(_px24, _px20, _px24, _px20)
+        main_layout.setSpacing(_px12)
 
+        # Header Title
+        self._section_title = QLabel("TODAY'S MISSION")
+        self._section_title.setStyleSheet(
+            f"color: {colors.text_disabled}; font-size: 10px; font-weight: 700; "
+            f"letter-spacing: 1px; background: transparent;"
+        )
+        main_layout.addWidget(self._section_title)
+
+        # Workout Detail Row
         self._workout_name = QLabel("")
         self._workout_name.setStyleSheet(
-            f"color: {colors.text_primary}; font-size: 22px; font-weight: 700; "
+            f"color: {colors.text_primary}; font-size: 20px; font-weight: 700; "
             f"letter-spacing: -0.02em; background: transparent;"
         )
-        self._workout_name.setWordWrap(True)
-        ml.addWidget(self._workout_name)
+        main_layout.addWidget(self._workout_name)
 
-        self._workout_meta = QLabel("")
-        self._workout_meta.setStyleSheet(
-            f"color: {colors.text_secondary}; font-size: 14px; font-weight: 400; "
-            f"background: transparent;"
+        # Muscles Badge Container
+        self._muscle_layout = QHBoxLayout()
+        self._muscle_layout.setContentsMargins(0, 0, 0, 0)
+        self._muscle_layout.setSpacing(_px8)
+        self._muscle_widget = QWidget()
+        self._muscle_widget.setLayout(self._muscle_layout)
+        self._muscle_widget.setStyleSheet("background: transparent;")
+        main_layout.addWidget(self._muscle_widget)
+
+        # Separator Line
+        self._separator = QFrame()
+        self._separator.setFixedHeight(1)
+        self._separator.setStyleSheet("background-color: rgba(255, 255, 255, 0.08); border: none;")
+        main_layout.addWidget(self._separator)
+
+        # Exercises List Container
+        self._exercises_layout = QVBoxLayout()
+        self._exercises_layout.setContentsMargins(0, 0, 0, 0)
+        self._exercises_layout.setSpacing(_px8)
+        self._exercises_widget = QWidget()
+        self._exercises_widget.setLayout(self._exercises_layout)
+        self._exercises_widget.setStyleSheet("background: transparent;")
+        main_layout.addWidget(self._exercises_widget)
+
+        # View Full Plan Text Link
+        self._view_plan_btn = QLabel("View Full Plan \u2192")
+        self._view_plan_btn.setCursor(Qt.PointingHandCursor)
+        self._view_plan_btn.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self._view_plan_btn.setStyleSheet(
+            f"color: {colors.primary}; font-size: 12px; font-weight: 600; background: transparent; padding-top: 4px;"
         )
-        self._workout_meta.setWordWrap(True)
-        ml.addWidget(self._workout_meta)
+        self._view_plan_btn.mousePressEvent = lambda e: self.start_workout_clicked.emit()
+        main_layout.addWidget(self._view_plan_btn)
 
-        muscle_row = QHBoxLayout()
-        muscle_row.setContentsMargins(0, 0, 0, 0)
-        muscle_row.setSpacing(_px8)
-        self._muscle_container = QWidget()
-        self._muscle_container.setLayout(muscle_row)
-        self._muscle_container.setStyleSheet("background: transparent;")
-        ml.addWidget(self._muscle_container)
-
-        ml.addSpacing(_px4)
-
-        self._start_btn = QPushButton("  \u25B6  Start Workout")
-        self._start_btn.setCursor(Qt.PointingHandCursor)
-        self._start_btn.setFixedHeight(52)
-        self._start_btn.setMinimumWidth(200)
-        self._start_btn.setStyleSheet(
-            f"""
-            QPushButton {{
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                    stop:0 rgba(99,102,241,0.95), stop:0.6 rgba(139,92,246,0.9), stop:1 rgba(167,139,250,0.85));
-                color: #FFFFFF;
-                border: 1px solid rgba(255,255,255,0.06);
-                border-radius: {R.size_2xl};
-                padding: 0 32px;
-                font-size: 15px; font-weight: 700;
-                letter-spacing: 0.01em;
-            }}
-            QPushButton:hover {{
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                    stop:0 rgba(129,140,248,0.95), stop:0.6 rgba(167,139,250,0.9), stop:1 rgba(196,181,253,0.85));
-            }}
-            QPushButton:focus {{
-                border: 2px solid {colors.focus_ring};
-            }}
-        """
-        )
-        self._start_btn.clicked.connect(self.start_workout_clicked.emit)
-        self._start_btn.setAccessibleName("Start Workout")
-        glow_effect(self._start_btn, glow_rgba=resolve_alpha(colors.primary, 0.35), blur=16, offset_y=0)
-        ml.addWidget(self._start_btn)
-
+        # Empty State
         self._empty = EmptyState(
             icon="\U0001F3CB",
-            title="No Workout Today",
-            message="Import a program or start a free workout to get going.",
+            title="No Workout Program",
+            message="Please activate a workout program to view targets.",
             action_text="Import Program",
             on_action=self.import_program_clicked.emit,
         )
-        ml.addWidget(self._empty)
+        main_layout.addWidget(self._empty)
 
+        # Initial hidden state
         self._workout_name.hide()
-        self._workout_meta.hide()
-        self._muscle_container.hide()
-        self._start_btn.hide()
-
-        grid.add_panel(self._card, span=PanelSpan.TWO_THIRDS)
-
-        if self._motion:
-            self._motion.bind_hover_elevation(self._card)
-            self._motion.bind_press_scale(self._start_btn)
-
-    def _build_recovery_panel(self, grid: EditorialGrid) -> None:
-        colors = self._colors()
-
-        self._rec_card = QFrame()
-        self._rec_card.setObjectName("RecoveryCard")
-        self._rec_card.setStyleSheet(
-            f"""
-            QFrame#RecoveryCard {{
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(15,18,55,220), stop:1 rgba(8,12,36,140));
-                border-radius: {R.xl};
-                border: 1px solid {resolve_alpha(colors.primary, 0.08)};
-            }}
-        """
-        )
-        apply_elevation(self._rec_card, 1, is_dark=True, bg_color=colors.surface)
-
-        rl = QVBoxLayout(self._rec_card)
-        rl.setContentsMargins(_px24, _px20, _px24, _px20)
-        rl.setSpacing(_px12)
-
-        self._rec_narrative = QLabel("--")
-        self._rec_narrative.setStyleSheet(
-            f"color: {colors.text_primary}; font-size: 18px; font-weight: 700; "
-            f"letter-spacing: -0.02em; background: transparent;"
-        )
-        rl.addWidget(self._rec_narrative)
-
-        self._rec_score_text = QLabel("")
-        self._rec_score_text.setStyleSheet(
-            f"color: {colors.text_secondary}; font-size: 14px; font-weight: 400; "
-            f"background: transparent;"
-        )
-        rl.addWidget(self._rec_score_text)
-
-        self._rec_suggested = QLabel("")
-        self._rec_suggested.setWordWrap(True)
-        self._rec_suggested.setStyleSheet(
-            f"color: {colors.primary}; font-size: 14px; font-weight: 500; "
-            f"padding-top: {_px4}; background: transparent;"
-        )
-        rl.addWidget(self._rec_suggested)
-
-        self._rec_empty = EmptyState(
-            icon="\U0001FA9D",
-            title="No Recovery Data",
-            message="Complete a workout to unlock recovery insights.",
-        )
-        rl.addWidget(self._rec_empty)
-        self._rec_empty.hide()
-
-        self._rec_content = QWidget()
-        self._rec_content.setStyleSheet("background: transparent;")
-        rcl = QVBoxLayout(self._rec_content)
-        rcl.setContentsMargins(0, 0, 0, 0)
-        rcl.addWidget(self._rec_narrative)
-        rcl.addWidget(self._rec_score_text)
-        rcl.addWidget(self._rec_suggested)
-
-        grid.add_panel(self._rec_card, span=PanelSpan.QUARTER)
-
-        if self._motion:
-            self._motion.bind_hover_elevation(self._rec_card)
-
-    # ── Public API ─────────────────────────────────────────────
+        self._muscle_widget.hide()
+        self._separator.hide()
+        self._exercises_widget.hide()
+        self._view_plan_btn.hide()
+        self._empty.show()
 
     def update_data(self, data: DashboardData) -> None:
-        """Update mission and recovery panels from dashboard data."""
-        self._update_mission(data)
-        self._update_recovery(data)
-
-    def _update_mission(self, data: DashboardData) -> None:
+        """Update target exercise list from active program database."""
+        colors = self._colors()
         workout_name = getattr(data, "today_workout_name", "") or ""
+
         if workout_name:
             self._empty.hide()
             self._workout_name.show()
-            self._workout_meta.show()
-            self._muscle_container.show()
-            self._start_btn.show()
+            self._muscle_widget.show()
+            self._separator.show()
+            self._exercises_widget.show()
+            self._view_plan_btn.show()
 
             self._workout_name.setText(workout_name)
 
-            ex_count = getattr(data, "today_workout_exercise_count", 0) or 0
-            duration = getattr(data, "today_workout_estimated_duration", 0) or 0
-
-            rec_level = getattr(data, "recovery_level", "") or ""
-            recovery_hint = ""
-            if rec_level:
-                rec_display = rec_level.capitalize().replace("_", " ")
-                recovery_hint = f" \u00b7 {rec_display}"
-
-            meta = f"{ex_count} exercises"
-            if duration:
-                meta += f" \u00b7 ~{duration} min"
-            meta += recovery_hint
-            self._workout_meta.setText(meta)
-
-            for _ in reversed(range(self._muscle_container.layout().count())):
-                item = self._muscle_container.layout().takeAt(0)
+            # Clear muscle badges
+            for i in reversed(range(self._muscle_layout.count())):
+                item = self._muscle_layout.takeAt(i)
                 if item.widget():
                     item.widget().deleteLater()
 
+            # Add primary muscles status badges
             muscles = getattr(data, "today_workout_primary_muscles", []) or []
             for m in muscles:
                 badge = StatusBadge(
@@ -286,97 +178,62 @@ class MissionRecoveryWidget(QFrame):
                     level=StatusLevel.INFO,
                     outlined=True,
                 )
-                self._muscle_container.layout().addWidget(badge)
+                self._muscle_layout.addWidget(badge)
+            self._muscle_layout.addStretch()
 
-            self._fade_in(self._card, delay=_ANI_STAGGER * 1)
+            # Clear exercises list
+            for i in reversed(range(self._exercises_layout.count())):
+                item = self._exercises_layout.takeAt(i)
+                if item.widget():
+                    item.widget().deleteLater()
+
+            # Query exercises list dynamically
+            exercises = []
+            if self._prog_mgr and self._db:
+                try:
+                    days = self._prog_mgr.get_active_program_days()
+                    total = self._db.get_total_workouts()
+                    if days:
+                        idx = total % len(days) if total > 0 else 0
+                        day = days[idx] if idx < len(days) else days[0]
+                        exercises = day.get("exercises", [])
+                except Exception:
+                    pass
+
+            # Render dynamic exercise rows
+            if exercises:
+                for idx, e in enumerate(exercises[:3]):  # Show up to top 3 exercises
+                    row = QFrame()
+                    row.setStyleSheet("background: transparent;")
+                    row_layout = QHBoxLayout(row)
+                    row_layout.setContentsMargins(0, 4, 0, 4)
+                    row_layout.setSpacing(_px12)
+
+                    num_lbl = QLabel(f"{idx + 1}")
+                    num_lbl.setFixedWidth(20)
+                    num_lbl.setStyleSheet(f"color: {colors.text_disabled}; font-size: 12px; font-weight: 600;")
+                    
+                    ex_name = QLabel(e.get("name", ""))
+                    ex_name.setStyleSheet(f"color: {colors.text_primary}; font-size: 13px; font-weight: 500;")
+                    
+                    sets_reps = QLabel(f"{e.get('target_sets', 3)} sets x {e.get('target_reps', 10)} reps @ RIR {e.get('target_rir', 2)}")
+                    sets_reps.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    sets_reps.setStyleSheet(f"color: {colors.text_secondary}; font-size: 12px;")
+
+                    row_layout.addWidget(num_lbl)
+                    row_layout.addWidget(ex_name, 1)
+                    row_layout.addWidget(sets_reps)
+                    self._exercises_layout.addWidget(row)
+            else:
+                ex_count = getattr(data, "today_workout_exercise_count", 0) or 0
+                placeholder = QLabel(f"Contains {ex_count} planned exercises in sequence.")
+                placeholder.setStyleSheet(f"color: {colors.text_secondary}; font-size: 13px; font-style: italic;")
+                self._exercises_layout.addWidget(placeholder)
+
         else:
             self._workout_name.hide()
-            self._workout_meta.hide()
-            self._muscle_container.hide()
-            self._start_btn.hide()
+            self._muscle_widget.hide()
+            self._separator.hide()
+            self._exercises_widget.hide()
+            self._view_plan_btn.hide()
             self._empty.show()
-
-    def _update_recovery(self, data: DashboardData) -> None:
-        colors = self._colors()
-        rec_score = getattr(data, "recovery_score", 0.0) or 0.0
-        level_str = getattr(data, "recovery_level", "") or ""
-        suggested = getattr(data, "recovery_suggested_action", "") or ""
-        getattr(data, "recovery_flags", []) or []
-        status = getattr(data, "recovery_status", None)
-
-        if status is None and not level_str:
-            self._rec_empty.show()
-            self._rec_content.hide()
-            return
-
-        self._rec_empty.hide()
-        self._rec_content.show()
-
-        if status and not level_str:
-            level_obj = getattr(status, "level", "low")
-            level_str = (
-                level_obj.value if hasattr(level_obj, "value") else str(level_obj).lower()
-            )
-
-        level_key = level_str.lower() if level_str else "low"
-
-        narrative_label = {
-            "low": "Ready for PR \U0001F525",
-            "moderate": "Nearly recovered",
-            "high": "Take it easy today",
-            "very_high": "Rest day recommended",
-            "critical": "Prioritize recovery",
-        }.get(level_key, level_key.upper().replace("_", " "))
-
-        score_color = colors.success
-        if level_key in ("high", "very_high", "critical"):
-            score_color = colors.error
-        elif level_key in ("moderate", "warning"):
-            score_color = colors.warning
-
-        self._rec_narrative.setStyleSheet(
-            f"color: {score_color}; {font_style('h3')}; "
-            f"letter-spacing: -0.02em; background: transparent;"
-        )
-        self._rec_narrative.setText(narrative_label)
-
-        score_text = f"Score: {rec_score:.0f}/100"
-        if status:
-            expl = getattr(status, "explanation", "") or ""
-            if expl:
-                score_text += f" \u00b7 {expl}"
-        self._rec_score_text.setText(score_text)
-
-        if suggested:
-            self._rec_suggested.setText(f"\u2192 {suggested}")
-        elif level_key in ("high", "very_high"):
-            self._rec_suggested.setText("\u2192 Prioritize sleep and nutrition")
-        else:
-            self._rec_suggested.setText("\u2192 Continue your current training plan")
-
-        self._fade_in(self._rec_card, delay=_ANI_STAGGER * 2)
-
-    # ── Helpers ────────────────────────────────────────────────
-
-    def _fade_in(self, widget: QWidget, duration: int = _ANI_DURATION, delay: int = 0) -> None:
-        if not widget.isVisible():
-            return
-
-        def _do_fade() -> None:
-            if self._motion:
-                self._motion.fade_slide_in(widget, duration=duration)
-            else:
-                opacity = QGraphicsOpacityEffect(widget)
-                widget.setGraphicsEffect(opacity)
-                anim = QPropertyAnimation(opacity, b"opacity")
-                anim.setDuration(duration)
-                anim.setStartValue(0.0)
-                anim.setEndValue(1.0)
-                anim.setEasingCurve(QEasingCurve.OutCubic)
-                anim.start(QPropertyAnimation.DeleteWhenStopped)
-                self._animations.append(anim)
-
-        if delay:
-            QTimer.singleShot(delay, _do_fade)
-        else:
-            _do_fade()

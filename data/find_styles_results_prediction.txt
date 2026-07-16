@@ -1,0 +1,495 @@
+Line 172: icon_lbl.setStyleSheet("font-size: 24px; background: transparent;")
+  170: 
+  171: icon_lbl = QLabel(icon)
+  172: icon_lbl.setStyleSheet("font-size: 24px; background: transparent;")
+  173: row.addWidget(icon_lbl)
+  174: 
+  175: col = QVBoxLayout()
+  176: col.setSpacing(2)
+  177: 
+  178: t = QLabel(title)
+  179: t.setStyleSheet(f"color: {colors.text_secondary}; {font_style('label')}; background: transparent;")
+Line 179: t.setStyleSheet(f"color: {colors.text_secondary}; {font_style('label')}; background: transparent;")
+  177: 
+  178: t = QLabel(title)
+  179: t.setStyleSheet(f"color: {colors.text_secondary}; {font_style('label')}; background: transparent;")
+  180: col.addWidget(t)
+  181: 
+  182: val = QLabel(label)
+  183: val.setStyleSheet(f"color: {sc}; {font_style('h3')}; letter-spacing: -0.02em; background: transparent;")
+  184: col.addWidget(val)
+  185: 
+  186: det = QLabel(detail)
+Line 183: val.setStyleSheet(f"color: {sc}; {font_style('h3')}; letter-spacing: -0.02em; background: transparent;")
+  181: 
+  182: val = QLabel(label)
+  183: val.setStyleSheet(f"color: {sc}; {font_style('h3')}; letter-spacing: -0.02em; background: transparent;")
+  184: col.addWidget(val)
+  185: 
+  186: det = QLabel(detail)
+  187: det.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
+  188: col.addWidget(det)
+  189: 
+  190: row.addLayout(col, 1)
+Line 187: det.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
+  185: 
+  186: det = QLabel(detail)
+  187: det.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
+  188: col.addWidget(det)
+  189: 
+  190: row.addLayout(col, 1)
+  191: if body:
+  192: body.addLayout(row)
+  193: 
+  194: 
+Line 204: self.setStyleSheet(f"""
+  202: border_color = colors.primary if highlight else colors.border
+  203: 
+  204: self.setStyleSheet(f"""
+  205: QFrame#ReasonStep {{
+  206: background-color: {colors.surface};
+  207: border-radius: {R.lg};
+  208: border: 1px solid {border_color};
+  209: }}
+  210: """)
+  211: if highlight:
+Line 219: icon_lbl.setStyleSheet("font-size: 22px; background: transparent;")
+  217: 
+  218: icon_lbl = QLabel(icon)
+  219: icon_lbl.setStyleSheet("font-size: 22px; background: transparent;")
+  220: layout.addWidget(icon_lbl)
+  221: 
+  222: col = QVBoxLayout()
+  223: col.setSpacing(2)
+  224: 
+  225: p = QLabel(premise)
+  226: p.setStyleSheet(
+Line 226: p.setStyleSheet(
+  224: 
+  225: p = QLabel(premise)
+  226: p.setStyleSheet(
+  227: f"color: {colors.text_primary}; {font_style('body', weight='semibold')}; background: transparent;"
+  228: )
+  229: p.setWordWrap(True)
+  230: col.addWidget(p)
+  231: 
+  232: arrow = QLabel("\u2192")
+  233: arrow.setStyleSheet(f"color: {colors.primary}; {font_style('body')}; background: transparent;")
+Line 233: arrow.setStyleSheet(f"color: {colors.primary}; {font_style('body')}; background: transparent;")
+  231: 
+  232: arrow = QLabel("\u2192")
+  233: arrow.setStyleSheet(f"color: {colors.primary}; {font_style('body')}; background: transparent;")
+  234: col.addWidget(arrow)
+  235: 
+  236: c = QLabel(conclusion)
+  237: c.setStyleSheet(
+  238: f"color: {colors.text_secondary if not highlight else colors.primary}; "
+  239: f"{font_style('body')}; background: transparent;"
+  240: )
+Line 237: c.setStyleSheet(
+  235: 
+  236: c = QLabel(conclusion)
+  237: c.setStyleSheet(
+  238: f"color: {colors.text_secondary if not highlight else colors.primary}; "
+  239: f"{font_style('body')}; background: transparent;"
+  240: )
+  241: c.setWordWrap(True)
+  242: col.addWidget(c)
+  243: 
+  244: layout.addLayout(col, 1)
+Line 275: icon_lbl.setStyleSheet("font-size: 24px; background: transparent;")
+  273: 
+  274: icon_lbl = QLabel(icon)
+  275: icon_lbl.setStyleSheet("font-size: 24px; background: transparent;")
+  276: row.addWidget(icon_lbl)
+  277: 
+  278: col = QVBoxLayout()
+  279: col.setSpacing(2)
+  280: 
+  281: what_if = QLabel("What if...")
+  282: what_if.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
+Line 282: what_if.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
+  280: 
+  281: what_if = QLabel("What if...")
+  282: what_if.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
+  283: col.addWidget(what_if)
+  284: 
+  285: action_lbl = QLabel(action)
+  286: action_lbl.setStyleSheet(f"color: {colors.text_primary}; {font_style('body', weight='semibold')}; background: transparent;")
+  287: action_lbl.setWordWrap(True)
+  288: col.addWidget(action_lbl)
+  289: 
+Line 286: action_lbl.setStyleSheet(f"color: {colors.text_primary}; {font_style('body', weight='semibold')}; background: transparent;")
+  284: 
+  285: action_lbl = QLabel(action)
+  286: action_lbl.setStyleSheet(f"color: {colors.text_primary}; {font_style('body', weight='semibold')}; background: transparent;")
+  287: action_lbl.setWordWrap(True)
+  288: col.addWidget(action_lbl)
+  289: 
+  290: row.addLayout(col, 1)
+  291: if body:
+  292: body.addLayout(row)
+  293: 
+Line 296: impact_lbl.setStyleSheet(f"color: {impact_color}; {font_style('h3')}; background: transparent;")
+  294: # Impact value
+  295: impact_lbl = QLabel(impact)
+  296: impact_lbl.setStyleSheet(f"color: {impact_color}; {font_style('h3')}; background: transparent;")
+  297: if body:
+  298: body.addWidget(impact_lbl)
+  299: 
+  300: # Confidence bar
+  301: bar = QProgressBar()
+  302: bar.setRange(0, 100)
+  303: bar.setValue(int(impact_pct * 100))
+Line 306: bar.setStyleSheet(f"""
+  304: bar.setTextVisible(False)
+  305: bar.setFixedHeight(6)
+  306: bar.setStyleSheet(f"""
+  307: QProgressBar {{
+  308: background-color: {colors.surface_hover};
+  309: border-radius: 3px;
+  310: border: none;
+  311: }}
+  312: QProgressBar::chunk {{
+  313: background-color: {resolve_alpha(impact_color, 0.6)};
+Line 321: conf_lbl.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
+  319: 
+  320: conf_lbl = QLabel(conf_text)
+  321: conf_lbl.setStyleSheet(f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;")
+  322: if body:
+  323: body.addWidget(conf_lbl)
+  324: 
+  325: 
+  326: # ─── Prediction Dashboard ─────────────────────────────────────────
+  327: 
+  328: 
+Line 342: self.setStyleSheet("PredictionDashboard { background: transparent; }")
+  340: 
+  341: def _build_ui(self) -> None:
+  342: self.setStyleSheet("PredictionDashboard { background: transparent; }")
+  343: self._scroll = ScrollContainer()
+  344: outer = QVBoxLayout(self)
+  345: outer.setContentsMargins(0, 0, 0, 0)
+  346: outer.addWidget(self._scroll)
+  347: 
+  348: layout = QHBoxLayout()
+  349: layout.setContentsMargins(0, 0, 0, 0)
+Line 365: self._summary_card = AppCard(title="", elevated=True)
+  363: # 2. Summary
+  364: self._build_section_header(main, "Summary", "What the data says")
+  365: self._summary_card = AppCard(title="", elevated=True)
+  366: main.addWidget(self._summary_card)
+  367: 
+  368: main.addSpacing(_px24)
+  369: 
+  370: # 3. Evidence
+  371: self._build_section_header(main, "Evidence", "Why this prediction")
+  372: self._evidence_grid = EditorialGrid()
+Line 414: self._confidence_card = AppCard(title="", elevated=True)
+  412: # 8. Confidence
+  413: self._build_section_header(main, "Confidence", "How certain we are")
+  414: self._confidence_card = AppCard(title="", elevated=True)
+  415: main.addWidget(self._confidence_card)
+  416: 
+  417: main.addSpacing(_px24)
+  418: 
+  419: # 9. Action Plan
+  420: self._build_section_header(main, "Action Plan", "What to do next")
+  421: self._action_card = AppCard(title="", elevated=True)
+Line 421: self._action_card = AppCard(title="", elevated=True)
+  419: # 9. Action Plan
+  420: self._build_section_header(main, "Action Plan", "What to do next")
+  421: self._action_card = AppCard(title="", elevated=True)
+  422: main.addWidget(self._action_card)
+  423: 
+  424: main.addStretch()
+  425: 
+  426: def _build_section_header(self, parent: QVBoxLayout, title: str, subtitle: str) -> None:
+  427: header = SectionHeader(title=title, subtitle=subtitle)
+  428: hbox = QHBoxLayout()
+Line 441: self._hero_frame.setStyleSheet(f"""
+  439: self._hero_frame.setObjectName("PredictionHero")
+  440: self._hero_frame.setMinimumHeight(240)
+  441: self._hero_frame.setStyleSheet(f"""
+  442: QFrame#PredictionHero {{
+  443: background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+  444: stop:0 rgba(12,16,51,200), stop:0.35 rgba(20,16,74,180),
+  445: stop:0.7 rgba(26,13,68,160), stop:1 rgba(10,14,40,120));
+  446: border-radius: {R.xl};
+  447: border: 1px solid {resolve_alpha(colors.primary, 0.10)};
+  448: }}
+Line 461: self._hero_emoji.setStyleSheet("font-size: 36px; background: transparent;")
+  459: 
+  460: self._hero_emoji = QLabel("\U0001F52E")
+  461: self._hero_emoji.setStyleSheet("font-size: 36px; background: transparent;")
+  462: left.addWidget(self._hero_emoji)
+  463: 
+  464: self._hero_title = QLabel("No Prediction Yet")
+  465: self._hero_title.setStyleSheet(
+  466: f"color: {colors.text_primary}; {font_style('h2')}; "
+  467: f"letter-spacing: -0.02em; background: transparent;"
+  468: )
+Line 465: self._hero_title.setStyleSheet(
+  463: 
+  464: self._hero_title = QLabel("No Prediction Yet")
+  465: self._hero_title.setStyleSheet(
+  466: f"color: {colors.text_primary}; {font_style('h2')}; "
+  467: f"letter-spacing: -0.02em; background: transparent;"
+  468: )
+  469: self._hero_title.setWordWrap(True)
+  470: left.addWidget(self._hero_title)
+  471: 
+  472: self._hero_sub = QLabel("")
+Line 473: self._hero_sub.setStyleSheet(
+  471: 
+  472: self._hero_sub = QLabel("")
+  473: self._hero_sub.setStyleSheet(
+  474: f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+  475: )
+  476: self._hero_sub.setWordWrap(True)
+  477: left.addWidget(self._hero_sub)
+  478: 
+  479: # Confidence row
+  480: conf_row = QHBoxLayout()
+Line 493: self._hero_conf_bar.setStyleSheet(f"""
+  491: self._hero_conf_bar.setFixedHeight(8)
+  492: self._hero_conf_bar.setFixedWidth(200)
+  493: self._hero_conf_bar.setStyleSheet(f"""
+  494: QProgressBar {{ background-color: {colors.surface_hover}; border-radius: 4px; border: none; }}
+  495: QProgressBar::chunk {{ border-radius: 4px; }}
+  496: """)
+  497: conf_row.addWidget(self._hero_conf_bar)
+  498: 
+  499: self._hero_conf_pct = QLabel("")
+  500: self._hero_conf_pct.setStyleSheet(
+Line 500: self._hero_conf_pct.setStyleSheet(
+  498: 
+  499: self._hero_conf_pct = QLabel("")
+  500: self._hero_conf_pct.setStyleSheet(
+  501: f"color: {colors.text_disabled}; {font_style('caption', 'bold')}; background: transparent;"
+  502: )
+  503: conf_row.addWidget(self._hero_conf_pct)
+  504: 
+  505: conf_row.addStretch()
+  506: left.addLayout(conf_row)
+  507: 
+Line 521: self._hero_cta.setStyleSheet(f"""
+  519: self._hero_cta.setMinimumHeight(48)
+  520: self._hero_cta.setMinimumWidth(200)
+  521: self._hero_cta.setStyleSheet(f"""
+  522: QPushButton {{
+  523: background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+  524: stop:0 rgba(124,58,237,0.95), stop:0.5 rgba(147,51,234,0.9), stop:1 rgba(192,38,211,0.85));
+  525: color: white;
+  526: border-radius: {R.size_2xl};
+  527: padding: 0 {S.s7};
+  528: {font_style('body', 'bold')}
+Line 541: self._hero_cta_sub.setStyleSheet(
+  539: 
+  540: self._hero_cta_sub = QLabel("Based on current training data")
+  541: self._hero_cta_sub.setStyleSheet(
+  542: f"color: {colors.text_disabled}; {font_style('caption')}; background: transparent;"
+  543: )
+  544: self._hero_cta_sub.setAlignment(Qt.AlignRight)
+  545: right.addWidget(self._hero_cta_sub)
+  546: 
+  547: hero_layout.addLayout(right)
+  548: 
+Line 594: self._hero_conf_bar.setStyleSheet(f"""
+  592: self._hero_conf_badge.set_level(StatusLevel.NEUTRAL)
+  593: self._hero_conf_bar.setValue(0)
+  594: self._hero_conf_bar.setStyleSheet(f"""
+  595: QProgressBar {{ background-color: {colors.surface_hover}; border-radius: 4px; border: none; }}
+  596: QProgressBar::chunk {{ border-radius: 4px; background-color: {colors.text_disabled}; }}
+  597: """)
+  598: self._hero_conf_pct.setText("")
+  599: self._hero_cta.setText("  \u25B6  Start Training")
+  600: self._hero_cta_sub.setText("First prediction after 3+ workouts")
+  601: return
+Line 619: self._hero_conf_bar.setStyleSheet(f"""
+  617: self._hero_conf_badge.set_level(StatusLevel.INFO)
+  618: self._hero_conf_bar.setValue(50)
+  619: self._hero_conf_bar.setStyleSheet(f"""
+  620: QProgressBar {{ background-color: {colors.surface_hover}; border-radius: 4px; border: none; }}
+  621: QProgressBar::chunk {{ border-radius: 4px; background-color: {colors.info}; }}
+  622: """)
+  623: self._hero_conf_pct.setText("")
+  624: self._hero_cta.setText("  \u25B6  Review Predictions")
+  625: self._hero_cta_sub.setText("Scroll down for detailed analysis")
+  626: return
+Line 643: self._hero_conf_bar.setStyleSheet(f"""
+  641: self._hero_conf_badge.set_level(status_map.get(conf_level, StatusLevel.NEUTRAL))
+  642: self._hero_conf_bar.setValue(int(conf_pct))
+  643: self._hero_conf_bar.setStyleSheet(f"""
+  644: QProgressBar {{ background-color: {colors.surface_hover}; border-radius: 4px; border: none; }}
+  645: QProgressBar::chunk {{ border-radius: 4px; background-color: {conf_color}; }}
+  646: """)
+  647: self._hero_conf_pct.setText(f"{conf_pct:.0f}%")
+  648: self._hero_cta.setText("  \u25B6  Continue Program")
+  649: self._hero_cta_sub.setText(f"Confidence: {conf_level} · {value_str}")
+  650: 
+Line 706: empty.setStyleSheet(
+  704: if not data.has_data or not vm.has_data:
+  705: empty = QLabel("Complete workouts to receive personalised prediction summaries. GymOS will analyse your training progression, recovery trends, and consistency patterns to forecast your next milestones.")
+  706: empty.setStyleSheet(
+  707: f"color: {colors.text_disabled}; {font_style('body')}; background: transparent;"
+  708: )
+  709: empty.setWordWrap(True)
+  710: empty.setAlignment(Qt.AlignCenter)
+  711: self._summary_card.add_content(empty)
+  712: return
+  713: 
+Line 745: summary_lbl.setStyleSheet(
+  743: 
+  744: summary_lbl = QLabel(summary_text)
+  745: summary_lbl.setStyleSheet(
+  746: f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+  747: )
+  748: summary_lbl.setWordWrap(True)
+  749: self._summary_card.add_content(summary_lbl)
+  750: 
+  751: # ── Update: Evidence ─────────────────────────────────────────
+  752: 
+Line 811: empty_card = AppCard(title="", elevated=False)
+  809: if not evidence_list:
+  810: # Empty state
+  811: empty_card = AppCard(title="", elevated=False)
+  812: empty_lbl = QLabel("No evidence available yet. Complete workouts to build prediction data.")
+  813: empty_lbl.setStyleSheet(
+  814: f"color: {colors.text_disabled}; {font_style('body_small')}; background: transparent;"
+  815: )
+  816: empty_lbl.setWordWrap(True)
+  817: empty_lbl.setAlignment(Qt.AlignCenter)
+  818: empty_card.add_content(empty_lbl)
+Line 813: empty_lbl.setStyleSheet(
+  811: empty_card = AppCard(title="", elevated=False)
+  812: empty_lbl = QLabel("No evidence available yet. Complete workouts to build prediction data.")
+  813: empty_lbl.setStyleSheet(
+  814: f"color: {colors.text_disabled}; {font_style('body_small')}; background: transparent;"
+  815: )
+  816: empty_lbl.setWordWrap(True)
+  817: empty_lbl.setAlignment(Qt.AlignCenter)
+  818: empty_card.add_content(empty_lbl)
+  819: self._evidence_grid.add_panel(empty_card, span=PanelSpan.FULL)
+  820: self._evidence_cards.append(empty_card)
+Line 836: empty.setStyleSheet(
+  834: if not data.has_data or not vm.has_data:
+  835: empty = QLabel("Complete workouts to unlock the reasoning chain behind your predictions.")
+  836: empty.setStyleSheet(
+  837: f"color: {colors.text_disabled}; {font_style('body_small')}; background: transparent;"
+  838: )
+  839: empty.setWordWrap(True)
+  840: empty.setAlignment(Qt.AlignCenter)
+  841: self._reasoning_container.addWidget(empty)
+  842: return
+  843: 
+Line 884: empty.setStyleSheet(
+  882: if not steps:
+  883: empty = QLabel("Reasoning chain will populate after more training data is collected.")
+  884: empty.setStyleSheet(
+  885: f"color: {colors.text_disabled}; {font_style('body_small')}; background: transparent;"
+  886: )
+  887: empty.setWordWrap(True)
+  888: empty.setAlignment(Qt.AlignCenter)
+  889: self._reasoning_container.addWidget(empty)
+  890: return
+  891: 
+Line 978: nav_lbl.setStyleSheet(
+  976: )
+  977: nav_lbl = QLabel(narrative)
+  978: nav_lbl.setStyleSheet(
+  979: f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+  980: )
+  981: nav_lbl.setWordWrap(True)
+  982: nav_lbl.setAlignment(Qt.AlignCenter)
+  983: self._forecast_container.addWidget(nav_lbl)
+  984: else:
+  985: empty = QLabel("Forecast timeline will appear here after completing more workouts. GymOS needs 3+ sessions to establish a predictive baseline.")
+Line 986: empty.setStyleSheet(
+  984: else:
+  985: empty = QLabel("Forecast timeline will appear here after completing more workouts. GymOS needs 3+ sessions to establish a predictive baseline.")
+  986: empty.setStyleSheet(
+  987: f"color: {colors.text_disabled}; {font_style('body_small')}; background: transparent;"
+  988: )
+  989: empty.setWordWrap(True)
+  990: empty.setAlignment(Qt.AlignCenter)
+  991: self._forecast_container.addWidget(empty)
+  992: 
+  993: # ── Update: Coach ────────────────────────────────────────────
+Line 1087: empty.setStyleSheet(
+  1085: if not data.has_data or not vm.has_data:
+  1086: empty = QLabel("Confidence data will appear after completing workouts. More data = more confident predictions.")
+  1087: empty.setStyleSheet(
+  1088: f"color: {colors.text_disabled}; {font_style('body_small')}; background: transparent;"
+  1089: )
+  1090: empty.setWordWrap(True)
+  1091: empty.setAlignment(Qt.AlignCenter)
+  1092: self._confidence_card.add_content(empty)
+  1093: return
+  1094: 
+Line 1160: rl.setStyleSheet(
+  1158: for reason in reasons:
+  1159: rl = QLabel(f"\u2022 {reason}")
+  1160: rl.setStyleSheet(
+  1161: f"color: {colors.text_secondary}; {font_style('body')}; background: transparent;"
+  1162: )
+  1163: rl.setWordWrap(True)
+  1164: self._confidence_card.add_content(rl)
+  1165: 
+  1166: # ── Update: Action Plan ──────────────────────────────────────
+  1167: 
+Line 1174: empty.setStyleSheet(
+  1172: if not data.has_data or not vm.has_data:
+  1173: empty = QLabel("An action plan will be generated after completing 3+ workouts.")
+  1174: empty.setStyleSheet(
+  1175: f"color: {colors.text_disabled}; {font_style('body_small')}; background: transparent;"
+  1176: )
+  1177: empty.setWordWrap(True)
+  1178: empty.setAlignment(Qt.AlignCenter)
+  1179: self._action_card.add_content(empty)
+  1180: return
+  1181: 
+Line 1225: row.setStyleSheet("background: transparent; border: none;")
+  1223: for day_label, action_text in actions:
+  1224: row = QFrame()
+  1225: row.setStyleSheet("background: transparent; border: none;")
+  1226: rl = QHBoxLayout(row)
+  1227: rl.setContentsMargins(0, _px4, 0, _px4)
+  1228: rl.setSpacing(_px12)
+  1229: 
+  1230: day_badge = StatusBadge(text=day_label, level=StatusLevel.INFO, outlined=True)
+  1231: rl.addWidget(day_badge)
+  1232: 
+Line 1234: action_lbl.setStyleSheet(
+  1232: 
+  1233: action_lbl = QLabel(action_text)
+  1234: action_lbl.setStyleSheet(
+  1235: f"color: {colors.text_primary}; {font_style('body')}; background: transparent;"
+  1236: )
+  1237: action_lbl.setWordWrap(True)
+  1238: rl.addWidget(action_lbl, 1)
+  1239: 
+  1240: self._action_card.add_content(row)
+  1241: 
+Line 1249: continue_btn.setStyleSheet(f"""
+  1247: continue_btn = QPushButton("  \u25B6  Continue")
+  1248: continue_btn.setCursor(Qt.PointingHandCursor)
+  1249: continue_btn.setStyleSheet(f"""
+  1250: QPushButton {{
+  1251: background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+  1252: stop:0 rgba(124,58,237,0.95), stop:0.5 rgba(147,51,234,0.9), stop:1 rgba(192,38,211,0.85));
+  1253: color: white;
+  1254: border-radius: {R.size_2xl};
+  1255: padding: 8px {S.s6};
+  1256: {font_style('body', 'bold')}
+Line 1267: review_btn.setStyleSheet(f"""
+  1265: review_btn = QPushButton("  \u270F  Review Plan")
+  1266: review_btn.setCursor(Qt.PointingHandCursor)
+  1267: review_btn.setStyleSheet(f"""
+  1268: QPushButton {{
+  1269: background-color: transparent;
+  1270: color: {colors.text_primary};
+  1271: border: 1px solid {resolve_alpha(colors.primary, 0.12)};
+  1272: border-radius: {R.size_2xl};
+  1273: padding: 8px {S.s6};
+  1274: {font_style('body', 'bold')}

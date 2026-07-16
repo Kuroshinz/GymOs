@@ -462,6 +462,13 @@ class RecoveryDashboard(QWidget):
         # 6. Today's Recommendation
         self._build_section_header(main, "Today\u2019s Recommendation", "What should you do?")
         self._rec_card = AppCard(title="", elevated=True)
+        self._rec_card.setStyleSheet(f"""
+            AppCard {{
+                background-color: rgba(20, 21, 38, 0.65);
+                border-radius: {R.xl};
+                border: 1px solid rgba(255, 255, 255, 0.05);
+            }}
+        """)
         main.addWidget(self._rec_card)
 
         main.addSpacing(_px24)
@@ -500,11 +507,9 @@ class RecoveryDashboard(QWidget):
         self._hero_frame.setMinimumHeight(240)
         self._hero_frame.setStyleSheet(f"""
             QFrame#RecoveryHero {{
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(12,16,51,200), stop:0.35 rgba(20,16,74,180),
-                    stop:0.7 rgba(26,13,68,160), stop:1 rgba(10,14,40,120));
+                background-color: rgba(20, 21, 38, 0.65);
                 border-radius: {R.xl};
-                border: 1px solid {resolve_alpha(colors.primary, 0.10)};
+                border: 1px solid rgba(255, 255, 255, 0.05);
             }}
         """)
         apply_elevation(self._hero_frame, 3, is_dark=True, bg_color=colors.surface)
@@ -607,6 +612,17 @@ class RecoveryDashboard(QWidget):
 
         # Sleep card
         self._sleep_card = AppCard(title="Sleep", elevated=False)
+        glass_style = f"""
+            AppCard {{
+                background-color: rgba(20, 21, 38, 0.65);
+                border-radius: {R.xl};
+                border: 1px solid rgba(255, 255, 255, 0.05);
+            }}
+            AppCard:hover {{
+                border-color: rgba(255, 255, 255, 0.1);
+            }}
+        """
+        self._sleep_card.setStyleSheet(glass_style)
         self._sleep_narrative = QLabel("--")
         self._sleep_narrative.setStyleSheet(
             f"color: {colors.text_primary}; {font_style('h3')}; "
@@ -631,6 +647,7 @@ class RecoveryDashboard(QWidget):
 
         # Fatigue card
         self._fatigue_card = AppCard(title="Fatigue", elevated=False)
+        self._fatigue_card.setStyleSheet(glass_style)
         self._fatigue_narrative = QLabel("--")
         self._fatigue_narrative.setStyleSheet(
             f"color: {colors.text_primary}; {font_style('h3')}; "
@@ -654,6 +671,7 @@ class RecoveryDashboard(QWidget):
 
         # Readiness card (wider)
         self._readiness_card = AppCard(title="Readiness", elevated=True)
+        self._readiness_card.setStyleSheet(glass_style)
         self._readiness_narrative = QLabel("--")
         self._readiness_narrative.setStyleSheet(
             f"color: {colors.text_primary}; {font_style('h3')}; "

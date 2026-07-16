@@ -1,4 +1,7 @@
-"""Progress view — charts for weight trend, body weight, weekly volume."""
+"""[LEGACY] Progress view.
+This file is deprecated. The active view is now ui/progress/progress_experience.py.
+Do not modify or import this file. Scheduled for deletion in the next cleanup phase.
+"""
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (

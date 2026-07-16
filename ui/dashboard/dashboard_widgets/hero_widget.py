@@ -5,10 +5,10 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from PySide6.QtCore import QEasingCurve, QPropertyAnimation, Qt, QTimer, Signal
+from PySide6.QtCore import Qt, Signal
+from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
     QFrame,
-    QGraphicsOpacityEffect,
     QHBoxLayout,
     QLabel,
     QPushButton,
@@ -21,30 +21,18 @@ from ui.design_system.tokens.color import ColorScheme, color_from_scheme, resolv
 from ui.design_system.tokens.elevation import apply_elevation, glow_effect
 from ui.design_system.tokens.radius import RadiusTokens, px_from_token
 from ui.design_system.tokens.spacing import SpacingTokens
-from ui.design_system.tokens.typography import TypographyTokens, font_style
-from ui.design_system.visualization import GoalRing, RecoveryRing
+from ui.design_system.tokens.typography import TypographyTokens
 
 S = SpacingTokens()
 R = RadiusTokens()
 T = TypographyTokens()
 
 _pxf = px_from_token
-_px2 = _pxf(S.half)
-_px4 = _pxf(S.s1)
-_px6 = _pxf(S.s1_5)
 _px8 = _pxf(S.s2)
 _px12 = _pxf(S.s3)
 _px16 = _pxf(S.s4)
-_px20 = _pxf(S.s5)
 _px24 = _pxf(S.s6)
-_px28 = _pxf(S.s7)
 _px32 = _pxf(S.s8)
-_px36 = _pxf(S.s9) if hasattr(S, 's9') else 36
-_px40 = _pxf(S.s10) if hasattr(S, 's10') else 40
-_px48 = _pxf(S.s12) if hasattr(S, 's12') else 48
-
-_ANI_DURATION = 200
-_ANI_STAGGER = 80
 
 
 class HeroWidget(QFrame):
@@ -56,11 +44,13 @@ class HeroWidget(QFrame):
     def __init__(self, motion: Any = None, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self._motion = motion
-        self._animations: list[QPropertyAnimation] = []
         self._build_ui()
 
     def set_motion_service(self, motion: Any) -> None:
         self._motion = motion
+        if self._motion:
+            self._motion.bind_hover_elevation(self)
+            self._motion.bind_press_scale(self._start_btn)
 
     def _colors(self):
         return color_from_scheme(ColorScheme.DARK)
@@ -69,134 +59,59 @@ class HeroWidget(QFrame):
         colors = self._colors()
 
         self.setObjectName("DashboardHero")
-        self.setMinimumHeight(340)
+        self.setFixedHeight(230)
         self.setStyleSheet(
             f"""
             QFrame#DashboardHero {{
-                background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                    stop:0 rgba(18, 19, 36, 0.90),
-                    stop:1 rgba(10, 11, 22, 0.90));
+                background-color: rgba(20, 21, 38, 0.65);
                 border-radius: {R.xl};
-                border: 1px solid rgba(99, 102, 241, 0.20);
+                border: 1px solid rgba(255, 255, 255, 0.05);
             }}
         """
         )
         apply_elevation(self, 3, is_dark=True, bg_color=colors.surface)
 
-        outer = QVBoxLayout(self)
-        outer.setContentsMargins(_px36, _px32, _px36, _px28)
-        outer.setSpacing(0)
+        main_layout = QHBoxLayout(self)
+        main_layout.setContentsMargins(_px32, _px24, _px32, _px24)
+        main_layout.setSpacing(_px24)
 
-        # Top row: greeting + rings
-        top_row = QHBoxLayout()
-        top_row.setContentsMargins(0, 0, 0, 0)
+        # 1. Left Section (Greeting, Workout, Active Program Meta)
+        left_layout = QVBoxLayout()
+        left_layout.setContentsMargins(0, 0, 0, 0)
+        left_layout.setSpacing(_px12)
+        left_layout.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
 
-        left_area = QVBoxLayout()
-        left_area.setSpacing(_px8)
-
-        self._greeting = QLabel("Good Morning")
+        self._greeting = QLabel("GOOD MORNING, NHAN")
         self._greeting.setStyleSheet(
-            f"color: {colors.text_primary}; font-size: 34px; font-weight: 700; "
+            f"color: {colors.text_disabled}; font-size: 11px; font-weight: 700; "
+            f"letter-spacing: 1.5px; background: transparent; text-transform: uppercase;"
+        )
+        left_layout.addWidget(self._greeting)
+
+        self._workout_name = QLabel("TODAY'S PULL DAY")
+        self._workout_name.setStyleSheet(
+            f"color: {colors.text_primary}; font-size: 32px; font-weight: 800; "
             f"letter-spacing: -0.04em; background: transparent;"
         )
-        left_area.addWidget(self._greeting)
+        left_layout.addWidget(self._workout_name)
 
-        self._subtitle = QLabel("")
-        self._subtitle.setStyleSheet(
-            f"color: {colors.text_secondary}; font-size: 15px; font-weight: 400; "
+        self._muscle_groups = QLabel("Back · Biceps · Rear Delts")
+        self._muscle_groups.setStyleSheet(
+            f"color: {colors.text_secondary}; font-size: 14px; font-weight: 500; "
             f"background: transparent;"
         )
-        self._subtitle.setWordWrap(True)
-        left_area.addWidget(self._subtitle)
+        left_layout.addWidget(self._muscle_groups)
+        main_layout.addLayout(left_layout, 2)
 
-        left_area.addStretch()
-        top_row.addLayout(left_area, 1)
+        # 2. Center Section (Primary Start Workout Button)
+        center_layout = QHBoxLayout()
+        center_layout.setContentsMargins(0, 0, 0, 0)
+        center_layout.setAlignment(Qt.AlignCenter)
 
-        rings_area = QHBoxLayout()
-        rings_area.setSpacing(_px20)
-        rings_area.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-
-        self._recovery_ring = RecoveryRing(size=80)
-        rings_area.addWidget(self._recovery_ring)
-
-        self._goal_ring = GoalRing(size=80)
-        rings_area.addWidget(self._goal_ring)
-
-        top_row.addLayout(rings_area)
-        outer.addLayout(top_row)
-
-        outer.addSpacing(_px20)
-
-        self._prediction = QLabel("")
-        self._prediction.setStyleSheet(
-            f"color: {colors.primary}; font-size: 15px; font-weight: 600; "
-            f"font-style: italic; background: transparent; padding: {_px4} 0;"
-        )
-        self._prediction.setWordWrap(True)
-        self._prediction.hide()
-        outer.addWidget(self._prediction)
-
-        outer.addSpacing(_px12)
-
-        # Metrics row
-        metrics_row = QHBoxLayout()
-        metrics_row.setContentsMargins(0, 0, 0, 0)
-        metrics_row.setSpacing(_px16)
-
-        metric_defs = [
-            ("_metric_ready", "Readiness", "success"),
-            ("_metric_weight", "Current (kg)", "text_primary"),
-            ("_metric_goal", "To Goal (kg)", "warning"),
-            ("_metric_streak", "Streak (days)", "text_primary"),
-        ]
-
-        for attr_prefix, label, color_key in metric_defs:
-            block = QFrame()
-            block.setObjectName("MetricBlock")
-            block.setStyleSheet(f"""
-                QFrame#MetricBlock {{
-                    background-color: rgba(255, 255, 255, 0.02);
-                    border: 1px solid rgba(255, 255, 255, 0.05);
-                    border-radius: 12px;
-                }}
-            """)
-            bl = QVBoxLayout(block)
-            bl.setContentsMargins(18, 14, 18, 14)
-            bl.setSpacing(_px4)
-
-            val = QLabel("--")
-            val.setStyleSheet(
-                f"color: {getattr(colors, color_key, colors.text_primary)}; "
-                f"font-size: 26px; font-weight: 800; "
-                f"letter-spacing: -0.03em; background: transparent;"
-            )
-            bl.addWidget(val)
-
-            name = QLabel(label)
-            name.setStyleSheet(
-                f"color: {colors.text_disabled}; font-size: 11px; font-weight: 600; "
-                f"letter-spacing: 0.05em; text-transform: uppercase; background: transparent;"
-            )
-            bl.addWidget(name)
-
-            metrics_row.addWidget(block)
-            setattr(self, f"{attr_prefix}_val", val)
-            setattr(self, f"{attr_prefix}_lbl", name)
-
-        metrics_row.addStretch()
-        outer.addLayout(metrics_row)
-
-        outer.addSpacing(_px20)
-
-        # CTA buttons
-        cta_row = QHBoxLayout()
-        cta_row.setContentsMargins(0, 0, 0, 0)
-        cta_row.setSpacing(_px16)
-
-        self._start_btn = QPushButton("  \u25B6  Start Workout")
+        self._start_btn = QPushButton("Start Workout \u2192")
         self._start_btn.setCursor(Qt.PointingHandCursor)
-        self._start_btn.setFixedHeight(54)
-        self._start_btn.setMinimumWidth(220)
+        self._start_btn.setFixedHeight(50)
+        self._start_btn.setMinimumWidth(180)
         self._start_btn.setStyleSheet(
             f"""
             QPushButton {{
@@ -204,18 +119,14 @@ class HeroWidget(QFrame):
                     stop:0 rgba(99,102,241,0.95), stop:0.6 rgba(139,92,246,0.9), stop:1 rgba(167,139,250,0.85));
                 color: #FFFFFF;
                 border: 1px solid rgba(255,255,255,0.06);
-                border-radius: {R.size_2xl};
-                padding: 0 36px;
-                font-size: 15px; font-weight: 700;
+                border-radius: {R.lg};
+                padding: 0 28px;
+                font-size: 14px; font-weight: 700;
                 letter-spacing: 0.01em;
             }}
             QPushButton:hover {{
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
                     stop:0 rgba(129,140,248,0.95), stop:0.6 rgba(167,139,250,0.9), stop:1 rgba(196,181,253,0.85));
-            }}
-            QPushButton:pressed {{
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                    stop:0 rgba(79,70,229,0.95), stop:0.5 rgba(99,102,241,0.9), stop:1 rgba(129,140,248,0.85));
             }}
             QPushButton:focus {{
                 border: 2px solid {colors.focus_ring};
@@ -225,123 +136,103 @@ class HeroWidget(QFrame):
         self._start_btn.clicked.connect(self.start_workout_clicked.emit)
         self._start_btn.setAccessibleName("Start Workout")
         glow_effect(self._start_btn, glow_rgba=resolve_alpha(colors.primary, 0.35), blur=20, offset_y=0)
-        cta_row.addWidget(self._start_btn)
+        center_layout.addWidget(self._start_btn)
+        main_layout.addLayout(center_layout, 1)
 
-        self._review_btn = QPushButton("  \u270F  Review Week")
-        self._review_btn.setCursor(Qt.PointingHandCursor)
-        self._review_btn.setFixedHeight(54)
-        self._review_btn.setMinimumWidth(180)
-        self._review_btn.setStyleSheet(
-            f"""
-            QPushButton {{
-                background-color: transparent;
-                color: {colors.text_primary};
-                border: 1px solid {resolve_alpha(colors.text_primary, 0.10)};
-                border-radius: {R.size_2xl};
-                padding: 0 28px;
-                font-size: 15px; font-weight: 600;
-                letter-spacing: 0.01em;
-            }}
-            QPushButton:hover {{
-                background-color: {resolve_alpha(colors.text_primary, 0.05)};
-                border-color: {resolve_alpha(colors.text_primary, 0.20)};
-            }}
-            QPushButton:focus {{
-                border: 2px solid {colors.focus_ring};
-            }}
-        """
-        )
-        self._review_btn.clicked.connect(self.weekly_review_clicked.emit)
-        self._review_btn.setAccessibleName("Review Week")
-        cta_row.addWidget(self._review_btn)
+        # 3. Right Section (Compact status indicators)
+        right_layout = QHBoxLayout()
+        right_layout.setContentsMargins(0, 0, 0, 0)
+        right_layout.setSpacing(_px32)
+        right_layout.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
 
-        cta_row.addStretch()
-        outer.addLayout(cta_row)
+        # Recovery Badge
+        self._recovery_badge = QFrame()
+        self._recovery_badge.setStyleSheet("background: transparent; border: none;")
+        rec_layout = QVBoxLayout(self._recovery_badge)
+        rec_layout.setContentsMargins(0, 0, 0, 0)
+        rec_layout.setSpacing(4)
+        
+        self._recovery_val = QLabel("0%")
+        self._recovery_val.setAlignment(Qt.AlignCenter)
+        self._recovery_val.setStyleSheet(f"color: {colors.text_primary}; font-size: 26px; font-weight: 800; background: transparent;")
+        self._recovery_lbl = QLabel("RECOVERY")
+        self._recovery_lbl.setAlignment(Qt.AlignCenter)
+        self._recovery_lbl.setStyleSheet(f"color: {colors.text_disabled}; font-size: 9px; font-weight: 700; letter-spacing: 0.5px; background: transparent;")
+        self._recovery_status = QLabel("Optimal")
+        self._recovery_status.setAlignment(Qt.AlignCenter)
+        self._recovery_status.setStyleSheet(f"color: {colors.success}; font-size: 11px; font-weight: 600; background: transparent;")
+        
+        rec_layout.addWidget(self._recovery_val)
+        rec_layout.addWidget(self._recovery_lbl)
+        rec_layout.addWidget(self._recovery_status)
+        right_layout.addWidget(self._recovery_badge)
 
-        if self._motion:
-            self._motion.bind_hover_elevation(self)
-            self._motion.bind_press_scale(self._start_btn)
-            self._motion.bind_press_scale(self._review_btn)
+        # Goal Badge
+        self._goal_badge = QFrame()
+        self._goal_badge.setStyleSheet("background: transparent; border: none;")
+        goal_layout = QVBoxLayout(self._goal_badge)
+        goal_layout.setContentsMargins(0, 0, 0, 0)
+        goal_layout.setSpacing(4)
+        
+        self._goal_val = QLabel("--")
+        self._goal_val.setAlignment(Qt.AlignCenter)
+        self._goal_val.setStyleSheet(f"color: {colors.text_primary}; font-size: 26px; font-weight: 800; background: transparent;")
+        self._goal_lbl = QLabel("GOAL PROGRESS")
+        self._goal_lbl.setAlignment(Qt.AlignCenter)
+        self._goal_lbl.setStyleSheet(f"color: {colors.text_disabled}; font-size: 9px; font-weight: 700; letter-spacing: 0.5px; background: transparent;")
+        self._goal_status = QLabel("On Track")
+        self._goal_status.setAlignment(Qt.AlignCenter)
+        self._goal_status.setStyleSheet(f"color: {colors.primary}; font-size: 11px; font-weight: 600; background: transparent;")
+        
+        goal_layout.addWidget(self._goal_val)
+        goal_layout.addWidget(self._goal_lbl)
+        goal_layout.addWidget(self._goal_status)
+        right_layout.addWidget(self._goal_badge)
 
-    # ── Public API ─────────────────────────────────────────────
+        main_layout.addLayout(right_layout, 1)
 
     def update_data(self, data: DashboardData) -> None:
         """Update all hero content from dashboard data."""
-        self._colors()
+        colors = self._colors()
 
+        # Update Greeting
         greeting = self._greeting_text()
-        user_name = getattr(data, "user_name", "") or ""
-        title = f"{greeting}" + (f", {user_name}" if user_name else "")
-        self._greeting.setText(title)
+        user_name = getattr(data, "user_name", "") or "Nhan"
+        self._greeting.setText(f"{greeting}, {user_name}")
 
-        prog = getattr(data, "current_program", "") or "No Active Program"
-        week = getattr(data, "mesocycle_week", 0) or 0
-        split_day = getattr(data, "current_split_day", "") or ""
-        parts = [prog]
-        if week:
-            parts.append(f"Week {week}")
-        if split_day:
-            parts.append(split_day)
-        self._subtitle.setText(" \u00b7 ".join(parts) if parts else "")
+        # Update Workout Name
+        workout_name = getattr(data, "today_workout_name", "") or "Rest Day"
+        self._workout_name.setText(workout_name.upper())
 
+        # Update Muscles
+        muscles = getattr(data, "today_workout_primary_muscles", [])
+        if muscles:
+            self._muscle_groups.setText(" · ".join(muscles))
+        else:
+            self._muscle_groups.setText("Active recovery & stretch suggestions")
+
+        # Update Recovery Badge
         rec_score = getattr(data, "recovery_score", 0.0) or 0.0
-        self._recovery_ring.set_value(rec_score, 100.0, "Recovery")
+        self._recovery_val.setText(f"{int(rec_score)}%")
+        rec_level = getattr(data, "recovery_level", "Optimal") or "Optimal"
+        self._recovery_status.setText(rec_level)
+        if rec_level.lower() in ("low", "poor"):
+            self._recovery_status.setStyleSheet(f"color: {colors.error}; font-size: 11px; font-weight: 600; background: transparent;")
+        elif rec_level.lower() in ("moderate", "fair"):
+            self._recovery_status.setStyleSheet(f"color: {colors.warning}; font-size: 11px; font-weight: 600; background: transparent;")
+        else:
+            self._recovery_status.setStyleSheet(f"color: {colors.success}; font-size: 11px; font-weight: 600; background: transparent;")
 
-        goal_target = getattr(data, "goal_progress_target", 100.0) or 100.0
+        # Update Goal Badge
+        goal_target = getattr(data, "goal_progress_target", 0.0) or 0.0
         goal_current = getattr(data, "goal_progress_weight", 0.0) or 0.0
-        if goal_current > 0:
-            self._goal_ring.set_goal(goal_current, goal_target, "Goal", "kg")
+        if goal_current > 0 and goal_target > 0:
+            self._goal_val.setText(f"{goal_current:.0f} / {goal_target:.0f} kg")
         else:
-            self._goal_ring.set_goal(0, 100, "Goal", "")
+            self._goal_val.setText("--")
 
-        # Prediction text from recommendations
-        recs = getattr(data, "recommendations", [])
-        prediction_text = ""
-        if recs:
-            first = recs[0]
-            title_text = getattr(first, "title", "") or ""
-            if title_text:
-                prediction_text = f"\u201C{title_text}\u201D"
-        if not prediction_text:
-            level = getattr(data, "recovery_level", "") or ""
-            if level:
-                level_lower = level.lower()
-                if level_lower in ("low", "moderate"):
-                    prediction_text = "\u201CYou're ready to train. Make it count.\u201D"
-                else:
-                    prediction_text = "\u201CFocus on recovery today. Rest is training too.\u201D"
-
-        if prediction_text:
-            self._prediction.setText(prediction_text)
-            self._prediction.show()
-        else:
-            self._prediction.hide()
-
-        rec_pct = int(rec_score)
-        self._metric_ready_val.setText(f"{rec_pct}")
-
-        weight = getattr(data, "goal_progress_weight", 0.0) or 0.0
-        self._metric_weight_val.setText(f"{weight:.1f}" if weight else "--")
-
-        remaining = getattr(data, "goal_progress_remaining", 0.0) or 0.0
-        if remaining:
-            self._metric_goal_val.setText(f"{remaining:.1f}")
-            self._metric_goal_lbl.setText("To Goal (kg)")
-        else:
-            self._metric_goal_val.setText("--")
-            self._metric_goal_lbl.setText("To Goal")
-
-        streak = getattr(data, "current_streak", 0) or 0
-        if streak:
-            self._metric_streak_val.setText(f"{streak}")
-            self._metric_streak_lbl.setText("Streak (days)")
-        else:
-            self._metric_streak_val.setText("0")
-            self._metric_streak_lbl.setText("Streak")
-
-        self._fade_in(self, delay=_ANI_STAGGER)
-
-    # ── Helpers ────────────────────────────────────────────────
+        goal_quality = getattr(data, "goal_progress_quality", "On Track") or "On Track"
+        self._goal_status.setText(goal_quality)
 
     @staticmethod
     def _greeting_text() -> str:
@@ -351,26 +242,3 @@ class HeroWidget(QFrame):
         if hour < 18:
             return "Good Afternoon"
         return "Good Evening"
-
-    def _fade_in(self, widget: QWidget, duration: int = _ANI_DURATION, delay: int = 0) -> None:
-        if not widget.isVisible():
-            return
-
-        def _do_fade() -> None:
-            if self._motion:
-                self._motion.fade_slide_in(widget, duration=duration)
-            else:
-                opacity = QGraphicsOpacityEffect(widget)
-                widget.setGraphicsEffect(opacity)
-                anim = QPropertyAnimation(opacity, b"opacity")
-                anim.setDuration(duration)
-                anim.setStartValue(0.0)
-                anim.setEndValue(1.0)
-                anim.setEasingCurve(QEasingCurve.OutCubic)
-                anim.start(QPropertyAnimation.DeleteWhenStopped)
-                self._animations.append(anim)
-
-        if delay:
-            QTimer.singleShot(delay, _do_fade)
-        else:
-            _do_fade()

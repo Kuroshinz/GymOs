@@ -1,0 +1,284 @@
+{
+  "$schema": "https://gymos.app/schemas/program.schema.json",
+  "name": "PPL-UL Newbie",
+  "description": "Lịch tập PPL-UL cho newbie — tối ưu vai rộng, ngực đầy, lưng chữ V (lean bulk)",
+  "version": "1.0.0",
+  "author": "ChatGPT / GymOS",
+  "source": "https://chatgpt.com/share/6a460229-dab8-83ec-a32e-136139980cf8",
+  "goal": "hypertrophy",
+  "experience_level": "beginner",
+  "split": "PPL-UL",
+  "mesocycle_duration_weeks": 8,
+  "deload_week": {
+    "frequency_weeks": 4,
+    "type": "reduced_volume",
+    "description": "Tuần thứ 4: giảm 50% số sets, giữ nguyên mức tạ"
+  },
+  "progression_strategy": {
+    "primary": "double_progression",
+    "description": "Tăng reps trước, khi đạt rep cao nhất cho mọi sets thì tăng tạ"
+  },
+  "priority_muscles": [
+    "chest",
+    "shoulders",
+    "back"
+  ],
+  "rules": [
+    "Compound nghỉ 90–120s",
+    "Isolation nghỉ 60–90s",
+    "Khi đạt đủ reps mọi set → tăng 2.5–5kg",
+    "Không tập fail mọi set, giữ RIR 1-3"
+  ],
+  "days": [
+    {
+      "name": "T2 — PUSH",
+      "notes": "Ưu tiên ngực trên + vai",
+      "exercises": [
+        {
+          "name": "Bench Press",
+          "exercise_id": "chest_bench_press",
+          "target_sets": 3,
+          "target_reps": "6–8",
+          "muscle_group": "chest"
+        },
+        {
+          "name": "Incline Dumbbell Press",
+          "exercise_id": "chest_incline_bench_press",
+          "target_sets": 4,
+          "target_reps": "8–10",
+          "muscle_group": "chest"
+        },
+        {
+          "name": "Machine Chest Press",
+          "exercise_id": "chest_machine_press",
+          "target_sets": 2,
+          "target_reps": "10–12",
+          "muscle_group": "chest"
+        },
+        {
+          "name": "Dumbbell Lateral Raise",
+          "exercise_id": "shoulders_lateral_raise",
+          "target_sets": 4,
+          "target_reps": "12–15",
+          "muscle_group": "shoulders"
+        },
+        {
+          "name": "Cable Lateral Raise",
+          "exercise_id": "shoulders_cable_lateral_raise",
+          "target_sets": 2,
+          "target_reps": "15",
+          "muscle_group": "shoulders"
+        },
+        {
+          "name": "Rope Pushdown",
+          "exercise_id": "triceps_pulldown",
+          "target_sets": 3,
+          "target_reps": "10–12",
+          "muscle_group": "triceps"
+        }
+      ]
+    },
+    {
+      "name": "T3 — PULL",
+      "notes": "Ưu tiên lưng rộng",
+      "exercises": [
+        {
+          "name": "Lat Pulldown",
+          "exercise_id": "back_lat_pulldown",
+          "target_sets": 4,
+          "target_reps": "8–10",
+          "muscle_group": "back"
+        },
+        {
+          "name": "Chest Supported Row",
+          "exercise_id": "back_chest_supported_row",
+          "target_sets": 3,
+          "target_reps": "8–10",
+          "muscle_group": "back"
+        },
+        {
+          "name": "Seated Cable Row",
+          "exercise_id": "back_seated_cable_row",
+          "target_sets": 3,
+          "target_reps": "10",
+          "muscle_group": "back"
+        },
+        {
+          "name": "Face Pull",
+          "exercise_id": "shoulders_face_pull",
+          "target_sets": 3,
+          "target_reps": "15",
+          "muscle_group": "shoulders"
+        },
+        {
+          "name": "Dumbbell Curl",
+          "exercise_id": "biceps_db_curl",
+          "target_sets": 3,
+          "target_reps": "10",
+          "muscle_group": "biceps"
+        },
+        {
+          "name": "Hammer Curl",
+          "exercise_id": "biceps_hammer_curl",
+          "target_sets": 2,
+          "target_reps": "12",
+          "muscle_group": "biceps"
+        }
+      ]
+    },
+    {
+      "name": "T4 — LEGS",
+      "notes": "Đủ để đẹp, không quá phá hồi phục",
+      "exercises": [
+        {
+          "name": "Squat",
+          "exercise_id": "quads_barbell_squat",
+          "target_sets": 3,
+          "target_reps": "6–8",
+          "muscle_group": "quads"
+        },
+        {
+          "name": "Romanian Deadlift",
+          "exercise_id": "hamstrings_romian_deadlift",
+          "target_sets": 3,
+          "target_reps": "8–10",
+          "muscle_group": "hamstrings"
+        },
+        {
+          "name": "Leg Press",
+          "exercise_id": "quads_leg_press",
+          "target_sets": 3,
+          "target_reps": "10",
+          "muscle_group": "quads"
+        },
+        {
+          "name": "Leg Curl",
+          "exercise_id": "hamstrings_leg_curl",
+          "target_sets": 3,
+          "target_reps": "12",
+          "muscle_group": "hamstrings"
+        },
+        {
+          "name": "Calf Raise",
+          "exercise_id": "calves_standing_raise",
+          "target_sets": 4,
+          "target_reps": "15",
+          "muscle_group": "calves"
+        },
+        {
+          "name": "Cable Crunch",
+          "exercise_id": "core_cable_crunch",
+          "target_sets": 3,
+          "target_reps": "12–15",
+          "muscle_group": "abs"
+        }
+      ]
+    },
+    {
+      "name": "T6 — UPPER",
+      "notes": "Tập trung thẩm mỹ phần thân trên",
+      "exercises": [
+        {
+          "name": "Incline Bench",
+          "exercise_id": "chest_incline_bench_press",
+          "target_sets": 3,
+          "target_reps": "8",
+          "muscle_group": "chest"
+        },
+        {
+          "name": "Pull Up / Lat Pulldown",
+          "exercise_id": "back_lat_pulldown",
+          "target_sets": 3,
+          "target_reps": "8",
+          "muscle_group": "back"
+        },
+        {
+          "name": "Machine Row",
+          "exercise_id": "back_chest_supported_row",
+          "target_sets": 3,
+          "target_reps": "10",
+          "muscle_group": "back"
+        },
+        {
+          "name": "Shoulder Press",
+          "exercise_id": "shoulders_db_press",
+          "target_sets": 3,
+          "target_reps": "8",
+          "muscle_group": "shoulders"
+        },
+        {
+          "name": "Lateral Raise",
+          "exercise_id": "shoulders_lateral_raise",
+          "target_sets": 4,
+          "target_reps": "15",
+          "muscle_group": "shoulders"
+        },
+        {
+          "name": "Curl",
+          "exercise_id": "biceps_db_curl",
+          "target_sets": 2,
+          "target_reps": "12",
+          "muscle_group": "biceps"
+        },
+        {
+          "name": "Tricep Extension",
+          "exercise_id": "triceps_pulldown",
+          "target_sets": 2,
+          "target_reps": "12",
+          "muscle_group": "triceps"
+        }
+      ]
+    },
+    {
+      "name": "T7 — LOWER",
+      "notes": "Chân + Abs",
+      "exercises": [
+        {
+          "name": "Hack Squat",
+          "exercise_id": "quads_hack_squat",
+          "target_sets": 3,
+          "target_reps": "8",
+          "muscle_group": "quads"
+        },
+        {
+          "name": "RDL",
+          "exercise_id": "hamstrings_romian_deadlift",
+          "target_sets": 3,
+          "target_reps": "8",
+          "muscle_group": "hamstrings"
+        },
+        {
+          "name": "Leg Extension",
+          "exercise_id": "quads_leg_extension",
+          "target_sets": 3,
+          "target_reps": "12",
+          "muscle_group": "quads"
+        },
+        {
+          "name": "Leg Curl",
+          "exercise_id": "hamstrings_leg_curl",
+          "target_sets": 3,
+          "target_reps": "12",
+          "muscle_group": "hamstrings"
+        },
+        {
+          "name": "Calf Raise",
+          "exercise_id": "calves_standing_raise",
+          "target_sets": 4,
+          "target_reps": "15",
+          "muscle_group": "calves"
+        },
+        {
+          "name": "Hanging Leg Raise",
+          "exercise_id": "core_hanging_leg_raise",
+          "target_sets": 3,
+          "target_reps": "12",
+          "muscle_group": "abs"
+        }
+      ]
+    }
+  ],
+  "knowledge_version": "1.0.0",
+  "created_at": "2026-07-16",
+  "last_updated": "2026-07-16"
+}

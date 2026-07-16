@@ -203,9 +203,9 @@ class _ReasonStep(QFrame):
 
         self.setStyleSheet(f"""
             QFrame#ReasonStep {{
-                background-color: {colors.surface};
-                border-radius: {R.lg};
-                border: 1px solid {border_color};
+                background-color: rgba(20, 21, 38, 0.65);
+                border-radius: {R.xl};
+                border: 1px solid rgba(255, 255, 255, 0.05);
             }}
         """)
         if highlight:
@@ -363,6 +363,14 @@ class PredictionDashboard(QWidget):
         # 2. Summary
         self._build_section_header(main, "Summary", "What the data says")
         self._summary_card = AppCard(title="", elevated=True)
+        glass_style = f"""
+            AppCard {{
+                background-color: rgba(20, 21, 38, 0.65);
+                border-radius: {R.xl};
+                border: 1px solid rgba(255, 255, 255, 0.05);
+            }}
+        """
+        self._summary_card.setStyleSheet(glass_style)
         main.addWidget(self._summary_card)
 
         main.addSpacing(_px24)
@@ -412,6 +420,7 @@ class PredictionDashboard(QWidget):
         # 8. Confidence
         self._build_section_header(main, "Confidence", "How certain we are")
         self._confidence_card = AppCard(title="", elevated=True)
+        self._confidence_card.setStyleSheet(glass_style)
         main.addWidget(self._confidence_card)
 
         main.addSpacing(_px24)
@@ -419,6 +428,7 @@ class PredictionDashboard(QWidget):
         # 9. Action Plan
         self._build_section_header(main, "Action Plan", "What to do next")
         self._action_card = AppCard(title="", elevated=True)
+        self._action_card.setStyleSheet(glass_style)
         main.addWidget(self._action_card)
 
         main.addStretch()
@@ -440,11 +450,9 @@ class PredictionDashboard(QWidget):
         self._hero_frame.setMinimumHeight(240)
         self._hero_frame.setStyleSheet(f"""
             QFrame#PredictionHero {{
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 rgba(12,16,51,200), stop:0.35 rgba(20,16,74,180),
-                    stop:0.7 rgba(26,13,68,160), stop:1 rgba(10,14,40,120));
+                background-color: rgba(20, 21, 38, 0.65);
                 border-radius: {R.xl};
-                border: 1px solid {resolve_alpha(colors.primary, 0.10)};
+                border: 1px solid rgba(255, 255, 255, 0.05);
             }}
         """)
         apply_elevation(self._hero_frame, 3, is_dark=True, bg_color=colors.surface)
