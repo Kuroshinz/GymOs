@@ -25,7 +25,9 @@ from shared.database.engine import create_safe_engine, set_schema_version
 from shared.events.event_bus import get_event_bus
 from shared.events.subscribers.nutrition_subscriber import NutritionSubscriber
 from shared.events.subscribers.recovery_subscriber import RecoverySubscriber
-from shared.version import APP_VERSION
+from shared.version import APP_VERSION, APP_NAME, APP_ORGANIZATION
+from shared.helpers.logging import setup_production_logging
+from PySide6.QtCore import QCoreApplication
 from ui.design_system.theme import global_stylesheet
 from ui.main_window import MainWindow
 from ui.resources.icon import create_app_icon
@@ -33,10 +35,16 @@ from ui.splash.splash_screen import install_splash
 
 logger = logging.getLogger(__name__)
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "data", "gymos.db")
-CANONICAL_PROGRAM = os.path.join(
-    os.path.dirname(__file__), "data", "program.json"
-)
+from shared.helpers.resources import resource_path
+
+if getattr(sys, "frozen", False):
+    DB_DIR = os.path.expanduser("~/.gymos/data")
+    os.makedirs(DB_DIR, exist_ok=True)
+    DB_PATH = os.path.normpath(os.path.join(DB_DIR, "gymos.db"))
+else:
+    DB_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), "data", "gymos.db"))
+
+CANONICAL_PROGRAM = resource_path(os.path.join("data", "program.json"))
 
 
 def init_infrastructure(db_path: str = DB_PATH) -> None:
@@ -83,14 +91,15 @@ def run_onboarding() -> None:
 
 
 def main() -> None:
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-    )
+    setup_production_logging()
 
     logger.info("GymOS %s starting up...", APP_VERSION)
 
     app = QApplication(sys.argv)
+    QCoreApplication.setApplicationName(APP_NAME)
+    QCoreApplication.setApplicationVersion(APP_VERSION)
+    QCoreApplication.setOrganizationName(APP_ORGANIZATION)
+    QCoreApplication.setOrganizationDomain("gymos.org")
     app.setStyle("Fusion")
     app.setStyleSheet(global_stylesheet())
     app.aboutToQuit.connect(safe_shutdown)
