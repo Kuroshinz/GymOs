@@ -1,30 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'features/shell/presentation/shell_layout.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'core/theme/app_theme.dart';
+import 'core/router/app_router.dart';
 
 void main() {
-  runApp(const GymOSApp());
+  runApp(
+    const ProviderScope(
+      child: GymOSApp(),
+    ),
+  );
 }
 
-class GymOSApp extends StatelessWidget {
+class GymOSApp extends ConsumerWidget {
   const GymOSApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
+    
+    return MaterialApp.router(
       title: 'GymOS Client',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: const Color(0xFF070814),
-        colorScheme: const ColorScheme.dark(
-          primary: Color(0xFF6366F1),
-          secondary: Color(0xFF8B5CF6),
-          surface: Color(0xFF121324),
-          error: Color(0xFFEF4444),
-        ),
-        textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
-      ),
-      home: const ShellLayout(),
+      theme: GymOSTheme.darkTheme,
+      routerConfig: router,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('vi', 'VN'),
+      ],
     );
   }
 }
