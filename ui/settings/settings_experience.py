@@ -522,7 +522,7 @@ class SettingsExperience(QWidget):
         self._build_section_header(parent, "Deload Cycle Management", "Manage mesocycle progression and active deload blocks")
         from ui.experience.deload_scheduler import DeloadScheduler
         self._deload_scheduler = DeloadScheduler(
-            db=self._db,
+            self._progress_repo,
             prog_mgr=self._prog_mgr,
             recovery_service=self._recovery_service,
             parent=self,

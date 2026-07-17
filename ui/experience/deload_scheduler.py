@@ -25,9 +25,21 @@ R = RadiusTokens()
 class DeloadScheduler(QFrame):
     """Visual panel showing mesocycle progress and triggering active-set reduction deload weeks."""
 
-    def __init__(self, db: Any = None, prog_mgr: Any = None, recovery_service: Any = None, parent: QWidget | None = None) -> None:
+    def __init__(self, db_or_repo: Any = None, prog_mgr: Any = None, recovery_service: Any = None, parent: QWidget | None = None) -> None:
         super().__init__(parent)
-        self._db = db
+        from shared.interfaces import IProgressRepository
+        from shared.database.repositories import SQLiteProgressRepository
+
+        if isinstance(db_or_repo, IProgressRepository):
+            self._progress_repo = db_or_repo
+            self._db = getattr(db_or_repo, "_db", db_or_repo)
+        elif db_or_repo is not None:
+            self._progress_repo = SQLiteProgressRepository(db_or_repo)
+            self._db = db_or_repo
+        else:
+            self._progress_repo = None
+            self._db = None
+
         self._prog_mgr = prog_mgr
         self._recovery_service = recovery_service
         self._build_ui()
@@ -132,8 +144,8 @@ class DeloadScheduler(QFrame):
             try:
                 active_prog = self._prog_mgr.get_active_name()
                 total = 0
-                if self._db:
-                    sessions = self._db.list_sessions(limit=100)
+                if self._progress_repo:
+                    sessions = self._progress_repo.list_sessions(limit=100)
                     total = sum(1 for s in sessions if s.completed_at)
                 days_count = self._prog_mgr.get_active_day_count()
                 if days_count > 0:
